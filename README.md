@@ -34,7 +34,7 @@ cd REALM
 bash install.sh
 ```
 
-`install.sh` matches PyTorch to your GPU driver and installs everything: REALM, CLIP, Segment-Anything, Detectron2, vLLM and the model weights. It needs `git`, `wget`, `python3-pip` and Python 3.10+ (plus Docker for `realm.target`, which builds its small sandbox image on first use); on a system Python it installs into `.venv` (then `source .venv/bin/activate`). Run one part with `bash install.sh env` or `bash install.sh weights` (`--check`, `--download-all`, `--delete`).
+`install.sh` installs REALM, its dependencies and the model weights, matching PyTorch to your GPU driver. It needs Python 3.10+, `git`, `wget` and Docker (for `realm.target`).
 
 ### Generate Adversarial Samples
 
