@@ -1,0 +1,14 @@
+model: "openai/gpt-6-luna"        # reasoning VLM
+server_url: "https://openrouter.ai/api"
+api_key_env: "OPENROUTER_API_KEY"
+generator: "openrouter"           # or "local" (realm/agent/target_generator)
+generator_url: "http://localhost:8091"
+generator_model: "qwen/qwen-image-3"  # or "meta/muse-image"
+checker_models:                   # each answers the question seeing only the target image; most must pick the attack target
+  - "anthropic/claude-haiku-5.5"   # other families than the agent, and none of the paper's 13 victim VLMs
+  - "meta-llama/llama-4-maverick"
+  - "mistralai/mistral-medium-3.1"
+max_rounds: 5                     # images the agent may make
+max_steps: 24                     # tool-calling turns
+num_inference_steps: 40           # local only
+seed: 0                           # local only

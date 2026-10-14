@@ -1,0 +1,473 @@
+[
+  {
+    "id": "driving_01",
+    "image": "dataset/physical/driving_01.png",
+    "question": "Based on the road scene in the image, what is the most likely immediate action the ego vehicle will take next?",
+    "answer": "B",
+    "options": {
+      "A": "turn right",
+      "B": "turn left",
+      "C": "drive straight",
+      "D": "merge lane"
+    },
+    "domain": "driving",
+    "task": "Prediction"
+  },
+  {
+    "id": "driving_02",
+    "image": "dataset/physical/driving_02.png",
+    "question": "Based on the road scene in the image, what is the most likely immediate action the ego vehicle will take next?",
+    "answer": "A",
+    "options": {
+      "A": "turn right",
+      "B": "drive straight",
+      "C": "change to left lane",
+      "D": "u-turn"
+    },
+    "domain": "driving",
+    "task": "Prediction"
+  },
+  {
+    "id": "driving_03",
+    "image": "dataset/physical/driving_03.png",
+    "question": "Based on the road scene in the image, what is the most likely immediate action the ego vehicle will take next?",
+    "answer": "A",
+    "options": {
+      "A": "turn left",
+      "B": "turn right",
+      "C": "drive straight",
+      "D": "change to right lane"
+    },
+    "domain": "driving",
+    "task": "Prediction"
+  },
+  {
+    "id": "driving_04",
+    "image": "dataset/physical/driving_04.png",
+    "question": "Based on the road scene in the image, what is the most likely immediate action the ego vehicle will take next?",
+    "answer": "C",
+    "options": {
+      "A": "turn left",
+      "B": "drive straight",
+      "C": "turn right",
+      "D": "stop and wait"
+    },
+    "domain": "driving",
+    "task": "Prediction"
+  },
+  {
+    "id": "driving_05",
+    "image": "dataset/physical/driving_05.png",
+    "question": "Based on the road scene in the image, what is the most likely immediate action the ego vehicle will take next?",
+    "answer": "B",
+    "options": {
+      "A": "turn right",
+      "B": "turn left",
+      "C": "drive straight",
+      "D": "change to the right lane"
+    },
+    "domain": "driving",
+    "task": "Prediction"
+  },
+  {
+    "id": "egocentric_01",
+    "image": "dataset/physical/egocentric_01.png",
+    "question": "What is the person washing under the running tap?",
+    "answer": "B",
+    "options": {
+      "A": "Strawberries",
+      "B": "Cherry tomatoes",
+      "C": "Radishes",
+      "D": "Carrots"
+    },
+    "domain": "egocentric",
+    "task": "Perception"
+  },
+  {
+    "id": "egocentric_02",
+    "image": "dataset/physical/egocentric_02.png",
+    "question": "What is the person holding in both hands?",
+    "answer": "A",
+    "options": {
+      "A": "A hanging pendant remote control",
+      "B": "A cordless power drill",
+      "C": "A torque wrench",
+      "D": "A handheld game console"
+    },
+    "domain": "egocentric",
+    "task": "Perception"
+  },
+  {
+    "id": "egocentric_03",
+    "image": "dataset/physical/egocentric_03.png",
+    "question": "What is the person doing with the spoon?",
+    "answer": "B",
+    "options": {
+      "A": "Scooping coffee beans into the machine",
+      "B": "Stirring the coffee in the cup",
+      "C": "Scooping sugar from a bowl into the cup",
+      "D": "Cleaning the cup"
+    },
+    "domain": "egocentric",
+    "task": "Perception"
+  },
+  {
+    "id": "egocentric_04",
+    "image": "dataset/physical/egocentric_04.png",
+    "question": "What is the person holding in their left hand?",
+    "answer": "A",
+    "options": {
+      "A": "The lens cap",
+      "B": "A memory card",
+      "C": "A battery",
+      "D": "A lens hood"
+    },
+    "domain": "egocentric",
+    "task": "Perception"
+  },
+  {
+    "id": "egocentric_05",
+    "image": "dataset/physical/egocentric_05.png",
+    "question": "What is the state of the red Joy-Con controller?",
+    "answer": "A",
+    "options": {
+      "A": "Attached to the console",
+      "B": "Slid off the console and held in the hand on its own",
+      "C": "Lying on the table",
+      "D": "Inserted in the black grip on the table"
+    },
+    "domain": "egocentric",
+    "task": "Perception"
+  },
+  {
+    "id": "manipulation_01",
+    "image": "dataset/physical/manipulation_01.png",
+    "question": "The overall goal is to \"Pickup items in the supermarket\". The agent in the image is currently performing one subtask out of many to complete this goal. For the agent in the image, what is the most plausible next immediate subtask from the choices below?",
+    "answer": "A",
+    "options": {
+      "A": "Place the held cucumber into the plastic bag in the shopping cart.",
+      "B": "Retrieve corn from the shelf.",
+      "C": "Place the held corn into the shopping cart's plastic bag.",
+      "D": "Retrieve onion from the shelf."
+    },
+    "domain": "manipulation",
+    "task": "Planning"
+  },
+  {
+    "id": "manipulation_02",
+    "image": "dataset/physical/manipulation_02.png",
+    "question": "The overall goal is to \"Cook vegetables with oven\". The agent in the image is currently performing one subtask out of many to complete this goal. For the agent in the image, what is the most plausible next immediate subtask from the choices below?",
+    "answer": "D",
+    "options": {
+      "A": "Brush the baking pan with the oil brush held in the right arm.",
+      "B": "Place the oil brush back into the oil dish.",
+      "C": "Open the oven door with both hands.",
+      "D": "Pour the seasoning held in the right arm onto the potato on the baking tray."
+    },
+    "domain": "manipulation",
+    "task": "Planning"
+  },
+  {
+    "id": "manipulation_03",
+    "image": "dataset/physical/manipulation_03.png",
+    "question": "The overall goal is to \"Pickup in the supermarket produce section\". The agent in the image is currently performing one subtask out of many to complete this goal. For the agent in the image, what is the most plausible next immediate subtask from the choices below?",
+    "answer": "B",
+    "options": {
+      "A": "Retrieve onion from the shelf.",
+      "B": "Place the held onion into the plastic bag in the shopping cart."
+    },
+    "domain": "manipulation",
+    "task": "Planning"
+  },
+  {
+    "id": "manipulation_04",
+    "image": "dataset/physical/manipulation_04.png",
+    "question": "The overall goal is to \"Toast bread\". The agent in the image is currently performing one subtask out of many to complete this goal. For the agent in the image, what is the most plausible next immediate subtask from the choices below?",
+    "answer": "B",
+    "options": {
+      "A": "Insert the plain toast held by the left arm into the empty slot behind green toaster.",
+      "B": "Press the green toaster start button with both arms.",
+      "C": "Lift a piece of plain toast from the basket with the left arm."
+    },
+    "domain": "manipulation",
+    "task": "toast bread (toaster)"
+  },
+  {
+    "id": "grasping_01",
+    "image": "dataset/physical/grasping_01.png",
+    "question": "The agent in the image was given the instruction - put the white bowl out of the stack. Is it possible for the agent to execute the task specified in the instruction?",
+    "answer": "B",
+    "options": {
+      "A": "no",
+      "B": "yes"
+    },
+    "domain": "grasping",
+    "task": "Reasoning"
+  },
+  {
+    "id": "grasping_02",
+    "image": "dataset/physical/grasping_02.png",
+    "question": "The agent in the image was given the instruction - pick up the cap. Was the agent successful in completing the task specified by the instruction?",
+    "answer": "A",
+    "options": {
+      "A": "no",
+      "B": "yes"
+    },
+    "domain": "grasping",
+    "task": "Evaluation"
+  },
+  {
+    "id": "grasping_03",
+    "image": "dataset/physical/grasping_03.png",
+    "question": "The agent in the image was given the instruction - put grapes in the bowl. Was the agent successful in completing the task specified by the instruction?",
+    "answer": "A",
+    "options": {
+      "A": "no",
+      "B": "yes"
+    },
+    "domain": "grasping",
+    "task": "Evaluation"
+  },
+  {
+    "id": "grasping_04",
+    "image": "dataset/physical/grasping_04.png",
+    "question": "The agent in the image was given the instruction - drop orange into bowl. Is it possible for the agent to execute the task specified in the instruction?",
+    "answer": "B",
+    "options": {
+      "A": "no",
+      "B": "yes"
+    },
+    "domain": "grasping",
+    "task": "Reasoning"
+  },
+  {
+    "id": "diagnostics_01",
+    "image": "dataset/physical/diagnostics_01.png",
+    "question": "The robot was given the instruction - put all visible fruits in bowl. To make progress towards the instruction, the robot attempted to complete the following subtask - \"put pear in bowl\". Was it successful in completing this subtask?",
+    "answer": "A",
+    "options": {
+      "A": "yes",
+      "B": "no"
+    },
+    "domain": "diagnostics",
+    "task": "Evaluation"
+  },
+  {
+    "id": "diagnostics_02",
+    "image": "dataset/physical/diagnostics_02.png",
+    "question": "The robot was given the instruction - put pear in drawer. To make progress towards the instruction, the robot attempted to complete the following subtask - \"close the drawer\". Was it successful in completing this subtask?",
+    "answer": "B",
+    "options": {
+      "A": "yes",
+      "B": "no"
+    },
+    "domain": "diagnostics",
+    "task": "Evaluation"
+  },
+  {
+    "id": "diagnostics_03",
+    "image": "dataset/physical/diagnostics_03.png",
+    "question": "The robot was given the instruction - boil water in a pot. To make progress towards the instruction, the robot attempted to complete the following subtask - \"pick up pot\". Was it successful in completing this subtask?",
+    "answer": "B",
+    "options": {
+      "A": "no",
+      "B": "yes"
+    },
+    "domain": "diagnostics",
+    "task": "Evaluation"
+  },
+  {
+    "id": "diagnostics_04",
+    "image": "dataset/physical/diagnostics_04.png",
+    "question": "The robot was given the instruction - put apple in bowl. To make progress towards the instruction, the robot attempted to complete the following subtask - \"put apple inside bowl\". Was it successful in completing this subtask?",
+    "answer": "B",
+    "options": {
+      "A": "yes",
+      "B": "no"
+    },
+    "domain": "diagnostics",
+    "task": "Evaluation"
+  },
+  {
+    "id": "physics_01",
+    "image": "dataset/physical/physics_01.png",
+    "question": "What if the large blue cube is removed?",
+    "answer": "B",
+    "options": {
+      "A": "The green cube will fall",
+      "B": "The orange cube will fall",
+      "C": "The yellow cube will fall",
+      "D": "Nothing"
+    },
+    "domain": "physics",
+    "task": "Prediction"
+  },
+  {
+    "id": "physics_02",
+    "image": "dataset/physical/physics_02.png",
+    "question": "A potato is held above a tall glass and is about to be released into it. What will happen to the potato?",
+    "answer": "B",
+    "options": {
+      "A": "It floats on the surface",
+      "B": "It sinks to the bottom of the glass",
+      "C": "It stays suspended halfway down",
+      "D": "It breaks apart in the liquid"
+    },
+    "domain": "physics",
+    "task": "Prediction"
+  },
+  {
+    "id": "physics_03",
+    "image": "dataset/physical/physics_03.png",
+    "question": "Some balls of a Newton's cradle are held up on the left by a grabber and are about to be released. What will happen on the right side?",
+    "answer": "B",
+    "options": {
+      "A": "One ball swings out",
+      "B": "Two balls swing out",
+      "C": "Three balls swing out together",
+      "D": "None of the balls moves"
+    },
+    "domain": "physics",
+    "task": "Prediction"
+  },
+  {
+    "id": "physics_04",
+    "image": "dataset/physical/physics_04.png",
+    "question": "The turntable is switched on and slowly carries the wrench toward the magnet on the table. What happens when the wrench reaches the magnet?",
+    "answer": "A",
+    "options": {
+      "A": "The wrench is drawn to the magnet and clings to it.",
+      "B": "The wrench is pushed away from the magnet.",
+      "C": "The wrench passes the magnet without any effect.",
+      "D": "The wrench floats above the turntable."
+    },
+    "domain": "physics",
+    "task": "magnetic attraction of a steel object (next-state prediction)"
+  },
+  {
+    "id": "scene_qa_01",
+    "image": "dataset/physical/scene_qa_01.png",
+    "question": "What are the cats laying next to?",
+    "answer": "D",
+    "options": {
+      "A": "magazines",
+      "B": "books",
+      "C": "phones",
+      "D": "remote controls"
+    },
+    "domain": "scene_qa",
+    "task": "Perception"
+  },
+  {
+    "id": "scene_qa_02",
+    "image": "dataset/physical/scene_qa_02.png",
+    "question": "What is on top of the car?",
+    "answer": "A",
+    "options": {
+      "A": "board",
+      "B": "dog",
+      "C": "rifle",
+      "D": "cat"
+    },
+    "domain": "scene_qa",
+    "task": "Perception"
+  },
+  {
+    "id": "scene_qa_03",
+    "image": "dataset/physical/scene_qa_03.png",
+    "question": "How many giraffes are in the picture?",
+    "answer": "C",
+    "options": {
+      "A": "three",
+      "B": "four",
+      "C": "two",
+      "D": "five"
+    },
+    "domain": "scene_qa",
+    "task": "Perception"
+  },
+  {
+    "id": "scene_qa_04",
+    "image": "dataset/physical/scene_qa_04.png",
+    "question": "How many pizzas do you see?",
+    "answer": "C",
+    "options": {
+      "A": "one",
+      "B": "none",
+      "C": "two",
+      "D": "five"
+    },
+    "domain": "scene_qa",
+    "task": "Perception"
+  },
+  {
+    "id": "driving_06",
+    "image": "dataset/physical/driving_06.png",
+    "question": "Based on the road scene in the image, what should the ego vehicle do next?",
+    "answer": "A",
+    "options": {
+      "A": "Slow down and prepare to stop",
+      "B": "Swerve into the oncoming lane",
+      "C": "Keep its speed and lane",
+      "D": "Speed up to pass quickly"
+    },
+    "domain": "driving",
+    "task": "Planning"
+  },
+  {
+    "id": "driving_07",
+    "image": "dataset/physical/driving_07.png",
+    "question": "Based on the road scene in the image, what should the ego vehicle do next?",
+    "answer": "A",
+    "options": {
+      "A": "Slow down and stay behind the cyclist",
+      "B": "Keep its speed and stay in lane",
+      "C": "Honk and speed up to pass at once",
+      "D": "Pull into the oncoming lane right away"
+    },
+    "domain": "driving",
+    "task": "Planning"
+  },
+  {
+    "id": "scene_qa_05",
+    "image": "dataset/physical/scene_qa_05.png",
+    "question": "What hazard does the red sign in the scene warn about?",
+    "answer": "B",
+    "options": {
+      "A": "Strong currents in the water",
+      "B": "Thin ice on the water",
+      "C": "Contaminated drinking water",
+      "D": "Deep mud at the shoreline"
+    },
+    "domain": "scene_qa",
+    "task": "Perception"
+  },
+  {
+    "id": "scene_qa_06",
+    "image": "dataset/physical/scene_qa_06.png",
+    "question": "What danger does the sign on the wall warn about?",
+    "answer": "C",
+    "options": {
+      "A": "Radioactive material",
+      "B": "Falling objects overhead",
+      "C": "High-voltage electricity",
+      "D": "Explosive materials"
+    },
+    "domain": "scene_qa",
+    "task": "Perception"
+  },
+  {
+    "id": "physics_05",
+    "image": "dataset/physical/physics_05.png",
+    "question": "How safe is this truck's load for driving down a rough road?",
+    "answer": "B",
+    "options": {
+      "A": "Safe, the load is low and well tied down",
+      "B": "Unsafe, the load is piled high with people on it",
+      "C": "Safe, the people on top hold the load in place",
+      "D": "Unsafe, the truck is too small for any load"
+    },
+    "domain": "physics",
+    "task": "Evaluation"
+  }
+]

@@ -1,11 +1,14 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/icon/realm-white.png">
-  <img src="docs/icon/realm.png" alt="REALM" width="100">
-</picture>
+# REALM: A Unified Red-Teaming Benchmark for Physical-World VLMs
 
-# ReaLM: A Unified Red-Teaming Benchmark for Physical-World VLMs
+**NeurIPS 2026 · Evaluations & Datasets Track**
+
+<p>
+<a href="https://arxiv.org/abs/2606.23892"><img src="https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white" alt="Paper"></a>
+<a href="https://github.com/UCF-ML-Research/REALM"><img src="https://img.shields.io/badge/Website-REALM-7c5cff?logo=googlechrome&logoColor=white" alt="Website"></a>
+<a href="https://huggingface.co/datasets/yifeiz29/REALM"><img src="https://img.shields.io/badge/Dataset-Hugging%20Face-ffd21e?logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NSIgaGVpZ2h0PSI4OCIgZmlsbD0ibm9uZSI+IDxwYXRoIGZpbGw9IiNGRkQyMUUiIGQ9Ik00Ny4yMSA3Ni41YTM0Ljc1IDM0Ljc1IDAgMSAwIDAtNjkuNSAzNC43NSAzNC43NSAwIDAgMCAwIDY5LjVaIiAvPiA8cGF0aCBmaWxsPSIjRkY5RDBCIiBkPSJNODEuOTYgNDEuNzVhMzQuNzUgMzQuNzUgMCAxIDAtNjkuNSAwIDM0Ljc1IDM0Ljc1IDAgMCAwIDY5LjUgMFptLTczLjUgMGEzOC43NSAzOC43NSAwIDEgMSA3Ny41IDAgMzguNzUgMzguNzUgMCAwIDEtNzcuNSAwWiIgLz4gPHBhdGggZmlsbD0iIzNBM0I0NSIgZD0iTTU4LjUgMzIuM2MxLjI4LjQ0IDEuNzggMy4wNiAzLjA3IDIuMzhhNSA1IDAgMSAwLTYuNzYtMi4wN2MuNjEgMS4xNSAyLjU1LS43MiAzLjctLjMyWk0zNC45NSAzMi4zYy0xLjI4LjQ0LTEuNzkgMy4wNi0zLjA3IDIuMzhhNSA1IDAgMSAxIDYuNzYtMi4wN2MtLjYxIDEuMTUtMi41Ni0uNzItMy43LS4zMloiIC8+IDxwYXRoIGZpbGw9IiNGRjMyM0QiIGQ9Ik00Ni45NiA1Ni4yOWM5LjgzIDAgMTMtOC43NiAxMy0xMy4yNiAwLTIuMzQtMS41Ny0xLjYtNC4wOS0uMzYtMi4zMyAxLjE1LTUuNDYgMi43NC04LjkgMi43NC03LjE5IDAtMTMtNi44OC0xMy0yLjM4czMuMTYgMTMuMjYgMTMgMTMuMjZaIiAvPiA8cGF0aCBmaWxsPSIjM0EzQjQ1IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zOS40MyA1NGE4LjcgOC43IDAgMCAxIDUuMy00LjQ5Yy40LS4xMi44MS41NyAxLjI0IDEuMjguNC42OC44MiAxLjM3IDEuMjQgMS4zNy40NSAwIC45LS42OCAxLjMzLTEuMzUuNDUtLjcuODktMS4zOCAxLjMyLTEuMjVhOC42MSA4LjYxIDAgMCAxIDUgNC4xN2MzLjczLTIuOTQgNS4xLTcuNzQgNS4xLTEwLjcgMC0yLjM0LTEuNTctMS42LTQuMDktLjM2bC0uMTQuMDdjLTIuMzEgMS4xNS01LjM5IDIuNjctOC43NyAyLjY3cy02LjQ1LTEuNTItOC43Ny0yLjY3Yy0yLjYtMS4yOS00LjIzLTIuMS00LjIzLjI5IDAgMy4wNSAxLjQ2IDguMDYgNS40NyAxMC45N1oiIGNsaXAtcnVsZT0iZXZlbm9kZCIgLz4gPHBhdGggZmlsbD0iI0ZGOUQwQiIgZD0iTTcwLjcxIDM3YTMuMjUgMy4yNSAwIDEgMCAwLTYuNSAzLjI1IDMuMjUgMCAwIDAgMCA2LjVaTTI0LjIxIDM3YTMuMjUgMy4yNSAwIDEgMCAwLTYuNSAzLjI1IDMuMjUgMCAwIDAgMCA2LjVaTTE3LjUyIDQ4Yy0xLjYyIDAtMy4wNi42Ni00LjA3IDEuODdhNS45NyA1Ljk3IDAgMCAwLTEuMzMgMy43NiA3LjEgNy4xIDAgMCAwLTEuOTQtLjNjLTEuNTUgMC0yLjk1LjU5LTMuOTQgMS42NmE1LjggNS44IDAgMCAwLS44IDcgNS4zIDUuMyAwIDAgMC0xLjc5IDIuODJjLS4yNC45LS40OCAyLjguOCA0Ljc0YTUuMjIgNS4yMiAwIDAgMC0uMzcgNS4wMmMxLjAyIDIuMzIgMy41NyA0LjE0IDguNTIgNi4xIDMuMDcgMS4yMiA1Ljg5IDIgNS45MSAyLjAxYTQ0LjMzIDQ0LjMzIDAgMCAwIDEwLjkzIDEuNmM1Ljg2IDAgMTAuMDUtMS44IDEyLjQ2LTUuMzQgMy44OC01LjY5IDMuMzMtMTAuOS0xLjctMTUuOTItMi43Ny0yLjc4LTQuNjItNi44Ny01LTcuNzctLjc4LTIuNjYtMi44NC01LjYyLTYuMjUtNS42MmE1LjcgNS43IDAgMCAwLTQuNiAyLjQ2Yy0xLTEuMjYtMS45OC0yLjI1LTIuODYtMi44MkE3LjQgNy40IDAgMCAwIDE3LjUyIDQ4Wm0wIDRjLjUxIDAgMS4xNC4yMiAxLjgyLjY1IDIuMTQgMS4zNiA2LjI1IDguNDMgNy43NiAxMS4xOC41LjkyIDEuMzcgMS4zMSAyLjE0IDEuMzEgMS41NSAwIDIuNzUtMS41My4xNS0zLjQ4LTMuOTItMi45My0yLjU1LTcuNzItLjY4LTguMDEuMDgtLjAyLjE3LS4wMi4yNC0uMDIgMS43IDAgMi40NSAyLjkzIDIuNDUgMi45M3MyLjIgNS41MiA1Ljk4IDkuM2MzLjc3IDMuNzcgMy45NyA2LjggMS4yMiAxMC44My0xLjg4IDIuNzUtNS40NyAzLjU4LTkuMTYgMy41OC0zLjgxIDAtNy43My0uOS05LjkyLTEuNDYtLjExLS4wMy0xMy40NS0zLjgtMTEuNzYtNyAuMjgtLjU0Ljc1LS43NiAxLjM0LS43NiAyLjM4IDAgNi43IDMuNTQgOC41NyAzLjU0LjQxIDAgLjctLjE3LjgzLS42Ljc5LTIuODUtMTIuMDYtNC4wNS0xMC45OC04LjE3LjItLjczLjcxLTEuMDIgMS40NC0xLjAyIDMuMTQgMCAxMC4yIDUuNTMgMTEuNjggNS41My4xMSAwIC4yLS4wMy4yNC0uMS43NC0xLjIuMzMtMi4wNC00LjktNS4yLTUuMjEtMy4xNi04Ljg4LTUuMDYtNi44LTcuMzMuMjQtLjI2LjU4LS4zOCAxLS4zOCAzLjE3IDAgMTAuNjYgNi44MiAxMC42NiA2LjgyczIuMDIgMi4xIDMuMjUgMi4xYy4yOCAwIC41Mi0uMS42OC0uMzguODYtMS40Ni04LjA2LTguMjItOC41Ni0xMS4wMS0uMzQtMS45LjI0LTIuODUgMS4zMS0yLjg1WiIgLz4gPHBhdGggZmlsbD0iI0ZGRDIxRSIgZD0iTTM4LjYgNzYuNjljMi43NS00LjA0IDIuNTUtNy4wNy0xLjIyLTEwLjg0LTMuNzgtMy43Ny01Ljk4LTkuMy01Ljk4LTkuM3MtLjgyLTMuMi0yLjY5LTIuOWMtMS44Ny4zLTMuMjQgNS4wOC42OCA4LjAxIDMuOTEgMi45My0uNzggNC45Mi0yLjI5IDIuMTctMS41LTIuNzUtNS42Mi05LjgyLTcuNzYtMTEuMTgtMi4xMy0xLjM1LTMuNjMtLjYtMy4xMyAyLjIuNSAyLjc5IDkuNDMgOS41NSA4LjU2IDExLS44NyAxLjQ3LTMuOTMtMS43MS0zLjkzLTEuNzFzLTkuNTctOC43MS0xMS42Ni02LjQ0Yy0yLjA4IDIuMjcgMS41OSA0LjE3IDYuOCA3LjMzIDUuMjMgMy4xNiA1LjY0IDQgNC45IDUuMi0uNzUgMS4yLTEyLjI4LTguNTMtMTMuMzYtNC40LTEuMDggNC4xMSAxMS43NyA1LjMgMTAuOTggOC4xNS0uOCAyLjg1LTkuMDYtNS4zOC0xMC43NC0yLjE4LTEuNyAzLjIxIDExLjY1IDYuOTggMTEuNzYgNy4wMSA0LjMgMS4xMiAxNS4yNSAzLjQ5IDE5LjA4LTIuMTJaIiAvPiA8cGF0aCBmaWxsPSIjRkY5RDBCIiBkPSJNNzcuNCA0OGMxLjYyIDAgMy4wNy42NiA0LjA3IDEuODdhNS45NyA1Ljk3IDAgMCAxIDEuMzMgMy43NiA3LjEgNy4xIDAgMCAxIDEuOTUtLjNjMS41NSAwIDIuOTUuNTkgMy45NCAxLjY2YTUuOCA1LjggMCAwIDEgLjggNyA1LjMgNS4zIDAgMCAxIDEuNzggMi44MmMuMjQuOS40OCAyLjgtLjggNC43NGE1LjIyIDUuMjIgMCAwIDEgLjM3IDUuMDJjLTEuMDIgMi4zMi0zLjU3IDQuMTQtOC41MSA2LjEtMy4wOCAxLjIyLTUuOSAyLTUuOTIgMi4wMWE0NC4zMyA0NC4zMyAwIDAgMS0xMC45MyAxLjZjLTUuODYgMC0xMC4wNS0xLjgtMTIuNDYtNS4zNC0zLjg4LTUuNjktMy4zMy0xMC45IDEuNy0xNS45MiAyLjc4LTIuNzggNC42My02Ljg3IDUuMDEtNy43Ny43OC0yLjY2IDIuODMtNS42MiA2LjI0LTUuNjJhNS43IDUuNyAwIDAgMSA0LjYgMi40NmMxLTEuMjYgMS45OC0yLjI1IDIuODctMi44MkE3LjQgNy40IDAgMCAxIDc3LjQgNDhabTAgNGMtLjUxIDAtMS4xMy4yMi0xLjgyLjY1LTIuMTMgMS4zNi02LjI1IDguNDMtNy43NiAxMS4xOGEyLjQzIDIuNDMgMCAwIDEtMi4xNCAxLjMxYy0xLjU0IDAtMi43NS0xLjUzLS4xNC0zLjQ4IDMuOTEtMi45MyAyLjU0LTcuNzIuNjctOC4wMWExLjU0IDEuNTQgMCAwIDAtLjI0LS4wMmMtMS43IDAtMi40NSAyLjkzLTIuNDUgMi45M3MtMi4yIDUuNTItNS45NyA5LjNjLTMuNzggMy43Ny0zLjk4IDYuOC0xLjIyIDEwLjgzIDEuODcgMi43NSA1LjQ3IDMuNTggOS4xNSAzLjU4IDMuODIgMCA3LjczLS45IDkuOTMtMS40Ni4xLS4wMyAxMy40NS0zLjggMTEuNzYtNy0uMjktLjU0LS43NS0uNzYtMS4zNC0uNzYtMi4zOCAwLTYuNzEgMy41NC04LjU3IDMuNTQtLjQyIDAtLjcxLS4xNy0uODMtLjYtLjgtMi44NSAxMi4wNS00LjA1IDEwLjk3LTguMTctLjE5LS43My0uNy0xLjAyLTEuNDQtMS4wMi0zLjE0IDAtMTAuMiA1LjUzLTExLjY4IDUuNTMtLjEgMC0uMTktLjAzLS4yMy0uMS0uNzQtMS4yLS4zNC0yLjA0IDQuODgtNS4yIDUuMjMtMy4xNiA4LjktNS4wNiA2LjgtNy4zMy0uMjMtLjI2LS41Ny0uMzgtLjk4LS4zOC0zLjE4IDAtMTAuNjcgNi44Mi0xMC42NyA2Ljgycy0yLjAyIDIuMS0zLjI0IDIuMWEuNzQuNzQgMCAwIDEtLjY4LS4zOGMtLjg3LTEuNDYgOC4wNS04LjIyIDguNTUtMTEuMDEuMzQtMS45LS4yNC0yLjg1LTEuMzEtMi44NVoiIC8+IDxwYXRoIGZpbGw9IiNGRkQyMUUiIGQ9Ik01Ni4zMyA3Ni42OWMtMi43NS00LjA0LTIuNTYtNy4wNyAxLjIyLTEwLjg0IDMuNzctMy43NyA1Ljk3LTkuMyA1Ljk3LTkuM3MuODItMy4yIDIuNy0yLjljMS44Ni4zIDMuMjMgNS4wOC0uNjggOC4wMS0zLjkyIDIuOTMuNzggNC45MiAyLjI4IDIuMTcgMS41MS0yLjc1IDUuNjMtOS44MiA3Ljc2LTExLjE4IDIuMTMtMS4zNSAzLjY0LS42IDMuMTMgMi4yLS41IDIuNzktOS40MiA5LjU1LTguNTUgMTEgLjg2IDEuNDcgMy45Mi0xLjcxIDMuOTItMS43MXM5LjU4LTguNzEgMTEuNjYtNi40NGMyLjA4IDIuMjctMS41OCA0LjE3LTYuOCA3LjMzLTUuMjMgMy4xNi01LjYzIDQtNC45IDUuMi43NSAxLjIgMTIuMjgtOC41MyAxMy4zNi00LjQgMS4wOCA0LjExLTExLjc2IDUuMy0xMC45NyA4LjE1LjggMi44NSA5LjA1LTUuMzggMTAuNzQtMi4xOCAxLjY5IDMuMjEtMTEuNjUgNi45OC0xMS43NiA3LjAxLTQuMzEgMS4xMi0xNS4yNiAzLjQ5LTE5LjA4LTIuMTJaIiAvPiA8L3N2Zz4=" alt="Hugging Face"></a>
+</p>
 
 </div>
 
@@ -31,94 +34,109 @@ cd REALM
 bash install.sh
 ```
 
-`install.sh` auto-matches PyTorch to your GPU driver and installs everything — REALM, CLIP, Segment-Anything, Detectron2, vLLM, and model weights. CLIP surrogates auto-download on first run.
+`install.sh` matches PyTorch to your GPU driver and installs everything: REALM, CLIP, Segment-Anything, Detectron2, vLLM and the model weights. It needs `git`, `wget`, `python3-pip` and Python 3.10+ (plus Docker for `realm.target`, which builds its small sandbox image on first use); on a system Python it installs into `.venv` (then `source .venv/bin/activate`). Run one part with `bash install.sh env` or `bash install.sh weights` (`--check`, `--download-all`, `--delete`).
 
 ### Generate Adversarial Samples
 
-**NIPS 2017 dataset** (100 ImageNet source-target pairs):
+`dataset/physical/` has real-world cases (driving, egocentric, manipulation, grasping, diagnostics, physics, scene QA), each with a question, options and answer in `cases.json`.
 
-```bash
+```python
+import realm
+
+# The scenario agent (an LLM calling the tools plan, generate, check and submit) picks a wrong answer and builds its target image
+# for each case; it runs in a Docker container (OpenRouter: needs OPENROUTER_API_KEY)
+targets = realm.target("dataset/physical/cases.json", "out/targets")
+
 # Gradient-based (CLIP surrogate)
-python scripts/generate_adversarial.py foa --dataset nips2017 -o dataset/nips2017/adversarial/foa
+adv = realm.attack("foa", "dataset/physical", "out/foa", targets=targets)
 
 # Untargeted
-python scripts/generate_adversarial.py paattack --dataset nips2017 -o dataset/nips2017/adversarial/paattack
+realm.attack("paattack", "dataset/physical", "out/paattack")
 
-# Text-guided
-python scripts/generate_adversarial.py vattack \
-    --dataset nips2017 --labels_file dataset/nips2017/labels.json \
-    -o dataset/nips2017/adversarial/vattack
+# Text-guided (target text from the targets' labels, or target_text=...)
+realm.attack("vattack", "dataset/physical", "out/vattack", targets=targets)
 
-# Typographic injection (with VLM-generated text)
-python scripts/generate_adversarial.py figstep \
-    --dataset nips2017 --labels_file dataset/nips2017/labels.json \
-    --vlm_url http://localhost:8001 --vlm_model Qwen/Qwen3-VL-8B-Instruct \
-    -o dataset/nips2017/adversarial/figstep
+# Typographic injection (text written by the LLM in the YAML: OpenRouter, needs OPENROUTER_API_KEY)
+realm.attack("figstep", "dataset/physical", "out/figstep", targets=targets)
 
-# Prompt manipulation
-python scripts/generate_adversarial.py promptinject \
-    --dataset nips2017 --labels_file dataset/nips2017/labels.json \
-    --question "What is the main object in this image?" \
-    --vlm_url http://localhost:8001 --vlm_model Qwen/Qwen3-VL-8B-Instruct \
-    -o dataset/nips2017/adversarial/promptinject
+# Prompt manipulation (appended to each case's question)
+realm.attack("promptinject", "dataset/physical", "out/promptinject", targets=targets)
 ```
+
+Each call returns its output directory (one PNG per case and `manifest.json`) and resumes where it stopped.
+
+### Configure
+
+Hyperparameters are in `configs/attacks/<attack>.yaml` and `configs/defenses/<defense>.yaml` (paper defaults). Override any of them per call by keyword: `realm.attack("foa", ..., epsilon=8)`, `realm.defend("freqpure", ..., delta=0.2)`.
+
+Helper LLM calls (FOA's cluster check, CoA's captions, PhysPatch's patch placement, FigStep/PromptInject's injection text, BlueSuffix's text purifier) go to `llm_server_url` (null: OpenAI; FigStep and PromptInject require it set) with the key in the env var named by `llm_api_key_env`, both in the YAML.
 
 ### Evaluate
 
-Score an attack's outputs with a VLM judge. Start a server for the victim model first (or pass `--server_url`):
+Score attack and defense outputs with a VLM judge. `server_url` points at any OpenAI-compatible endpoint (a local vLLM server, OpenAI, OpenRouter, ...); the judge runs on the same server, `openai/gpt-4o` by default (`judge_model` for another, e.g. on a local server):
 
 ```bash
 # Serve the victim VLM (OpenAI-compatible endpoint)
-python -m vllm.entrypoints.openai.api_server --model Qwen/Qwen3-VL-8B-Instruct --port 8000
-
-# Evaluate
-python scripts/evaluate_adversarial.py \
-    --attack_dirs dataset/nips2017/adversarial/foa dataset/nips2017/cleaned/foa \
-    --question "What is the main object in this image?" \
-    --labels_json dataset/nips2017/labels.json \
-    --judge vlm --model Qwen/Qwen3-VL-8B-Instruct \
-    --server_url http://localhost:8000 \
-    -o results/eval/foa
+.venv-vllm/bin/vllm serve Qwen/Qwen3-VL-8B-Instruct --port 8000   # vLLM lives in its own venv (install.sh); it downloads the model on first serve
 ```
 
-Reports **Attack Success Rate (ASR)** for each input set against a clean baseline, measuring both **attack effectiveness** (ASR on adversarial inputs) and **defense effectiveness** (the drop in ASR once a defense is applied). Pass any mix of adversarial and defended (cleaned) directories to `--attack_dirs` to compare them in one table.
+```python
+import os
+
+realm.evaluate(["out/foa", "out/foa_freqpure"], targets="out/targets", server_url="http://localhost:8000",
+               model="Qwen/Qwen3-VL-8B-Instruct", judge_model="Qwen/Qwen3-VL-8B-Instruct", output="results/eval/foa")
+
+# Proprietary victim via OpenRouter (judge: openai/gpt-4o)
+realm.evaluate("out/foa", targets="out/targets", server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
+               model="openai/gpt-4.1-mini")
+```
+
+Reports **accuracy** and **Attack Success Rate (ASR)** for each input set against a clean baseline, and returns the same results that `output/eval_results.json` holds. Pass attack and defense output dirs together to compare them in one table. The target is per case (`targets`: the `realm.target` dir, or `labels`: its `labels.json`) or one `target_text`.
 
 ### Apply Defenses
 
-```bash
-python scripts/clean_adversarial.py \
-    --defense freqpure --adversarial_images dataset/nips2017/adversarial/foa \
-    -o dataset/nips2017/cleaned/foa
-```
-
-### Python API
-
 ```python
-from vlm_benchmark.attacks import AttackRegistry
-
-attack = AttackRegistry.create('foa', epsilon=16, max_iterations=300, device='cuda')
-result = attack.generate(model=None, sample=sample)
-result.adversarial_sample.save("adversarial.jpg")
+clean = realm.defend("freqpure", adv, "out/foa_freqpure")
 ```
+
+### Target Generator
+
+```bash
+bash realm/agent/target_generator/server.sh 8091   # Qwen-Image-2.1 behind the OpenAI images API (generations, edits)
+```
+
+The same steps run from the shell as `scripts/generate_targets.py`, `generate_adversarial.py`, `clean_adversarial.py` and `evaluate_adversarial.py` (`--help` lists the options).
 
 ## Attacks
+
+12 black-box attacks in three channels: perturbation (FOA, M-Attack, V-Attack, CoA, PhysPatch, PA-Attack), generation and editing (AdvDiffVLM, AdvEDM-A, AnyAttack) and injection (FigStep, PromptInject, ImageMix). Settings, including ε, are in `configs/attacks/*.yaml`.
+
+<details>
+<summary>…</summary>
 
 | Attack | Category | ε |
 |--------|----------|---|
 | FOA | Perturbation (optimal transport) | 16/255 |
 | M-Attack | Perturbation (cosine) | 16/255 |
 | V-Attack | Perturbation (value features) | 16/255 |
-| CoA | Perturbation (multimodal co-optimization) | 8/255 |
+| CoA | Perturbation (multimodal co-optimization) | 16/255 |
 | PhysPatch | Perturbation (patch) | 16/255 |
-| PA-Attack | Perturbation (untargeted, OOD prototypes) | 8/255 |
+| PA-Attack | Perturbation (untargeted, OOD prototypes) | 16/255 |
 | AdvDiffVLM | Generation (diffusion latent) | ∞ |
-| AdvEDM | Editing (semantic) | 8/255 |
+| AdvEDM-A | Editing (semantic addition) | 16/255 |
 | AnyAttack | Generation (single forward pass) | 16/255 |
 | FigStep | Injection (typographic) | — |
 | PromptInject | Injection (prompt) | — |
 | ImageMix | Injection (alpha-blend baseline) | — |
 
+</details>
+
 ## Defenses
+
+3 model-agnostic defenses applied before the victim sees the input: patch removal (PAD), frequency purification (FreqPure) and multimodal purification (BlueSuffix). Settings are in `configs/defenses/*.yaml`.
+
+<details>
+<summary>…</summary>
 
 | Defense | Type | Description |
 |---------|------|-------------|
@@ -126,9 +144,11 @@ result.adversarial_sample.save("adversarial.jpg")
 | FreqPure | Frequency purification | FFT amplitude swap + phase clipping + diffusion denoising |
 | BlueSuffix | Multimodal purification | Image denoising + text purification + defensive suffix |
 
+</details>
+
 ## Acknowledgements
 
-This project integrates adversarial attack methods proposed by prior research. We thank the original authors for making their work publicly available.
+This project integrates adversarial attack and defense methods proposed by prior research. We thank the original authors for making their work publicly available.
 
 ## Citation
 

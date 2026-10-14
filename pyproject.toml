@@ -18,4 +18,4 @@ Repository = "https://github.com/UCF-ML-Research/REALM"
 dependencies = { file = ["requirements.txt"] }
 
 [tool.setuptools.packages.find]
-include = ["vlm_benchmark*"]
+include = ["realm*"]

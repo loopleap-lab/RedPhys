@@ -21,12 +21,12 @@ env/
 *.ckpt
 *.safetensors
 *.bin
-vlm_benchmark/**/assets/checkpoints/
-vlm_benchmark/**/assets/pretrained/
-vlm_benchmark/**/assets/models/
-vlm_benchmark/**/assets/clip_cache/
-vlm_benchmark/**/assets/som/*.pth
-vlm_benchmark/attacks/paattack/prototypes/
+realm/**/assets/checkpoints/
+realm/**/assets/pretrained/
+realm/**/assets/models/
+realm/**/assets/som/*.pth
+realm/attacks/figstep/assets/*.ttf
+realm/attacks/paattack/prototypes/
 
 # ── Generated outputs / caches ──────────────────────────────────────
 dataset/**/adversarial/
@@ -34,6 +34,9 @@ dataset/**/cleaned/
 dataset/**/coordinates/
 dataset/**/sam_labels/
 dataset/**/som/
+dataset/coco/
+dataset/realm_dataset/
+dataset/physical_dataset/
 eval_results/
 results/
 outputs/
@@ -42,3 +45,13 @@ outputs/
 *.log
 .DS_Store
 torch_cache/
+
+# ── Local papers (not tracked) ──────────────────────────────────────
+docs/papers/
+
+# target-generation outputs
+runs/
+
+# ── Physical-world sets kept out of the repo ─────────────────────────
+dataset/physical_world/
+dataset/physical_world_v2/

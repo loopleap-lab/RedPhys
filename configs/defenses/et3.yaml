@@ -1,0 +1,10 @@
+seed: 42
+precision: "bf16"           # or "fp32" (full precision)
+clip_model: "hf-hub:chs20/fare4-clip"  # open_clip surrogate (robust FARE4); standard: "ViT-L-14"
+clip_pretrained: null        # standard: "openai"
+input_res: 224
+epsilon: 4.0                 # L2 radius on [0, 1] at 224x224, scaled with size; standard CLIP: 5.0
+alpha: 2.0                   # L2 step, same scale; standard CLIP: 2.5
+steps: 2                     # T
+temperature: 1.0
+logit_scale: 100.0
