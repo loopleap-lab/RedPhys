@@ -67,7 +67,7 @@ Each call returns its output directory (one PNG per case and `manifest.json`) an
 
 ### Configure
 
-Hyperparameters are in `configs/attacks/<attack>.yaml` and `configs/defenses/<defense>.yaml` (paper defaults). Override any of them per call by keyword: `realm.attack("foa", ..., epsilon=8)`, `realm.defend("freqpure", ..., delta=0.2)`.
+Hyperparameters are in `configs/attacks/<attack>.yaml` and `configs/defenses/<defense>.yaml` (paper defaults). Override any of them per call by keyword: `realm.attack("foa", ..., epsilon=8)`, `realm.defend("freqpure", ..., delta=0.2)`. Same for `realm.target` (`configs/agents/scenario.yaml`), e.g. `checker_server_url="http://localhost:8000"` for local checkers.
 
 Helper LLM calls (FOA's cluster check, CoA's captions, PhysPatch's patch placement, FigStep/PromptInject's injection text, BlueSuffix's text purifier) go to `llm_server_url` (null: OpenAI; FigStep and PromptInject require it set) with the key in the env var named by `llm_api_key_env`, both in the YAML.
 

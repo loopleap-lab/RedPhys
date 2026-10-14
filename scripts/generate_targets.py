@@ -2,6 +2,7 @@
 """Scenario-specific attack targets (target answer + target image) with the scenario agent."""
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -24,6 +25,7 @@ def parse_args():
     p.add_argument("--max_samples", type=int, help="Max cases")
     p.add_argument("--config", help="Agent YAML (default: configs/agents/scenario.yaml)")
     p.add_argument("--workers", type=int, default=8, help="Cases in parallel (API-bound)")
+    p.add_argument("--params", type=json.loads, default={}, help='Agent settings as JSON, e.g. {"max_rounds": 3}')
     return p.parse_args()
 
 

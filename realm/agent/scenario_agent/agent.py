@@ -27,6 +27,8 @@ class ScenarioConfig:
     generator_url: str = "http://localhost:8091"
     generator_model: str = "qwen/qwen-image-3"
     checker_models: tuple = ("anthropic/claude-haiku-5.5", "meta-llama/llama-4-maverick", "mistralai/mistral-medium-3.1")  # blind answerers
+    checker_server_url: str = ""  # "" = server_url
+    checker_api_key_env: str = ""  # "" = api_key_env
     max_rounds: int = 5  # images the agent may make
     max_steps: int = 24  # tool-calling turns
     num_inference_steps: int = 40
@@ -122,10 +124,13 @@ class ScenarioAgent:
         self.config = config
         self.key = os.environ.get(config.api_key_env, "dummy")
         self.client = OpenAI(base_url=f"{config.server_url}/v1", api_key=self.key)
+        self.checker = self.client if not config.checker_server_url else OpenAI(
+            base_url=f"{config.checker_server_url}/v1", api_key=os.environ.get(config.checker_api_key_env or config.api_key_env, "dummy"))
 
-    def _chat(self, messages, tools=None, model=None):
-        return self.client.chat.completions.create(model=model or self.config.model, messages=messages, temperature=0.0, max_tokens=1200,
-                                                   extra_body=no_reasoning(self.client), **({"tools": tools} if tools else {})).choices[0].message
+    def _chat(self, messages, tools=None, model=None, client=None):
+        client = client or self.client
+        return client.chat.completions.create(model=model or self.config.model, messages=messages, temperature=0.0, max_tokens=1200,
+                                              extra_body=no_reasoning(client), **({"tools": tools} if tools else {})).choices[0].message
 
     @staticmethod
     def _user(text: str, img: Image.Image) -> dict:
@@ -196,7 +201,7 @@ class ScenarioAgent:
 
             def vote(model):
                 try:
-                    reply = _fields(clean_llm_text(self._chat([message], model=model).content), ("ANSWER", "REASON"))
+                    reply = _fields(clean_llm_text(self._chat([message], model=model, client=self.checker).content), ("ANSWER", "REASON"))
                 except Exception:  # a failed call does not vote
                     return None
                 return model.split("/")[-1], reply.get("ANSWER", "").strip().strip(".()").upper()[:1], reply.get("REASON", "")

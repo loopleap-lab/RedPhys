@@ -9,9 +9,16 @@ from types import SimpleNamespace
 
 from tqdm import tqdm
 
-from ...configs import default_config_path, load_config
+from ...configs import default_config_path, load_config, with_overrides
 from ...data import DATASETS, DEFAULT_QUESTION, image_files
 from .agent import Case, ScenarioAgent, ScenarioConfig
+
+
+def scenario_config(args) -> ScenarioConfig:
+    """Agent YAML + args.params."""
+    cfg = load_config(args.config or default_config_path("agents", "scenario"), ScenarioConfig)
+    cfg = with_overrides(cfg, ScenarioConfig, getattr(args, "params", None) or {})
+    return ScenarioConfig(**{k: tuple(v) if isinstance(v, list) else v for k, v in cfg.items()})
 
 
 def load_cases(args) -> list[Case]:
@@ -32,7 +39,7 @@ def run(args) -> Path:
         from .docker import run_in_docker
 
         return run_in_docker(args)
-    config = ScenarioConfig(**load_config(args.config or default_config_path("agents", "scenario"), ScenarioConfig))
+    config = scenario_config(args)
     agent, cases, out = ScenarioAgent(config), load_cases(args)[:args.max_samples], Path(args.output)
     (out / "target").mkdir(parents=True, exist_ok=True)
     (out / "cases.json").write_text(json.dumps([dataclasses.asdict(c) for c in cases], indent=2))
@@ -63,7 +70,10 @@ def run(args) -> Path:
 
 def target(cases: str | None = None, output: str = "", *, dataset: str | None = None, source: str | None = None, labels: str | None = None,
            question: str = DEFAULT_QUESTION, keep_targets: bool = False, max_samples: int | None = None, config: str | None = None,
-           workers: int = 8) -> Path:
-    """Targets (answer + image) for the cases of a JSON file (id, image, question, answer, [options, domain, task]), or a dataset / image dir; resumes."""
+           workers: int = 8, **params) -> Path:
+    """Targets (answer + image) for the cases of a JSON file (id, image, question, answer, [options, domain, task]), or a dataset / image dir; resumes.
+
+    params: settings over configs/agents/scenario.yaml, e.g. max_rounds=3.
+    """
     return run(SimpleNamespace(cases=cases, dataset=dataset, source=source, labels_file=labels, question=question, keep_targets=keep_targets,
-                               output=output, max_samples=max_samples, config=config, workers=workers))
+                               output=output, max_samples=max_samples, config=config, workers=workers, params=params))
