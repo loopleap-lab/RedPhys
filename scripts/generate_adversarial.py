@@ -26,7 +26,7 @@ def parse_args():
     p.add_argument("--target_text", help="Target text (advedm_r, vattack, figstep, promptinject)")
     p.add_argument("--question", help="Question to inject into (promptinject)")
     p.add_argument("--labels_file", help="Per-sample labels JSON (auto-detected from --dataset)")
-    p.set_defaults(params={})  # run() reads hyperparameter overrides from args.params (Python API only)
+    p.set_defaults(params={})  # overrides: Python API only
     return p.parse_args()
 
 

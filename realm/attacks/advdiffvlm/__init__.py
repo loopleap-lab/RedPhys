@@ -1,4 +1,4 @@
-"""AdvDiffVLM: Latent Diffusion adversarial examples."""
+"""AdvDiffVLM."""
 
 from .advdiffvlm_attack import AdvDiffVLMAttack, AdvDiffVLMConfig
 

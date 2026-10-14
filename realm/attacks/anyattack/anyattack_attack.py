@@ -1,4 +1,4 @@
-"""AnyAttack: single-forward-pass perturbation via a learned Decoder."""
+"""AnyAttack: one forward pass of a learned decoder."""
 
 import os
 from dataclasses import dataclass

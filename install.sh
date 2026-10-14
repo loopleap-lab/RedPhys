@@ -74,7 +74,7 @@ install_weights() {
     "laion/CLIP-ViT-g-14-laion2B-s12B-b42K|pytorch_model.bin open_clip_pytorch_model.safetensors"  # open_clip reads the .bin
     "laion/CLIP-ViT-bigG-14-laion2B-39B-b160k|*.bin pytorch_model-*"
     "laion/CLIP-ViT-B-32-laion2B-s34B-b79K|*.bin model.safetensors"
-    "openai/clip-vit-large-patch14-336|*.msgpack *.h5"  # transformers loads pytorch_model.bin (no safetensors on main)
+    "openai/clip-vit-large-patch14-336|*.msgpack *.h5"  # loads pytorch_model.bin (no safetensors on main)
     "openai/clip-vit-base-patch16|*.msgpack *.h5"
     "openai/clip-vit-base-patch32|*.msgpack *.h5"
     "OpenGVLab/InternVL3-1B-hf|"  # MPCAttack
@@ -86,12 +86,12 @@ install_weights() {
     "timm/vit_base_patch16_clip_224.openai|*.bin"
     "timm/vit_base_patch32_clip_224.openai|*.bin"
     "timm/ViT-SO400M-14-SigLIP|*.bin"
-    "timm/ViT-B-16-SigLIP|*.bin *.safetensors"  # tokenizer only: open_clip's SigLIP text tokenizer (AdvEDM)
+    "timm/ViT-B-16-SigLIP|*.bin *.safetensors"  # AdvEDM: open_clip SigLIP tokenizer only
     "gpt2|*.bin *.h5 *.msgpack *.ot *.tflite onnx/*"
   )
   local e path sum url repo skip
 
-  if [[ $MODE == delete ]]; then  # ~/.cache/clip and torch hub are shared with other tools: kept
+  if [[ $MODE == delete ]]; then  # ~/.cache/clip, torch hub: shared, kept
     local targets=("$BLUE_DIFF" "$BLUE_SG" "$FONT" "$COCO/val2014")
     for e in "${FILES[@]}"; do targets+=("${e%%|*}"); done
     for e in "${HF[@]}"; do repo=${e%%|*}; targets+=("$HUB/models--${repo//\//--}"); done
@@ -107,7 +107,7 @@ install_weights() {
     echo "  MISSING/BAD  $1"; missing=$((missing + 1)); [[ $MODE != check ]]
   }
   sha_ok() { pyw check file "$1" "$2"; }
-  fetch() {  # url dest sha256: keep the download only if its hash matches
+  fetch() {  # url dest sha256; keep only if the hash matches
     mkdir -p "$(dirname "$2")"
     if [[ $1 == gdrive:* ]]; then $PY -m gdown "${1#gdrive:}" -O "$2.part"; else wget -q --show-progress -O "$2.part" "$1"; fi \
       && sha_ok "$2.part" "$3" && mv "$2.part" "$2" || { echo "!! $2: download failed or sha256 mismatch"; rm -f "$2.part"; }
@@ -218,7 +218,7 @@ PY
     || echo "$missing item(s) $([[ $MODE == check ]] && echo "missing or corrupt; run without --check to fetch" || echo "fetched; run --check to verify")."
 }
 
-enter_venv() {  # a script cannot activate the caller's shell: open a new one with .venv active
+enter_venv() {  # a script cannot activate the caller's shell
   [ "$PY" = "$PWD/.venv/bin/python" ] && [ -z "${REALM_NO_SHELL:-}" ] && [ -t 0 ] && [ -t 1 ] || return 0
   echo ">> opening a shell with .venv active (type exit to leave)"
   exec bash --rcfile <(printf '[ -f ~/.bashrc ] && . ~/.bashrc\n. %q/.venv/bin/activate\n' "$PWD") -i

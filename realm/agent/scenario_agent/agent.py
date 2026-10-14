@@ -1,4 +1,4 @@
-"""Agentic target generation (REALM paper, Sec. 3.4): an LLM calls tools (plan, edit, generate, check, submit) per test case."""
+"""Scenario agent (paper Sec. 3.4): an LLM with tools plan, edit, generate, check, submit."""
 
 import base64
 import io
@@ -23,7 +23,7 @@ class ScenarioConfig:
     model: str = "openai/gpt-6-luna"
     server_url: str = "https://openrouter.ai/api"
     api_key_env: str = "OPENROUTER_API_KEY"
-    generator: str = "openrouter"  # image model: "openrouter" or "local" (target_generator server)
+    generator: str = "openrouter"  # "openrouter" or "local" (target_generator)
     generator_url: str = "http://localhost:8091"
     generator_model: str = "qwen/qwen-image-3"
     checker_models: tuple = ("anthropic/claude-haiku-5.5", "meta-llama/llama-4-maverick", "mistralai/mistral-medium-3.1")  # blind answerers
@@ -44,8 +44,8 @@ class Case:
     id: str
     image: str
     question: str
-    answer: str  # option letter when options are given, else text
-    options: Optional[dict] = None  # {"A": ...}: multiple choice, physical-world prompt
+    answer: str  # letter, or text if open-ended
+    options: Optional[dict] = None  # {"A": ...}: multiple choice (physical prompt)
     domain: str = "general"
     task: str = ""
     target: Optional[str] = None  # fixed wrong answer (open-ended)
@@ -77,7 +77,7 @@ def _b64(img: Image.Image) -> str:
 
 
 def openrouter_image(server_url: str, key: str, model: str, prompt: str, refs=()) -> Image.Image:
-    """One image from an OpenRouter image model (refs: reference images for edit mode)."""
+    """OpenRouter image; refs: edit inputs."""
     body = {"model": model, "prompt": prompt}
     if refs:
         body["input_references"] = [{"type": "image_url", "image_url": {"url": f"data:image/png;base64,{_b64(r)}"}} for r in refs]
@@ -153,7 +153,7 @@ class ScenarioAgent:
         return None
 
     def _render(self, case: Case, src: Image.Image, prompt: str, seed: int, edit: bool) -> Image.Image:
-        """Target image from the local server or OpenRouter (both return data[0].b64_json): the source edited, or a new one from the prompt."""
+        """The source edited, or a new image from the prompt (local server or OpenRouter)."""
         c = self.config
         if edit:
             prompt = f"{DOMAIN_CONSTRAINTS.get(case.domain, DOMAIN_CONSTRAINTS['general'])} {prompt}"
@@ -165,7 +165,7 @@ class ScenarioAgent:
                         else requests.post(f"{c.generator_url}/v1/images/generations", json=body, timeout=600))
 
     def _use(self, name: str, args: dict, case: Case, src: Image.Image, st: dict) -> tuple[str, Optional[Image.Image]]:
-        """Run one tool call: (text for the agent, image to show it)."""
+        """One tool call -> (reply text, image to show)."""
         plan = st["plan"]
         if name == "plan":
             if problem := self._invalid(case, args):
@@ -194,7 +194,7 @@ class ScenarioAgent:
         return "Make an image first." if name == "check" else f"Unknown tool {name}.", None
 
     def _check(self, case: Case, plan: dict, st: dict) -> tuple[bool, str, str]:
-        """(passes, diagnosis, revised prompt); multiple choice: most blind checker models must pick the attack target; open-ended: an informed checker judges."""
+        """(passes, diagnosis, revised prompt): most blind checkers must pick the target; open-ended: one informed check."""
         if case.options:
             opts = "\n".join(f"{k}. {v}" for k, v in case.options.items())
             message = self._user(BLIND_CHECK.format(question=case.question, options=opts), st["img"])
@@ -223,7 +223,7 @@ class ScenarioAgent:
         return case.options[plan["attack_target"]] if case.options else plan["attack_target"]
 
     def run(self, case: Case) -> tuple[TargetSpec, Image.Image]:
-        """The agent plans, generates, checks and submits through its tools."""
+        """Tool loop for one case."""
         src = load_rgb(case.image)
         if case.options:
             opts = "\n".join(f"{k}. {v}" for k, v in case.options.items())

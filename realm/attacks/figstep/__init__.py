@@ -1,4 +1,4 @@
-"""FigStep typographic prompt injection attack."""
+"""FigStep typographic injection."""
 
 from .figstep_attack import FigStepAttack
 from .config import FigStepConfig

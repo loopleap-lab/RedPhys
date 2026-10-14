@@ -141,7 +141,7 @@ def validate_args(args):
 
 
 def run(args) -> Path:
-    """Attack every image of args.source; adversarial images and manifest.json go to args.output."""
+    """Attack args.source into args.output (+ manifest.json)."""
     validate_args(args)
     register_all_attacks()
 
@@ -254,10 +254,9 @@ def run(args) -> Path:
 def attack(name: str, source: str, output: str, *, targets: str | None = None, target: str | None = None, labels: str | None = None,
            target_text: str | None = None, question: str | None = None, config: str | None = None, surrogates: str = "default",
            max_samples: int | None = None, **params) -> Path:
-    """Run attack `name` on the images of `source`; adversarial images and manifest.json go to `output` (resumes a run).
+    """Attack `source` images into `output` (+ manifest.json); resumes.
 
-    targets: output dir of realm.target (its target/ images and labels.json); target / labels: those two separately.
-    params: hyperparameters over the attack's YAML, e.g. epsilon=8.
+    targets: realm.target output dir (or target / labels separately); params: YAML overrides, e.g. epsilon=8.
     """
     if targets:
         target, labels = target or f"{targets}/target", labels or f"{targets}/labels.json"

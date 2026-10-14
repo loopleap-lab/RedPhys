@@ -1,5 +1,3 @@
-"""ImageMix attack configuration."""
-
 from dataclasses import dataclass
 
 from ..base_attack import AttackConfig

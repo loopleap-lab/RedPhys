@@ -1,4 +1,4 @@
-"""MPCAttack: multi-paradigm collaborative adversarial attack (CVPR 2026, arXiv 2603.04846)."""
+"""MPCAttack: multi-paradigm collaborative attack (CVPR 2026, arXiv 2603.04846)."""
 
 from dataclasses import dataclass, field
 from functools import partial

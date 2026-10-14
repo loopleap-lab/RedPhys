@@ -1,4 +1,4 @@
-"""PhysPatch: physically realizable adversarial patch attack."""
+"""PhysPatch: physically realizable patch attack."""
 
 from dataclasses import dataclass, field
 from typing import List, Optional, Tuple
@@ -18,7 +18,7 @@ class PhysPatchConfig(AttackConfig):
     alpha: float = 1.0
 
     attack_method: str = "pgd"  # "pgd" or "mifgsm"
-    decay: float = 1.0  # Momentum decay for MI-FGSM
+    decay: float = 1.0  # MI-FGSM momentum decay
 
     backbone: List[str] = field(default_factory=lambda: ["B16", "B32", "Laion"])
     K: int = 10  # SVD rank
@@ -54,7 +54,7 @@ class PhysPatchAttack(BaseAttack):
         self._coords = None
         self._coords_error = None  # not retried per sample
         self._target_image_paths = None
-        self._source_size = None  # (H, W) set per-sample in generate()
+        self._source_size = None  # (H, W), per sample
 
     def _initialize_models(self):
         if self._ensemble_extractor is not None:
@@ -94,7 +94,7 @@ class PhysPatchAttack(BaseAttack):
         print(f"✓ Ensemble ready with K={self.config.K} SVD components\n")
 
     def _load_coordinates(self) -> torch.Tensor:
-        """Load patch placement coordinates from file, generating if needed."""
+        """Patch coordinates from file, generated if missing."""
         if self._coords is not None:
             return self._coords
         if self._coords_error is not None:
@@ -141,7 +141,7 @@ class PhysPatchAttack(BaseAttack):
                 )
                 raise self._coords_error
 
-        # Supports keyed "stem, x, y" lines and legacy positional "x, y" lines.
+        # keyed "stem, x, y" or legacy positional "x, y" lines
         coords_dict = {}
         coords_list = []
         with open(self.config.coords_file, 'r') as f:
@@ -167,7 +167,7 @@ class PhysPatchAttack(BaseAttack):
         return self._coords
 
     def _prepare_image(self, image: Image.Image, target_size: tuple = None) -> torch.Tensor:
-        """PIL -> unnormalized [0, 255] tensor."""
+        """PIL -> [0, 255] tensor."""
         import numpy as np
 
         image = image.convert("RGB")
@@ -186,7 +186,7 @@ class PhysPatchAttack(BaseAttack):
         return img_tensor.unsqueeze(0).to(self.config.device)
 
     def _load_target_image(self, sample_id: str, sample_idx: Optional[int]) -> Optional[torch.Tensor]:
-        """Target image by strict stem match (legacy-compatible)."""
+        """Target image by exact stem."""
         if not self.config.target_images_dir:
             raise ValueError("PhysPatch needs target_images_dir")
 
@@ -263,7 +263,7 @@ class PhysPatchAttack(BaseAttack):
             coord = coords[sample_idx:sample_idx+1]
 
         source_pil = sample.images[0]
-        self._source_size = (source_pil.height, source_pil.width)  # (H, W)
+        self._source_size = (source_pil.height, source_pil.width)
         clean_image = self._prepare_image(source_pil)
         target_tensor = self._load_target_image(sample.id, kwargs.get("sample_idx"))
 
@@ -285,7 +285,7 @@ class PhysPatchAttack(BaseAttack):
             target_crop=target_crop,
             center=coord,
             num_iters=self.config.max_iterations,
-            epsilon=self.config.epsilon,  # in [0, 255] range; attack converts at end
+            epsilon=self.config.epsilon,  # [0, 255]; converted at the end
             alpha=self.config.alpha,
             decay=self.config.decay,
             device=self.config.device,

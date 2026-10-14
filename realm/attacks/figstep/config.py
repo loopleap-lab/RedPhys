@@ -1,5 +1,3 @@
-"""FigStep attack configuration."""
-
 from dataclasses import dataclass
 from typing import Optional, Tuple
 

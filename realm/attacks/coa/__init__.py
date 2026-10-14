@@ -1,4 +1,4 @@
-"""Chain of Attack (CoA) for VLM benchmark."""
+"""Chain of Attack (CoA)."""
 
 from .coa_attack import COAAttack, COAAttackConfig
 

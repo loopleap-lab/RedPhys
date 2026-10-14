@@ -1,4 +1,4 @@
-"""FigStep typographic injection attack: pairs a clean image with rendered annotation text to make a VLM hallucinate the described object."""
+"""FigStep: the clean image plus rendered text naming the target."""
 
 import functools
 import os
@@ -67,7 +67,7 @@ class FigStepAttack(BaseAttack):
         return img
 
     def _resolve_target(self, sample: Sample) -> str:
-        """Get target_text from config or sample metadata."""
+        """target_text from config or sample metadata."""
         if self.config.target_text:
             return self.config.target_text
         target = sample.metadata.get("attack_target_text")
@@ -81,7 +81,7 @@ class FigStepAttack(BaseAttack):
     def generate(self, sample: Sample, **kwargs) -> AttackResult:
         target_text = self._resolve_target(sample)
 
-        # Reuse an injection the caller already generated
+        # reuse the caller's injection
         injection_text = sample.metadata.get("attack_injection_text") or self.config.injection_text
         if not injection_text:
             injection_text = self._llm_generate_injection(target_text)

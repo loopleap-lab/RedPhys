@@ -1,4 +1,4 @@
-"""Attack targets with the scenario agent (realm.target and scripts/generate_targets.py)."""
+"""realm.target and scripts/generate_targets.py."""
 
 import dataclasses
 import json
@@ -34,8 +34,8 @@ def load_cases(args) -> list[Case]:
 
 
 def run(args) -> Path:
-    """Targets (answer + image) for the cases of args.cases / args.dataset / args.source; output: target/<id>.png, labels.json, targets.json."""
-    if not os.environ.get("REALM_AGENT_LOCAL"):  # the agent runs in its container; inside it, this is set
+    """Targets -> target/<id>.png, labels.json, targets.json."""
+    if not os.environ.get("REALM_AGENT_LOCAL"):  # set inside the container
         from .docker import run_in_docker
 
         return run_in_docker(args)
@@ -47,7 +47,7 @@ def run(args) -> Path:
     specs = json.loads(specs_file.read_text()) if specs_file.exists() else {}
     todo = [c for c in cases if c.id not in specs or not (out / "target" / f"{c.id}.png").exists()]
     print(f"Cases: {len(cases)} ({len(cases) - len(todo)} done)  model={config.model}  generator={config.generator}")
-    with ThreadPoolExecutor(args.workers) as pool:  # results saved here, in completion order
+    with ThreadPoolExecutor(args.workers) as pool:  # saved as they finish
         jobs = {pool.submit(agent.run, case): case for case in todo}
         for job in tqdm(as_completed(jobs), total=len(jobs), desc="targets"):
             case = jobs[job]
@@ -71,8 +71,9 @@ def run(args) -> Path:
 def target(cases: str | None = None, output: str = "", *, dataset: str | None = None, source: str | None = None, labels: str | None = None,
            question: str = DEFAULT_QUESTION, keep_targets: bool = False, max_samples: int | None = None, config: str | None = None,
            workers: int = 8, **params) -> Path:
-    """Targets (answer + image) for the cases of a JSON file (id, image, question, answer, [options, domain, task]), or a dataset / image dir; resumes.
+    """Target answer + image per case; resumes.
 
+    cases: JSON (id, image, question, answer, [options, domain, task]); or dataset / source.
     params: settings over configs/agents/scenario.yaml, e.g. max_rounds=3.
     """
     return run(SimpleNamespace(cases=cases, dataset=dataset, source=source, labels_file=labels, question=question, keep_targets=keep_targets,

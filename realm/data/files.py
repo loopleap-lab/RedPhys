@@ -1,4 +1,4 @@
-"""Paths, image listing and the manifest.json write shared by the scripts and evaluation."""
+"""Paths, image listing, manifest.json writes."""
 
 import json
 import os

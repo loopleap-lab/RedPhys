@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PhysPatch coordinate pipeline (SoM -> SAM -> GPT-4V) for automatic patch placement."""
+"""PhysPatch patch placement: SoM -> SAM -> GPT-4V."""
 
 import os
 import json
@@ -202,7 +202,7 @@ def generate_coordinates_with_gpt(
     prompt_style: str = "general",
     names: Optional[set] = None,
 ) -> List[Tuple[str, float, float]]:
-    """Use GPT-4V to select optimal patch placement coordinates, returning (stem, x, y) tuples."""
+    """GPT-4V picks patch coordinates: (stem, x, y) tuples."""
     from openai import OpenAI
 
     client = OpenAI(api_key=api_key, base_url=api_base) if api_base else OpenAI(api_key=api_key)
@@ -219,7 +219,7 @@ def generate_coordinates_with_gpt(
         if f.lower().endswith(('.png', '.jpg', '.jpeg')) and (names is None or f in names)
     ])
 
-    # Keyed by stem so skipped/failed entries don't misalign downstream.
+    # keyed by stem: skipped entries don't misalign
     coordinates = []
     print(f"Running GPT-4V coordinate selection on {len(clean_images)} images...")
 

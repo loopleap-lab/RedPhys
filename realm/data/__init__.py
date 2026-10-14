@@ -1,4 +1,3 @@
-"""Datasets."""
 
 from pathlib import Path
 

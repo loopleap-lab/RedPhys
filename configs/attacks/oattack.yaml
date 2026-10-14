@@ -1,6 +1,6 @@
 epsilon: 16.0
 seed: 42
-precision: "bf16"           # or "fp32" (full precision)
+precision: "bf16"           # or "fp32"
 max_iterations: 300          # paper
 alpha: 1.0                   # Adam lr
 backbones:                   # name: HF CLIP id
@@ -22,6 +22,6 @@ text_alpha: 1.0
 lambda_v: 1.0
 lambda_t: 1.0
 num_captions: 5
-caption_model: "Qwen/Qwen2.5-VL-3B-Instruct"  # used when no caption file covers an image
+caption_model: "Qwen/Qwen2.5-VL-3B-Instruct"  # when no caption file covers an image
 source_captions_path: null   # JSON [{"image": "<stem>.png", "caption": [...]}]
 target_captions_path: null

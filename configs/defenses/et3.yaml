@@ -1,5 +1,5 @@
 seed: 42
-precision: "bf16"           # or "fp32" (full precision)
+precision: "bf16"           # or "fp32"
 clip_model: "hf-hub:chs20/fare4-clip"  # open_clip surrogate (robust FARE4); standard: "ViT-L-14"
 clip_pretrained: null        # standard: "openai"
 input_res: 224

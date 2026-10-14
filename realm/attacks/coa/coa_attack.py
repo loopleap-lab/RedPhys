@@ -71,7 +71,7 @@ class COAAttack(BaseAttack):
         self._target_caption_warned = False
 
     def _initialize_models(self):
-        """CLIP + ClipCap, imported from the legacy code."""
+        """CLIP + ClipCap from the upstream code."""
         if self._models_initialized:
             return
 
@@ -190,7 +190,7 @@ class COAAttack(BaseAttack):
                 clean_up_tokenization_spaces=False
             )[0].strip()
 
-        # Fall back to OpenAI if caption contains non-ASCII (e.g. Chinese from Qwen)
+        # non-ASCII caption (e.g. Qwen's Chinese): OpenAI
         import re
         if re.search(r'[^\x00-\x7F]', caption):
             caption = self._gpt_caption(image_path, "clean")
@@ -261,7 +261,7 @@ class COAAttack(BaseAttack):
                 clean_up_tokenization_spaces=False,
             )[0].strip().strip('"').strip("'")
 
-        # Fall back to OpenAI if caption contains non-ASCII (e.g. Chinese from Qwen)
+        # non-ASCII caption (e.g. Qwen's Chinese): OpenAI
         import re
         if re.search(r'[^\x00-\x7F]', caption):
             caption = self._gpt_caption(image_path, "target")
@@ -273,7 +273,7 @@ class COAAttack(BaseAttack):
         return caption
 
     def _gpt_caption(self, image_path: str, mode: str = "clean") -> str:
-        """Fallback caption generation via the caption_llm_model."""
+        """Fallback captions from caption_llm_model."""
         import base64
         from openai import OpenAI
 
@@ -343,7 +343,7 @@ class COAAttack(BaseAttack):
             if img_path_str in all_captions:
                 captions.append(all_captions[img_path_str])
             else:
-                break  # stop at first missing caption to keep file consistent
+                break  # first missing caption: stop, file stays consistent
 
         with open(output_path, "w") as f:
             for caption in captions:
@@ -359,7 +359,7 @@ class COAAttack(BaseAttack):
         tgt_img_tensor: torch.Tensor,
         tgt_caption: str,
     ) -> torch.Tensor:
-        """Run CoA PGD attack, returning the adversarial image tensor [C, H, W] in [0, 255]."""
+        """CoA PGD; adversarial [C, H, W] in [0, 255]."""
         image_org = clean_img_tensor.unsqueeze(0).to(self.config.device)
         image_tgt = tgt_img_tensor.unsqueeze(0).to(self.config.device)
 
@@ -404,7 +404,7 @@ class COAAttack(BaseAttack):
                 current_caption_list = last_caption_list
             else:
                 current_caption_list = []
-                image_pil = self.to_pil((adv_image_clone[0].clamp(0, 1) * 255).byte().cpu())  # ToPILImage's own float->uint8, on GPU
+                image_pil = self.to_pil((adv_image_clone[0].clamp(0, 1) * 255).byte().cpu())  # ToPILImage's float->uint8, on GPU
                 processed_image = self.clipcap_preprocess(image_pil).unsqueeze(0).to(self.config.device)
 
                 with torch.no_grad():
@@ -501,7 +501,7 @@ class COAAttack(BaseAttack):
                 target_caption = self._generate_target_caption(coa_sample["target_image_path"])
                 target_auto = True
 
-        # Truncate captions to fit CLIP's 77-token context length
+        # truncate to CLIP's 77 tokens
         _tok = self.clip_module.tokenize
         for _try_len in (200, 120, 60, 30):
             try:

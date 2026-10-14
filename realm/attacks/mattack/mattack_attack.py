@@ -1,4 +1,4 @@
-"""M-Attack: adversarial perturbations via cosine similarity over a CLIP ensemble."""
+"""M-Attack: cosine similarity over a CLIP ensemble."""
 
 from dataclasses import dataclass, field
 from typing import List, Optional, Tuple
@@ -85,7 +85,7 @@ class MAttack(BaseAttack):
         print("✓ Ensemble ready\n")
 
     def _prepare_image(self, image: Image.Image) -> torch.Tensor:
-        """PIL -> unnormalized [0, 255] tensor."""
+        """PIL -> [0, 255] tensor."""
         image = transforms.Resize(
             self.config.input_res,
             interpolation=transforms.InterpolationMode.BICUBIC
@@ -94,7 +94,7 @@ class MAttack(BaseAttack):
         return to_tensor(image, 255).to(self.config.device)
 
     def _load_image_from_dir(self, images_dir: str, sample_id: str) -> Image.Image:
-        """Load image from a flat directory by sample id stem (e.g. '00', '02')."""
+        """Image by sample id stem."""
         img_dir = Path(images_dir)
         for ext in (".jpg", ".jpeg", ".png"):
             p = img_dir / f"{sample_id}{ext}"

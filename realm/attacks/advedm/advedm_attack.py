@@ -1,4 +1,4 @@
-"""ADVEDM-A/R semantic addition/removal attacks (SSA-CWA + CLIP ensemble)."""
+"""AdvEDM-A/R: semantic addition/removal (SSA-CWA, CLIP ensemble)."""
 
 import json
 from dataclasses import dataclass
@@ -136,7 +136,7 @@ class ADVEDMAttack(BaseAttack):
         sample: Sample,
         image_tensor: torch.Tensor,
     ) -> Tuple[int, int, int, int]:
-        """Return injection bbox from annotations file, else CLIP attention auto-detection."""
+        """Injection bbox from annotations, else CLIP attention."""
         image_file = str(sample.metadata.get("image_file", ""))
         annotations = self._load_annotations()
         if annotations is not None and image_file:
@@ -321,7 +321,7 @@ class ADVEDMRAttack(BaseAttack):
         sample: Sample,
         **kwargs,
     ) -> AttackResult:
-        # ADVEDM-R removes the SOURCE object's semantics, so use attack_source_text
+        # AdvEDM-R removes the source object: attack_source_text
         text = (sample.metadata or {}).get("attack_source_text") or self._default_text
         if text != self.config.target_text:
             self.config.target_text = text

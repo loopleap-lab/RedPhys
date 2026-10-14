@@ -1,4 +1,4 @@
-"""PA-Attack: Prototype and Attention-guided adversarial attack on CLIP ViT."""
+"""PA-Attack: prototype- and attention-guided attack on CLIP ViT."""
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -34,7 +34,7 @@ class PAAttackConfig(AttackConfig):
 
 
 class PAAttack(BaseAttack):
-    """Gray-box untargeted attack using CLIP ViT attention + OOD prototypes."""
+    """Untargeted: CLIP ViT attention + OOD prototypes."""
 
     def __init__(self, config: PAAttackConfig):
         super().__init__(config)
@@ -55,7 +55,7 @@ class PAAttack(BaseAttack):
             specs = [(*m["open_clip"], None, None) for m in UNIFIED_SURROGATES]
         else:
             specs = [(cfg.clip_model_name, cfg.clip_pretrained, cfg.attn_layer, cfg.prototype_path)]
-        members = []  # set only after all load: no partial ensemble
+        members = []  # set after all load: no partial ensemble
         for arch, tag, layer, proto_path in specs:
             vis = self._load_vision(arch, tag)
             layer = len(vis.model.transformer.resblocks) // 2 if layer is None else layer
@@ -104,7 +104,7 @@ class PAAttack(BaseAttack):
         torch.save(protos, path)
 
     def _prepare_image(self, pil_img: Image.Image) -> torch.Tensor:
-        """Resize + center-crop (prototype images)."""
+        """Resize + center-crop."""
         tensor = self._preprocess(pil_img)
         return tensor.unsqueeze(0).to(self.config.device)
 

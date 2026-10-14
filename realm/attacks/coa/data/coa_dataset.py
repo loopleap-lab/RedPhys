@@ -1,4 +1,4 @@
-"""Dataset loader for Chain of Attack (clean/target images and captions)."""
+"""CoA dataset: clean/target images and captions."""
 
 from pathlib import Path
 from typing import Dict, List
@@ -58,7 +58,7 @@ class CoADataset:
         if n_target_imgs == 0:
             raise ValueError(f"No target images found in {self.target_images_dir}")
 
-        # Missing/partial clean captions are allowed (auto-generated on demand)
+        # missing clean captions are generated on demand
         if n_clean_caps > n_clean_imgs:
             raise ValueError(
                 f"Too many captions: {n_clean_caps} captions but only {n_clean_imgs} images"

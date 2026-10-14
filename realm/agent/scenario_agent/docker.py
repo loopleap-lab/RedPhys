@@ -1,5 +1,4 @@
-"""The scenario agent always runs in a Docker container: the host's Python env and this code are mounted read-only,
-only the output dir is writable, and only the API key is passed in."""
+"""The agent runs in Docker: host env and code read-only, only the output dir writable, only API keys passed."""
 
 import json
 import os
@@ -15,7 +14,7 @@ IMAGE = "realm-agent"
 
 
 def run_in_docker(args) -> Path:
-    """`run(args)` of scenario_agent.run, inside the container (scripts/generate_targets.py)."""
+    """run(args) inside the container."""
     out = Path(args.output).resolve()
     out.mkdir(parents=True, exist_ok=True)
     cfg = scenario_config(args)
@@ -25,7 +24,7 @@ def run_in_docker(args) -> Path:
         subprocess.run(["docker", "build", "-t", IMAGE, "-f", str(DOCKER / "agent.Dockerfile"), str(DOCKER)], check=True)
     files = [Path(p).resolve() for p in (args.cases, args.labels_file, args.config) if p]
     ro = {p.parent for p in files} | ({Path(args.source).resolve()} if args.source else set())
-    if args.cases:  # the images of the cases, relative to the working directory
+    if args.cases:  # case images, relative to cwd
         ro |= {Path(c["image"]).resolve().parent for c in json.loads(Path(args.cases).read_text())}
     mounts = [Path(sys.prefix), Path(sys.base_prefix), ROOT / "realm", ROOT / "scripts", ROOT / "configs", *ro]
     argv = [str(ROOT / "scripts" / "generate_targets.py")]

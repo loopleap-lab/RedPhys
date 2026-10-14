@@ -1,5 +1,3 @@
-"""AdvDiffVLM attack configuration."""
-
 import os
 from pathlib import Path
 
@@ -28,5 +26,5 @@ def get_config_yaml_path():
 
 
 def get_clip_cache_dir():
-    """clip.load's default dir, shared with the other attacks' CLIP weights."""
+    """clip.load's default dir (shared CLIP weights)."""
     return os.path.expanduser("~/.cache/clip")

@@ -1,5 +1,3 @@
-"""M-Attack (Minimal Attack) configuration."""
-
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent

@@ -1,6 +1,6 @@
 epsilon: 16.0
 seed: 42
-precision: "bf16"           # or "fp32" (full precision)
+precision: "bf16"           # or "fp32"
 max_iterations: 300          # paper
 alpha: 1.0
 momentum: 0.9                # MI-FGSM
@@ -8,7 +8,7 @@ clip_backbones:              # cross-modal alignment paradigm
   - "openai/clip-vit-base-patch16"
   - "openai/clip-vit-base-patch32"
   - "laion/CLIP-ViT-g-14-laion2B-s12B-b42K"
-internvl_model: "OpenGVLab/InternVL3-1B-hf"  # multi-modal understanding paradigm + text generator
+internvl_model: "OpenGVLab/InternVL3-1B-hf"  # MLLM paradigm + text generator
 dino_model: "facebook/dinov2-base"           # visual self-supervised paradigm
 describe_prompt: "Describe this image in one concise sentence, no longer than 20 words."
 describe_max_tokens: 50

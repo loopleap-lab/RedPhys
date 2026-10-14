@@ -1,5 +1,5 @@
 seed: 42
-precision: "bf16"           # or "fp32" (full precision)
+precision: "bf16"           # or "fp32"
 ddim_steps: 200
 ddim_eta: 0.0
 guidance_scale: 5.0

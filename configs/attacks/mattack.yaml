@@ -1,6 +1,6 @@
 epsilon: 16.0
 seed: 42
-precision: "bf16"           # or "fp32" (full precision)
+precision: "bf16"           # or "fp32"
 max_iterations: 300
 alpha: 1.0
 attack_method: "fgsm"

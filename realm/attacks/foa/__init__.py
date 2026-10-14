@@ -1,4 +1,4 @@
-"""FOA-Attack: full-image adversarial perturbation using Optimal Transport loss."""
+"""FOA-Attack."""
 
 from .foa_attack import FOAAttack, FOAAttackConfig
 

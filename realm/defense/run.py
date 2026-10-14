@@ -1,4 +1,4 @@
-"""Clean adversarial images with a defense (realm.defend and scripts/clean_adversarial.py)."""
+"""realm.defend and scripts/clean_adversarial.py."""
 
 import dataclasses
 import json
@@ -46,7 +46,7 @@ def _stamp(img: Path) -> list:
 
 
 def run(args) -> Path:
-    """Clean the images of args.input with defense args.defense; images and manifest.json go to args.output."""
+    """Clean args.input with args.defense -> args.output."""
 
     print(f"Defense: {args.defense}")
     print(f"Input:   {args.input}")
@@ -117,8 +117,5 @@ def run(args) -> Path:
 
 def defend(name: str, input: str, output: str, *, question: str | None = None, config: str | None = None, max_samples: int | None = None,
            **params) -> Path:
-    """Clean the adversarial images of `input` (an attack output dir) with defense `name`; images and manifest.json go to `output`.
-
-    params: hyperparameters over the defense's YAML.
-    """
+    """Clean `input` (a realm.attack dir) with defense `name` -> `output` (images, manifest.json); params override its YAML."""
     return run(SimpleNamespace(defense=name, input=input, output=output, question=question, config=config, max_samples=max_samples, params=params))

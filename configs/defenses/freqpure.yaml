@@ -1,5 +1,5 @@
 seed: 42
-precision: "bf16"           # or "fp32" (full precision)
+precision: "bf16"           # or "fp32"
 amplitude_cut_range: 10
 phase_cut_range: 10
 delta: 0.3  # no effect

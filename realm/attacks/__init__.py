@@ -1,4 +1,4 @@
-"""Adversarial attacks for evaluating VLM robustness."""
+"""Adversarial attacks."""
 
 __version__ = "0.1.0"
 

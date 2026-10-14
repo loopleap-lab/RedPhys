@@ -1,4 +1,4 @@
-"""ImageMix: simple alpha-blend / cutmix pixel perturbation baseline."""
+"""ImageMix: alpha-blend / cutmix baseline."""
 
 import random
 from pathlib import Path
@@ -27,7 +27,7 @@ class ImageMixAttack(BaseAttack):
         return Image.blend(clean, target, self.config.alpha)
 
     def _patch(self, clean: Image.Image, target: Image.Image, rng: random.Random, resize: bool) -> Image.Image:
-        """CutMix / ResizeMix (JOOD): an alpha-sided patch at a random position."""
+        """CutMix / ResizeMix (JOOD): alpha-sided patch at a random position."""
         w, h = clean.size
         pw, ph = max(1, int(w * self.config.alpha)), max(1, int(h * self.config.alpha))
         x, y = rng.randint(0, w - pw), rng.randint(0, h - ph)

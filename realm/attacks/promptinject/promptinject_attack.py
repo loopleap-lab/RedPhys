@@ -57,7 +57,7 @@ class PromptInjectAttack(BaseAttack):
         return text
 
     def _resolve_target(self, sample: Sample) -> str:
-        """Get target_text from config or sample metadata."""
+        """target_text from config or sample metadata."""
         if self.config.target_text:
             return self.config.target_text
         target = sample.metadata.get("attack_target_text")
@@ -71,7 +71,7 @@ class PromptInjectAttack(BaseAttack):
     def generate(self, sample: Sample, **kwargs) -> AttackResult:
         target_text = self._resolve_target(sample)
 
-        # Reuse pre-computed injection from metadata if available.
+        # precomputed injection from metadata
         injection = sample.metadata.get("attack_injection_text") or self.config.injection_text
         if not injection:
             injection = self._llm_generate_injection(

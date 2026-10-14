@@ -1,5 +1,5 @@
 seed: 100                    # paper App. 7.1
-precision: "bf16"           # or "fp32" (full precision)
+precision: "bf16"           # or "fp32"
 sd_model: "stable-diffusion-v1-5/stable-diffusion-v1-5"
 controlnet: "lllyasviel/sd-controlnet-canny"
 resolution: 512

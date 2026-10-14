@@ -1,4 +1,4 @@
-"""V-Attack: text-guided adversarial attack on CLIP Value features."""
+"""V-Attack: text-guided attack on CLIP value features."""
 
 from dataclasses import dataclass, field
 from typing import List, Tuple
@@ -69,7 +69,7 @@ class VAttack(BaseAttack):
         return [features_dict[i] for i in range(len(features_dict))]
 
     def _resolve_texts(self, sample: Sample) -> tuple[str, str]:
-        """Get source/target text from config or per-sample metadata."""
+        """Source/target text from config or sample metadata."""
         target = self.config.target_text
         source = self.config.source_text
         if not target and sample.metadata.get("attack_target_text"):

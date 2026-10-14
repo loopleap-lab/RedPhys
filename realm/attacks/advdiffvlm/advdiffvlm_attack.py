@@ -1,4 +1,4 @@
-"""AdvDiffVLM: Latent Diffusion adversarial example attack with AEGE."""
+"""AdvDiffVLM: latent diffusion with AEGE."""
 
 import sys
 from dataclasses import dataclass, field
@@ -79,7 +79,7 @@ class AdvDiffVLMAttack(BaseAttack):
         config = OmegaConf.load(config_yaml)
         pl_sd = torch.load(checkpoint, map_location=self.config.device)
         sd = pl_sd["state_dict"]
-        # Pad 1000 -> 1001 classes (null class for CFG)
+        # 1000 -> 1001 classes: null class for CFG
         emb_key = "cond_stage_model.embedding.weight"
         if emb_key in sd and sd[emb_key].shape[0] == 1000:
             sd[emb_key] = torch.cat([sd[emb_key], torch.zeros(1, sd[emb_key].shape[1], device=sd[emb_key].device)], dim=0)
@@ -152,7 +152,7 @@ class AdvDiffVLMAttack(BaseAttack):
             class_label = self._infer_class_label(sample.images[0])
 
         gradcam_mask = self._load_or_generate_gradcam_mask(sample, class_label)
-        # Legacy DDIM sampler does .numpy() internally, so mask must be on CPU
+        # DDIM sampler calls .numpy(): mask on CPU
         gradcam_mask = gradcam_mask.cpu()
 
         target_features = self._extract_clip_features(target_image)
@@ -173,7 +173,7 @@ class AdvDiffVLMAttack(BaseAttack):
         print(f"Running AdvDiffVLM with {self.config.refinement_iterations} refinement iterations...")
         latent = z
         for refinement_iter in range(self.config.refinement_iterations):
-            # Detach: no graph across refinement iterations
+            # no graph across refinements
             latent = latent.detach()
 
             latent, _ = self._ddim_sampler.sample(
@@ -255,7 +255,7 @@ class AdvDiffVLMAttack(BaseAttack):
         return Image.open(target_path).convert("RGB")
 
     def _load_or_generate_gradcam_mask(self, sample: Sample, class_label: int) -> torch.Tensor:
-        """GradCAM mask [64, 64], cached as PNG like the legacy pipeline."""
+        """GradCAM mask [64, 64], PNG-cached as upstream."""
         if self.config.gradcam_masks_dir is None:
             raise ValueError("gradcam_masks_dir must be specified")
 
@@ -280,7 +280,7 @@ class AdvDiffVLMAttack(BaseAttack):
 
             mask = self._gradcam_generator.generate(sample.images[0], class_label)
 
-            # PNG round trip, as legacy
+            # PNG round trip, as upstream
             cam_np = (mask.clamp(0, 1).cpu().numpy() * 255).astype("uint8")
             Image.fromarray(cam_np).save(mask_file)
             print(f"  Cached mask to {mask_file}")

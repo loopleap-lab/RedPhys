@@ -1,5 +1,3 @@
-"""FOA (Full-Image Adversarial) attack configuration."""
-
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent

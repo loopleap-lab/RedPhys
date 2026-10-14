@@ -1,4 +1,4 @@
-"""AnyAttack: learned decoder single-forward-pass attack."""
+"""AnyAttack."""
 
 from .anyattack_attack import AnyAttack, AnyAttackConfig
 

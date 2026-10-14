@@ -34,11 +34,11 @@ class BaseDataset(ABC):
 
     @abstractmethod
     def load_data(self) -> None:
-        """Populate ``self.entries`` with one record per sample."""
+        """Fill self.entries, one record per sample."""
 
     @abstractmethod
     def get_sample(self, idx: int) -> Sample:
-        """Build the :class:`Sample` for ``idx`` (images loaded here)."""
+        """Sample for idx (loads its images)."""
 
     def __len__(self) -> int:
         return len(self.entries)

@@ -12,7 +12,7 @@ from ..base_defense import BaseDefense, DefenseConfig, DefenseResult
 
 @dataclass
 class PADDefenseConfig(DefenseConfig):
-    precision: str = "fp32"  # SAM's mask generator converts tensors to numpy, which has no bf16
+    precision: str = "fp32"  # SAM masks go through numpy: no bf16
     iou_threshold: float = 0.5  # intersection / mask area (IoA)
     overlap_threshold: float = 0.1  # vs already-removed regions
     ratio_mi: float = 0.5

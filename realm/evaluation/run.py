@@ -1,4 +1,4 @@
-"""Evaluate attack / defense outputs against a victim VLM (realm.evaluate and scripts/evaluate_adversarial.py)."""
+"""realm.evaluate and scripts/evaluate_adversarial.py."""
 
 import json
 import time
@@ -20,9 +20,11 @@ def _errors(responses: list[dict], *metrics: dict | None) -> str:
 def evaluate(attack_dirs: str | list[str], *, server_url: str, targets: str | None = None, labels: str | None = None,
              target_text: str | None = None, question: str | None = None, model: str = "qwen/qwen3-vl-8b-instruct", judge: str = DEFAULT_PROMPT,
              judge_model: str = "openai/gpt-4o", api_key: str = "dummy", output: str | None = None, workers: int = 4) -> dict:
-    """Accuracy and ASR of the victim `model` (an OpenAI-compatible `server_url`) on each output dir of realm.attack / realm.defend, next to its
-    clean images. The target is per case (`targets`: the realm.target dir, or `labels`: its labels.json) or one `target_text`; the judge
-    is a prompt name or "substring". Returns what `output`/eval_results.json holds, if given."""
+    """Victim accuracy and ASR on each realm.attack / realm.defend dir vs. its clean images.
+
+    Target: `targets` (realm.target dir), `labels` (its labels.json) or `target_text`; judge: a prompt name or "substring".
+    Returns the eval_results.json content (saved under `output` if given).
+    """
     attack_dirs = [attack_dirs] if isinstance(attack_dirs, str) else attack_dirs
     labels = load_labels(labels or f"{targets}/labels.json") if labels or targets else None
     if labels is None and not target_text:

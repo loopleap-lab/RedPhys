@@ -1,5 +1,3 @@
-"""PromptInject attack configuration."""
-
 from dataclasses import dataclass
 from typing import Optional
 
@@ -33,7 +31,7 @@ def resolve_cli_kwargs(attack_name, args, context):
 @dataclass
 class PromptInjectConfig(AttackConfig):
     target_text: Optional[str] = None
-    injection_text: Optional[str] = None  # override LLM-generated injection
+    injection_text: Optional[str] = None  # overrides the LLM-written injection
     level: str = "instruction"       # "instruction" | "authority"
     llm_server_url: Optional[str] = None   # e.g. "http://localhost:8001"
     llm_api_key_env: str = "OPENAI_API_KEY"

@@ -1,6 +1,6 @@
 epsilon: 16.0
 seed: 42
-precision: "bf16"           # or "fp32" (full precision)
+precision: "bf16"           # or "fp32"
 num_iters: 30
 inner_step_size: 250.0
 ksi: 3.2

@@ -4,7 +4,7 @@ __version__ = "0.2.0"
 
 import os
 
-os.environ.setdefault("DISABLE_SAFETENSORS_CONVERSION", "true")  # transformers: no background fetch of unused weights
+os.environ.setdefault("DISABLE_SAFETENSORS_CONVERSION", "true")  # transformers: no background weight fetch
 
 from .data import Sample, BaseDataset, Nips2017Dataset
 

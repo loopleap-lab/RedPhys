@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 
 class CLIPAnchor(nn.Module):
-    """CLIP surrogate returning projected late-layer CLS/EOS features [B, K, D] (CSA), with dropout (PSS)."""
+    """CLIP surrogate: projected late-layer CLS/EOS features [B, K, D] (CSA), with dropout (PSS)."""
 
     def __init__(self, model_id: str, image_k: int, text_k: int, res: int = 224):
         super().__init__()
@@ -56,7 +56,7 @@ class CLIPAnchor(nn.Module):
 
 
 def mix_captions(bank):
-    """Mix the words of two random captions: beta-prefix of one, (1-beta)-suffix of the other."""
+    """Word mix of two random captions: beta-prefix + (1-beta)-suffix."""
     if len(bank) == 1:
         return bank[0]
     c1, c2 = (c.split() for c in random.sample(bank, 2))
@@ -86,7 +86,7 @@ def oattack(image, target, models, caps, src_bank, tgt_bank, source_aug, target_
         tgt_txt = [mix_captions(tgt_bank) for _ in range(views)]
         vis, txt = [], []
         for m, cap in zip(models, cap_t):
-            m.sample_dropout(cap)  # shared by the adv/target images of this step
+            m.sample_dropout(cap)  # shared by this step's adv/target images
             with torch.no_grad():
                 z_tgt = m.image(tgt_views)
             z_adv = m.image(adv_views)

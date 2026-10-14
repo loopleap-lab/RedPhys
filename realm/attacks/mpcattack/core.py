@@ -18,7 +18,7 @@ def _normalizer(res):
 
 
 class CLIPSurrogate(nn.Module):
-    """Cross-modal alignment paradigm: CLIP image / text embeddings."""
+    """Cross-modal paradigm: CLIP image/text embeddings."""
 
     def __init__(self, model_id):
         super().__init__()
@@ -37,7 +37,7 @@ class CLIPSurrogate(nn.Module):
 
 
 class InternVLSurrogate(nn.Module):
-    """Multi-modal understanding paradigm: InternVL3 image features; also the text generator."""
+    """Multi-modal paradigm: InternVL3 features; also the text generator."""
 
     def __init__(self, model_id, prompt, max_new_tokens):
         super().__init__()
@@ -63,7 +63,7 @@ class InternVLSurrogate(nn.Module):
 
 
 class DINOv2Surrogate(nn.Module):
-    """Visual self-supervised paradigm: DINOv2 CLS token."""
+    """Self-supervised paradigm: DINOv2 CLS token."""
 
     def __init__(self, model_id):
         super().__init__()

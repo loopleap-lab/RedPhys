@@ -1,4 +1,4 @@
-"""The printed summary table and the eval_results.json content of an evaluation."""
+"""Summary table and eval_results.json content."""
 
 import time
 
@@ -41,7 +41,7 @@ def print_summary(clean_rate: dict, asrs: dict[str, dict], mrs: dict[str, dict],
 
 def results_dict(model: str, question: str, target_text: str | None, clean_responses: list[dict], attack_data: dict[str, list[dict]],
                  clean_rate: dict, asrs: dict[str, dict], mrs: dict[str, dict], labels: dict | None, judge: str, judge_model: str) -> dict:
-    """What eval_results.json holds: settings, then the metrics and every judged response of the clean baseline and of each attack."""
+    """Settings, metrics and every judged response (clean and per attack)."""
 
     def _detail(responses, metrics):
         dm = {d["id"]: d for d in metrics.get("details", [])}

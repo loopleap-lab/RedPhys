@@ -1,6 +1,6 @@
 epsilon: 16.0
 seed: 42
-precision: "bf16"           # or "fp32" (full precision)
+precision: "bf16"           # or "fp32"
 max_iterations: 100
 stepsize: 1.0
 momentum: 0.9  # no effect under linf

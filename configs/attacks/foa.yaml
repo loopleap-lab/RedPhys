@@ -1,6 +1,6 @@
 epsilon: 16.0
 seed: 42
-precision: "bf16"           # or "fp32" (full precision)
+precision: "bf16"           # or "fp32"
 max_iterations: 300
 alpha: 1.0
 attack_method: "fgsm"
@@ -20,5 +20,5 @@ llm_description_model: "gpt-4o-mini"
 llm_scorer_model: "gpt-4o-mini"
 llm_similarity_threshold: 0.5
 input_res: 224
-llm_server_url: null  # OpenAI-compatible server; null: OpenAI
+llm_server_url: null  # OpenAI-compatible; null: OpenAI
 llm_api_key_env: "OPENAI_API_KEY"

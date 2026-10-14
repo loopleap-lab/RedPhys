@@ -1,4 +1,4 @@
-"""FOA-Attack: full-image adversarial perturbations via Optimal Transport loss with CLIP ensemble optimization."""
+"""FOA-Attack: optimal-transport loss over a CLIP ensemble."""
 
 from dataclasses import dataclass, field
 from typing import List, Optional, Tuple
@@ -288,7 +288,7 @@ class FOAAttack(BaseAttack):
             print("Warning: Empty response from LLM similarity scoring. Defaulting to 0.0")
             return 0.0
         score_text = score_text.strip()
-        # Extract the number; the LLM sometimes adds extra text
+        # the LLM may add text around the number
         import re
         match = re.search(r'(\d+\.?\d*)', score_text)
         if match:
