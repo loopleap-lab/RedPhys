@@ -218,9 +218,15 @@ PY
     || echo "$missing item(s) $([[ $MODE == check ]] && echo "missing or corrupt; run without --check to fetch" || echo "fetched; run --check to verify")."
 }
 
+enter_venv() {  # a script cannot activate the caller's shell: open a new one with .venv active
+  [ "$PY" = "$PWD/.venv/bin/python" ] && [ -z "${REALM_NO_SHELL:-}" ] && [ -t 0 ] && [ -t 1 ] || return 0
+  echo ">> opening a shell with .venv active (type exit to leave)"
+  exec bash --rcfile <(printf '[ -f ~/.bashrc ] && . ~/.bashrc\n. %q/.venv/bin/activate\n' "$PWD") -i
+}
+
 case "${1:-all}" in
-  all)     bash "$0" env && install_weights ;;  # separate process: set -e is ignored before &&
-  env)     (set -e; install_env) ;;
+  all)     REALM_NO_SHELL=1 bash "$0" env && install_weights && enter_venv ;;  # separate process: set -e is ignored before &&
+  env)     (set -e; install_env) && enter_venv ;;
   weights) shift; install_weights "$@" ;;
   *)       sed -n '2,5p' "$0"; exit 1 ;;
 esac

@@ -34,7 +34,7 @@ cd REALM
 bash install.sh
 ```
 
-`install.sh` installs REALM, its dependencies and the model weights, matching PyTorch to your GPU driver. It needs Python 3.10+, `git`, `wget` and Docker (for `realm.target`).
+`install.sh` installs REALM, its dependencies and the model weights, matching PyTorch to your GPU driver. It needs Python 3.10+, `git`, `wget` and Docker (for `realm.target`); on a system Python it installs into `.venv` and opens a shell with it active.
 
 ### Generate Adversarial Samples
 
