@@ -107,45 +107,6 @@ bash realm/agent/target_generator/server.sh 8091   # Qwen-Image-2.1 behind the O
 
 The same steps run from the shell as `scripts/generate_targets.py`, `generate_adversarial.py`, `clean_adversarial.py` and `evaluate_adversarial.py` (`--help` lists the options).
 
-## Attacks
-
-12 black-box attacks in three channels: perturbation (FOA, M-Attack, V-Attack, CoA, PhysPatch, PA-Attack), generation and editing (AdvDiffVLM, AdvEDM-A, AnyAttack) and injection (FigStep, PromptInject, ImageMix). Settings, including ε, are in `configs/attacks/*.yaml`.
-
-<details>
-<summary>…</summary>
-
-| Attack | Category | ε |
-|--------|----------|---|
-| FOA | Perturbation (optimal transport) | 16/255 |
-| M-Attack | Perturbation (cosine) | 16/255 |
-| V-Attack | Perturbation (value features) | 16/255 |
-| CoA | Perturbation (multimodal co-optimization) | 16/255 |
-| PhysPatch | Perturbation (patch) | 16/255 |
-| PA-Attack | Perturbation (untargeted, OOD prototypes) | 16/255 |
-| AdvDiffVLM | Generation (diffusion latent) | ∞ |
-| AdvEDM-A | Editing (semantic addition) | 16/255 |
-| AnyAttack | Generation (single forward pass) | 16/255 |
-| FigStep | Injection (typographic) | — |
-| PromptInject | Injection (prompt) | — |
-| ImageMix | Injection (alpha-blend baseline) | — |
-
-</details>
-
-## Defenses
-
-3 model-agnostic defenses applied before the victim sees the input: patch removal (PAD), frequency purification (FreqPure) and multimodal purification (BlueSuffix). Settings are in `configs/defenses/*.yaml`.
-
-<details>
-<summary>…</summary>
-
-| Defense | Type | Description |
-|---------|------|-------------|
-| PAD | Patch removal | MI/CD heatmap fusion → SAM segmentation → patch removal |
-| FreqPure | Frequency purification | FFT amplitude swap + phase clipping + diffusion denoising |
-| BlueSuffix | Multimodal purification | Image denoising + text purification + defensive suffix |
-
-</details>
-
 ## Acknowledgements
 
 This project integrates adversarial attack and defense methods proposed by prior research. We thank the original authors for making their work publicly available.
