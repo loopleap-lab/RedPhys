@@ -18,11 +18,11 @@ REALM is a unified red-teaming benchmark for vision-language models (VLMs) in sa
 
 ## Key Features
 
-- 🎯 **12 attack methods** — gradient-based visual perturbations, localized patches, diffusion generation and semantic editing, and prompt/typographic injection, plus a non-adversarial baseline.
-- 🛡️ **3 model-agnostic defenses** — PAD, FreqPure, and BlueSuffix, applied as input preprocessing with no model retraining.
-- 🔒 **Black-box threat model** — attacks are optimized on CLIP surrogates and transferred; no access to the victim's weights, gradients, or logits.
-- 🧩 **Extensible** — plugin registries; add a new attack or defense by implementing a single base class and registering it.
-- 🔌 **Flexible backends** — evaluate proprietary models through the OpenRouter API or open-source VLMs served locally with vLLM.
+- 🎯 **12 attacks** — perturbation, patch, diffusion generation and editing, and prompt/typographic injection.
+- 🛡️ **3 defenses** — PAD, FreqPure and BlueSuffix, applied to the input with no retraining.
+- 🔒 **Black-box** — optimized on CLIP surrogates and transferred to the victim VLM.
+- 🧩 **Extensible** — add an attack or defense with one base class.
+- 🔌 **Any backend** — proprietary models via OpenRouter, open-source ones via vLLM.
 
 ## Installation
 
