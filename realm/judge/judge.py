@@ -11,7 +11,11 @@ JUDGE_THRESHOLD = 0.5  # score >= threshold counts as a match
 
 
 def no_reasoning(client: OpenAI) -> dict | None:
-    return {"reasoning": {"enabled": False}} if "openrouter.ai" in str(client.base_url) else None
+    """extra_body turning off thinking (OpenRouter reasoning; chat template on vLLM/SGLang)."""
+    url = str(client.base_url)
+    if "openrouter.ai" in url:
+        return {"reasoning": {"enabled": False}}
+    return None if "api.openai.com" in url else {"chat_template_kwargs": {"enable_thinking": False}}
 
 
 def clean_llm_text(text: str) -> str:
