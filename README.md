@@ -14,7 +14,7 @@
 
 ## Overview
 
-REALM is a red-teaming **attack-and-defense library** for evaluating the adversarial robustness of Vision-Language Models (VLMs) deployed in safety-critical physical-world tasks — object detection and embodied AI. It provides **12 attack methods**, **3 model-agnostic defenses**, and an automated evaluation pipeline that **measures both attack and defense effectiveness**. All attacks are **black-box** against the victim VLM — optimized on CLIP surrogates and transferred to a range of proprietary and open-source models, reflecting realistic threat models.
+REALM is a unified red-teaming benchmark for vision-language models (VLMs) in safety-critical physical-world tasks such as driving and robotics. It brings **12 red-teaming methods**, **3 model-agnostic defenses** and **13 VLMs** under one black-box threat model with shared data and metrics, and an agentic pipeline builds a scenario-specific target for each scene so that every attack pursues the same failure.
 
 ## Key Features
 
@@ -32,66 +32,35 @@ REALM is a red-teaming **attack-and-defense library** for evaluating the adversa
 git clone https://github.com/UCF-ML-Research/REALM.git
 cd REALM
 bash install.sh
+hf download yifeiz29/REALM --repo-type dataset --local-dir dataset/realm_dataset
 ```
 
-`install.sh` installs REALM, its dependencies and the model weights, matching PyTorch to your GPU driver. It needs Python 3.10+, `git`, `wget` and Docker (for `realm.target`); on a system Python it installs into `.venv` and opens a shell with it active.
+`install.sh` sets up REALM, its dependencies and the model weights (Python 3.10+; Docker for `realm.target`).
 
-### Generate Adversarial Samples
+### Evaluate Robustness
 
-`dataset/physical/` has real-world cases (driving, egocentric, manipulation, grasping, diagnostics, physics, scene QA), each with a question, options and answer in `cases.json`.
-
-```python
-import realm
-
-# The scenario agent (an LLM calling the tools plan, generate, check and submit) picks a wrong answer and builds its target image
-# for each case; it runs in a Docker container (OpenRouter: needs OPENROUTER_API_KEY)
-targets = realm.target("dataset/physical/cases.json", "out/targets")
-
-# Gradient-based (CLIP surrogate)
-adv = realm.attack("foa", "dataset/physical", "out/foa", targets=targets)
-
-# Untargeted
-realm.attack("paattack", "dataset/physical", "out/paattack")
-
-# Text-guided (target text from the targets' labels, or target_text=...)
-realm.attack("vattack", "dataset/physical", "out/vattack", targets=targets)
-
-# Typographic injection (text written by the LLM in the YAML: OpenRouter, needs OPENROUTER_API_KEY)
-realm.attack("figstep", "dataset/physical", "out/figstep", targets=targets)
-
-# Prompt manipulation (appended to each case's question)
-realm.attack("promptinject", "dataset/physical", "out/promptinject", targets=targets)
-```
-
-Each call returns its output directory (one PNG per case and `manifest.json`) and resumes where it stopped.
-
-### Configure
-
-Hyperparameters are in `configs/attacks/<attack>.yaml` and `configs/defenses/<defense>.yaml` (paper defaults). Override any of them per call by keyword: `realm.attack("foa", ..., epsilon=8)`, `realm.defend("freqpure", ..., delta=0.2)`. Same for `realm.target` (`configs/agents/scenario.yaml`), e.g. `checker_server_url="http://localhost:8000"` for local checkers.
-
-Helper LLM calls (FOA's cluster check, CoA's captions, PhysPatch's patch placement, FigStep/PromptInject's injection text, BlueSuffix's text purifier) go to `llm_server_url` (null: OpenAI; FigStep and PromptInject require it set) with the key in the env var named by `llm_api_key_env`, both in the YAML.
-
-### Evaluate
-
-Score attack and defense outputs with a VLM judge. `server_url` points at any OpenAI-compatible endpoint (a local vLLM server, OpenAI, OpenRouter, ...); the judge runs on the same server, `openai/gpt-4o` by default (`judge_model` for another, e.g. on a local server):
-
-```bash
-# Serve the victim VLM (OpenAI-compatible endpoint)
-.venv-vllm/bin/vllm serve Qwen/Qwen3-VL-8B-Instruct --port 8000   # vLLM lives in its own venv (install.sh); it downloads the model on first serve
-```
+Score any VLM on the released adversarial images, here a proprietary model through OpenRouter:
 
 ```python
 import os
+import realm
 
-realm.evaluate(["out/foa", "out/foa_freqpure"], targets="out/targets", server_url="http://localhost:8000",
-               model="Qwen/Qwen3-VL-8B-Instruct", judge_model="Qwen/Qwen3-VL-8B-Instruct", output="results/eval/foa")
-
-# Proprietary victim via OpenRouter (judge: openai/gpt-4o)
-realm.evaluate("out/foa", targets="out/targets", server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
-               model="openai/gpt-4.1-mini")
+realm.evaluate(["dataset/realm_dataset/adversarial/foa", "dataset/realm_dataset/adversarial/figstep"],
+               server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
+               model="openai/gpt-4.1-mini", output="results/gpt-4.1-mini")
 ```
 
-Reports **accuracy** and **Attack Success Rate (ASR)** for each input set against a clean baseline, and returns the same results that `output/eval_results.json` holds. Pass attack and defense output dirs together to compare them in one table. The target is per case (`targets`: the `realm.target` dir, or `labels`: its `labels.json`) or one `target_text`.
+Reports **accuracy** and **Attack Success Rate (ASR)** of each attack against the clean baseline (judge: `openai/gpt-4o` on the same server) and saves them to `output/eval_results.json`.
+
+### Generate Adversarial Samples
+
+```python
+targets = realm.target("dataset/physical/cases.json", "out/targets")  # scenario agent, in Docker (OPENROUTER_API_KEY)
+adv = realm.attack("foa", "dataset/physical", "out/foa", targets=targets)
+realm.attack("paattack", "dataset/physical", "out/paattack")  # untargeted
+```
+
+Each call writes one PNG per case and `manifest.json`, and resumes where it stopped.
 
 ### Apply Defenses
 
@@ -99,13 +68,20 @@ Reports **accuracy** and **Attack Success Rate (ASR)** for each input set agains
 clean = realm.defend("freqpure", adv, "out/foa_freqpure")
 ```
 
-### Target Generator
+### Evaluate a Local VLM
 
 ```bash
-bash realm/agent/target_generator/server.sh 8091   # Qwen-Image-2.1 behind the OpenAI images API (generations, edits)
+.venv-vllm/bin/vllm serve Qwen/Qwen3-VL-8B-Instruct --port 8000
 ```
 
-The same steps run from the shell as `scripts/generate_targets.py`, `generate_adversarial.py`, `clean_adversarial.py` and `evaluate_adversarial.py` (`--help` lists the options).
+```python
+realm.evaluate(["out/foa", "out/foa_freqpure"], targets="out/targets", server_url="http://localhost:8000",
+               model="Qwen/Qwen3-VL-8B-Instruct", judge_model="Qwen/Qwen3-VL-8B-Instruct")
+```
+
+### Configure
+
+Settings are in `configs/attacks/`, `configs/defenses/` and `configs/agents/scenario.yaml` (paper defaults); override any by keyword, e.g. `realm.attack("foa", ..., epsilon=8)`. Helper LLM calls go to `llm_server_url` with the key in `llm_api_key_env`. `bash realm/agent/target_generator/server.sh 8091` serves the target generator locally, and `scripts/` runs the same steps from the shell.
 
 ## Acknowledgements
 
