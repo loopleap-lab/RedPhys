@@ -47,33 +47,45 @@ import realm
 
 realm.evaluate(["dataset/realm_dataset/adversarial/foa", "dataset/realm_dataset/adversarial/figstep"],
                server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
-               model="openai/gpt-4.1-mini", output="results/gpt-4.1-mini")
+               model="google/gemini-3-flash-preview", output="results/gemini-3-flash")
 ```
 
-Reports **accuracy** and **Attack Success Rate (ASR)** of each attack against the clean baseline (judge: `openai/gpt-4o` on the same server) and saves them to `output/eval_results.json`.
+Reports the model's **robustness** to each attack against the clean baseline (judge: `openai/gpt-4o` on the same server) and saves it to `output/eval_results.json`.
 
 ### Run the Full Pipeline
 
-`dataset/physical/` holds 35 real-world cases, each with a question, options and answer in `cases.json`. Build a target for each case, attack, defend and evaluate:
+`dataset/physical/` has real-world cases, each with a question, options and answer in `cases.json`.
+
+**1. Generate targets** with the scenario agent (in Docker):
 
 ```python
-import os
 import realm
 
 targets = realm.target("dataset/physical/cases.json", "out/targets")
+```
+
+**2. Attack.** Every attack (`foa`, `mattack`, `vattack`, `coa`, `physpatch`, `paattack`, `advdiffvlm`, `advedm`, `anyattack`, `figstep`, `promptinject`, `imagemix`) takes the same call:
+
+```python
 adv = realm.attack("foa", "dataset/physical", "out/foa", targets=targets)
-clean = realm.defend("freqpure", adv, "out/foa_freqpure")
-realm.evaluate([adv, clean], targets=targets, server_url="https://openrouter.ai/api",
+```
+
+**3. Evaluate.**
+
+```python
+import os
+
+realm.evaluate(adv, targets=targets, server_url="https://openrouter.ai/api",
                api_key=os.environ["OPENROUTER_API_KEY"], model="openai/gpt-4.1-mini", output="results/foa")
 ```
 
-`realm.target` runs the scenario agent in Docker and writes a target answer and image per case. Any attack (`foa`, `mattack`, `vattack`, `coa`, `physpatch`, `paattack`, `advdiffvlm`, `advedm`, `anyattack`, `figstep`, `promptinject`, `imagemix`) and defense (`pad`, `freqpure`, `bluesuffix`) fits the same calls; `paattack` is untargeted and needs no `targets`. Each call resumes where it stopped.
-
-To evaluate an open-source VLM, serve it with vLLM and pass `server_url="http://localhost:8000"`:
+For an open-source VLM, serve it with vLLM and pass `server_url="http://localhost:8000"`:
 
 ```bash
 .venv-vllm/bin/vllm serve Qwen/Qwen3-VL-8B-Instruct --port 8000
 ```
+
+Each step resumes where it stopped.
 
 ### Configuration
 
