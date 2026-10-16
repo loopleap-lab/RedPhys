@@ -93,7 +93,7 @@ def victim_item(r: dict, question: str) -> dict:
     elif attack_type == "promptinject":
         item = {"id": r["id"], "image": r["adversarial"], "question": meta["adversarial_question"]}
     else:
-        item = {"id": r["id"], "image": r["adversarial"]}
+        item = {"id": r["id"], "image": r["adversarial"], **({"question": r["question"]} if r.get("question") else {})}
     if meta.get("defense", {}).get("final_prompt"):  # BlueSuffix-rewritten prompt
         if meta["defense"].get("original_prompt") != item.get("question", question):
             print(f"WARNING: {r['id']}: defended at clean time for a different question; its rewrite is used")
@@ -101,20 +101,30 @@ def victim_item(r: dict, question: str) -> dict:
     return item
 
 
+def _released(r: dict, d: Path, attack: str) -> dict:
+    """A sample of the released dataset (huggingface.co/datasets/yifeiz29/REALM) in realm.attack form."""
+    return {"id": r["behavior_id"], "output": d / r["output_path"], "source": d.parents[1] / "clean" / r["source_path"],
+            "question": r["question"], "label": {"source": r["correct_answer"], "target": r["attack_target"]},
+            **({"metadata": {"attack": attack, **r["attack_metadata"]}} if "attack_metadata" in r else {})}
+
+
 def load_attack_dir(attack_dir: str) -> dict:
-    d = Path(attack_dir)
+    d = Path(attack_dir).resolve()
     data = json.loads((d / "manifest.json").read_text())
     valid = []
     for r in data.get("samples", []):
         if "error" in r:
             continue
+        if "output_path" in r:
+            r = _released(r, d, data["attack"])
         adv, src = resolve(r["output"]), resolve(r["source"])
         if adv.exists():
             entry = {"id": r["id"], "source": src, "adversarial": adv}
             if r.get("question"):
                 entry["question"] = r["question"]
-            if "metadata" in r:
-                entry["metadata"] = r["metadata"]
+            for k in ("metadata", "label"):
+                if k in r:
+                    entry[k] = r[k]
             valid.append(entry)
     data["valid_results"] = valid
     return data

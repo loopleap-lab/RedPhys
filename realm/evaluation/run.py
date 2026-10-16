@@ -27,9 +27,6 @@ def evaluate(attack_dirs: str | list[str], *, server_url: str, targets: str | No
     """
     attack_dirs = [attack_dirs] if isinstance(attack_dirs, str) else attack_dirs
     labels = load_labels(labels or f"{targets}/labels.json") if labels or targets else None
-    if labels is None and not target_text:
-        raise ValueError("a target is required: targets=, labels= or target_text=")
-
     attacks = {}
     for d in attack_dirs:
         try:
@@ -43,6 +40,9 @@ def evaluate(attack_dirs: str | list[str], *, server_url: str, targets: str | No
         print(f"Loaded:   {name} -- {len(attacks[name])} samples")
     if not attacks:
         raise ValueError("no valid attack directories")
+    labels = labels or {r["id"]: r["label"] for res in attacks.values() for r in res if "label" in r} or None
+    if labels is None and not target_text:
+        raise ValueError("a target is required: targets=, labels= or target_text=")
 
     manifest_question = next((r["question"] for results in attacks.values() for r in results if r.get("question")), None)
     if not (question or manifest_question):
@@ -61,13 +61,13 @@ def evaluate(attack_dirs: str | list[str], *, server_url: str, targets: str | No
         except Exception as e:
             raise ValueError(f"{m} on {server_url}: {e} (no OpenAI-compatible server? start one, e.g. `vllm serve <model>`)") from e
 
-    clean_paths = {}
+    clean = {}
     for results in attacks.values():
         for r in results:
-            clean_paths.setdefault(r["id"], r["source"])
-    print(f"\nPhase 1: Clean baseline ({len(clean_paths)} images)")
+            clean.setdefault(r["id"], {"id": r["id"], "image": r["source"], **({"question": r["question"]} if r.get("question") else {})})
+    print(f"\nPhase 1: Clean baseline ({len(clean)} images)")
     t0 = time.time()
-    clean_responses = run_queries(client, model, [{"id": k, "image": v} for k, v in sorted(clean_paths.items())], question, workers, "clean")
+    clean_responses = run_queries(client, model, [clean[k] for k in sorted(clean)], question, workers, "clean")
     clean_rate = compute_clean_rate(clean_responses, target_text, labels, judge, client, judge_model, workers)
     clean_rate.update(compute_mr(clean_responses, labels, judge, client, judge_model, workers) or {})
     mr_str = f"  accuracy={(1 - clean_rate['mr'])*100:.1f}%" if "mr" in clean_rate else ""
@@ -77,9 +77,6 @@ def evaluate(attack_dirs: str | list[str], *, server_url: str, targets: str | No
     print(f"\nPhase 2: Attack evaluation ({judge} judge)")
     attack_responses, attack_asrs, attack_mrs = {}, {}, {}
     for name, results in attacks.items():
-        r0 = results[0] if results else {}
-        if r0.get("metadata", {}).get("attack") == "promptinject" and r0.get("question", question) != question:
-            print(f"WARNING: {name}: injected into {r0['question']!r}, not {question!r}; the clean baseline uses the latter")
         t0 = time.time()
         responses = attack_responses[name] = run_queries(client, model, [victim_item(r, question) for r in results], question, workers, name)
         tq = time.time() - t0
