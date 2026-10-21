@@ -16,6 +16,13 @@
 
 REALM is a unified red-teaming benchmark for vision-language models (VLMs) in safety-critical physical-world tasks such as driving and robotics. It brings **12 red-teaming methods**, **3 model-agnostic defenses** and **13 VLMs** under one black-box threat model with shared data and metrics, and an agentic pipeline builds a scenario-specific target for each scene so that all attacks are compared on the same failure.
 
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/realm-dark.png">
+    <img src="assets/realm-light.png" alt="REALM library of scenarios, attacks, defenses and VLMs, and the red-teaming benchmark pipeline" width="100%">
+  </picture>
+</p>
+
 ## Key Features
 
 - 🎯 **12 attacks** — perturbation, patch, diffusion generation and editing, and prompt/typographic injection.
