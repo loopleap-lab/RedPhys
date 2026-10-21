@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from realm.attacks.run import ALL_ATTACKS, run
+from realm.attacks.run import ALL_ATTACKS, config_fields, run
 from realm.attacks.surrogates import SURROGATE_MODES
 from realm.data import DATASETS
 
@@ -23,8 +23,8 @@ def parse_args():
                    help="default: each attack's original surrogates; unified: shared CLIP ensemble (surrogates.py)")
     p.add_argument("--config", help="Attack hyperparameters YAML (default: configs/attacks/<attack>.yaml)")
     p.add_argument("--target", help="Target image file or directory")
-    p.add_argument("--target_text", help="Target text (advedm_r, vattack, figstep, promptinject)")
-    p.add_argument("--question", help="Question to inject into (promptinject)")
+    p.add_argument("--target_text", help=f"Target text ({', '.join(a for a in ALL_ATTACKS if 'target_text' in config_fields(a))})")
+    p.add_argument("--question", help="Question of every sample without a cases.json question")
     p.add_argument("--labels_file", help="Per-sample labels JSON (auto-detected from --dataset)")
     p.set_defaults(params={})  # overrides: Python API only
     return p.parse_args()

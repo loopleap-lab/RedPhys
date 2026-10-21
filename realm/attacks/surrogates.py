@@ -7,8 +7,5 @@ UNIFIED_SURROGATES = (
 )
 
 SURROGATE_MODES = ("default", "unified")
-
-# Attacks whose default surrogates already equal UNIFIED_SURROGATES.
-ALREADY_UNIFIED = {"foa", "mattack", "oattack", "mpcattack", "vattack", "physpatch"}
 # No swappable surrogates.
-NO_SURROGATES = {"anyattack", "figstep", "promptinject", "imagemix"}
+NO_SURROGATES = {"anyattack", "figstep", "promptinject", "imagemix", "leadingq", "scenetap"}

@@ -1,5 +1,5 @@
 seed: 100                    # paper App. 7.1
-precision: "bf16"           # or "fp32"
+precision: "fp32"           # fp32 inference, as upstream
 sd_model: "stable-diffusion-v1-5/stable-diffusion-v1-5"
 controlnet: "lllyasviel/sd-controlnet-canny"
 resolution: 512

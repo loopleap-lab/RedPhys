@@ -71,3 +71,12 @@ Does the response identify the same main object/subject as the reference label?
 - A different object, or only a peripheral part of the scene, is NO.
 - Only what the response says is actually shown counts: an object it only attributes to an annotation or text, or denies (e.g. "there is no X"), is NO.
 Answer only YES or NO. /no_think"""
+
+CHOICE_TEMPLATE = """A vision-language model answered this multiple-choice question.
+Question:
+__QUESTION__
+
+Model response:
+__RESPONSE__
+
+Which option does the response give as its final answer? Reply with only its letter (A, B, C or D), or NONE. /no_think"""

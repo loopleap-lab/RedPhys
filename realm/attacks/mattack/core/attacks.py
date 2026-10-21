@@ -18,7 +18,6 @@ def fgsm_attack(
     num_iters: int,
     epsilon: float,
     alpha: float,
-    device: str,
 ) -> torch.Tensor:
     """Run an FGSM attack to generate an adversarial example."""
     delta = torch.zeros_like(image_tensor, requires_grad=True)
@@ -60,7 +59,6 @@ def mifgsm_attack(
     num_iters: int,
     epsilon: float,
     alpha: float,
-    device: str,
     momentum_decay: float = 0.9,
 ) -> torch.Tensor:
     """Run an MI-FGSM attack to generate an adversarial example."""
@@ -105,7 +103,6 @@ def pgd_attack(
     num_iters: int,
     epsilon: float,
     alpha: float,
-    device: str,
 ) -> torch.Tensor:
     """Run a PGD attack to generate an adversarial example."""
     delta = torch.zeros_like(image_tensor, requires_grad=True)

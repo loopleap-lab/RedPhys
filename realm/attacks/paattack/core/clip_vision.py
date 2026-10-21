@@ -17,9 +17,6 @@ class ClipVisionModel(nn.Module):
         self._remove_attn_hooks()
         self._attn_weights = {}
         for i, block in enumerate(self.model.transformer.resblocks):
-            original_attention = block.attention
-            layer_idx = i
-
             def make_hook(blk, idx):
                 def hooked_attention(q_x, k_x=None, v_x=None, attn_mask=None):
                     k_x = k_x if k_x is not None else q_x
@@ -36,8 +33,8 @@ class ClipVisionModel(nn.Module):
                     return attn_output
                 return hooked_attention
 
-            block.attention = make_hook(block, layer_idx)
-            self._attn_hooks.append((block, original_attention))
+            self._attn_hooks.append((block, block.attention))
+            block.attention = make_hook(block, i)
 
     def _remove_attn_hooks(self):
         """Restore original attention methods."""
@@ -47,26 +44,15 @@ class ClipVisionModel(nn.Module):
         self._attn_weights = {}
 
     def forward(self, vision, output_normalize, tokens=False, attention=False):
-        if not tokens:
-            self.model.output_tokens = False  # a previous tokens=True call left it on
-            feature = self.model(self.preprocess(vision))
-            if output_normalize:
-                feature = F.normalize(feature, dim=-1)
-            return feature
-        else:
-            self.model.output_tokens = True
-            if attention:
-                self._register_attn_hooks()
-                feature, tok = self.model(self.preprocess(vision))
-                attentions = self._attn_weights
-                self._remove_attn_hooks()
-                if output_normalize:
-                    feature = F.normalize(feature, dim=-1)
-                    tok = F.normalize(tok, dim=-1)
-                return feature, tok, attentions
-            else:
-                feature, tok = self.model(self.preprocess(vision))
-                if output_normalize:
-                    feature = F.normalize(feature, dim=-1)
-                    tok = F.normalize(tok, dim=-1)
-                return feature, tok
+        """Embedding, or (embedding, tokens[, attention per block])."""
+        self.model.output_tokens = tokens
+        if attention:
+            self._register_attn_hooks()
+        try:
+            out = self.model(self.preprocess(vision))
+        finally:
+            attentions = self._attn_weights
+            self._remove_attn_hooks()  # also on an error
+        if output_normalize:
+            out = tuple(F.normalize(o, dim=-1) for o in out) if tokens else F.normalize(out, dim=-1)
+        return (*out, attentions) if attention and tokens else out

@@ -13,7 +13,7 @@ from realm.defense.run import run
 
 def parse_args():
     p = argparse.ArgumentParser(description="Clean adversarial images")
-    p.add_argument("defense", choices=sorted(DefenseRegistry._registry), help="Defense name")
+    p.add_argument("defense", choices=DefenseRegistry.names(), help="Defense name")
     p.add_argument("--input", required=True, help="Attack output dir, image dir or image")
     p.add_argument("--output", "-o", required=True, help="Output directory")
     p.add_argument("--max_samples", type=int, help="Max images to process")

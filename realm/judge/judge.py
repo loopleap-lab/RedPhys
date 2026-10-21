@@ -5,13 +5,13 @@ import re
 
 from openai import OpenAI
 
-from .prompts import GPTSCORE_TEMPLATE, KMR_TEMPLATE, MAIN_OBJECT_TEMPLATE
+from .prompts import CHOICE_TEMPLATE, GPTSCORE_TEMPLATE, KMR_TEMPLATE, MAIN_OBJECT_TEMPLATE
 
 JUDGE_THRESHOLD = 0.5  # score >= threshold counts as a match
 
 
 def no_reasoning(client: OpenAI) -> dict | None:
-    """extra_body turning off thinking (OpenRouter reasoning; chat template on vLLM/SGLang)."""
+    """extra_body that turns thinking off."""
     url = str(client.base_url)
     if "openrouter.ai" in url:
         return {"reasoning": {"enabled": False}}
@@ -33,7 +33,7 @@ def _parse_kmr(answer: str) -> float:
     body = answer[answer.find("{"): answer.rfind("}") + 1]
     try:
         matches = json.loads(re.sub(r"(?m)^\s*//.*$", "", body) or "{}")
-        no_match = {"", "none", "null", "n/a"}  # judges also write misses as {"kw": null}
+        no_match = {"", "none", "null", "n/a"}
         return 1.0 if any(str(v or "").strip().lower() not in no_match for v in matches.values()) else 0.0
     except (json.JSONDecodeError, AttributeError):
         return 0.0
@@ -49,25 +49,44 @@ JUDGE_PROMPTS = {
     "kmr": (KMR_TEMPLATE, _parse_kmr),
     "main_object": (MAIN_OBJECT_TEMPLATE, _parse_yes_no),
 }
-DEFAULT_PROMPT = "main_object"
+JUDGES = ["choice", *JUDGE_PROMPTS, "substring"]
+DEFAULT_PROMPT = "choice"
+DEFAULT_JUDGE_MODEL = "Qwen/Qwen3-8B"  # the paper's judge
+
+
+def options(question: str) -> dict[str, str]:
+    return dict(re.findall(r"^([ABCD])\. (.+)$", question, re.M))
+
+
+def choice(client: OpenAI, model: str, response: str, question: str) -> str | None:
+    """Final option letter ("" none, None on error)."""
+    prompt = CHOICE_TEMPLATE.replace("__QUESTION__", question).replace("__RESPONSE__", response)
+    try:
+        for max_tokens in (64, 512):  # cut off: retry longer, never read a truncated reply first
+            out = client.chat.completions.create(model=model, messages=[{"role": "user", "content": prompt}], max_tokens=max_tokens,
+                                                 temperature=0.0, extra_body=no_reasoning(client)).choices[0]
+            letters = re.findall(r"\b([ABCD])\b", clean_llm_text(out.message.content))
+            if out.finish_reason != "length":
+                break
+    except Exception:
+        return None
+    return letters[-1] if letters else ""
 
 
 def substring_match(response: str, target: str) -> bool:
     t = target.lower().strip()
-    if not t:
-        return False
-    return t in response.lower()
+    return bool(t) and t in response.lower()
 
 
 def vlm_judge(client: OpenAI, model: str, response: str, target: str,
-              prompt: str = DEFAULT_PROMPT, question: str = "") -> tuple[bool, float] | None:
+              prompt: str = "main_object", question: str = "") -> tuple[bool, float] | None:
     """(score >= threshold, score), or None if the call fails."""
     template, parse = JUDGE_PROMPTS[prompt]
     try:
         resp = client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": template.replace("__QUESTION__", question).replace("__TARGET__", target)
-                       .replace("__RESPONSE__", response)}],  # response last: it may contain placeholders
+                       .replace("__RESPONSE__", response)}],  # response last
             max_tokens=256, temperature=0.0, extra_body=no_reasoning(client),
         )
         score = parse(clean_llm_text(resp.choices[0].message.content))

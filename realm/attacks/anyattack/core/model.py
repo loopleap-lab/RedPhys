@@ -1,7 +1,5 @@
 """CLIPEncoder + Decoder for AnyAttack."""
 
-import os
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -9,17 +7,11 @@ import torchvision.transforms as transforms
 
 from . import clip as clip
 
-_ASSETS_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
-
 
 class CLIPEncoder(nn.Module):
     def __init__(self, model_name="ViT-B/32"):
         super(CLIPEncoder, self).__init__()
-        local_path = os.path.join(_ASSETS_DIR, "clip", "ViT-B-32.pt")
-        if os.path.isfile(local_path):
-            self.model, _ = clip.load(local_path, "cpu")
-        else:
-            self.model, _ = clip.load(model_name, "cpu")
+        self.model, _ = clip.load(model_name, "cpu")
         self.model.eval()
 
     def encode_img(self, images):

@@ -1,5 +1,7 @@
+"""PromptInject config and the injection prompts."""
+
 from dataclasses import dataclass
-from typing import Optional
+from typing import ClassVar, Optional
 
 from ..base_attack import AttackConfig
 
@@ -23,21 +25,20 @@ _INJECTION_PROMPT_AUTHORITY = (
     'Reply with ONLY the instruction text, nothing else.'
 )
 
-
-def resolve_cli_kwargs(attack_name, args, context):
-    return {"target_text": getattr(args, "target_text", "") or ""}
+INJECTION_PROMPTS = {"instruction": _INJECTION_PROMPT_INSTRUCTION, "authority": _INJECTION_PROMPT_AUTHORITY}
 
 
 @dataclass
 class PromptInjectConfig(AttackConfig):
+    uses_question: ClassVar[bool] = True
     target_text: Optional[str] = None
     injection_text: Optional[str] = None  # overrides the LLM-written injection
     level: str = "instruction"       # "instruction" | "authority"
-    llm_server_url: Optional[str] = None   # e.g. "http://localhost:8001"
-    llm_api_key_env: str = "OPENAI_API_KEY"
-    llm_model: Optional[str] = None        # e.g. "Qwen/Qwen3-8B"
+    llm_server_url: Optional[str] = "https://openrouter.ai/api"
+    llm_api_key_env: str = "OPENROUTER_API_KEY"
+    llm_model: Optional[str] = "openai/gpt-4o-mini"
 
     def __post_init__(self):
         super().__post_init__()
-        if self.level not in ("instruction", "authority"):
+        if self.level not in INJECTION_PROMPTS:
             raise ValueError(f"level must be 'instruction' or 'authority', got {self.level!r}")

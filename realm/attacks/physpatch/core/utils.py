@@ -1,53 +1,10 @@
-"""Utility functions for patch application and image operations."""
+"""Point-constrained random crop."""
 
 import torch
 import torchvision.transforms.functional as TF
 import random
 import math
 from typing import Tuple
-
-
-def apply_patch(image, patch):
-    """Apply a patch to the center of an image."""
-    img = image.clone()
-    _, _, H, W = img.shape
-    ph, pw = patch.shape[2:]
-    top = (H - ph) // 2
-    left = (W - pw) // 2
-    img[:, :, top:top+ph, left:left+pw] = patch
-    return img
-
-
-def apply_patch_with_center(image, patch, center):
-    """Apply a patch to an image at a normalized center location in [-1, 1]."""
-    img = image.clone()
-    N, C, H, W = img.shape
-    ph, pw = patch.shape[2:]
-
-    assert img.shape[0] == patch.shape[0] == center.shape[0], "Batch sizes must match"
-    assert center.shape[1] == 2, "Center should be a tensor of shape (N, 2)"
-
-    for i in range(N):
-        cx, cy = center[i]
-
-        cx_pixel = ((cx + 1) / 2) * W
-        cy_pixel = ((cy + 1) / 2) * H
-
-        left = int(torch.round(cx_pixel - pw / 2))
-        top = int(torch.round(cy_pixel - ph / 2))
-
-        if left < 0:
-            left = 0
-        if top < 0:
-            top = 0
-        if left + pw > W:
-            left = W - pw
-        if top + ph > H:
-            top = H - ph
-
-        img[i, :, top:top+ph, left:left+pw] = patch[i]
-
-    return img
 
 
 class RandomPointConstrainedCrop:
@@ -71,19 +28,13 @@ class RandomPointConstrainedCrop:
         """Convert normalized coordinates to pixel coordinates."""
         x = (self.norm_coord[0] + 1) * 0.5 * W
         y = (self.norm_coord[1] + 1) * 0.5 * H
-        if isinstance(x, torch.Tensor):
-            x = x.item()
-        if isinstance(y, torch.Tensor):
-            y = y.item()
-        return int(round(x)), int(round(y))
+        return int(round(float(x))), int(round(float(y)))  # norm_coord: a tensor or floats
 
     def __call__(self, img: torch.Tensor) -> torch.Tensor:
         """Crop and resize a (C, H, W) or (B, C, H, W) tensor, keeping the target point."""
         if img.dim() == 4:
-            batch_mode = True
             _, _, H, W = img.shape
         elif img.dim() == 3:
-            batch_mode = False
             _, H, W = img.shape
         else:
             raise ValueError("Unsupported tensor shape; expect 3D or 4D.")

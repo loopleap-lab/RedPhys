@@ -1,1 +1,1 @@
-"""FreqPure core: guided-diffusion + purification logic."""
+"""FreqPure purifier: low-frequency amplitude/phase exchange."""

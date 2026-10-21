@@ -9,9 +9,18 @@ import torchvision.transforms as transforms
 import torchvision.datasets as tv_datasets
 from PIL import Image
 
-from ..base_attack import BaseAttack, AttackConfig, AttackResult, pixel_linf, to_pil
+from ..base_attack import BaseAttack, AttackConfig, AttackResult, pixel_linf, resize_center_crop, to_pil, to_tensor
 from ..surrogates import UNIFIED_SURROGATES
-from ...data import Sample
+from ...data import Sample, load_rgb
+
+_RES = 256  # the cin256 LDM's image size
+_ASSETS = Path(__file__).parent / "assets"
+
+
+def _asset(rel: str) -> str:
+    if not (p := _ASSETS / rel).exists():
+        raise FileNotFoundError(f"Not found: {p}")
+    return str(p)
 
 
 @dataclass
@@ -31,7 +40,6 @@ class AdvDiffVLMConfig(AttackConfig):
 
     clip_models: List[str] = field(default_factory=lambda: ["RN50", "RN101", "ViT-B/16", "ViT-B/32"])
 
-    gradcam_resolution: int = 64
     gradcam_layer: str = "layer4"
     auto_generate_masks: bool = True
     gradcam_masks_dir: Optional[str] = None
@@ -39,14 +47,12 @@ class AdvDiffVLMConfig(AttackConfig):
     target_images_dir: Optional[str] = None
     class_label: Optional[int] = None
 
-    image_resolution: int = 256
-
 
 class AdvDiffVLMAttack(BaseAttack):
+    config: AdvDiffVLMConfig
+
     def __init__(self, config: AdvDiffVLMConfig):
         super().__init__(config)
-        self.config: AdvDiffVLMConfig = config
-
         self._ldm_model = None
         self._ddim_sampler = None
         self._clip_models = []
@@ -69,22 +75,14 @@ class AdvDiffVLMAttack(BaseAttack):
         from ldm.models.diffusion.ddim_main import DDIMSampler
         import clip
 
-        from .config import get_checkpoint_path, get_config_yaml_path, get_clip_cache_dir
-
-        config_yaml = get_config_yaml_path()
-        checkpoint = get_checkpoint_path()
-        clip_cache = get_clip_cache_dir()
+        config_yaml = _asset("configs/latent-diffusion_cin256-v2.yaml")
+        checkpoint = _asset("checkpoints/ldm_cin256-v2.ckpt")
 
         print(f"Loading LDM checkpoint: {checkpoint}")
         config = OmegaConf.load(config_yaml)
-        pl_sd = torch.load(checkpoint, map_location=self.config.device)
-        sd = pl_sd["state_dict"]
-        # 1000 -> 1001 classes: null class for CFG
-        emb_key = "cond_stage_model.embedding.weight"
-        if emb_key in sd and sd[emb_key].shape[0] == 1000:
-            sd[emb_key] = torch.cat([sd[emb_key], torch.zeros(1, sd[emb_key].shape[1], device=sd[emb_key].device)], dim=0)
+        pl_sd = torch.load(checkpoint, map_location="cpu")  # one GPU copy, after .to()
         model = instantiate_from_config(config.model)
-        model.load_state_dict(sd, strict=False)
+        model.load_state_dict(pl_sd["state_dict"], strict=False)  # 1001 classes: the last is the null class for CFG
         model.to(self.config.device)
         model.eval()
         model.requires_grad_(False)
@@ -101,23 +99,20 @@ class AdvDiffVLMAttack(BaseAttack):
                 _, arch, tag = clip_name.split(":")
                 clip_model = open_clip.create_model(arch, pretrained=tag, device=self.config.device)
             else:
-                clip_model, _ = clip.load(
-                    clip_name,
-                    device=self.config.device,
-                    download_root=clip_cache
-                )
+                clip_model, _ = clip.load(clip_name, device=self.config.device)  # ~/.cache/clip
             clip_model.eval()
             clip_model.requires_grad_(False)
             self._clip_models.append(clip_model)
 
-        clip_input_res = self._clip_models[0].visual.input_resolution
+        v = self._clip_models[0].visual
+        self._clip_res = res = v.input_resolution if hasattr(v, "input_resolution") else v.image_size[0]  # clip, open_clip
         # original final_preprocess
-        self._clip_resize = transforms.Compose([
-            transforms.Resize(clip_input_res, interpolation=transforms.InterpolationMode.BICUBIC, antialias=True),
-            transforms.CenterCrop(clip_input_res),
+        resize = transforms.Compose([
+            transforms.Resize(res, interpolation=transforms.InterpolationMode.BICUBIC, antialias=True),
+            transforms.CenterCrop(res),
         ])
         self._clip_preprocess = transforms.Compose([
-            self._clip_resize,
+            resize,
             transforms.Normalize(
                 mean=[0.48145466, 0.4578275, 0.40821073],
                 std=[0.26862954, 0.26130258, 0.27577711]
@@ -133,44 +128,35 @@ class AdvDiffVLMAttack(BaseAttack):
             return
 
         from .gradcam import GradCAMGenerator
-        self._gradcam_generator = GradCAMGenerator(
-            layer_name=self.config.gradcam_layer,
-            resolution=self.config.gradcam_resolution,
-            device=self.config.device
-        )
+        self._gradcam_generator = GradCAMGenerator(layer_name=self.config.gradcam_layer, device=self.config.device)
 
     def generate(self, sample: Sample, **kwargs) -> AttackResult:
         self._initialize_models()
 
         clean_image = self._prepare_image(sample.images[0])
 
-        sample_idx = kwargs.get("sample_idx", None)
-        target_image = self._load_target_image(sample, sample_idx)
+        target_image = self._load_target_image(sample, kwargs.get("sample_idx"))
 
         class_label = self.config.class_label
         if class_label is None:
             class_label = self._infer_class_label(sample.images[0])
 
         gradcam_mask = self._load_or_generate_gradcam_mask(sample, class_label)
-        # DDIM sampler calls .numpy(): mask on CPU
-        gradcam_mask = gradcam_mask.cpu()
 
         target_features = self._extract_clip_features(target_image)
 
         with torch.no_grad():
             with self._ldm_model.ema_scope():
                 encoder_posterior = self._ldm_model.encode_first_stage(clean_image)
-                z = self._ldm_model.get_first_stage_encoding(encoder_posterior).detach()
+                z = self._ldm_model.get_first_stage_encoding(encoder_posterior)
 
         xc = torch.tensor([class_label], device=self.config.device)
 
         with self._ldm_model.ema_scope():
             c = self._ldm_model.get_learned_conditioning({self._ldm_model.cond_stage_key: xc})
-            uc = self._ldm_model.get_learned_conditioning(
-                {self._ldm_model.cond_stage_key: torch.tensor([self._ldm_model.cond_stage_model.embedding.num_embeddings - 1]).to(self.config.device)}
-            )
+            null = torch.tensor([self._ldm_model.cond_stage_model.embedding.num_embeddings - 1], device=self.config.device)
+            uc = self._ldm_model.get_learned_conditioning({self._ldm_model.cond_stage_key: null})
 
-        print(f"Running AdvDiffVLM with {self.config.refinement_iterations} refinement iterations...")
         latent = z
         for refinement_iter in range(self.config.refinement_iterations):
             # no graph across refinements
@@ -186,12 +172,10 @@ class AdvDiffVLMAttack(BaseAttack):
                 unconditional_guidance_scale=self.config.guidance_scale,
                 unconditional_conditioning=uc,
                 eta=self.config.ddim_eta,
-                label=xc,
                 tgt_image_features_list=target_features,
-                org_image_features_list=None,
                 cam=gradcam_mask,
                 K=1,
-                seed=self.config.seed,
+                seed=torch.initial_seed() % 2**32,  # the per-sample seed of run.py (seed_all); numpy needs 32 bits
                 s=self.config.gradient_scale,
                 guide={k: getattr(self.config, k) for k in ("t_star", "grad_clip", "aege_temp", "hole_size", "mask_floor", "cam_clip")},
             )
@@ -212,31 +196,21 @@ class AdvDiffVLMAttack(BaseAttack):
             adversarial_sample=adv_pil,
             perturbation_norm=pixel_linf(adv_pil, sample.images[0]),
             metadata={
-                "ddim_steps": self.config.ddim_steps,
-                "refinement_iterations": self.config.refinement_iterations,
-                "gradient_scale": self.config.gradient_scale,
                 "clip_models": self._clip_names,
                 "class_label": class_label,
             }
         )
 
     def _prepare_image(self, image: Image.Image) -> torch.Tensor:
-        """Squash to [1, 3, R, R] in [-1, 1]."""
-        r = self.config.image_resolution
-        transform = transforms.Compose([
-            transforms.Resize((r, r), interpolation=transforms.InterpolationMode.BICUBIC),
-            transforms.ToTensor(),
-            transforms.Lambda(lambda img: (img * 2.0 - 1.0)),
-        ])
-        tensor = transform(image).unsqueeze(0).to(self.config.device)
-        return tensor
+        """Squash to [1, 3, 256, 256] in [-1, 1]."""
+        return (to_tensor(image.resize((_RES, _RES), Image.BICUBIC)) * 2 - 1).to(self.config.device)
 
     def _load_target_image(self, sample: Sample, sample_idx: Optional[int]) -> Image.Image:
-        """Load target image by ImageFolder order (legacy pairing)."""
+        """Target image by ImageFolder order, as the official pairing."""
         if self.config.target_images_dir is None:
             raise ValueError("target_images_dir must be specified")
         if sample_idx is None:
-            raise ValueError("sample_idx is required to match legacy target pairing")
+            raise ValueError("sample_idx is required to match the ImageFolder target pairing")
 
         if self._target_paths_cache is None:
             target_dir = Path(self.config.target_images_dir)
@@ -252,7 +226,7 @@ class AdvDiffVLMAttack(BaseAttack):
             )
 
         target_path = self._target_paths_cache[sample_idx]
-        return Image.open(target_path).convert("RGB")
+        return load_rgb(target_path)
 
     def _load_or_generate_gradcam_mask(self, sample: Sample, class_label: int) -> torch.Tensor:
         """GradCAM mask [64, 64], PNG-cached as upstream."""
@@ -261,37 +235,29 @@ class AdvDiffVLMAttack(BaseAttack):
 
         masks_dir = Path(self.config.gradcam_masks_dir)
         masks_dir.mkdir(parents=True, exist_ok=True)
-        mask_id = f"{sample.id}_c{class_label}"
-
-        mask_file = masks_dir / f"{mask_id}.png"
-
+        layer = "" if self.config.gradcam_layer == "layer4" else f"_{self.config.gradcam_layer}"  # layer4: the upstream name
+        mask_file = masks_dir / f"{sample.id}_c{class_label}{layer}.png"
         if mask_file.exists():
-            import cv2
-            cam = cv2.imread(str(mask_file), 0)
-            if cam is None:
-                raise FileNotFoundError(f"Failed to read mask image: {mask_file}")
-            cam = cam / 255.0
-            cam = cv2.resize(cam, (64, 64))
-            return torch.tensor(cam, dtype=torch.float32, device=self.config.device)
+            return self._read_mask(mask_file)
 
         if self.config.auto_generate_masks:
-            print(f"Auto-generating GradCAM mask for {mask_id}...")
+            print(f"Auto-generating GradCAM mask {mask_file.name}...")
             self._initialize_gradcam()
 
             mask = self._gradcam_generator.generate(sample.images[0], class_label)
 
-            # PNG round trip, as upstream
-            cam_np = (mask.clamp(0, 1).cpu().numpy() * 255).astype("uint8")
-            Image.fromarray(cam_np).save(mask_file)
+            Image.fromarray((mask.clamp(0, 1).cpu().numpy() * 255).astype("uint8")).save(mask_file)  # PNG round trip, as upstream
             print(f"  Cached mask to {mask_file}")
-
-            import cv2
-            cam = cv2.imread(str(mask_file), 0)
-            cam = cam / 255.0
-            cam = cv2.resize(cam, (64, 64))
-            return torch.tensor(cam, dtype=torch.float32, device=self.config.device)
+            return self._read_mask(mask_file)
 
         raise FileNotFoundError(f"GradCAM mask not found and auto_generate_masks=False: {mask_file}")
+
+    def _read_mask(self, mask_file: Path) -> torch.Tensor:
+        import cv2
+        cam = cv2.imread(str(mask_file), 0)
+        if cam is None:
+            raise FileNotFoundError(f"Failed to read mask image: {mask_file}")
+        return torch.tensor(cv2.resize(cam / 255.0, (64, 64)), dtype=torch.float32)  # CPU: the DDIM sampler calls .numpy()
 
     def _infer_class_label(self, source_image: Image.Image) -> int:
         self._initialize_gradcam()
@@ -299,26 +265,9 @@ class AdvDiffVLMAttack(BaseAttack):
             img_tensor = self._gradcam_generator.preprocess(source_image).unsqueeze(0).to(self.config.device)
             logits = self._gradcam_generator.model(img_tensor)
             label = int(logits.argmax(dim=1).item())
-        print(f"Auto-detected class_label={label} from source image")
         return label
 
     def _extract_clip_features(self, image: Image.Image) -> List[torch.Tensor]:
-        input_res = self._clip_models[0].visual.input_resolution
-
-        transform = transforms.Compose([
-            transforms.Resize(input_res, interpolation=transforms.InterpolationMode.BICUBIC),
-            transforms.CenterCrop(input_res),
-            transforms.ToTensor(),
-            transforms.Lambda(lambda img: torch.clamp(img, 0.0, 1.0)),
-        ])
-        image_tgt = transform(image).unsqueeze(0).to(self.config.device)
-
+        x = self._clip_preprocess(to_tensor(resize_center_crop(image, self._clip_res)).to(self.config.device))
         with torch.no_grad():
-            tgt_image_features_list = []
-            image_tgt = self._clip_preprocess(image_tgt)
-            for clip_model in self._clip_models:
-                tgt_image_features = clip_model.encode_image(image_tgt)
-                tgt_image_features = tgt_image_features / tgt_image_features.norm(dim=1, keepdim=True)
-                tgt_image_features_list.append(tgt_image_features)
-
-        return tgt_image_features_list
+            return [(f := m.encode_image(x)) / f.norm(dim=1, keepdim=True) for m in self._clip_models]

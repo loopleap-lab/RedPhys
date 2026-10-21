@@ -14,24 +14,20 @@ def fgsm_attack(
     ensemble_loss: nn.Module,
     source_crop: Optional[transforms.RandomResizedCrop],
     target_crop: Optional[transforms.RandomResizedCrop],
-    img_index: int,
     num_iters: int,
     epsilon: float,
     alpha: float,
-    device: str,
-    use_source_crop: bool = True,
-    use_target_crop: bool = True,
 ) -> torch.Tensor:
     delta = torch.zeros_like(image_tensor, requires_grad=True)
 
-    pbar = tqdm(range(num_iters), desc=f"Attack progress")
+    pbar = tqdm(range(num_iters), desc="Attack progress")
 
     for epoch in pbar:
 
         ensemble_loss.set_ground_truth(target_crop(tgt_tensor))
 
         adv_image = image_tensor + delta
-        x = source_crop(adv_image) if use_source_crop else adv_image  # Alg. 1
+        x = source_crop(adv_image)  # Alg. 1
         sim = ensemble_loss(*ensemble_extractor(x))
 
         loss = sim
@@ -61,26 +57,22 @@ def mifgsm_attack(
     ensemble_loss: nn.Module,
     source_crop: Optional[transforms.RandomResizedCrop],
     target_crop: Optional[transforms.RandomResizedCrop],
-    img_index: int,
     num_iters: int,
     epsilon: float,
     alpha: float,
-    device: str,
-    use_source_crop: bool = True,
-    use_target_crop: bool = True,
     momentum_decay: float = 0.9,
 ) -> torch.Tensor:
     delta = torch.zeros_like(image_tensor, requires_grad=True)
     momentum = torch.zeros_like(image_tensor, requires_grad=False)
 
-    pbar = tqdm(range(num_iters), desc=f"Attack progress")
+    pbar = tqdm(range(num_iters), desc="Attack progress")
 
     for epoch in pbar:
 
         ensemble_loss.set_ground_truth(target_crop(tgt_tensor))
 
         adv_image = image_tensor + delta
-        x = source_crop(adv_image) if use_source_crop else adv_image  # Alg. 1
+        x = source_crop(adv_image)  # Alg. 1
         sim = ensemble_loss(*ensemble_extractor(x))
 
         loss = sim
@@ -111,25 +103,21 @@ def pgd_attack(
     ensemble_loss: nn.Module,
     source_crop: Optional[transforms.RandomResizedCrop],
     target_crop: Optional[transforms.RandomResizedCrop],
-    img_index: int,
     num_iters: int,
     epsilon: float,
     alpha: float,
-    device: str,
-    use_source_crop: bool = True,
-    use_target_crop: bool = True,
 ) -> torch.Tensor:
     delta = torch.zeros_like(image_tensor, requires_grad=True)
     optimizer = torch.optim.Adam([delta], lr=alpha)
 
-    pbar = tqdm(range(num_iters), desc=f"Attack progress")
+    pbar = tqdm(range(num_iters), desc="Attack progress")
 
     for epoch in pbar:
 
         ensemble_loss.set_ground_truth(target_crop(tgt_tensor))
 
         adv_image = image_tensor + delta
-        x = source_crop(adv_image) if use_source_crop else adv_image  # Alg. 1
+        x = source_crop(adv_image)  # Alg. 1
         sim = ensemble_loss(*ensemble_extractor(x))
 
         loss = -sim  # negate to maximize similarity

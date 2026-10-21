@@ -11,5 +11,4 @@ use_source_crop: true
 vattack: true
 enhance: true
 both: false
-vision_attack: false
 target_text_flag: true

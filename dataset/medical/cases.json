@@ -1,0 +1,1102 @@
+[
+ {
+  "id": "medical_0001",
+  "image": "dataset/medical/clean/medical_0001.png",
+  "question": "Which part of the body does this image belong to?\nA. Chest\nB. Neck\nC. Abdomen\nD. Head",
+  "answer": "D",
+  "options": {
+   "A": "Chest",
+   "B": "Neck",
+   "C": "Abdomen",
+   "D": "Head"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab448/source.jpg",
+   "qid": 10532,
+   "modality": "MRI",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0002",
+  "image": "dataset/medical/clean/medical_0002.png",
+  "question": "Which part of the body does this image belong to?\nA. Pelvic Cavity\nB. Head\nC. Abdomen\nD. Neck",
+  "answer": "C",
+  "options": {
+   "A": "Pelvic Cavity",
+   "B": "Head",
+   "C": "Abdomen",
+   "D": "Neck"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab258/source.jpg",
+   "qid": 10071,
+   "modality": "CT",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0003",
+  "image": "dataset/medical/clean/medical_0003.png",
+  "question": "Which part of the body does this image belong to?\nA. Neck\nB. Chest\nC. Head\nD. Pelvic Cavity",
+  "answer": "B",
+  "options": {
+   "A": "Neck",
+   "B": "Chest",
+   "C": "Head",
+   "D": "Pelvic Cavity"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab85/source.jpg",
+   "qid": 12972,
+   "modality": "CT",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0004",
+  "image": "dataset/medical/clean/medical_0004.png",
+  "question": "Which part of the body does this image belong to?\nA. Neck\nB. Pelvic Cavity\nC. Head\nD. Chest",
+  "answer": "D",
+  "options": {
+   "A": "Neck",
+   "B": "Pelvic Cavity",
+   "C": "Head",
+   "D": "Chest"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab159/source.jpg",
+   "qid": 12024,
+   "modality": "X-Ray",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0005",
+  "image": "dataset/medical/clean/medical_0005.png",
+  "question": "Which part of the body does this image belong to?\nA. Chest\nB. Abdomen\nC. Neck\nD. Head",
+  "answer": "D",
+  "options": {
+   "A": "Chest",
+   "B": "Abdomen",
+   "C": "Neck",
+   "D": "Head"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab476/source.jpg",
+   "qid": 10603,
+   "modality": "MRI",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0006",
+  "image": "dataset/medical/clean/medical_0006.png",
+  "question": "Which part of the body does this image belong to?\nA. Neck\nB. Abdomen\nC. Head\nD. Pelvic Cavity",
+  "answer": "B",
+  "options": {
+   "A": "Neck",
+   "B": "Abdomen",
+   "C": "Head",
+   "D": "Pelvic Cavity"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab250/source.jpg",
+   "qid": 12171,
+   "modality": "CT",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0007",
+  "image": "dataset/medical/clean/medical_0007.png",
+  "question": "Which part of the body does this image belong to?\nA. Head\nB. Neck\nC. Pelvic Cavity\nD. Abdomen",
+  "answer": "D",
+  "options": {
+   "A": "Head",
+   "B": "Neck",
+   "C": "Pelvic Cavity",
+   "D": "Abdomen"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab253/source.jpg",
+   "qid": 12208,
+   "modality": "CT",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0008",
+  "image": "dataset/medical/clean/medical_0008.png",
+  "question": "Which part of the body does this image belong to?\nA. Neck\nB. Pelvic Cavity\nC. Abdomen\nD. Head",
+  "answer": "C",
+  "options": {
+   "A": "Neck",
+   "B": "Pelvic Cavity",
+   "C": "Abdomen",
+   "D": "Head"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab25/source.jpg",
+   "qid": 12162,
+   "modality": "MRI",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0009",
+  "image": "dataset/medical/clean/medical_0009.png",
+  "question": "Which part of the body does this image belong to?\nA. Pelvic Cavity\nB. Head\nC. Neck\nD. Chest",
+  "answer": "D",
+  "options": {
+   "A": "Pelvic Cavity",
+   "B": "Head",
+   "C": "Neck",
+   "D": "Chest"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab103/source.jpg",
+   "qid": 11946,
+   "modality": "CT",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0010",
+  "image": "dataset/medical/clean/medical_0010.png",
+  "question": "Which part of the body does this image belong to?\nA. Chest\nB. Pelvic Cavity\nC. Head\nD. Neck",
+  "answer": "A",
+  "options": {
+   "A": "Chest",
+   "B": "Pelvic Cavity",
+   "C": "Head",
+   "D": "Neck"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab142/source.jpg",
+   "qid": 11995,
+   "modality": "X-Ray",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0011",
+  "image": "dataset/medical/clean/medical_0011.png",
+  "question": "Which part of the body does this image belong to?\nA. Chest\nB. Head\nC. Neck\nD. Pelvic Cavity",
+  "answer": "A",
+  "options": {
+   "A": "Chest",
+   "B": "Head",
+   "C": "Neck",
+   "D": "Pelvic Cavity"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab112/source.jpg",
+   "qid": 9864,
+   "modality": "CT",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0012",
+  "image": "dataset/medical/clean/medical_0012.png",
+  "question": "Which part of the body does this image belong to?\nA. Head\nB. Pelvic Cavity\nC. Chest\nD. Neck",
+  "answer": "C",
+  "options": {
+   "A": "Head",
+   "B": "Pelvic Cavity",
+   "C": "Chest",
+   "D": "Neck"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab164/source.jpg",
+   "qid": 9920,
+   "modality": "X-Ray",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0013",
+  "image": "dataset/medical/clean/medical_0013.png",
+  "question": "Which part of the body does this image belong to?\nA. Pelvic Cavity\nB. Head\nC. Neck\nD. Chest",
+  "answer": "D",
+  "options": {
+   "A": "Pelvic Cavity",
+   "B": "Head",
+   "C": "Neck",
+   "D": "Chest"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab147/source.jpg",
+   "qid": 12002,
+   "modality": "X-Ray",
+   "content_type": "Position",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0014",
+  "image": "dataset/medical/clean/medical_0014.png",
+  "question": "What modality is used to take this image?\nA. Ultrasound\nB. X-Ray\nC. CT\nD. MRI",
+  "answer": "D",
+  "options": {
+   "A": "Ultrasound",
+   "B": "X-Ray",
+   "C": "CT",
+   "D": "MRI"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab462/source.jpg",
+   "qid": 10582,
+   "modality": "MRI",
+   "content_type": "Modality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0015",
+  "image": "dataset/medical/clean/medical_0015.png",
+  "question": "What modality is used to take this image?\nA. MRI\nB. X-Ray\nC. Ultrasound\nD. CT",
+  "answer": "A",
+  "options": {
+   "A": "MRI",
+   "B": "X-Ray",
+   "C": "Ultrasound",
+   "D": "CT"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab13/source.jpg",
+   "qid": 11972,
+   "modality": "MRI",
+   "content_type": "Modality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0016",
+  "image": "dataset/medical/clean/medical_0016.png",
+  "question": "What modality is used to take this image?\nA. Ultrasound\nB. MRI\nC. X-Ray\nD. CT",
+  "answer": "D",
+  "options": {
+   "A": "Ultrasound",
+   "B": "MRI",
+   "C": "X-Ray",
+   "D": "CT"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab264/source.jpg",
+   "qid": 12221,
+   "modality": "CT",
+   "content_type": "Modality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0017",
+  "image": "dataset/medical/clean/medical_0017.png",
+  "question": "What modality is used to take this image?\nA. CT\nB. X-Ray\nC. Ultrasound\nD. MRI",
+  "answer": "B",
+  "options": {
+   "A": "CT",
+   "B": "X-Ray",
+   "C": "Ultrasound",
+   "D": "MRI"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab124/source.jpg",
+   "qid": 11965,
+   "modality": "X-Ray",
+   "content_type": "Modality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0018",
+  "image": "dataset/medical/clean/medical_0018.png",
+  "question": "What modality is used to take this image?\nA. MRI\nB. CT\nC. X-Ray\nD. Ultrasound",
+  "answer": "B",
+  "options": {
+   "A": "MRI",
+   "B": "CT",
+   "C": "X-Ray",
+   "D": "Ultrasound"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab92/source.jpg",
+   "qid": 10879,
+   "modality": "CT",
+   "content_type": "Modality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0019",
+  "image": "dataset/medical/clean/medical_0019.png",
+  "question": "What modality is used to take this image?\nA. X-Ray\nB. CT\nC. Ultrasound\nD. MRI",
+  "answer": "A",
+  "options": {
+   "A": "X-Ray",
+   "B": "CT",
+   "C": "Ultrasound",
+   "D": "MRI"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab127/source.jpg",
+   "qid": 9890,
+   "modality": "X-Ray",
+   "content_type": "Modality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0020",
+  "image": "dataset/medical/clean/medical_0020.png",
+  "question": "What modality is used to take this image?\nA. MRI\nB. Ultrasound\nC. CT\nD. X-Ray",
+  "answer": "A",
+  "options": {
+   "A": "MRI",
+   "B": "Ultrasound",
+   "C": "CT",
+   "D": "X-Ray"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab46/source.jpg",
+   "qid": 10563,
+   "modality": "MRI",
+   "content_type": "Modality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0021",
+  "image": "dataset/medical/clean/medical_0021.png",
+  "question": "What modality is used to take this image?\nA. Ultrasound\nB. MRI\nC. CT\nD. X-Ray",
+  "answer": "C",
+  "options": {
+   "A": "Ultrasound",
+   "B": "MRI",
+   "C": "CT",
+   "D": "X-Ray"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab82/source.jpg",
+   "qid": 12961,
+   "modality": "CT",
+   "content_type": "Modality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0022",
+  "image": "dataset/medical/clean/medical_0022.png",
+  "question": "What is the largest organ in the picture?\nA. Brain\nB. Heart\nC. Bladder\nD. Lung",
+  "answer": "A",
+  "options": {
+   "A": "Brain",
+   "B": "Heart",
+   "C": "Bladder",
+   "D": "Lung"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab405/source.jpg",
+   "qid": 12558,
+   "modality": "CT",
+   "content_type": "Size",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0023",
+  "image": "dataset/medical/clean/medical_0023.png",
+  "question": "What is the largest organ in the picture?\nA. Heart\nB. Small Bowel\nC. Brain\nD. Liver",
+  "answer": "C",
+  "options": {
+   "A": "Heart",
+   "B": "Small Bowel",
+   "C": "Brain",
+   "D": "Liver"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab58/source.jpg",
+   "qid": 12872,
+   "modality": "MRI",
+   "content_type": "Size",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0024",
+  "image": "dataset/medical/clean/medical_0024.png",
+  "question": "What is the largest organ in the picture?\nA. Brain\nB. Lung\nC. Heart\nD. Small Bowel",
+  "answer": "B",
+  "options": {
+   "A": "Brain",
+   "B": "Lung",
+   "C": "Heart",
+   "D": "Small Bowel"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab121/source.jpg",
+   "qid": 9886,
+   "modality": "X-Ray",
+   "content_type": "Size",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0025",
+  "image": "dataset/medical/clean/medical_0025.png",
+  "question": "What is the largest organ in the picture?\nA. Heart\nB. Brain\nC. Small Bowel\nD. Liver",
+  "answer": "D",
+  "options": {
+   "A": "Heart",
+   "B": "Brain",
+   "C": "Small Bowel",
+   "D": "Liver"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab285/source.jpg",
+   "qid": 10119,
+   "modality": "CT",
+   "content_type": "Size",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0026",
+  "image": "dataset/medical/clean/medical_0026.png",
+  "question": "What is the largest organ in the picture?\nA. Bladder\nB. Small Bowel\nC. Lung\nD. Brain",
+  "answer": "C",
+  "options": {
+   "A": "Bladder",
+   "B": "Small Bowel",
+   "C": "Lung",
+   "D": "Brain"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab213/source.jpg",
+   "qid": 9975,
+   "modality": "CT",
+   "content_type": "Size",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0027",
+  "image": "dataset/medical/clean/medical_0027.png",
+  "question": "What is the largest organ in the picture?\nA. Brain\nB. Small Bowel\nC. Liver\nD. Bladder",
+  "answer": "C",
+  "options": {
+   "A": "Brain",
+   "B": "Small Bowel",
+   "C": "Liver",
+   "D": "Bladder"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab270/source.jpg",
+   "qid": 10102,
+   "modality": "CT",
+   "content_type": "Size",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0028",
+  "image": "dataset/medical/clean/medical_0028.png",
+  "question": "What is the largest organ in the picture?\nA. Liver\nB. Brain\nC. Heart\nD. Bladder",
+  "answer": "A",
+  "options": {
+   "A": "Liver",
+   "B": "Brain",
+   "C": "Heart",
+   "D": "Bladder"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab252/source.jpg",
+   "qid": 12193,
+   "modality": "CT",
+   "content_type": "Size",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0029",
+  "image": "dataset/medical/clean/medical_0029.png",
+  "question": "What is the largest organ in the picture?\nA. Liver\nB. Heart\nC. Bladder\nD. Brain",
+  "answer": "A",
+  "options": {
+   "A": "Liver",
+   "B": "Heart",
+   "C": "Bladder",
+   "D": "Brain"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab235/source.jpg",
+   "qid": 12140,
+   "modality": "CT",
+   "content_type": "Size",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0030",
+  "image": "dataset/medical/clean/medical_0030.png",
+  "question": "What is the scanning plane of this image?\nA. Sagittal Plane\nB. Coronal Plane\nC. Transverse Plane\nD. Oblique Plane",
+  "answer": "C",
+  "options": {
+   "A": "Sagittal Plane",
+   "B": "Coronal Plane",
+   "C": "Transverse Plane",
+   "D": "Oblique Plane"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab219/source.jpg",
+   "qid": 12105,
+   "modality": "CT",
+   "content_type": "Plane",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0031",
+  "image": "dataset/medical/clean/medical_0031.png",
+  "question": "What is the scanning plane of this image?\nA. Oblique Plane\nB. Sagittal Plane\nC. Transverse Plane\nD. Coronal Plane",
+  "answer": "C",
+  "options": {
+   "A": "Oblique Plane",
+   "B": "Sagittal Plane",
+   "C": "Transverse Plane",
+   "D": "Coronal Plane"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab238/source.jpg",
+   "qid": 10043,
+   "modality": "CT",
+   "content_type": "Plane",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0032",
+  "image": "dataset/medical/clean/medical_0032.png",
+  "question": "What is the scanning plane of this image?\nA. Oblique Plane\nB. Transverse Plane\nC. Sagittal Plane\nD. Coronal Plane",
+  "answer": "D",
+  "options": {
+   "A": "Oblique Plane",
+   "B": "Transverse Plane",
+   "C": "Sagittal Plane",
+   "D": "Coronal Plane"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab299/source.jpg",
+   "qid": 12265,
+   "modality": "X-Ray",
+   "content_type": "Plane",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0033",
+  "image": "dataset/medical/clean/medical_0033.png",
+  "question": "What is the scanning plane of this image?\nA. Sagittal Plane\nB. Coronal Plane\nC. Oblique Plane\nD. Transverse Plane",
+  "answer": "D",
+  "options": {
+   "A": "Sagittal Plane",
+   "B": "Coronal Plane",
+   "C": "Oblique Plane",
+   "D": "Transverse Plane"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab488/source.jpg",
+   "qid": 10628,
+   "modality": "MRI",
+   "content_type": "Plane",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0034",
+  "image": "dataset/medical/clean/medical_0034.png",
+  "question": "What is the scanning plane of this image?\nA. Sagittal Plane\nB. Coronal Plane\nC. Oblique Plane\nD. Transverse Plane",
+  "answer": "D",
+  "options": {
+   "A": "Sagittal Plane",
+   "B": "Coronal Plane",
+   "C": "Oblique Plane",
+   "D": "Transverse Plane"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab224/source.jpg",
+   "qid": 12119,
+   "modality": "CT",
+   "content_type": "Plane",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0035",
+  "image": "dataset/medical/clean/medical_0035.png",
+  "question": "What diseases are included in the picture?\nA. Colitis\nB. Brain Edema\nC. Liver Cancer\nD. Lung Cancer",
+  "answer": "D",
+  "options": {
+   "A": "Colitis",
+   "B": "Brain Edema",
+   "C": "Liver Cancer",
+   "D": "Lung Cancer"
+  },
+  "domain": "medical",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab106/source.jpg",
+   "qid": 9860,
+   "modality": "CT",
+   "content_type": "Abnormality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0036",
+  "image": "dataset/medical/clean/medical_0036.png",
+  "question": "What diseases are included in the picture?\nA. Brain Edema\nB. Cardiomegaly\nC. Liver Cancer\nD. Colitis",
+  "answer": "B",
+  "options": {
+   "A": "Brain Edema",
+   "B": "Cardiomegaly",
+   "C": "Liver Cancer",
+   "D": "Colitis"
+  },
+  "domain": "medical",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab191/source.jpg",
+   "qid": 9939,
+   "modality": "X-Ray",
+   "content_type": "Abnormality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0037",
+  "image": "dataset/medical/clean/medical_0037.png",
+  "question": "What diseases are included in the picture?\nA. Atelectasis\nB. Liver Cancer\nC. Kidney Cyst\nD. Fracture",
+  "answer": "A",
+  "options": {
+   "A": "Atelectasis",
+   "B": "Liver Cancer",
+   "C": "Kidney Cyst",
+   "D": "Fracture"
+  },
+  "domain": "medical",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab379/source.jpg",
+   "qid": 10366,
+   "modality": "X-Ray",
+   "content_type": "Abnormality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0038",
+  "image": "dataset/medical/clean/medical_0038.png",
+  "question": "What diseases are included in the picture?\nA. Nodule\nB. Atelectasis\nC. Cardiomegaly\nD. Brain Edema",
+  "answer": "D",
+  "options": {
+   "A": "Nodule",
+   "B": "Atelectasis",
+   "C": "Cardiomegaly",
+   "D": "Brain Edema"
+  },
+  "domain": "medical",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab61/source.jpg",
+   "qid": 10834,
+   "modality": "MRI",
+   "content_type": "Abnormality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0039",
+  "image": "dataset/medical/clean/medical_0039.png",
+  "question": "What diseases are included in the picture?\nA. Fracture\nB. Liver Cancer\nC. Kidney Cyst\nD. Atelectasis",
+  "answer": "D",
+  "options": {
+   "A": "Fracture",
+   "B": "Liver Cancer",
+   "C": "Kidney Cyst",
+   "D": "Atelectasis"
+  },
+  "domain": "medical",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab129/source.jpg",
+   "qid": 9908,
+   "modality": "X-Ray",
+   "content_type": "Abnormality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0040",
+  "image": "dataset/medical/clean/medical_0040.png",
+  "question": "What diseases are included in the picture?\nA. Fracture\nB. Liver Cancer\nC. Brain Edema\nD. Pneumonia",
+  "answer": "D",
+  "options": {
+   "A": "Fracture",
+   "B": "Liver Cancer",
+   "C": "Brain Edema",
+   "D": "Pneumonia"
+  },
+  "domain": "medical",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab353/source.jpg",
+   "qid": 10306,
+   "modality": "X-Ray",
+   "content_type": "Abnormality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0041",
+  "image": "dataset/medical/clean/medical_0041.png",
+  "question": "What diseases are included in the picture?\nA. Colitis\nB. Fracture\nC. Lung Cancer\nD. Brain Edema",
+  "answer": "C",
+  "options": {
+   "A": "Colitis",
+   "B": "Fracture",
+   "C": "Lung Cancer",
+   "D": "Brain Edema"
+  },
+  "domain": "medical",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab119/source.jpg",
+   "qid": 9879,
+   "modality": "CT",
+   "content_type": "Abnormality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0042",
+  "image": "dataset/medical/clean/medical_0042.png",
+  "question": "What diseases are included in the picture?\nA. Pulmonary Mass\nB. Liver Cancer\nC. Colitis\nD. Kidney Cyst",
+  "answer": "A",
+  "options": {
+   "A": "Pulmonary Mass",
+   "B": "Liver Cancer",
+   "C": "Colitis",
+   "D": "Kidney Cyst"
+  },
+  "domain": "medical",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab324/source.jpg",
+   "qid": 10208,
+   "modality": "X-Ray",
+   "content_type": "Abnormality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0043",
+  "image": "dataset/medical/clean/medical_0043.png",
+  "question": "What diseases are included in the picture?\nA. Colitis\nB. Pleural Effusion\nC. Fracture\nD. Kidney Cyst",
+  "answer": "B",
+  "options": {
+   "A": "Colitis",
+   "B": "Pleural Effusion",
+   "C": "Fracture",
+   "D": "Kidney Cyst"
+  },
+  "domain": "medical",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab386/source.jpg",
+   "qid": 12526,
+   "modality": "X-Ray",
+   "content_type": "Abnormality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0044",
+  "image": "dataset/medical/clean/medical_0044.png",
+  "question": "What diseases are included in the picture?\nA. Liver Cancer\nB. Cardiomegaly\nC. Fracture\nD. Colitis",
+  "answer": "B",
+  "options": {
+   "A": "Liver Cancer",
+   "B": "Cardiomegaly",
+   "C": "Fracture",
+   "D": "Colitis"
+  },
+  "domain": "medical",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab196/source.jpg",
+   "qid": 9947,
+   "modality": "X-Ray",
+   "content_type": "Abnormality",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0045",
+  "image": "dataset/medical/clean/medical_0045.png",
+  "question": "How many kidneys in this image?\nA. 2\nB. 1\nC. 0\nD. 3",
+  "answer": "C",
+  "options": {
+   "A": "2",
+   "B": "1",
+   "C": "0",
+   "D": "3"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab274/source.jpg",
+   "qid": 12257,
+   "modality": "CT",
+   "content_type": "Quantity",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0046",
+  "image": "dataset/medical/clean/medical_0046.png",
+  "question": "How many lungs are shown in this image?\nA. 0\nB. 2\nC. 3\nD. 1",
+  "answer": "B",
+  "options": {
+   "A": "0",
+   "B": "2",
+   "C": "3",
+   "D": "1"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab587/source.jpg",
+   "qid": 10802,
+   "modality": "CT",
+   "content_type": "Quantity",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0047",
+  "image": "dataset/medical/clean/medical_0047.png",
+  "question": "How many lungs have existed in this image?\nA. 2\nB. 1\nC. 0\nD. 3",
+  "answer": "A",
+  "options": {
+   "A": "2",
+   "B": "1",
+   "C": "0",
+   "D": "3"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab543/source.jpg",
+   "qid": 12799,
+   "modality": "CT",
+   "content_type": "Quantity",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0048",
+  "image": "dataset/medical/clean/medical_0048.png",
+  "question": "How many lungs are shown in this image?\nA. 1\nB. 3\nC. 0\nD. 2",
+  "answer": "D",
+  "options": {
+   "A": "1",
+   "B": "3",
+   "C": "0",
+   "D": "2"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab344/source.jpg",
+   "qid": 12395,
+   "modality": "X-Ray",
+   "content_type": "Quantity",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0049",
+  "image": "dataset/medical/clean/medical_0049.png",
+  "question": "How many kidneys have existed in this image?\nA. 3\nB. 0\nC. 1\nD. 2",
+  "answer": "B",
+  "options": {
+   "A": "3",
+   "B": "0",
+   "C": "1",
+   "D": "2"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab573/source.jpg",
+   "qid": 12852,
+   "modality": "CT",
+   "content_type": "Quantity",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0050",
+  "image": "dataset/medical/clean/medical_0050.png",
+  "question": "How many lungs are shown in this image?\nA. 2\nB. 1\nC. 0\nD. 3",
+  "answer": "A",
+  "options": {
+   "A": "2",
+   "B": "1",
+   "C": "0",
+   "D": "3"
+  },
+  "domain": "medical",
+  "task": "Perception",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab338/source.jpg",
+   "qid": 12380,
+   "modality": "X-Ray",
+   "content_type": "Quantity",
+   "license": "CC BY 4.0"
+  }
+ }
+]

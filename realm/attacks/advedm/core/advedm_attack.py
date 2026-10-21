@@ -2,20 +2,14 @@
 
 import torch
 import torch.nn.functional as F
-from typing import Tuple, Optional
-from PIL import Image
+from typing import Tuple
 import torchvision.transforms as transforms
 
+from ....data import load_rgb
 from .attention_utils import (
-    extract_cls_to_patch_attention,
+    openai_tokens,
     reallocate_attention_vector,
     compute_attention_weighted_features_vector,
-)
-from .mask_utils import (
-    compute_text_patch_similarity,
-    construct_top_k_mask,
-    construct_threshold_mask,
-    create_masked_image,
 )
 
 _COS_EPS = 1e-6
@@ -34,22 +28,6 @@ def _cosine_mean(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:
 def _cosine_flat(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:
     """One cosine over the region (Eq. 7/11/12)."""
     return F.cosine_similarity(a.flatten(), b.flatten(), dim=0, eps=_COS_EPS)
-
-
-def _sanitize_grad_inplace(grad: Optional[torch.Tensor]) -> bool:
-    """Replace non-finite gradient values in-place; returns True if patched."""
-    if grad is None or torch.isfinite(grad).all():
-        return False
-    grad.copy_(torch.nan_to_num(grad, nan=0.0, posinf=0.0, neginf=0.0))
-    return True
-
-
-def _sanitize_delta_inplace(delta: torch.Tensor, epsilon: float) -> bool:
-    """Replace non-finite delta values in-place; returns True if patched."""
-    if torch.isfinite(delta).all():
-        return False
-    delta.copy_(torch.nan_to_num(delta, nan=0.0, posinf=epsilon, neginf=-epsilon))
-    return True
 
 
 class ADVEDMSemanticAdditionPaperExact:
@@ -82,20 +60,13 @@ class ADVEDMSemanticAdditionPaperExact:
         self.alpha = alpha
         self.beta = beta
 
-        print(f"Loading reference image: {reference_image_path}")
-        self.reference_patch_embeds, self.reference_cls_embed, self.reference_attention = \
-            self._load_reference_image(reference_image_path)
-        print(f"✓ Reference loaded:")
-        print(f"  Patches: {self.reference_patch_embeds.shape}")
-        print(f"  CLS: {self.reference_cls_embed.shape}")
-        print(f"  Attention: {self.reference_attention.shape}")
+        self.reference_cls_embed = self._load_reference_image(reference_image_path)
+        self.reference_patch_embeds = self.reference_attention = None  # per sample, from the composite (wrapper)
+        print(f"Reference {reference_image_path}: CLS {tuple(self.reference_cls_embed.shape)}")
 
-    def _load_reference_image(
-        self,
-        path: str
-    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-        """Load the reference image and extract patch embeddings, CLS token, and CLS->patch attention."""
-        ref_image = Image.open(path).convert("RGB")
+    def _load_reference_image(self, path: str) -> torch.Tensor:
+        """The reference image's normalized CLS embedding."""
+        ref_image = load_rgb(path)  # EXIF-upright, as the composite's reference
 
         image_size = self.image_size
 
@@ -115,18 +86,7 @@ class ADVEDMSemanticAdditionPaperExact:
 
         with torch.no_grad():
             if is_openai_style:
-                attention_vec = extract_cls_to_patch_attention(vis, ref_normalized)
-
-                conv1_dtype = trunk.conv1.weight.dtype
-                x = trunk.conv1(ref_normalized.to(conv1_dtype))
-                x = x.reshape(x.shape[0], x.shape[1], -1).permute(0, 2, 1)
-                x = torch.cat([
-                    trunk.class_embedding.to(x.dtype) +
-                    torch.zeros(x.shape[0], 1, x.shape[-1], dtype=x.dtype, device=x.device),
-                    x
-                ], dim=1)
-                x = x + trunk.positional_embedding.to(x.dtype)
-                x = trunk.ln_pre(x)
+                x = openai_tokens(trunk, ref_normalized)
                 seq_first = not getattr(trunk.transformer, "batch_first", False)
                 if seq_first:
                     x = x.permute(1, 0, 2)
@@ -137,7 +97,6 @@ class ADVEDMSemanticAdditionPaperExact:
                 x = x.float()
 
                 cls_embed = x[:, 0, :]
-                patch_embeds = x[:, 1:, :]
             else:
                 x = trunk.patch_embed(ref_normalized)
                 has_cls = hasattr(trunk, "cls_token") and trunk.cls_token is not None
@@ -156,21 +115,9 @@ class ADVEDMSemanticAdditionPaperExact:
                     x = trunk.norm(x)
                 x = x.float()
 
-                if has_cls:
-                    cls_embed = x[:, 0, :]
-                    patch_embeds = x[:, 1:, :]
-                else:
-                    cls_embed = vis.head(trunk.forward_head(x)).float()
-                    patch_embeds = x
+                cls_embed = x[:, 0, :] if has_cls else vis.head(trunk.forward_head(x)).float()
 
-                # No CLS: use uniform attention.
-                N = patch_embeds.shape[1]
-                attention_vec = torch.ones(1, N, device=x.device, dtype=x.dtype) / N
-
-            cls_embed = _safe_normalize(cls_embed)
-            patch_embeds = _safe_normalize(patch_embeds)
-
-        return patch_embeds.detach(), cls_embed.detach(), attention_vec.detach()
+        return _safe_normalize(cls_embed).detach()
 
     def compute_cls_loss(
         self,
@@ -244,7 +191,7 @@ class ADVEDMSemanticAdditionPaperExact:
         target_indices: torch.Tensor
     ) -> torch.Tensor:
         """L_fix (Eq.12): preserve non-target regions using attention-weighted features."""
-        B, num_patches, D = patch_embeds_adv.shape
+        B, num_patches = patch_embeds_adv.shape[:2]
         if target_indices.dim() == 1:
             target_indices = target_indices.unsqueeze(0)
         if target_indices.shape[0] == 1 and B > 1:
@@ -293,37 +240,9 @@ class ADVEDMSemanticAdditionPaperExact:
         target_indices: torch.Tensor
     ) -> Tuple[torch.Tensor, dict]:
         """Compute the Eq.8 total loss (w1*L_cls + w2*L_p + w3*L_fix) with attention reallocation."""
-        B = patch_embeds_adv.shape[0]
-        num_patches = patch_embeds_adv.shape[1]
-
-        if target_indices.dim() == 1:
-            target_indices_batch = target_indices.unsqueeze(0).expand(B, -1)
-        else:
-            target_indices_batch = target_indices
-
-        if target_indices_batch.shape[0] != B:
-            raise ValueError(
-                f"target_indices batch size mismatch: got {target_indices_batch.shape[0]}, expected {B}"
-            )
-
-        mask = torch.ones(B, num_patches, device=patch_embeds_adv.device, dtype=A_orig.dtype)
-        for b in range(B):
-            if target_indices_batch[b].numel() == 0:
-                raise ValueError("target_indices is empty; cannot build Equation 10 mask.")
-            if torch.any((target_indices_batch[b] < 0) | (target_indices_batch[b] >= num_patches)):
-                raise ValueError(
-                    f"target_indices out of valid patch range [0, {num_patches - 1}]"
-                )
-            mask[b, target_indices_batch[b]] = 0
-
+        mask = torch.ones_like(A_orig)  # [1, N]; bbox_to_target_indices gives >= 1 in-range index
+        mask[:, target_indices] = 0
         A_ref = self.reference_attention.to(A_orig.dtype)
-        if A_ref.shape[0] == 1 and B > 1:
-            A_ref = A_ref.expand(B, -1)
-        if A_orig.shape != A_ref.shape or A_orig.shape != mask.shape:
-            raise ValueError(
-                f"Attention/mask shape mismatch: A_orig={tuple(A_orig.shape)}, "
-                f"A_ref={tuple(A_ref.shape)}, mask={tuple(mask.shape)}"
-            )
 
         A_reallocated = reallocate_attention_vector(
             A_orig,
@@ -363,176 +282,15 @@ class ADVEDMSemanticAdditionPaperExact:
         }
 
 
-def adam_attack_advedm_a_paper_exact(
-    image: torch.Tensor,
-    vision_encoder: torch.nn.Module,
-    attack: ADVEDMSemanticAdditionPaperExact,
-    target_indices: torch.Tensor,
-    epsilon: float = 8/255,
-    num_iters: int = 500,
-    learning_rate: float = 0.005,
-    constraint: str = "l2",
-    verbose: bool = True
-) -> Tuple[torch.Tensor, torch.Tensor, list]:
-    """Paper-exact ADVEDM-A optimization with per-iteration attention extraction."""
-    device = image.device
-    B, C, H, W = image.shape
-
-    delta = torch.zeros_like(image, requires_grad=True)
-    optimizer = torch.optim.Adam([delta], lr=learning_rate)
-
-    mean = torch.tensor([0.48145466, 0.45782750, 0.40821073]).view(1, 3, 1, 1).to(device)
-    std = torch.tensor([0.26862954, 0.26130258, 0.27577711]).view(1, 3, 1, 1).to(device)
-    image_normalized = (image - mean) / std
-
-    with torch.no_grad():
-        A_orig = extract_cls_to_patch_attention(vision_encoder, image_normalized)
-
-        conv1_dtype = vision_encoder.conv1.weight.dtype
-        x = vision_encoder.conv1(image_normalized.to(conv1_dtype))
-        x = x.reshape(x.shape[0], x.shape[1], -1).permute(0, 2, 1)
-        x = torch.cat([
-            vision_encoder.class_embedding.to(x.dtype) +
-            torch.zeros(x.shape[0], 1, x.shape[-1], dtype=x.dtype, device=x.device),
-            x
-        ], dim=1)
-        x = x + vision_encoder.positional_embedding.to(x.dtype)
-        x = vision_encoder.ln_pre(x)
-        x = x.permute(1, 0, 2)
-        x = vision_encoder.transformer(x)
-        x = x.permute(1, 0, 2)
-        x = vision_encoder.ln_post(x)
-        x = x.float()  # cast FP16->FP32 before normalization to avoid NaN
-        cls_embed_orig = _safe_normalize(x[:, 0, :])
-        patch_embeds_orig = _safe_normalize(x[:, 1:, :])
-
-    loss_history = []
-
-    if verbose:
-        if target_indices.dim() == 1:
-            target_patch_count = target_indices.shape[0]
-        else:
-            target_patch_count = target_indices.shape[1]
-        print(f"\nStarting paper-exact optimization...")
-        print(f"  Iterations: {num_iters}")
-        print(f"  Learning rate: {learning_rate}")
-        print(f"  Epsilon: {epsilon:.4f} ({int(epsilon*255)}/255)")
-        print(f"  Target patches: {target_patch_count}")
-        print(f"  CLS→patch attention shape: {A_orig.shape}")
-
-    for iteration in range(num_iters):
-        optimizer.zero_grad()
-
-        adv_image = image + delta
-        adv_image_normalized = (adv_image - mean) / std
-
-        A_adv = extract_cls_to_patch_attention(
-            vision_encoder, adv_image_normalized
-        ).detach()
-
-        x = vision_encoder.conv1(adv_image_normalized.to(conv1_dtype))
-        x = x.reshape(x.shape[0], x.shape[1], -1).permute(0, 2, 1)
-        x = torch.cat([
-            vision_encoder.class_embedding.to(x.dtype) +
-            torch.zeros(x.shape[0], 1, x.shape[-1], dtype=x.dtype, device=x.device),
-            x
-        ], dim=1)
-        x = x + vision_encoder.positional_embedding.to(x.dtype)
-        x = vision_encoder.ln_pre(x)
-        x = x.permute(1, 0, 2)
-        x = vision_encoder.transformer(x)
-        x = x.permute(1, 0, 2)
-        x = vision_encoder.ln_post(x)
-        x = x.float()  # cast FP16->FP32 before normalization to avoid NaN under autograd
-        cls_embed_adv = _safe_normalize(x[:, 0, :])
-        patch_embeds_adv = _safe_normalize(x[:, 1:, :])
-
-        loss, loss_dict = attack.compute_total_loss(
-            patch_embeds_adv,
-            cls_embed_adv,
-            cls_embed_orig,
-            patch_embeds_orig,
-            A_adv,
-            A_orig,
-            target_indices
-        )
-
-        if not torch.isfinite(loss):
-            raise RuntimeError(
-                f"Non-finite ADVEDM-A loss at iteration {iteration}: {loss_dict}"
-            )
-
-        loss.backward()
-        if _sanitize_grad_inplace(delta.grad) and verbose:
-            print(f"  [warn] Sanitized non-finite ADVEDM-A gradient at iter {iteration}.")
-        optimizer.step()
-
-        with torch.no_grad():
-            if _sanitize_delta_inplace(delta, epsilon) and verbose:
-                print(f"  [warn] Sanitized non-finite ADVEDM-A delta at iter {iteration}.")
-            if constraint == "linf":
-                delta_min = torch.max(-epsilon * torch.ones_like(image), -image)
-                delta_max = torch.min(epsilon * torch.ones_like(image), 1 - image)
-                delta.copy_(torch.clamp(delta, delta_min, delta_max))
-            elif constraint == "l2":
-                delta_norm = torch.norm(delta.reshape(B, -1), p=2, dim=1, keepdim=True)
-                scale = torch.clamp(epsilon / (delta_norm + 1e-8), max=1.0)
-                delta.copy_(delta * scale.view(B, 1, 1, 1))
-
-                adv_clamped = torch.clamp(image + delta, 0.0, 1.0)
-                delta.copy_(adv_clamped - image)
-            else:
-                raise ValueError(f"Unsupported constraint '{constraint}'. Use 'l2' or 'linf'.")
-
-        loss_history.append(loss_dict)
-
-        if verbose and (iteration % 50 == 0 or iteration == num_iters - 1):
-            print(f"  Iter {iteration:3d}: Loss={loss_dict['total']:.4f} | "
-                  f"L_cls={loss_dict['cls']:.4f} | "
-                  f"L_p={loss_dict['reference_sim']:.4f} | "
-                  f"L_fix={loss_dict['attention_fix']:.4f}")
-
-    if verbose:
-        final_perturbation = delta.detach().abs().max().item()
-        print(f"\n✓ Optimization complete")
-        print(f"  Final perturbation: {final_perturbation:.6f} ({final_perturbation*255:.2f}/255)")
-
-    return image + delta.detach(), delta.detach(), loss_history
-
-
-
 class ADVEDMSemanticRemovalPaperExact:
     """ADVEDM-R semantic removal attack via text-guided masking (paper Equations 3-8)."""
 
-    def __init__(
-        self,
-        vision_encoder,
-        text_encoder,
-        target_text: str,
-        lambda_cls: float = 0.5,
-        lambda_local: float = 2.0,
-        lambda_fix: float = 0.2,
-        k_ratio: float = 0.2,
-        mask_threshold: Optional[float] = None,
-        device: str = "cuda"
-    ):
-        """Initialize the ADVEDM-R attack."""
-        self.vision_encoder = vision_encoder
-        self.text_encoder = text_encoder
-        self.target_text = target_text
+    def __init__(self, target_text_embed: torch.Tensor, lambda_cls: float = 0.5, lambda_local: float = 2.0, lambda_fix: float = 0.2):
+        """target_text_embed: [1, D] text embedding of the concept to remove."""
+        self.target_text_embed = target_text_embed
         self.lambda_cls = lambda_cls
         self.lambda_local = lambda_local
         self.lambda_fix = lambda_fix
-        self.k_ratio = k_ratio
-        self.mask_threshold = mask_threshold
-        self.device = device
-
-        self.target_text_embed = self._encode_target_text()
-
-    def _encode_target_text(self) -> torch.Tensor:
-        """Encode the target text to an embedding [1, 768]."""
-        text_features = self.text_encoder.encode_text([self.target_text])
-        return text_features
 
     def compute_cls_loss(
         self,
@@ -559,7 +317,7 @@ class ADVEDMSemanticRemovalPaperExact:
         for b in range(B):
             removal_indices = (mask[b] == 0).nonzero(as_tuple=True)[0]
             if removal_indices.numel() == 0:
-                raise ValueError("No removal patches found; adjust k_ratio/mask_threshold.")
+                raise ValueError("No removal patches found; adjust k_ratio.")
 
             adv_removal = patch_embeds_adv[b, removal_indices]
             masked_removal = patch_embeds_masked[b, removal_indices]
@@ -593,7 +351,7 @@ class ADVEDMSemanticRemovalPaperExact:
 
             preserve_indices = (mask[b] == 1).nonzero(as_tuple=True)[0]
             if preserve_indices.numel() == 0:
-                raise ValueError("No preserve patches found; adjust k_ratio/mask_threshold.")
+                raise ValueError("No preserve patches found; adjust k_ratio.")
 
             preserve_adv = weighted_adv[preserve_indices]
             preserve_orig = weighted_orig[preserve_indices]
@@ -637,199 +395,3 @@ class ADVEDMSemanticRemovalPaperExact:
             'local': L_p.detach(),
             'fix': L_fix.detach()
         }
-
-
-def extract_patch_and_cls_embeddings(vision_encoder, image_normalized):
-    """Extract normalized patch and CLS embeddings from an OpenAI-CLIP vision encoder."""
-    conv1_dtype = vision_encoder.conv1.weight.dtype
-    x = vision_encoder.conv1(image_normalized.to(conv1_dtype))
-    x = x.reshape(x.shape[0], x.shape[1], -1).permute(0, 2, 1)
-    x = torch.cat([
-        vision_encoder.class_embedding.to(x.dtype) +
-        torch.zeros(x.shape[0], 1, x.shape[-1], dtype=x.dtype, device=x.device),
-        x
-    ], dim=1)
-    x = x + vision_encoder.positional_embedding.to(x.dtype)
-    x = vision_encoder.ln_pre(x)
-    x = x.permute(1, 0, 2)
-    x = vision_encoder.transformer(x)
-    x = x.permute(1, 0, 2)
-    x = vision_encoder.ln_post(x)
-    x = x.float()  # cast FP16->FP32 before normalization to avoid NaN
-
-    cls_embed = _safe_normalize(x[:, 0, :])
-    patch_embeds = _safe_normalize(x[:, 1:, :])
-
-    return patch_embeds, cls_embed
-
-
-def adam_attack_advedm_r_paper_exact(
-    image: torch.Tensor,
-    vision_encoder: torch.nn.Module,
-    attack: ADVEDMSemanticRemovalPaperExact,
-    vision_backend=None,
-    epsilon: float = 8/255,
-    num_iters: int = 500,
-    learning_rate: float = 0.005,
-    constraint: str = "l2",
-    verbose: bool = True
-) -> Tuple[torch.Tensor, torch.Tensor, list]:
-    """ADVEDM-R optimization with text-guided masking (mask and masked image computed once from the clean image)."""
-    device = image.device
-    B, C, H, W = image.shape
-
-    delta = torch.zeros_like(image, requires_grad=True)
-    optimizer = torch.optim.Adam([delta], lr=learning_rate)
-
-    mean = torch.tensor([0.48145466, 0.45782750, 0.40821073]).view(1, 3, 1, 1).to(device)
-    std = torch.tensor([0.26862954, 0.26130258, 0.27577711]).view(1, 3, 1, 1).to(device)
-    image_normalized = (image - mean) / std
-
-    def _extract_attention(img: torch.Tensor, img_normalized: torch.Tensor) -> torch.Tensor:
-        if vision_backend is not None:
-            return vision_backend.extract_cls_to_patch_attention(img, normalized=False)
-        return extract_cls_to_patch_attention(vision_encoder, img_normalized)
-
-    def _extract_patch_cls(
-        img: torch.Tensor,
-        img_normalized: torch.Tensor,
-    ) -> Tuple[torch.Tensor, torch.Tensor]:
-        """Extract projected 768-dim features used only for masking and L_cls."""
-        if vision_backend is not None:
-            return vision_backend.extract_patch_cls_embeddings(img, normalized=False)
-        return extract_patch_and_cls_embeddings(vision_encoder, img_normalized)
-
-    def _extract_spatial_feats(
-        img: torch.Tensor,
-        img_normalized: torch.Tensor,
-    ) -> Tuple[torch.Tensor, torch.Tensor]:
-        """Extract pre-projection 1024-dim features (the space LLaVA's projector consumes) for L_p and L_fix."""
-        if vision_backend is not None:
-            return vision_backend.extract_patch_cls_embeddings_noproj(img, normalized=False)
-        return extract_patch_and_cls_embeddings(vision_encoder, img_normalized)
-
-    _clip_visual_proj: Optional[torch.Tensor] = None
-    if vision_backend is not None:
-        _clip_visual_proj = getattr(vision_backend, "_alignment_proj", None)
-        if _clip_visual_proj is None:
-            _clip_visual_proj = getattr(
-                getattr(vision_backend, "vision_encoder", None), "proj", None
-            )
-    else:
-        _clip_visual_proj = getattr(vision_encoder, "proj", None)
-
-    with torch.no_grad():
-        A_orig = _extract_attention(image, image_normalized)
-
-        patch_embeds_for_mask, _ = _extract_patch_cls(image, image_normalized)
-
-        S = compute_text_patch_similarity(patch_embeds_for_mask, attack.target_text_embed)
-        if attack.mask_threshold is not None:
-            mask = construct_threshold_mask(S, threshold=attack.mask_threshold)
-        else:
-            mask = construct_top_k_mask(S, k_ratio=attack.k_ratio)
-
-        patch_embeds_orig, _ = _extract_spatial_feats(image, image_normalized)
-
-        if vision_backend is not None:
-            patch_size = int(vision_backend.patch_size)
-        else:
-            patch_size = int(vision_encoder.conv1.kernel_size[0])
-        image_size = H
-
-        masked_image = create_masked_image(
-            image, mask,
-            patch_size=patch_size,
-            image_size=image_size
-        )
-
-        patch_embeds_masked, _ = _extract_spatial_feats(
-            masked_image,
-            (masked_image - mean) / std,
-        )
-
-    loss_history = []
-
-    if verbose:
-        print(f"\nStarting ADVEDM-R optimization...")
-        print(f"  Target text: '{attack.target_text}'")
-        removal_count = int((mask == 0).sum().item())
-        total_count = int(mask.numel())
-        removal_ratio = 100.0 * removal_count / max(total_count, 1)
-        if attack.mask_threshold is None:
-            print(f"  Removal patches: {removal_count}/{total_count} ({removal_ratio:.1f}%, top-k mode)")
-        else:
-            print(
-                f"  Removal patches: {removal_count}/{total_count} ({removal_ratio:.1f}%, "
-                f"threshold mode xi={attack.mask_threshold})"
-            )
-        print(f"  Constraint: {constraint.upper()} (ε={epsilon:.4f})")
-
-    for iteration in range(num_iters):
-        optimizer.zero_grad()
-
-        adv_image = image + delta
-        adv_image_normalized = (adv_image - mean) / std
-
-        A_adv = _extract_attention(adv_image, adv_image_normalized).detach()
-
-        patch_embeds_adv, cls_embed_adv_spatial = _extract_spatial_feats(
-            adv_image, adv_image_normalized
-        )
-
-        if _clip_visual_proj is not None:
-            cls_proj = cls_embed_adv_spatial.float() @ _clip_visual_proj.to(
-                device=cls_embed_adv_spatial.device, dtype=cls_embed_adv_spatial.dtype
-            )
-            cls_embed_adv = _safe_normalize(cls_proj.float())
-        else:
-            cls_embed_adv = cls_embed_adv_spatial
-
-        loss, loss_dict = attack.compute_total_loss(
-            cls_embed_adv,
-            patch_embeds_adv,
-            patch_embeds_orig,
-            patch_embeds_masked,
-            A_adv,
-            A_orig,
-            mask
-        )
-
-        if not torch.isfinite(loss):
-            raise RuntimeError(
-                f"Non-finite ADVEDM-R loss at iteration {iteration}: {loss_dict}"
-            )
-
-        loss.backward()
-        if _sanitize_grad_inplace(delta.grad) and verbose:
-            print(f"  [warn] Sanitized non-finite ADVEDM-R gradient at iter {iteration}.")
-        optimizer.step()
-
-        with torch.no_grad():
-            if _sanitize_delta_inplace(delta, epsilon) and verbose:
-                print(f"  [warn] Sanitized non-finite ADVEDM-R delta at iter {iteration}.")
-            if constraint == "linf":
-                delta_min = torch.max(-epsilon * torch.ones_like(image), -image)
-                delta_max = torch.min(epsilon * torch.ones_like(image), 1 - image)
-                delta.copy_(torch.clamp(delta, delta_min, delta_max))
-            elif constraint == "l2":
-                delta_norm = torch.norm(delta.reshape(B, -1), p=2, dim=1, keepdim=True)
-                scale = torch.clamp(epsilon / (delta_norm + 1e-8), max=1.0)
-                delta.copy_(delta * scale.view(B, 1, 1, 1))
-
-                adv_clamped = torch.clamp(image + delta, 0.0, 1.0)
-                delta.copy_(adv_clamped - image)
-            else:
-                raise ValueError(f"Unsupported constraint '{constraint}'. Use 'l2' or 'linf'.")
-
-        loss_history.append(loss_dict)
-
-        if verbose and (iteration % 50 == 0 or iteration == num_iters - 1):
-            print(f"  Iter {iteration:3d}: Loss={loss_dict['total']:.4f} | "
-                  f"L_cls={loss_dict['cls']:.4f} | "
-                  f"L_p={loss_dict['local']:.4f} | "
-                  f"L_fix={loss_dict['fix']:.4f}")
-
-    adv_image = (image + delta).detach()
-    delta_final = delta.detach()
-    return adv_image, delta_final, loss_history

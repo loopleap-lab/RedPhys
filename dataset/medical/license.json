@@ -1,0 +1,5 @@
+{
+ "license": "CC BY 4.0",
+ "scope": "50 multiple-choice cases from SLAKE (Liu et al., ISBI 2021; huggingface.co/datasets/BoKelvin/SLAKE), English test/validation questions with 4 options; distractors are drawn from SLAKE answer vocabularies, excluding answers SLAKE gives for the same image.",
+ "attribution": "SLAKE: A Semantically-Labeled Knowledge-Enhanced Dataset for Medical Visual Question Answering"
+}

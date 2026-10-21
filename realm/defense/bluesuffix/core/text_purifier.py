@@ -1,4 +1,6 @@
-"""BlueSuffix text purifier that rewrites prompts via GPT-4o to surface hidden jailbreak intent."""
+"""BlueSuffix text purifier: an LLM rewrites prompts to surface hidden jailbreak intent."""
+
+import functools
 
 
 DEFENSE_TEMPLATE = '''
@@ -22,10 +24,15 @@ def extract_content(text):
     return parts[1].strip() if len(parts) == 3 and parts[1].strip() else None
 
 
-def purify_text(prompt, api_key, model="gpt-4o", base_url=None):
-    """Run text through the GPT-4o purifier, returning the purified prompt or the original on failure."""
+@functools.lru_cache(maxsize=None)
+def _client(api_key, base_url):
     import openai
-    client = openai.OpenAI(api_key=api_key, base_url=base_url)
+    return openai.OpenAI(api_key=api_key, base_url=base_url)
+
+
+def purify_text(prompt, api_key, model="gpt-4o", base_url=None):
+    """The purified prompt; the original if the reply has no @@ block."""
+    client = _client(api_key, base_url)
     user_message = DEFENSE_TEMPLATE.format(prompt)
     resp = client.chat.completions.create(
         model=model,

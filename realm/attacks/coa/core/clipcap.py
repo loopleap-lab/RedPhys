@@ -4,6 +4,7 @@ from typing import Tuple, Optional
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from transformers import GPT2LMHeadModel
 
 T = torch.Tensor
@@ -58,12 +59,16 @@ def generate_cap(
         prompt=None,
         embed=None,
         entry_count=1,
-        entry_length=67,
+        entry_length=67,  # maximum number of words
+        top_p=0.8,
+        temperature=1.,
         stop_token: str = '.',
 ):
+    """ClipCap's generate2: top-p filtered, then argmax (so greedy)."""
     model.eval()
     generated_list = []
     stop_token_index = tokenizer.encode(stop_token)[0]
+    filter_value = -float("Inf")
     device = next(model.parameters()).device
 
     with torch.no_grad():
@@ -81,7 +86,15 @@ def generate_cap(
             for i in range(entry_length):
 
                 logits = model.gpt(inputs_embeds=generated).logits
-                next_token = logits[:, -1, :].argmax(-1).unsqueeze(0)  # greedy: top-p never drops the argmax
+                logits = logits[:, -1, :] / (temperature if temperature > 0 else 1.0)
+                sorted_logits, sorted_indices = torch.sort(logits, descending=True)
+                cumulative_probs = torch.cumsum(F.softmax(sorted_logits, dim=-1), dim=-1)
+                sorted_indices_to_remove = cumulative_probs > top_p
+                sorted_indices_to_remove[..., 1:] = sorted_indices_to_remove[..., :-1].clone()
+                sorted_indices_to_remove[..., 0] = 0
+                indices_to_remove = sorted_indices[sorted_indices_to_remove]
+                logits[:, indices_to_remove] = filter_value
+                next_token = torch.argmax(logits, -1).unsqueeze(0)
                 next_token_embed = model.gpt.transformer.wte(next_token)
                 if tokens is None:
                     tokens = next_token

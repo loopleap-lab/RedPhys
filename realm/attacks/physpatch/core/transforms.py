@@ -4,18 +4,13 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 import torch_dct as dct
-import scipy.stats as st
-
-
-device = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 class My_T:
     """Ensemble of diverse random image transformations for robust adversarial attacks."""
 
-    def __init__(self, num_copies=5, **kwargs):
+    def __init__(self, num_copies=5):
         self.num_copies = num_copies
-        self.kernel = self.gkern()
 
         self.op = [
             self.resize,
@@ -86,16 +81,6 @@ class My_T:
         """Add uniform random noise."""
         return torch.clip(x + torch.zeros_like(x).uniform_(-16, 16), 0, 255)
 
-    def gkern(self, kernel_size=3, nsig=3):
-        """Generate Gaussian kernel."""
-        x = np.linspace(-nsig, nsig, kernel_size)
-        kern1d = st.norm.pdf(x)
-        kernel_raw = np.outer(kern1d, kern1d)
-        kernel = kernel_raw / kernel_raw.sum()
-        stack_kernel = np.stack([kernel, kernel, kernel])
-        stack_kernel = np.expand_dims(stack_kernel, 1)
-        return torch.from_numpy(stack_kernel.astype(np.float32)).to(device)
-
     def adjust_brightness(self, x, factor=None):
         """Adjust brightness by scaling all pixels."""
         if factor is None:
@@ -119,6 +104,6 @@ class My_T:
         trans = self.op[i]
         return trans(x)
 
-    def transform(self, x, **kwargs):
+    def transform(self, x):
         """Apply multiple random transformations and concatenate the copies."""
         return torch.cat([self.blocktransform(x) for _ in range(self.num_copies)])

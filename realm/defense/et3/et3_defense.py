@@ -7,9 +7,10 @@ from typing import Optional
 
 import torch
 import torch.nn.functional as F
-from PIL import Image
 from torchvision.transforms import Normalize
 
+from ...data import load_rgb
+from ...data.tensors import to_pil, to_tensor
 from ..base_defense import BaseDefense, DefenseConfig, DefenseResult
 
 ASSETS = Path(__file__).parent / "assets"
@@ -25,7 +26,7 @@ class ET3DefenseConfig(DefenseConfig):
     steps: int = 2  # T
     temperature: float = 1.0
     logit_scale: float = 100.0
-    labels_file: str = str(ASSETS / "imagenet21k_wordnet_lemmas.txt")
+    labels_file: Optional[str] = None  # default: assets/imagenet21k_wordnet_lemmas.txt
     text_batch: int = 2560
 
 
@@ -47,8 +48,7 @@ def _label_embeddings(model, tokenizer, names, device, batch):
 class ET3Defense(BaseDefense):
     def __init__(self, config: ET3DefenseConfig):
         super().__init__(config)
-        self.config: ET3DefenseConfig = config
-        self._model = None
+        self._model = self._norm = self._text = None
 
     def _load(self):
         if self._model is not None:
@@ -58,9 +58,10 @@ class ET3Defense(BaseDefense):
         model = open_clip.create_model_and_transforms(c.clip_model, pretrained=c.clip_pretrained)[0]
         self._model = model.eval().requires_grad_(False).to(c.device)
         self._norm = Normalize(model.visual.preprocess_cfg["mean"], model.visual.preprocess_cfg["std"])
-        cache = ASSETS / re.sub(r"[^\w.-]", "_", f"text_{c.clip_model}_{c.clip_pretrained}_{Path(c.labels_file).stem}.pt")
+        labels = Path(c.labels_file or ASSETS / "imagenet21k_wordnet_lemmas.txt")
+        cache = ASSETS / re.sub(r"[^\w.-]", "_", f"text_{c.clip_model}_{c.clip_pretrained}_{labels.stem}.pt")
         if not cache.exists():
-            names = [l.strip() for l in Path(c.labels_file).read_text().splitlines() if l.strip()]
+            names = [l.strip() for l in labels.read_text().splitlines() if l.strip()]
             torch.save(_label_embeddings(self._model, open_clip.get_tokenizer(c.clip_model), names, c.device, c.text_batch), cache)
         self._text = torch.load(cache).float().to(c.device)
 
@@ -75,10 +76,9 @@ class ET3Defense(BaseDefense):
         return -c.temperature * torch.logsumexp(c.logit_scale * self._features(x) @ self._text.T / c.temperature, dim=-1)
 
     def clean(self, image_path: str, **kwargs) -> DefenseResult:
-        from ...attacks.base_attack import to_pil, to_tensor
         self._load()
         c = self.config
-        x0 = to_tensor(Image.open(image_path)).to(c.device)
+        x0 = to_tensor(load_rgb(image_path)).to(c.device)
         scale = (x0[0, 0].numel() / c.input_res ** 2) ** 0.5  # same per-pixel budget at any size
         eps, alpha = c.epsilon * scale, c.alpha * scale
         x, energies = x0.clone(), []
@@ -92,9 +92,4 @@ class ET3Defense(BaseDefense):
                 x = (x0 + d * (eps / d.norm().clamp_min(1e-8)).clamp(max=1)).clamp(0, 1)  # l2 ball
         with torch.no_grad():
             energies.append(self._energy(x).item())
-        return DefenseResult(
-            cleaned_sample=to_pil(x),
-            original_image_path=image_path,
-            metadata={"energy": energies, "epsilon": c.epsilon, "steps": c.steps, "alpha": c.alpha,
-                      "clip": f"{c.clip_model}/{c.clip_pretrained}", "purification_method": "et3"},
-        )
+        return DefenseResult(cleaned_sample=to_pil(x), metadata={"energy": energies})

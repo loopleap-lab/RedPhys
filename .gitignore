@@ -15,7 +15,7 @@ venv/
 env/
 *-env/
 
-# ── Model weights / checkpoints (download via check_and_download_weights.sh) ──
+# ── Model weights / checkpoints (bash install.sh weights) ──
 *.pth
 *.pt
 *.ckpt
@@ -26,9 +26,11 @@ realm/**/assets/pretrained/
 realm/**/assets/models/
 realm/**/assets/som/*.pth
 realm/attacks/figstep/assets/*.ttf
+realm/attacks/scenetap/assets/*.ttf
 realm/attacks/paattack/prototypes/
 
 # ── Generated outputs / caches ──────────────────────────────────────
+out/
 dataset/**/adversarial/
 dataset/**/cleaned/
 dataset/**/coordinates/
@@ -54,3 +56,4 @@ runs/
 
 # ── Physical-world sets kept out of the repo ─────────────────────────
 dataset/physical_world/
+dataset/physics_simulation/

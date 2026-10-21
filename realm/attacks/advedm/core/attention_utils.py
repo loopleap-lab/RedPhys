@@ -4,31 +4,6 @@ import torch
 import torch.nn.functional as F
 
 
-def _extract_cls_to_patch_from_attentions(
-    attentions,
-    average_across_layers: bool = True,
-    renormalize: bool = False,
-) -> torch.Tensor:
-    """Convert layer attentions to a CLS->patch vector [B, N]."""
-    if not attentions:
-        raise ValueError("No attention tensors were provided.")
-
-    cls_vectors = []
-    for layer_attn in attentions:
-        attn_avg = layer_attn.mean(dim=1)
-        cls_vectors.append(attn_avg[:, 0, 1:])
-
-    if average_across_layers:
-        cls_to_patches = torch.stack(cls_vectors, dim=0).mean(dim=0)
-    else:
-        cls_to_patches = cls_vectors[-1]
-
-    if renormalize:
-        denom = cls_to_patches.sum(dim=-1, keepdim=True).clamp_min(1e-8)
-        cls_to_patches = cls_to_patches / denom
-    return cls_to_patches
-
-
 def attention_weights(block, x: torch.Tensor):
     """Softmax attention and values of an OpenAI-CLIP resblock (seq-first x)."""
     x_ln = block.ln_1(x)
@@ -43,37 +18,18 @@ def attention_weights(block, x: torch.Tensor):
     return attn_weights / attn_weights.sum(dim=-1, keepdim=True).clamp_min(1e-8), v
 
 
-def extract_cls_to_patch_attention(
-    vision_encoder,
-    images_normalized: torch.Tensor,
-    average_across_layers: bool = True,
-    renormalize: bool = False,
-) -> torch.Tensor:
-    """Extract CLS->patch attention as a vector per image from an OpenAI-CLIP-style tower."""
-    device = images_normalized.device
-    conv1_dtype = vision_encoder.conv1.weight.dtype
-    images_norm = images_normalized.to(dtype=conv1_dtype, device=device)
+def openai_tokens(vis, images_normalized: torch.Tensor) -> torch.Tensor:
+    """OpenAI-CLIP tower input tokens [B, 1 + N, D]: conv1, class token, positional embedding, ln_pre."""
+    x = vis.conv1(images_normalized.to(vis.conv1.weight.dtype)).flatten(2).transpose(1, 2)
+    x = torch.cat([vis.class_embedding.to(x.dtype) + torch.zeros(x.shape[0], 1, x.shape[-1], dtype=x.dtype, device=x.device), x], dim=1)
+    return vis.ln_pre(x + vis.positional_embedding.to(x.dtype))
 
-    x = vision_encoder.conv1(images_norm)
-    x = x.reshape(x.shape[0], x.shape[1], -1).permute(0, 2, 1)
 
-    x = torch.cat(
-        [
-            vision_encoder.class_embedding.to(x.dtype)
-            + torch.zeros(x.shape[0], 1, x.shape[-1], dtype=x.dtype, device=x.device),
-            x,
-        ],
-        dim=1,
-    )
-    x = x + vision_encoder.positional_embedding.to(x.dtype)
-    x = vision_encoder.ln_pre(x)
-    x = x.permute(1, 0, 2)
-
-    num_blocks = len(vision_encoder.transformer.resblocks)
+def extract_cls_to_patch_attention(vision_encoder, images_normalized: torch.Tensor) -> torch.Tensor:
+    """CLS->patch attention per image from an OpenAI-CLIP-style tower, averaged over layers and heads."""
+    x = openai_tokens(vision_encoder, images_normalized).permute(1, 0, 2)
     all_cls_attentions = []
-
-    for layer_idx in range(num_blocks):
-        block = vision_encoder.transformer.resblocks[layer_idx]
+    for block in vision_encoder.transformer.resblocks:
         attn_weights, v = attention_weights(block, x)
         seq_len, batch_size, dim = x.shape
         all_cls_attentions.append(attn_weights.mean(dim=1)[:, 0, 1:])
@@ -89,60 +45,7 @@ def extract_cls_to_patch_attention(
         x = x + attn_output
         x = x + block.mlp(block.ln_2(x))
 
-    if average_across_layers:
-        all_cls_attentions = torch.stack(all_cls_attentions, dim=0)
-        cls_to_patches_final = all_cls_attentions.mean(dim=0)
-    else:
-        cls_to_patches_final = all_cls_attentions[-1]
-
-    if renormalize:
-        denom = cls_to_patches_final.sum(dim=-1, keepdim=True).clamp_min(1e-8)
-        cls_to_patches_final = cls_to_patches_final / denom
-
-    return cls_to_patches_final
-
-
-def extract_cls_to_patch_attention_generic(
-    vision_encoder,
-    images_normalized: torch.Tensor,
-    average_across_layers: bool = True,
-    renormalize: bool = False,
-) -> torch.Tensor:
-    """Generic CLS->patch attention extraction for both OpenAI-CLIP and HF-style towers."""
-    if hasattr(vision_encoder, "conv1") and hasattr(vision_encoder, "transformer"):
-        return extract_cls_to_patch_attention(
-            vision_encoder,
-            images_normalized,
-            average_across_layers=average_across_layers,
-            renormalize=renormalize,
-        )
-
-    kwargs = {"output_attentions": True, "return_dict": True}
-    try:
-        outputs = vision_encoder(images_normalized, **kwargs)
-    except TypeError:
-        outputs = vision_encoder(pixel_values=images_normalized, **kwargs)
-
-    attentions = getattr(outputs, "attentions", None)
-    if attentions is None and isinstance(outputs, tuple) and len(outputs) > 0:
-        maybe_attn = outputs[-1]
-        if isinstance(maybe_attn, (list, tuple)):
-            attentions = maybe_attn
-
-    # sdpa-backed models (e.g. LLaVA) return a list of Nones; drop them.
-    if attentions is not None:
-        attentions = [a for a in attentions if a is not None]
-
-    if not attentions:
-        raise ValueError(
-            "HF-style attention extraction failed: no attentions returned by vision encoder."
-        )
-
-    return _extract_cls_to_patch_from_attentions(
-        attentions,
-        average_across_layers=average_across_layers,
-        renormalize=renormalize,
-    )
+    return torch.stack(all_cls_attentions, dim=0).mean(dim=0)
 
 
 def reallocate_attention_vector(

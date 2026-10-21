@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
-"""PhysPatch patch placement: SoM -> SAM -> GPT-4V."""
+"""PhysPatch patch placement: SAM masks -> SoM marks -> a vision LLM picks the region."""
 
 import os
 import json
-import base64
 import re
 from pathlib import Path
 from typing import List, Tuple, Optional
@@ -11,50 +9,7 @@ import torch
 from PIL import Image
 from scipy.ndimage import center_of_mass
 
-
-def validate_pipeline_data(
-    clean_images_dir: str,
-    coords_file: Optional[str] = None,
-    som_dir: Optional[str] = None,
-    sam_labels_dir: Optional[str] = None,
-) -> dict:
-    """Status dict of which pipeline outputs exist."""
-    status = {
-        "coordinates_exist": False,
-        "som_exist": False,
-        "labels_exist": False,
-        "clean_images_exist": False,
-        "num_images": 0,
-        "missing_components": []
-    }
-
-    clean_path = Path(clean_images_dir)
-    if clean_path.exists():
-        image_files = [f for f in clean_path.iterdir() if f.suffix.lower() in (".jpg", ".jpeg", ".png")]
-        status["clean_images_exist"] = len(image_files) > 0
-        status["num_images"] = len(image_files)
-    else:
-        status["missing_components"].append("clean_images")
-
-    if coords_file and Path(coords_file).exists():
-        with open(coords_file, 'r') as f:
-            lines = [l.strip() for l in f if l.strip()]
-        status["coordinates_exist"] = len(lines) > 0
-    else:
-        status["missing_components"].append("coordinates")
-
-    if som_dir and Path(som_dir).exists():
-        status["som_exist"] = any(f.suffix.lower() in (".jpg", ".jpeg", ".png") for f in Path(som_dir).iterdir())
-    else:
-        status["missing_components"].append("som_images")
-
-    if sam_labels_dir and Path(sam_labels_dir).exists():
-        label_files = list(Path(sam_labels_dir).glob("*.txt"))
-        status["labels_exist"] = len(label_files) > 0
-    else:
-        status["missing_components"].append("sam_labels")
-
-    return status
+from ...data import file_data_url, image_files, load_rgb
 
 
 def generate_som_labels(
@@ -62,24 +17,21 @@ def generate_som_labels(
     som_output_dir: str,
     labels_output_dir: str,
     sam_checkpoint: str,
-    granularity: float = 2.6,
-    alpha: float = 0.1,
-    label_mode: str = "Number",
+    alpha: float = 0.1,  # mask opacity
     device: str = "cuda",
     names: Optional[set] = None,
 ) -> None:
     from segment_anything import sam_model_registry
-    from realm.data import load_rgb
 
     import sys
-    legacy_som_path = Path(__file__).parent / "assets" / "som"
-    sys.path.insert(0, str(legacy_som_path))
+    som_path = Path(__file__).parent / "assets" / "som"  # the official SoM code
+    sys.path.insert(0, str(som_path))
 
     try:
         from task_adapter.sam.tasks.inference_sam_m2m_auto import inference_sam_m2m_auto
     except ImportError:
         raise ImportError(
-            f"Cannot import SoM dependencies. Please ensure the legacy SoM code is available at: {legacy_som_path}"
+            f"Cannot import SoM dependencies. Please ensure the SoM code is available at: {som_path}"
         )
 
     os.makedirs(som_output_dir, exist_ok=True)
@@ -91,22 +43,19 @@ def generate_som_labels(
     model_sam.eval().to(device)
     print(f"SAM model ready ({sam_type}).")
 
-    clean_path = Path(clean_images_dir)
-    image_files = sorted(f for f in clean_path.iterdir() if f.suffix.lower() in (".jpg", ".jpeg", ".png"))
-    image_files = [f for f in image_files if names is None or f.name in names]
+    images = [f for f in image_files(clean_images_dir) if names is None or f.name in names]
 
-    label_mode_char = 'a' if label_mode == 'Alphabet' else '1'
     text_size = 900
     anno_mode = ['Mask', 'Mark']
 
-    print(f"Processing {len(image_files)} images...")
-    for img_file in image_files:
+    print(f"Processing {len(images)} images...")
+    for img_file in images:
         try:
             image = load_rgb(img_file)
 
             with torch.no_grad(), torch.autocast(device_type="cuda", dtype=torch.float16):  # as upstream
                 output, anns = inference_sam_m2m_auto(
-                    model_sam, image, text_size, label_mode_char, alpha, anno_mode
+                    model_sam, image, text_size, "1", alpha, anno_mode  # numeric labels
                 )
 
             output_path = Path(som_output_dir) / img_file.name
@@ -134,7 +83,7 @@ def generate_som_labels(
     print(f"SoM generation complete. Output: {som_output_dir}")
 
 
-GPT_PROMPT_GENERAL = """You will receive two input images:
+GPT_PROMPT = """You will receive two input images:
 The first image is the original image;
 The second image is the semantic segmentation map (SoM image) of the original image, where each identifiable region has a unique numeric label displayed at the center of the mask.
 
@@ -169,25 +118,22 @@ Please analyze the images according to the following requirements and output the
 - Prefer selecting large-looking buildings, vehicles, or other structures that appear visually dominant from the current camera perspective.
 
 Only select the single best region.
-Return format: {"label": <center label>} — output only this JSON object."""
+Return format: {"label": <center label>} — output only this JSON object."""  # upstream's (som_gpt.py)
+
+PROMPTS = {"general": GPT_PROMPT, "driving": GPT_PROMPT_DRIVING}
 
 
-def _parse_label(raw_output: str, image_stem: str, labels_dir: str) -> Tuple[float, float, int]:
-    """GPT's {"label": k} -> region k's centre."""
+def _parse_label(raw_output: str, centres: List[str]) -> Tuple[float, float, int]:
+    """The LLM's {"label": k} -> region k's centre."""
     match = re.search(r'\{.*?\}', raw_output, re.DOTALL)
     if not match:
         raise ValueError(f"No JSON in response: {raw_output[:100]!r}")
     label_index = json.loads(match.group(0)).get("label")
     if not isinstance(label_index, int):
         raise ValueError(f"Non-integer label: {label_index}")
-    txt_path = os.path.join(labels_dir, image_stem + ".txt")
-    if not os.path.exists(txt_path):
-        raise ValueError("Label file not found")
-    with open(txt_path, 'r') as f:
-        lines = f.readlines()
-    if not 1 <= label_index <= len(lines):
-        raise ValueError(f"Label {label_index} out of bounds (max {len(lines)})")
-    x_str, y_str = lines[label_index - 1].strip().split(',')
+    if not 1 <= label_index <= len(centres):
+        raise ValueError(f"Label {label_index} out of bounds (max {len(centres)})")
+    x_str, y_str = centres[label_index - 1].strip().split(',')
     return float(x_str), float(y_str), label_index
 
 
@@ -196,32 +142,18 @@ def generate_coordinates_with_gpt(
     som_dir: str,
     labels_dir: str,
     output_coords_file: str,
-    api_key: str,
-    api_base: Optional[str] = None,
+    client,
     model: str = "gpt-5-mini-2025-08-07",
-    prompt_style: str = "general",
+    prompt_style: str = "general",  # or "driving"
     names: Optional[set] = None,
 ) -> List[Tuple[str, float, float]]:
-    """GPT-4V picks patch coordinates: (stem, x, y) tuples."""
-    from openai import OpenAI
-
-    client = OpenAI(api_key=api_key, base_url=api_base) if api_base else OpenAI(api_key=api_key)
-
-    def encode_image(image_path):
-        with open(image_path, "rb") as image_file:
-            return base64.b64encode(image_file.read()).decode('utf-8')
-
-    prompt = GPT_PROMPT_DRIVING if prompt_style == "driving" else GPT_PROMPT_GENERAL
-
-    clean_images = sorted([
-        os.path.join(clean_images_dir, f)
-        for f in os.listdir(clean_images_dir)
-        if f.lower().endswith(('.png', '.jpg', '.jpeg')) and (names is None or f in names)
-    ])
+    """A vision LLM (an OpenAI client) picks patch coordinates: (stem, x, y) tuples."""
+    prompt = PROMPTS[prompt_style]
+    clean_images = [str(p) for p in image_files(clean_images_dir) if names is None or p.name in names]
 
     # keyed by stem: skipped entries don't misalign
     coordinates = []
-    print(f"Running GPT-4V coordinate selection on {len(clean_images)} images...")
+    print(f"Running LLM coordinate selection on {len(clean_images)} images...")
 
     for clean_path in clean_images:
         image_filename = os.path.basename(clean_path)
@@ -229,9 +161,10 @@ def generate_coordinates_with_gpt(
         som_path = os.path.join(som_dir, image_filename)  # SoM maps use the source file name
         label_path = os.path.join(labels_dir, image_stem + ".txt")
         try:
-            base64_clean, base64_som = encode_image(clean_path), encode_image(som_path)
+            url_clean, url_som = file_data_url(clean_path), file_data_url(som_path)
             with open(label_path) as f:
-                n_labels = sum(1 for _ in f)
+                centres = f.read().splitlines()
+            n_labels = len(centres)
         except OSError as e:
             print(f"  ✗ {image_filename}: {e}")
             continue
@@ -244,14 +177,14 @@ def generate_coordinates_with_gpt(
                         "role": "user",
                         "content": [
                             {"type": "text", "text": text},
-                            {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{base64_clean}"}},
-                            {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{base64_som}"}}
+                            {"type": "image_url", "image_url": {"url": url_clean}},
+                            {"type": "image_url", "image_url": {"url": url_som}}
                         ]
                     }],
                     temperature=1,
                     max_completion_tokens=4096,
                 )
-                x, y, label_index = _parse_label(response.choices[0].message.content or "", image_stem, labels_dir)
+                x, y, label_index = _parse_label(response.choices[0].message.content or "", centres)
                 coordinates.append((image_stem, x, y))
                 print(f"  ✓ {image_filename} → Label {label_index} → ({x:.4f}, {y:.4f})")
                 break
@@ -260,7 +193,7 @@ def generate_coordinates_with_gpt(
 
     if not coordinates:
         raise RuntimeError(f"No coordinates generated for {clean_images_dir}")
-    os.makedirs(os.path.dirname(output_coords_file), exist_ok=True)
+    os.makedirs(os.path.dirname(output_coords_file) or ".", exist_ok=True)
     lines = {}  # merge with the existing file
     if os.path.exists(output_coords_file):
         lines = {l.split(",")[0].strip(): l.strip() for l in open(output_coords_file) if l.count(",") == 2}
@@ -272,49 +205,32 @@ def generate_coordinates_with_gpt(
     return coordinates
 
 
+def dataset_root(images_dir) -> Path:
+    """Where coordinates/, som/ and sam_labels/ go: the dataset dir for a source/ or clean/ subdir, else the images dir itself."""
+    p = Path(images_dir)
+    return p.parent if p.name in ("source", "clean") else p
+
+
 def ensure_coordinates(
     clean_images_dir: str,
     coords_file: str,
+    llm=None,
     som_dir: Optional[str] = None,
     sam_labels_dir: Optional[str] = None,
     sam_checkpoint: Optional[str] = None,
-    openai_api_key: Optional[str] = None,
-    openai_api_base: Optional[str] = None,
     device: str = "cuda",
-    prompt_style: str = "general",
     model: str = "gpt-5-mini-2025-08-07",
+    prompt_style: str = "general",
     names: Optional[set] = None,
 ) -> str:
-    """Generate missing coordinates (names; default: all)."""
-    # som/ and sam_labels/ are siblings of the source dir
-    dataset_root = Path(clean_images_dir).parent
-
-    if som_dir is None:
-        som_dir = str(dataset_root / "som")
-    if sam_labels_dir is None:
-        sam_labels_dir = str(dataset_root / "sam_labels")
-    if sam_checkpoint is None:
-        sam_checkpoint = str(Path(__file__).parent / "assets" / "checkpoints" / "sam_vit_h_4b8939.pth")
-
-    status = validate_pipeline_data(
-        clean_images_dir=clean_images_dir,
-        coords_file=coords_file,
-        som_dir=som_dir,
-        sam_labels_dir=sam_labels_dir
-    )
-
-    print("=" * 70)
-    print("PhysPatch Coordinate Pipeline Validation")
-    print("=" * 70)
-    print(f"Clean images:  {'✓' if status['clean_images_exist'] else '✗'} ({status['num_images']} images)")
-    print(f"Coordinates:   {'✓' if status['coordinates_exist'] else '✗'}")
-    print(f"SoM images:    {'✓' if status['som_exist'] else '✗'}")
-    print(f"SAM labels:    {'✓' if status['labels_exist'] else '✗'}")
-    print("=" * 70)
+    """Generate missing coordinates (names; default: all); llm() gives the OpenAI client."""
+    root = dataset_root(clean_images_dir)
+    som_dir, sam_labels_dir = som_dir or str(root / "som"), sam_labels_dir or str(root / "sam_labels")
+    sam_checkpoint = sam_checkpoint or str(Path(__file__).parent / "assets" / "checkpoints" / "sam_vit_h_4b8939.pth")
 
     lines = [l for l in open(coords_file) if l.strip()] if Path(coords_file).exists() else []
     have = {l.split(",")[0].strip() for l in lines if l.count(",") == 2}
-    wanted = names or {p.name for p in Path(clean_images_dir).iterdir() if p.suffix.lower() in (".png", ".jpg", ".jpeg")}
+    wanted = names or {p.name for p in image_files(clean_images_dir)}
     todo = {n for n in wanted if Path(n).stem not in have}
     if not todo or (lines and not have):  # all present, or a legacy positional "x, y" file
         print("✓ Coordinates exist. Using existing file.")
@@ -322,14 +238,9 @@ def ensure_coordinates(
 
     print(f"✗ Coordinates missing for {len(todo)} image(s). Generating...")
 
-    if not status["clean_images_exist"]:
-        raise ValueError(f"Cannot generate coordinates: No clean images found in {clean_images_dir}")
-
-    if openai_api_key is None:
-        raise ValueError(
-            "Cannot generate coordinates: OpenAI API key required. "
-            "Please provide via --openai_api_key or set OPENAI_API_KEY environment variable."
-        )
+    if llm is None:
+        raise ValueError("Cannot generate coordinates without an LLM client")
+    client = llm()  # raises without a key or server
 
     no_som = {n for n in todo if not (Path(som_dir) / n).exists() or not (Path(sam_labels_dir) / f"{Path(n).stem}.txt").exists()}
     if no_som:
@@ -348,14 +259,13 @@ def ensure_coordinates(
         )
         print("✓ SoM generation complete.\n")
 
-    print("[2/2] Running GPT-4V coordinate selection...")
+    print("[2/2] Running LLM coordinate selection...")
     generate_coordinates_with_gpt(
         clean_images_dir=clean_images_dir,
         som_dir=som_dir,
         labels_dir=sam_labels_dir,
         output_coords_file=coords_file,
-        api_key=openai_api_key,
-        api_base=openai_api_base,
+        client=client,
         model=model,
         prompt_style=prompt_style,
         names=todo,
@@ -364,34 +274,3 @@ def ensure_coordinates(
 
     return coords_file
 
-
-if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(description="PhysPatch coordinate generation pipeline")
-    parser.add_argument('--clean_images', required=True, help='Clean images directory')
-    parser.add_argument('--coords_file', required=True, help='Output coordinates file')
-    parser.add_argument('--som_dir', help='SoM images directory (auto-inferred if not provided)')
-    parser.add_argument('--labels_dir', help='SAM labels directory (auto-inferred if not provided)')
-    parser.add_argument('--sam_checkpoint', help='SAM checkpoint path (auto-inferred if not provided)')
-    parser.add_argument('--openai_api_key', help='OpenAI API key (or set OPENAI_API_KEY env var)')
-    parser.add_argument('--openai_api_base', help='Optional custom OpenAI API base URL')
-    parser.add_argument('--prompt_style', default='general', choices=['general', 'driving'],
-                        help='GPT prompt style: "general" for arbitrary images, "driving" for autonomous driving scenes')
-    parser.add_argument('--device', default='cuda', help='Device: cuda or cpu')
-
-    args = parser.parse_args()
-
-    api_key = args.openai_api_key or os.environ.get('OPENAI_API_KEY')
-
-    ensure_coordinates(
-        clean_images_dir=args.clean_images,
-        coords_file=args.coords_file,
-        som_dir=args.som_dir,
-        sam_labels_dir=args.labels_dir,
-        sam_checkpoint=args.sam_checkpoint,
-        openai_api_key=api_key,
-        openai_api_base=args.openai_api_base,
-        device=args.device,
-        prompt_style=args.prompt_style,
-    )

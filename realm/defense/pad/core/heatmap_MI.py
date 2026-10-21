@@ -49,20 +49,14 @@ def get_heatmap_mi(img_gr, size_x, size_y, winsize, strd):
 
     return heatmap_mi
 
-def img_heatmap_mi(impath):
-    colorIm = cv2.imread(impath, cv2.IMREAD_COLOR | cv2.IMREAD_IGNORE_ORIENTATION)
-    greyIm = cv2.cvtColor(colorIm, cv2.COLOR_BGR2GRAY)
-    greyIm = np.array(greyIm)
-
+def img_heatmap_mi(bgr):
+    """MI heatmap of a BGR uint8 image."""
+    greyIm = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
     size_x, size_y = greyIm.shape
 
     sx = np.ceil(size_x/100) + np.mod(np.ceil(size_x/100), 2)
     sy = np.ceil(size_y/100) + np.mod(np.ceil(size_y/100), 2)
 
     s1 = max(sx, sy)
-    s2 = max(s1, 8)
-
-    ws = [s2, s2*1.5+np.mod(s2*1.5, 2), s2*2]
-    strd = [a/2 for a in ws]
-
-    return get_heatmap_mi(greyIm, size_x, size_y, ws[0], strd[0])
+    s2 = max(s1, 8)  # window; stride half of it
+    return get_heatmap_mi(greyIm, size_x, size_y, s2, s2 / 2)

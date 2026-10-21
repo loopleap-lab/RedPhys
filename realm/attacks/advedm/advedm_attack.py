@@ -1,22 +1,19 @@
 """AdvEDM-A/R: semantic addition/removal (SSA-CWA, CLIP ensemble)."""
 
-import json
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import ClassVar, Optional
 
 import torch
 import torch.nn.functional as F
-from PIL import Image
 
-from ..base_attack import AttackConfig, AttackResult, BaseAttack, pixel_linf, to_pil, to_tensor
-from ...data import Sample
+from ..base_attack import AttackConfig, AttackResult, BaseAttack, find_by_stem, pixel_linf, to_pil, to_tensor
+from ...data import Sample, load_rgb, relpath
 
 
 @dataclass
-class ADVEDMConfig(AttackConfig):
+class _SSAConfig(AttackConfig):  # SSA-CWA, shared by AdvEDM-A and -R
     epsilon: float = 16.0
-    num_iters: int = 30
+    max_iterations: int = 30
     inner_step_size: float = 250.0
     ksi: float = 3.2
     mu: float = 1.0
@@ -24,432 +21,170 @@ class ADVEDMConfig(AttackConfig):
     ssa_sigma: float = 16.0
     ssa_rho: float = 0.5
 
+
+def _run_ssa(c: _SSAConfig, x: torch.Tensor, loss_fns: list) -> torch.Tensor:
+    from .core.ssa_cwa import ssa_cwa_attack
+    return ssa_cwa_attack(x_orig=x, loss_fns=loss_fns, num_iters=c.max_iterations, epsilon=c.epsilon / 255.0, inner_step_size=c.inner_step_size,
+                          ksi=c.ksi / 255.0, mu=c.mu, N=c.ssa_N, sigma=c.ssa_sigma / 255.0, rho=c.ssa_rho, verbose=True)
+
+
+@dataclass
+class ADVEDMConfig(_SSAConfig):
     lambda_cls: float = 0.8
     lambda_local: float = 2.0
     lambda_fix: float = 0.3
     cls_fusion_alpha: float = 0.5
     attention_beta: float = 0.4
-
-
-    reference_image_path: Optional[str] = None
     target_images_dir: Optional[str] = None
-    annotations_file: Optional[str] = None
     region_size: int = 100
-    image_size: int = 224  # in the image squashed to image_size
+    image_size: int = 224  # frame of the bbox coordinates
 
 
 @dataclass
-class ADVEDMRConfig(AttackConfig):
-    epsilon: float = 16.0
-    num_iters: int = 30
-    inner_step_size: float = 250.0
-    ksi: float = 3.2
-    mu: float = 1.0
-    ssa_N: int = 20
-    ssa_sigma: float = 16.0
-    ssa_rho: float = 0.5
-
+class ADVEDMRConfig(_SSAConfig):
+    needs_source_text: ClassVar[bool] = True  # R removes the source object
     lambda_cls: float = 0.5
     lambda_local: float = 2.0
     lambda_fix: float = 0.2
     k_ratio: float = 0.2
+    source_text: Optional[str] = None  # the object to remove; default: the labels' source text
 
 
-    target_text: Optional[str] = None
+class _ADVEDMBase(BaseAttack):
+    tag = ""
 
-
-class ADVEDMAttack(BaseAttack):
-    def __init__(self, config: ADVEDMConfig):
+    def __init__(self, config):
         super().__init__(config)
-        self.config: ADVEDMConfig = config
+        self._ensemble = self._attack_objs = None
 
-        self._ensemble = None
-        self._attack_objs = None
-        self._current_ref: Optional[str] = None
-        self._annotations: Optional[Dict[str, Any]] = None
-
-    def _resolve_reference(self, sample_id: str) -> str:
-        if self.config.target_images_dir:
-            d = Path(self.config.target_images_dir)
-            for ext in (".jpg", ".png", ".jpeg"):
-                p = d / f"{sample_id}{ext}"
-                if p.exists():
-                    return str(p)
-        if self.config.reference_image_path:
-            return self.config.reference_image_path
-        raise ValueError(
-            f"No reference image found for sample '{sample_id}'. "
-            "Set reference_image_path or target_images_dir."
-        )
-
-    def _initialize(self, reference_path: str) -> None:
-        if self._ensemble is not None and self._current_ref == reference_path:
-            return
-
-        from .core.ensemble_encoder import EnsembleEncoder, PAPER_ENSEMBLE, UNIFIED_ENSEMBLE
-
-        if self._ensemble is None:
-            print("Loading CLIP ensemble for ADVEDM-A...")
-            self._ensemble = EnsembleEncoder(
-                specs=UNIFIED_ENSEMBLE if self.config.surrogates == "unified" else PAPER_ENSEMBLE,
-                device=self.config.device,
-            )
-            self._ensemble.load_all()
-
-        from .core.advedm_attack import ADVEDMSemanticAdditionPaperExact
-
-        self._attack_objs = []
-        for sm in self._ensemble.surrogates:
-            atk = ADVEDMSemanticAdditionPaperExact(
-                vision_encoder=sm.vision_encoder,
-                reference_image_path=reference_path,
-                device=self.config.device,
-                lambda_cls=self.config.lambda_cls,
-                lambda_local=self.config.lambda_local,
-                lambda_fix=self.config.lambda_fix,
-                alpha=self.config.cls_fusion_alpha,
-                beta=self.config.attention_beta,
-                norm_mean=sm.spec.norm_mean,
-                norm_std=sm.spec.norm_std,
-                image_size=sm.image_size,
-            )
-            self._attack_objs.append(atk)
-        self._current_ref = reference_path
-        self._ref_tensor = to_tensor(Image.open(reference_path)).to(self.config.device)
-
-    def _load_annotations(self) -> Optional[Dict[str, Any]]:
-        if self._annotations is not None:
-            return self._annotations
-        if self.config.annotations_file is None:
-            return None
-        with open(self.config.annotations_file, encoding="utf-8") as f:
-            loaded = json.load(f)
-        if not isinstance(loaded, dict):
-            raise ValueError(
-                f"Annotation file must contain a JSON object map, got {type(loaded).__name__}"
-            )
-        self._annotations = loaded
-        return self._annotations
-
-    def _get_bbox(
-        self,
-        sample: Sample,
-        image_tensor: torch.Tensor,
-    ) -> Tuple[int, int, int, int]:
-        """Injection bbox from annotations, else CLIP attention."""
-        image_file = str(sample.metadata.get("image_file", ""))
-        annotations = self._load_annotations()
-        if annotations is not None and image_file:
-            entry = annotations.get(image_file)
-            if entry is None:
-                image_name = Path(image_file).name
-                for key, value in annotations.items():
-                    if Path(key).name == image_name:
-                        entry = value
-                        break
-            if entry is not None:
-                bbox_value = entry.get("bbox") if isinstance(entry, dict) else entry
-                if bbox_value is not None:
-                    return tuple(int(v) for v in bbox_value)
-
-        bbox = self._ensemble.clip_bbox_from_attention(
-            image_tensor,
-            region_pixels=self.config.region_size,
-            source_size=self.config.image_size,
-        )
-        print(f"  [ADVEDM-A] Auto bbox (CLIP attention): {bbox}")
-        return bbox
-
-    def generate(
-        self,
-        sample: Sample,
-        **kwargs,
-    ) -> AttackResult:
-        ref_path = self._resolve_reference(sample.id)
-        self._initialize(ref_path)
-
-        original_pil = sample.images[0] if sample.images else None
-        if original_pil is None:
-            raise ValueError(f"Sample '{sample.id}' has no images.")
-
-        image_tensor = to_tensor(original_pil).to(self.config.device)
-        bbox = self._get_bbox(sample, image_tensor)
-        source_image_size = self.config.image_size
-
-        ensemble = self._ensemble
-        attack_objs = self._attack_objs
-
-        clean_cache = []
-        for sm, atk in zip(ensemble.surrogates, attack_objs):
-            with torch.no_grad():
-                img_norm = ensemble.resize_and_normalize(image_tensor, sm)
-                patches_orig, cls_orig = ensemble.extract_features(sm, img_norm)
-                A_orig = ensemble.extract_attention(sm, img_norm)
-                target_idx = ensemble.bbox_to_target_indices(
-                    bbox, sm, source_image_size
-                ).to(self.config.device)
-                # Eq. 10-11: R fills the injection region
-                r, c = target_idx // sm.grid_size, target_idx % sm.grid_size
-                y0, y1, x0, x1 = (int(v) * sm.patch_size for v in (r.min(), r.max() + 1, c.min(), c.max() + 1))
-                comp = ensemble.resize(image_tensor, sm).clone()
-                comp[..., y0:y1, x0:x1] = F.interpolate(self._ref_tensor, size=(y1 - y0, x1 - x0), mode="bilinear",
-                                                        align_corners=False, antialias=True)
-                comp = ensemble.resize_and_normalize(comp, sm)
-                atk.reference_patch_embeds = ensemble.extract_features(sm, comp)[0]
-                atk.reference_attention = ensemble.extract_attention(sm, comp)
-            clean_cache.append({
-                "sm": sm, "atk": atk,
-                "patches_orig": patches_orig,
-                "cls_orig": cls_orig,
-                "A_orig": A_orig,
-                "target_indices": target_idx,
-            })
-
-        def make_loss_fn(cache_entry, surrogate_idx):
-            sm = cache_entry["sm"]
-            atk = cache_entry["atk"]
-            patches_orig = cache_entry["patches_orig"]
-            cls_orig = cache_entry["cls_orig"]
-            A_orig = cache_entry["A_orig"]
-            target_idx = cache_entry["target_indices"]
-            _n_calls = [0]
-
-            def loss_fn(x_aug: torch.Tensor) -> torch.Tensor:
-                img_norm = ensemble.resize_and_normalize(x_aug, sm)
-                patches_adv, cls_adv, A_adv = ensemble.extract_features_and_attention(sm, img_norm)
-
-                loss, components = atk.compute_total_loss(
-                    patch_embeds_adv=patches_adv,
-                    cls_embed_adv=cls_adv,
-                    cls_embed_orig=cls_orig,
-                    patch_embeds_orig=patches_orig,
-                    A_adv=A_adv,
-                    A_orig=A_orig,
-                    target_indices=target_idx,
-                )
-                _n_calls[0] += 1
-                if surrogate_idx == 0 and _n_calls[0] % self.config.ssa_N == 1:
-                    outer_iter = (_n_calls[0] - 1) // self.config.ssa_N
-                    print(f"  [ADVEDM-A sur0 iter={outer_iter:2d}] loss={loss.item():.4f}  "
-                          f"cls={components['cls']:.4f}  ref={components['reference_sim']:.4f}  "
-                          f"fix={components['attention_fix']:.4f}", flush=True)
-                return -loss  # SSA ascends, so negate the minimization loss
-
-            return loss_fn
-
-        loss_fns = [make_loss_fn(c, i) for i, c in enumerate(clean_cache)]
-
-        from .core.ssa_cwa import ssa_cwa_attack
-
-        adv_tensor = ssa_cwa_attack(
-            x_orig=image_tensor,
-            loss_fns=loss_fns,
-            num_iters=self.config.num_iters,
-            epsilon=self.config.epsilon / 255.0,
-            inner_step_size=self.config.inner_step_size,
-            ksi=self.config.ksi / 255.0,
-            mu=self.config.mu,
-            N=self.config.ssa_N,
-            sigma=self.config.ssa_sigma / 255.0,
-            rho=self.config.ssa_rho,
-            verbose=True,
-        )
-
-        adversarial_pil = to_pil(adv_tensor)
-
-        return AttackResult(
-            adversarial_sample=adversarial_pil,
-            perturbation_norm=pixel_linf(adversarial_pil, to_pil(image_tensor)),
-            metadata={
-                "reference_image": str(Path(ref_path).resolve()),
-                "constraint": "linf",
-                "num_iterations": self.config.num_iters,
-                "epsilon": self.config.epsilon,
-                "num_surrogates": len(self._ensemble.surrogates),
-                "attack_type": "advedm_a",
-            },
-        )
-
-
-class ADVEDMRAttack(BaseAttack):
-    def __init__(self, config: ADVEDMRConfig):
-        super().__init__(config)
-        self.config: ADVEDMRConfig = config
-
-        self._ensemble = None
-        self._attack_objs = None
-        self._default_text = config.target_text
-
-    def _initialize(self) -> None:
+    def _load_ensemble(self):
         if self._ensemble is None:
             from .core.ensemble_encoder import EnsembleEncoder, PAPER_ENSEMBLE, UNIFIED_ENSEMBLE
-
-            print("Loading CLIP ensemble for ADVEDM-R...")
-            self._ensemble = EnsembleEncoder(
-                specs=UNIFIED_ENSEMBLE if self.config.surrogates == "unified" else PAPER_ENSEMBLE,
-                device=self.config.device,
-            )
+            print(f"Loading CLIP ensemble for {self.tag}...")
+            self._ensemble = EnsembleEncoder(UNIFIED_ENSEMBLE if self.config.surrogates == "unified" else PAPER_ENSEMBLE, self.config.device)
             self._ensemble.load_all()
+        return self._ensemble
 
-        if self._attack_objs is None:
-            target_text = (self.config.target_text or "").strip()
-            if not target_text:
-                raise ValueError(
-                    "ADVEDMRConfig.target_text is required for ADVEDM-R."
-                )
+    def _attack(self, sample: Sample, x: torch.Tensor, cache: list, loss_of, log, **meta) -> AttackResult:
+        """SSA over loss_of(c, x_aug) -> (loss, components) per surrogate; logs surrogate 0 once per outer step."""
+        n = [0]
 
+        def make(c, i):
+            def fn(x_aug):
+                loss, comps = loss_of(c, x_aug)
+                if i == 0:
+                    n[0] += 1
+                    if (n[0] - 1) % self.config.ssa_N == 0:
+                        print(f"  [{self.tag} sur0 iter={(n[0] - 1) // self.config.ssa_N:2d}] loss={loss.item():.4f}  {log(comps)}", flush=True)
+                return -loss  # SSA ascends
+            return fn
+
+        adv = to_pil(_run_ssa(self.config, x, [make(c, i) for i, c in enumerate(cache)]))
+        return AttackResult(adversarial_sample=adv, perturbation_norm=pixel_linf(adv, sample.images[0]),
+                            metadata={**meta, "num_surrogates": len(self._ensemble.surrogates)})
+
+
+class ADVEDMAttack(_ADVEDMBase):
+    tag = "ADVEDM-A"
+    config: ADVEDMConfig
+
+    def __init__(self, config: ADVEDMConfig):
+        super().__init__(config)
+        self._ref = self._ref_tensor = None
+
+    def _set_reference(self, sample_id: str) -> str:
+        p = find_by_stem(self.config.target_images_dir, sample_id, required=True)
+        ens, c = self._load_ensemble(), self.config
+        if str(p) != self._ref:
+            from .core.advedm_attack import ADVEDMSemanticAdditionPaperExact
+            self._attack_objs = [ADVEDMSemanticAdditionPaperExact(
+                vision_encoder=sm.vision_encoder, reference_image_path=str(p), device=c.device, lambda_cls=c.lambda_cls,
+                lambda_local=c.lambda_local, lambda_fix=c.lambda_fix, alpha=c.cls_fusion_alpha, beta=c.attention_beta,
+                norm_mean=sm.spec.norm_mean, norm_std=sm.spec.norm_std, image_size=sm.image_size) for sm in ens.surrogates]
+            self._ref, self._ref_tensor = str(p), to_tensor(load_rgb(p)).to(c.device)
+        return self._ref
+
+    def generate(self, sample: Sample, **kwargs) -> AttackResult:
+        ref_path = self._set_reference(sample.id)
+        ens, c = self._ensemble, self.config
+        x = to_tensor(sample.images[0]).to(c.device)
+        bbox = ens.clip_bbox_from_attention(x, region_pixels=c.region_size, source_size=c.image_size)
+
+        cache = []
+        for sm, atk in zip(ens.surrogates, self._attack_objs):
+            with torch.no_grad():
+                img_norm = ens.resize_and_normalize(x, sm)
+                patches_orig, cls_orig = ens.extract_features(sm, img_norm)
+                A_orig = ens.extract_attention(sm, img_norm)
+                target_idx = ens.bbox_to_target_indices(bbox, sm, c.image_size).to(c.device)
+                # Eq. 10-11: R fills the injection region
+                r, col = target_idx // sm.grid_size, target_idx % sm.grid_size
+                y0, y1, x0, x1 = (int(v) * sm.patch_size for v in (r.min(), r.max() + 1, col.min(), col.max() + 1))
+                comp = ens.resize(x, sm).clone()
+                comp[..., y0:y1, x0:x1] = F.interpolate(self._ref_tensor, size=(y1 - y0, x1 - x0), mode="bilinear",
+                                                        align_corners=False, antialias=True)
+                comp = ens.resize_and_normalize(comp, sm)
+                atk.reference_patch_embeds = ens.extract_features(sm, comp)[0]
+                atk.reference_attention = ens.extract_attention(sm, comp)
+            cache.append({"sm": sm, "atk": atk, "patches_orig": patches_orig, "cls_orig": cls_orig, "A_orig": A_orig,
+                          "target_indices": target_idx})
+
+        def loss_of(e, x_aug):
+            patches_adv, cls_adv, A_adv = ens.extract_features_and_attention(e["sm"], ens.resize_and_normalize(x_aug, e["sm"]))
+            return e["atk"].compute_total_loss(
+                patch_embeds_adv=patches_adv, cls_embed_adv=cls_adv, cls_embed_orig=e["cls_orig"], patch_embeds_orig=e["patches_orig"],
+                A_adv=A_adv, A_orig=e["A_orig"], target_indices=e["target_indices"])
+
+        return self._attack(sample, x, cache, loss_of,
+                            lambda d: f"cls={d['cls']:.4f}  ref={d['reference_sim']:.4f}  fix={d['attention_fix']:.4f}",
+                            reference_image=relpath(ref_path))
+
+
+class ADVEDMRAttack(_ADVEDMBase):
+    tag = "ADVEDM-R"
+    config: ADVEDMRConfig
+
+    def __init__(self, config: ADVEDMRConfig):
+        super().__init__(config)
+        self._text = None
+
+    def generate(self, sample: Sample, **kwargs) -> AttackResult:
+        text = self.config.source_text or sample.metadata.get("attack_source_text")
+        ens, c = self._load_ensemble(), self.config
+        if self._attack_objs is None or text != self._text:
+            if not (stripped := (text or "").strip()):
+                raise ValueError("ADVEDM-R needs the object to remove: labels= (source text) or source_text in the YAML")
             from .core.advedm_attack import ADVEDMSemanticRemovalPaperExact
-
-            self._attack_objs = []
-            for sm in self._ensemble.surrogates:
-                text_enc = _SurrogateTextEncoder(self._ensemble, sm)
-                atk = ADVEDMSemanticRemovalPaperExact(
-                    vision_encoder=sm.vision_encoder,
-                    text_encoder=text_enc,
-                    target_text=target_text,
-                    lambda_cls=self.config.lambda_cls,
-                    lambda_local=self.config.lambda_local,
-                    lambda_fix=self.config.lambda_fix,
-                    k_ratio=self.config.k_ratio,
-                    device=self.config.device,
-                )
-                self._attack_objs.append(atk)
+            self._attack_objs = [ADVEDMSemanticRemovalPaperExact(target_text_embed=ens.encode_text(sm, [stripped]), lambda_cls=c.lambda_cls,
+                                                                 lambda_local=c.lambda_local, lambda_fix=c.lambda_fix) for sm in ens.surrogates]
+            self._text = text
             print(f"  Created {len(self._attack_objs)} per-surrogate ADVEDM-R attack objects.")
 
-    def generate(
-        self,
-        sample: Sample,
-        **kwargs,
-    ) -> AttackResult:
-        # AdvEDM-R removes the source object: attack_source_text
-        text = (sample.metadata or {}).get("attack_source_text") or self._default_text
-        if text != self.config.target_text:
-            self.config.target_text = text
-            self._attack_objs = None
-
-        self._initialize()
-
-        original_pil = sample.images[0] if sample.images else None
-        if original_pil is None:
-            raise ValueError(f"Sample '{sample.id}' has no images.")
-
-        image_tensor = to_tensor(original_pil).to(self.config.device)
-
-        ensemble = self._ensemble
-        attack_objs = self._attack_objs
-
-        from .core.mask_utils import (
-            compute_text_patch_similarity,
-            construct_top_k_mask,
-            create_masked_image,
-        )
-
-        clean_cache = []
-        for sm, atk in zip(ensemble.surrogates, attack_objs):
+        from .core.mask_utils import compute_text_patch_similarity, construct_top_k_mask, create_masked_image
+        x = to_tensor(sample.images[0]).to(c.device)
+        cache = []
+        for sm, atk in zip(ens.surrogates, self._attack_objs):
             with torch.no_grad():
-                img_norm = ensemble.resize_and_normalize(image_tensor, sm)
-                patches_orig, cls_orig = ensemble.extract_features(sm, img_norm)
-                A_orig = ensemble.extract_attention(sm, img_norm)
-
-                if sm.has_cls or not clean_cache:
-                    patches_proj = ensemble.project_patches(sm, patches_orig)
-                    S = compute_text_patch_similarity(patches_proj, atk.target_text_embed)
-                    mask = construct_top_k_mask(S, k_ratio=self.config.k_ratio)
-                else:
-                    # SigLIP: reuse the first mask
-                    m0, g0 = clean_cache[0]["mask"], clean_cache[0]["sm"].grid_size
+                img_norm = ens.resize_and_normalize(x, sm)
+                patches_orig, _ = ens.extract_features(sm, img_norm)
+                A_orig = ens.extract_attention(sm, img_norm)
+                if sm.has_cls or not cache:
+                    S = compute_text_patch_similarity(ens.project_patches(sm, patches_orig), atk.target_text_embed)
+                    mask = construct_top_k_mask(S, k_ratio=c.k_ratio)
+                else:  # SigLIP: reuse the first mask
+                    m0, g0 = cache[0]["mask"], cache[0]["sm"].grid_size
                     mask = F.interpolate(m0.view(1, 1, g0, g0), size=(sm.grid_size,) * 2, mode="nearest").view(1, -1)
+                masked = create_masked_image(ens.resize(x, sm), mask, patch_size=sm.patch_size, grid_size=sm.grid_size)
+                patches_masked, _ = ens.extract_features(sm, ens.resize_and_normalize(masked, sm))
+            cache.append({"sm": sm, "atk": atk, "patches_orig": patches_orig, "patches_masked": patches_masked, "A_orig": A_orig,
+                          "mask": mask})
 
-                masked_img = create_masked_image(
-                    ensemble.resize(image_tensor, sm), mask,
-                    patch_size=sm.patch_size, image_size=sm.image_size,
-                    grid_size=sm.grid_size,
-                )
-                masked_norm = ensemble.resize_and_normalize(masked_img, sm)
-                patches_masked, _ = ensemble.extract_features(sm, masked_norm)
+        def loss_of(e, x_aug):
+            patches_adv, cls_adv, A_adv = ens.extract_features_and_attention(e["sm"], ens.resize_and_normalize(x_aug, e["sm"]))
+            cls_adv_proj = ens.project_patches(e["sm"], cls_adv.unsqueeze(1)).squeeze(1)
+            return e["atk"].compute_total_loss(
+                cls_embed_adv=cls_adv_proj, patch_embeds_adv=patches_adv, patch_embeds_orig=e["patches_orig"],
+                patch_embeds_masked=e["patches_masked"], A_adv=A_adv, A_orig=e["A_orig"], mask=e["mask"])
 
-            clean_cache.append({
-                "sm": sm, "atk": atk,
-                "patches_orig": patches_orig,
-                "patches_masked": patches_masked,
-                "A_orig": A_orig,
-                "mask": mask,
-            })
-
-        def make_loss_fn(cache_entry, surrogate_idx):
-            sm = cache_entry["sm"]
-            atk = cache_entry["atk"]
-            patches_orig = cache_entry["patches_orig"]
-            patches_masked = cache_entry["patches_masked"]
-            A_orig = cache_entry["A_orig"]
-            mask = cache_entry["mask"]
-            _n_calls = [0]
-
-            def loss_fn(x_aug: torch.Tensor) -> torch.Tensor:
-                img_norm = ensemble.resize_and_normalize(x_aug, sm)
-                patches_adv, cls_adv, A_adv = ensemble.extract_features_and_attention(sm, img_norm)
-
-                cls_adv_proj = ensemble.project_patches(sm, cls_adv.unsqueeze(1)).squeeze(1)
-
-                loss, components = atk.compute_total_loss(
-                    cls_embed_adv=cls_adv_proj,
-                    patch_embeds_adv=patches_adv,
-                    patch_embeds_orig=patches_orig,
-                    patch_embeds_masked=patches_masked,
-                    A_adv=A_adv,
-                    A_orig=A_orig,
-                    mask=mask,
-                )
-                _n_calls[0] += 1
-                if surrogate_idx == 0 and _n_calls[0] % self.config.ssa_N == 1:
-                    outer_iter = (_n_calls[0] - 1) // self.config.ssa_N
-                    print(f"  [ADVEDM-R sur0 iter={outer_iter:2d}] loss={loss.item():.4f}  "
-                          f"cls={components['cls']:.4f}  local={components['local']:.4f}  "
-                          f"fix={components['fix']:.4f}", flush=True)
-                return -loss  # SSA ascends, so negate the minimization loss
-
-            return loss_fn
-
-        loss_fns = [make_loss_fn(c, i) for i, c in enumerate(clean_cache)]
-
-        from .core.ssa_cwa import ssa_cwa_attack
-
-        adv_tensor = ssa_cwa_attack(
-            x_orig=image_tensor,
-            loss_fns=loss_fns,
-            num_iters=self.config.num_iters,
-            epsilon=self.config.epsilon / 255.0,
-            inner_step_size=self.config.inner_step_size,
-            ksi=self.config.ksi / 255.0,
-            mu=self.config.mu,
-            N=self.config.ssa_N,
-            sigma=self.config.ssa_sigma / 255.0,
-            rho=self.config.ssa_rho,
-            verbose=True,
-        )
-
-        adversarial_pil = to_pil(adv_tensor)
-
-        return AttackResult(
-            adversarial_sample=adversarial_pil,
-            perturbation_norm=pixel_linf(adversarial_pil, to_pil(image_tensor)),
-            metadata={
-                "removed_text": self.config.target_text,
-                "constraint": "linf",
-                "num_iterations": self.config.num_iters,
-                "epsilon": self.config.epsilon,
-                "num_surrogates": len(self._ensemble.surrogates),
-                "attack_type": "advedm_r",
-            },
-        )
-
-
-class _SurrogateTextEncoder:
-    """encode_text routed to one surrogate of the ensemble."""
-
-    def __init__(self, ensemble, surrogate):
-        self._ensemble = ensemble
-        self._surrogate = surrogate
-
-    def encode_text(self, texts: list) -> torch.Tensor:
-        return self._ensemble.encode_text(self._surrogate, texts)
+        return self._attack(sample, x, cache, loss_of,
+                            lambda d: f"cls={d['cls']:.4f}  local={d['local']:.4f}  fix={d['fix']:.4f}", removed_text=text)

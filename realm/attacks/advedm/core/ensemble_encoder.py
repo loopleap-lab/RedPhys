@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import functools
 from dataclasses import dataclass
 from typing import List, Tuple
 
@@ -21,6 +22,19 @@ SIGLIP_STD = (0.5, 0.5, 0.5)
 _COS_EPS = 1e-6
 
 
+@functools.lru_cache(maxsize=None)
+def _open_clip_tokenizer(name: str):
+    import open_clip
+    return open_clip.get_tokenizer(name)
+
+
+@functools.lru_cache(maxsize=None)
+def _norm(mean: tuple, std: tuple, device, dtype) -> tuple:
+    """(mean, std) as [1, 3, 1, 1] tensors."""
+    return (torch.tensor(mean, device=device, dtype=dtype).view(1, 3, 1, 1),
+            torch.tensor(std, device=device, dtype=dtype).view(1, 3, 1, 1))
+
+
 @dataclass
 class CLIPModelSpec:
     """Specification for a single CLIP surrogate model."""
@@ -36,26 +50,22 @@ PAPER_ENSEMBLE: List[CLIPModelSpec] = [
     CLIPModelSpec(
         name="ViT-L/14",
         source="openai_clip",
-        image_size=224,
     ),
     CLIPModelSpec(
         name="ViT-B-32",
         source="open_clip",
         pretrained="laion2b_s34b_b79k",
-        image_size=224,
     ),
     # ConvNeXt excluded: incompatible stem; ADVEDM needs ViT-style patch tokens.
     CLIPModelSpec(
         name="ViT-bigG-14",
         source="open_clip",
         pretrained="laion2b_s39b_b160k",
-        image_size=224,
     ),
     CLIPModelSpec(
         name="ViT-SO400M-14-SigLIP",
         source="open_clip",
         pretrained="webli",
-        image_size=224,
         norm_mean=SIGLIP_MEAN,
         norm_std=SIGLIP_STD,
     ),
@@ -73,16 +83,19 @@ class SurrogateModel:
     """A loaded surrogate model with architecture metadata."""
     spec: CLIPModelSpec
     vision_encoder: torch.nn.Module
-    text_encoder: object
     image_size: int
     patch_size: int
     grid_size: int
     num_patches: int
-    embed_dim: int
     device: torch.device
     is_openai_clip: bool
     has_cls: bool = True
     _full_model: object = None
+
+
+def _openai_style(sm: "SurrogateModel") -> bool:
+    """OpenAI-CLIP-style tower (conv1 stem, resblocks)."""
+    return sm.is_openai_clip or hasattr(getattr(sm.vision_encoder, "trunk", sm.vision_encoder), "conv1")
 
 
 class EnsembleEncoder:
@@ -102,9 +115,7 @@ class EnsembleEncoder:
         for spec in self.specs:
             sm = self._load_one(spec)
             self.surrogates.append(sm)
-            print(f"  Loaded {spec.name}: {sm.image_size}px, "
-                  f"{sm.grid_size}x{sm.grid_size}={sm.num_patches} patches, "
-                  f"dim={sm.embed_dim}")
+            print(f"  Loaded {spec.name}: {sm.image_size}px, {sm.grid_size}x{sm.grid_size}={sm.num_patches} patches")
         print(f"Ensemble: {len(self.surrogates)} surrogates loaded on {self.device}")
 
     def _load_one(self, spec: CLIPModelSpec) -> SurrogateModel:
@@ -129,17 +140,14 @@ class EnsembleEncoder:
         patch_size = int(vis.conv1.kernel_size[0])
         grid_size = spec.image_size // patch_size
         num_patches = grid_size * grid_size
-        embed_dim = int(vis.ln_post.normalized_shape[0])
 
         return SurrogateModel(
             spec=spec,
             vision_encoder=vis,
-            text_encoder=model,
             image_size=spec.image_size,
             patch_size=patch_size,
             grid_size=grid_size,
             num_patches=num_patches,
-            embed_dim=embed_dim,
             device=self.device,
             is_openai_clip=True,
             has_cls=True,
@@ -172,44 +180,20 @@ class EnsembleEncoder:
                 raise ValueError(f"Cannot detect patch_size for {spec.name}")
         elif hasattr(trunk, "conv1"):
             patch_size = int(trunk.conv1.kernel_size[0])
-        elif hasattr(trunk, "stem"):
-            # ConvNeXt: stem.0 is Conv2d with stride = patch_size.
-            for m in trunk.stem.modules():
-                if hasattr(m, "kernel_size") and hasattr(m, "stride"):
-                    patch_size = int(m.kernel_size[0]) if isinstance(m.kernel_size, tuple) else int(m.kernel_size)
-                    break
-            else:
-                raise ValueError(f"Cannot detect patch_size from stem for {spec.name}")
         else:
             raise ValueError(f"Cannot detect patch_embed for {spec.name}")
 
         grid_size = spec.image_size // patch_size
         num_patches = grid_size * grid_size
-
-        if hasattr(trunk, "embed_dim"):
-            embed_dim = int(trunk.embed_dim)
-        elif hasattr(trunk, "num_features"):
-            embed_dim = int(trunk.num_features)
-        elif hasattr(trunk, "ln_post"):
-            embed_dim = int(trunk.ln_post.normalized_shape[0])
-        else:
-            blocks = getattr(trunk, "blocks", None)
-            if blocks is not None and len(blocks) > 0:
-                embed_dim = int(blocks[0].attn.qkv.in_features)
-            else:
-                raise ValueError(f"Cannot detect embed_dim for {spec.name}")
-
         _has_cls = hasattr(trunk, "class_embedding") or getattr(trunk, "cls_token", None) is not None
 
         return SurrogateModel(
             spec=spec,
             vision_encoder=vis,
-            text_encoder=model,
             image_size=spec.image_size,
             patch_size=patch_size,
             grid_size=grid_size,
             num_patches=num_patches,
-            embed_dim=embed_dim,
             device=self.device,
             is_openai_clip=False,
             has_cls=_has_cls,
@@ -232,8 +216,7 @@ class EnsembleEncoder:
         """Resize and CLIP-normalize (differentiable)."""
         x = self.resize(image, surrogate)
 
-        mean = torch.tensor(surrogate.spec.norm_mean, device=image.device, dtype=image.dtype).view(1, 3, 1, 1)
-        std = torch.tensor(surrogate.spec.norm_std, device=image.device, dtype=image.dtype).view(1, 3, 1, 1)
+        mean, std = _norm(surrogate.spec.norm_mean, surrogate.spec.norm_std, image.device, image.dtype)
         return (x - mean) / std
 
     def extract_features(
@@ -242,12 +225,9 @@ class EnsembleEncoder:
         image_normalized: torch.Tensor,
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         """Extract normalized patch and CLS embeddings from a normalized image."""
-        vis = surrogate.vision_encoder
-        trunk = getattr(vis, "trunk", vis)
-        if surrogate.is_openai_clip or hasattr(trunk, "conv1"):
+        if _openai_style(surrogate):
             return self._extract_features_openai(surrogate, image_normalized)
-        else:
-            return self._extract_features_open_clip(surrogate, image_normalized)
+        return self._extract_features_open_clip(surrogate, image_normalized)
 
     def _extract_features_openai(
         self,
@@ -255,17 +235,9 @@ class EnsembleEncoder:
         image_normalized: torch.Tensor,
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         """OpenAI CLIP: conv1 → class_embedding → transformer → ln_post."""
+        from .attention_utils import openai_tokens
         vis = surrogate.vision_encoder
-        conv1_dtype = vis.conv1.weight.dtype
-        x = vis.conv1(image_normalized.to(conv1_dtype))
-        x = x.reshape(x.shape[0], x.shape[1], -1).permute(0, 2, 1)
-        x = torch.cat([
-            vis.class_embedding.to(x.dtype) +
-            torch.zeros(x.shape[0], 1, x.shape[-1], dtype=x.dtype, device=x.device),
-            x
-        ], dim=1)
-        x = x + vis.positional_embedding.to(x.dtype)
-        x = vis.ln_pre(x)
+        x = openai_tokens(vis, image_normalized)
         seq_first = not getattr(vis.transformer, "batch_first", False)
         if seq_first:
             x = x.permute(1, 0, 2)
@@ -343,7 +315,7 @@ class EnsembleEncoder:
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """Features and detached attention; one forward for OpenAI-CLIP towers."""
         vis = surrogate.vision_encoder
-        if not (surrogate.is_openai_clip or hasattr(getattr(vis, "trunk", vis), "conv1")):
+        if not _openai_style(surrogate):
             patches, cls_emb = self.extract_features(surrogate, image_normalized)
             with torch.no_grad():
                 return patches, cls_emb, self.extract_attention(surrogate, image_normalized)
@@ -366,16 +338,10 @@ class EnsembleEncoder:
         image_normalized: torch.Tensor,
     ) -> torch.Tensor:
         """Extract CLS->patch attention as a [B, N] vector."""
-        vis = surrogate.vision_encoder
-        trunk = getattr(vis, "trunk", vis)
-        if surrogate.is_openai_clip or hasattr(trunk, "conv1"):
+        if _openai_style(surrogate):
             from .attention_utils import extract_cls_to_patch_attention
-            return extract_cls_to_patch_attention(
-                surrogate.vision_encoder, image_normalized,
-                average_across_layers=True, renormalize=False,
-            )
-        else:
-            return self._extract_attention_open_clip(surrogate, image_normalized)
+            return extract_cls_to_patch_attention(surrogate.vision_encoder, image_normalized)
+        return self._extract_attention_open_clip(surrogate, image_normalized)
 
     def _extract_attention_open_clip(
         self,
@@ -420,7 +386,7 @@ class EnsembleEncoder:
                     num_heads = attn_mod.num_heads
                     head_dim = dim // num_heads
                     qkv = qkv.reshape(B_size, seq_len, 3, num_heads, head_dim).permute(2, 0, 3, 1, 4)
-                    q, k, v = qkv[0], qkv[1], qkv[2]
+                    q, k = qkv[0], qkv[1]
                 else:
                     x = blk(x)
                     continue
@@ -449,17 +415,11 @@ class EnsembleEncoder:
         """Encode text using surrogate's text encoder. Returns [N, D] normalized."""
         if surrogate.is_openai_clip:
             import clip
-            tokens = clip.tokenize(texts).to(surrogate.device)
-            with torch.no_grad():
-                text_features = surrogate._full_model.encode_text(tokens).float()
-            return F.normalize(text_features, dim=-1, eps=_COS_EPS)
+            tokens = clip.tokenize(texts)
         else:
-            import open_clip
-            tokenizer = open_clip.get_tokenizer(surrogate.spec.name)
-            tokens = tokenizer(texts).to(surrogate.device)
-            with torch.no_grad():
-                text_features = surrogate._full_model.encode_text(tokens).float()
-            return F.normalize(text_features, dim=-1, eps=_COS_EPS)
+            tokens = _open_clip_tokenizer(surrogate.spec.name)(texts)
+        with torch.no_grad():
+            return F.normalize(surrogate._full_model.encode_text(tokens.to(surrogate.device)).float(), dim=-1, eps=_COS_EPS)
 
     def project_patches(
         self,
@@ -482,35 +442,18 @@ class EnsembleEncoder:
         source_size: int = 224,
     ) -> Tuple[int, int, int, int]:
         """Find a low-attention background region for semantic injection, returning an (x, y, w, h) bbox."""
-        for sm in self.surrogates:
-            if not sm.has_cls:
-                continue
-            with torch.no_grad():
-                img_norm = self.resize_and_normalize(image_tensor, sm)
-                A = self.extract_attention(sm, img_norm)
-            A_map = A.squeeze(0).cpu().float().reshape(sm.grid_size, sm.grid_size)
-
-            k = max(1, min(round(region_pixels / sm.patch_size), sm.grid_size))
-
-            best_sum = float("inf")
-            best_r, best_c = 0, 0
-            for r in range(sm.grid_size - k + 1):
-                for c in range(sm.grid_size - k + 1):
-                    s = A_map[r:r + k, c:c + k].sum().item()
-                    if s < best_sum:
-                        best_sum, best_r, best_c = s, r, c
-
-            scale = source_size / sm.image_size
-            x = int(best_c * sm.patch_size * scale)
-            y = int(best_r * sm.patch_size * scale)
-            w = max(1, int(k * sm.patch_size * scale))
-            h = max(1, int(k * sm.patch_size * scale))
-            return (x, y, w, h)
-
-        raise RuntimeError(
-            "clip_bbox_from_attention: no CLS-capable surrogate found in ensemble. "
-            "Ensure at least one of the CLIP models has a CLS token (e.g. ViT-L/14)."
-        )
+        sm = next((s for s in self.surrogates if s.has_cls), None)
+        if sm is None:
+            raise RuntimeError("clip_bbox_from_attention: no surrogate with a CLS token (e.g. ViT-L/14) in the ensemble")
+        with torch.no_grad():
+            A = self.extract_attention(sm, self.resize_and_normalize(image_tensor, sm))
+        A_map = A.squeeze(0).cpu().float().reshape(sm.grid_size, sm.grid_size)
+        k = max(1, min(round(region_pixels / sm.patch_size), sm.grid_size))
+        sums = A_map.unfold(0, k, 1).unfold(1, k, 1).sum((-1, -2))  # every k x k window; argmin: the first minimum
+        best_r, best_c = divmod(int(sums.argmin()), sm.grid_size - k + 1)
+        scale = source_size / sm.image_size
+        w = h = max(1, int(k * sm.patch_size * scale))
+        return int(best_c * sm.patch_size * scale), int(best_r * sm.patch_size * scale), w, h
 
     @staticmethod
     def bbox_to_target_indices(
@@ -540,9 +483,4 @@ class EnsembleEncoder:
         px_end = min((x_s + w_s + ps - 1) // ps, gs)
         py_end = min((y_s + h_s + ps - 1) // ps, gs)
 
-        indices = []
-        for i in range(py_start, py_end):
-            for j in range(px_start, px_end):
-                indices.append(i * gs + j)
-
-        return torch.tensor(indices, dtype=torch.long)
+        return (torch.arange(py_start, py_end)[:, None] * gs + torch.arange(px_start, px_end)).flatten()

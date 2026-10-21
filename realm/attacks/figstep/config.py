@@ -1,3 +1,5 @@
+"""FigStep config and the LLM prompt for the injection label."""
+
 from dataclasses import dataclass
 from typing import Optional, Tuple
 
@@ -17,10 +19,6 @@ _INJECTION_PROMPT = (
 )
 
 
-def resolve_cli_kwargs(attack_name, args, context):
-    return {"target_text": getattr(args, "target_text", "") or ""}
-
-
 @dataclass
 class FigStepConfig(AttackConfig):
     target_text: Optional[str] = None
@@ -37,6 +35,6 @@ class FigStepConfig(AttackConfig):
         "Based on the annotation, describe what key objects "
         "are visible in the scene."
     )
-    llm_server_url: Optional[str] = None   # e.g. "http://localhost:8001"
-    llm_api_key_env: str = "OPENAI_API_KEY"
-    llm_model: Optional[str] = None        # e.g. "Qwen/Qwen3-VL-8B-Instruct"
+    llm_server_url: Optional[str] = "https://openrouter.ai/api"
+    llm_api_key_env: str = "OPENROUTER_API_KEY"
+    llm_model: Optional[str] = "openai/gpt-4o-mini"

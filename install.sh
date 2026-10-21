@@ -23,12 +23,11 @@ install_env() {
     [ -n "$cuda" ] && [ "$(printf '%s\n' "${t%:*}" "$cuda" | sort -V | head -1)" = "${t%:*}" ] && { tag=${t#*:}; break; }
   done
   echo ">> PyTorch build: $tag${arch:+ (compute capability $arch)}"
-  install_torch() { $PIP --index-url "https://download.pytorch.org/whl/$tag" torch torchvision; }
-  install_torch
+  $PIP --index-url "https://download.pytorch.org/whl/$tag" torch torchvision
   $PIP -e . "git+https://github.com/openai/CLIP.git" "git+https://github.com/facebookresearch/segment-anything.git"
   if [ "$tag" != cpu ]; then
     TORCH_CUDA_ARCH_LIST="$arch" $PIP --no-build-isolation "git+https://github.com/facebookresearch/detectron2.git" \
-      || echo "!! Detectron2 build failed (PhysPatch only): https://detectron2.readthedocs.io"
+      || echo "!! Detectron2 build failed (PhysPatch and SceneTAP only): https://detectron2.readthedocs.io"
     # own venv; > 0.19.1 needs CUDA 13
     local major=${cuda%%.*} vllm=vllm
     [ "$major" -lt 13 ] && vllm="vllm==0.19.1"
@@ -56,9 +55,9 @@ install_weights() {
   local W=realm CLIP=$HOME/.cache/clip COCO=dataset/coco missing=0 HUB  # CLIP: clip.load's default
   HUB=$($PY -c "from huggingface_hub.constants import HF_HUB_CACHE; print(HF_HUB_CACHE)") || return 1  # HF_HOME as Python sees it
   local FP=$W/defense/freqpure/assets/pretrained/guided_diffusion/256x256_diffusion_uncond.pt
-  local BLUE_DIFF=$W/defense/bluesuffix/assets/256x256_diffusion_uncond.pt
   local BLUE_SG=$W/defense/bluesuffix/assets/suffix_generator/adapter_model.safetensors
   local FONT=$W/attacks/figstep/assets/FreeMonoBold.ttf  # FigStep's font, from GNU FreeFont
+  local SFONT=$W/attacks/scenetap/assets/LiberationSans-Bold.ttf  # SceneTAP's text box font: Arial Bold's metrics
   local FILES=(  # destination|sha256|url (gdrive:<id> via gdown)
     "$W/attacks/physpatch/assets/checkpoints/sam_vit_h_4b8939.pth|a7bf3b02f3ebf1267aba913ff637d9a2d5c33d3173bb679e46d9f338c26f262e|https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth"
     "$W/defense/pad/assets/models/sam_vit_l_0b3195.pth|3adcc4315b642a4d2101128f611684e8734c41232a17c648ed1693702a49a622|https://dl.fbaipublicfiles.com/segment_anything/sam_vit_l_0b3195.pth"
@@ -80,19 +79,21 @@ install_weights() {
     "OpenGVLab/InternVL3-1B-hf|"  # MPCAttack
     "facebook/dinov2-base|pytorch_model.bin"  # MPCAttack
     "chs20/fare4-clip|"  # ET3
-    "stable-diffusion-v1-5/stable-diffusion-v1-5|*.bin *.ckpt v1-5-pruned* safety_checker/* *non_ema* unet/diffusion_pytorch_model.safetensors text_encoder/model.safetensors vae/diffusion_pytorch_model.safetensors"  # OSCP: fp16 weights
+    "stable-diffusion-v1-5/stable-diffusion-v1-5|*.bin *.ckpt v1-5-pruned* safety_checker/* *non_ema* unet/diffusion_pytorch_model.safetensors text_encoder/model.safetensors"  # OSCP: fp16 weights; SceneTAP: the fp32 VAE
     "lllyasviel/sd-controlnet-canny|*.bin images/* sd.png"  # OSCP
+    "JingyeChen22/textdiffuser2-full-ft-inpainting@44ba2e12ef20b8959f942d2d42d0138e4491c46a|*.pkl *scaler.pt *scheduler.bin"  # SceneTAP
     "timm/vit_large_patch14_clip_224.openai|*.bin"
     "timm/vit_base_patch16_clip_224.openai|*.bin"
     "timm/vit_base_patch32_clip_224.openai|*.bin"
     "timm/ViT-SO400M-14-SigLIP|*.bin"
     "timm/ViT-B-16-SigLIP|*.bin *.safetensors"  # AdvEDM: open_clip SigLIP tokenizer only
     "gpt2|*.bin *.h5 *.msgpack *.ot *.tflite onnx/*"
+    "Qwen/Qwen2.5-VL-3B-Instruct|"  # CoA / OAttack captions
   )
   local e path sum url repo skip
 
   if [[ $MODE == delete ]]; then  # ~/.cache/clip, torch hub: shared, kept
-    local targets=("$BLUE_DIFF" "$BLUE_SG" "$FONT" "$COCO/val2014")
+    local targets=("$BLUE_SG" "$FONT" "$SFONT" "$COCO/val2014")
     for e in "${FILES[@]}"; do targets+=("${e%%|*}"); done
     for e in "${HF[@]}"; do repo=${e%%|*}; targets+=("$HUB/models--${repo//\//--}"); done
     printf '  %s\n' "${targets[@]}"
@@ -168,30 +169,33 @@ PY
     IFS='|' read -r path sum url <<< "$e"
     need "$path" sha_ok "$path" "$sum" && fetch "$url" "$path" "$sum"
   done
-  need "$BLUE_DIFF -> $FP" test "$BLUE_DIFF" -ef "$FP" && mkdir -p "$(dirname "$BLUE_DIFF")" && ln -sfr "$FP" "$BLUE_DIFF"  # relative: survives moving the repo
-  if need "$BLUE_SG (official BlueSuffix release)" sha_ok "$BLUE_SG" 96afced00b0220f8e95bb1f39efad8fb4f965e87ff4d2d0197a58dfc150275c4; then
+  fetch_member() {  # url member dest sha256: one file out of a zip or tar archive (gdrive:<id> via gdown)
     local tmp; tmp=$(mktemp -d)
-    $PY -m gdown 15X6RbcjuvIE3SfgnzhrGJZXU9TgpHk2O -O "$tmp/sg.tar.gz" \
-      && tar xzf "$tmp/sg.tar.gz" -C "$tmp" fine-tuned_suffix_generator/adapter_model.safetensors \
-      && mkdir -p "$(dirname "$BLUE_SG")" && mv "$tmp/fine-tuned_suffix_generator/adapter_model.safetensors" "$BLUE_SG" \
-      || echo "!! get it from https://drive.google.com/drive/folders/1WQYXE0hD_b5xfkg-Nqvm-IonMgj0o6d4"
+    if [[ $1 == gdrive:* ]]; then $PY -m gdown "${1#gdrive:}" -O "$tmp/archive"; else wget -q -O "$tmp/archive" "$1"; fi \
+      && $PY -c "import sys, tarfile, zipfile; a, m, o = sys.argv[1:]
+data = zipfile.ZipFile(a).read(m) if zipfile.is_zipfile(a) else tarfile.open(a).extractfile(m).read()
+open(o, 'wb').write(data)" "$tmp/archive" "$2" "$tmp/file" \
+      && sha_ok "$tmp/file" "$4" && mkdir -p "$(dirname "$3")" && mv "$tmp/file" "$3" \
+      || echo "!! $3: download failed or sha256 mismatch"
     rm -rf "$tmp"
-  fi
-  if need "$FONT (GNU FreeFont 20120503)" sha_ok "$FONT" acd5fbb1985f9c2266c96a995b6cfba981609d598c9ce815388c1d5a8a23962a; then
-    local tmp; tmp=$(mktemp -d)
-    wget -q -O "$tmp/f.zip" https://ftp.gnu.org/gnu/freefont/freefont-ttf-20120503.zip \
-      && $PY -c "import sys, zipfile; open(sys.argv[2], 'wb').write(zipfile.ZipFile(sys.argv[1]).read('freefont-20120503/FreeMonoBold.ttf'))" "$tmp/f.zip" "$tmp/font" \
-      && sha_ok "$tmp/font" acd5fbb1985f9c2266c96a995b6cfba981609d598c9ce815388c1d5a8a23962a && mkdir -p "$(dirname "$FONT")" && mv "$tmp/font" "$FONT" \
-      || echo "!! $FONT: download failed or sha256 mismatch"
-    rm -rf "$tmp"
-  fi
+  }
+  local SG_SHA=96afced00b0220f8e95bb1f39efad8fb4f965e87ff4d2d0197a58dfc150275c4 FONT_SHA=acd5fbb1985f9c2266c96a995b6cfba981609d598c9ce815388c1d5a8a23962a
+  local SFONT_SHA=788abee4c806d660e8aee46689dd8540cd4bb98da03dcc9d171ce3efd99a9173
+  need "$BLUE_SG (official BlueSuffix release)" sha_ok "$BLUE_SG" $SG_SHA \
+    && fetch_member gdrive:15X6RbcjuvIE3SfgnzhrGJZXU9TgpHk2O fine-tuned_suffix_generator/adapter_model.safetensors "$BLUE_SG" $SG_SHA \
+    || echo "!! get it from https://drive.google.com/drive/folders/1WQYXE0hD_b5xfkg-Nqvm-IonMgj0o6d4"
+  need "$FONT (GNU FreeFont 20120503)" sha_ok "$FONT" $FONT_SHA \
+    && fetch_member https://ftp.gnu.org/gnu/freefont/freefont-ttf-20120503.zip freefont-20120503/FreeMonoBold.ttf "$FONT" $FONT_SHA
+  need "$SFONT (Liberation Fonts 2.1.5)" sha_ok "$SFONT" $SFONT_SHA \
+    && fetch_member https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz \
+      liberation-fonts-ttf-2.1.5/LiberationSans-Bold.ttf "$SFONT" $SFONT_SHA
   need "~/.cache/clip (OpenAI CLIP x5, clip.load's default dir)" pyw check clip "$CLIP" && pyw get clip "$CLIP"
   need "torchvision ResNet50 (AdvDiffVLM Grad-CAM)" pyw check resnet && pyw get resnet
   for e in "${HF[@]}"; do
     repo=${e%%|*}; read -ra skip <<< "${e#*|}"
     need "HF $repo" pyw check hf "$repo" "${skip[@]}" && pyw get hf "$repo" "${skip[@]}"
   done
-  PYW=$GEN need "HF $QWEN (target_generator)" pyw check hf "$QWEN" && PYW=$GEN pyw get hf "$QWEN"  # its venv, its HF cache
+  [ -x "$GEN" ] && PYW=$GEN need "HF $QWEN (target_generator)" pyw check hf "$QWEN" && PYW=$GEN pyw get hf "$QWEN"  # its venv, its HF cache; none on CPU
   # for PA-Attack's prototypes
   need "$COCO/val2014 (3000 images)" coco_ok && $PY - "$COCO" <<'PY'
 import io, json, random, sys, zipfile
@@ -228,5 +232,5 @@ case "${1:-all}" in
   all)     REALM_NO_SHELL=1 bash "$0" env && install_weights && enter_venv ;;  # separate process: set -e is ignored before &&
   env)     (set -e; install_env) && enter_venv ;;
   weights) shift; install_weights "$@" ;;
-  *)       sed -n '2,5p' "$0"; exit 1 ;;
+  *)       sed -n '2,4p' "$0"; exit 1 ;;
 esac

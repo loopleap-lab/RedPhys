@@ -47,10 +47,11 @@ import realm
 
 realm.evaluate(["dataset/realm_dataset/adversarial/foa", "dataset/realm_dataset/adversarial/figstep"],
                server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
-               model="google/gemini-3-flash-preview", output="results/gemini-3-flash")
+               model="google/gemini-3-flash-preview", judge=None, output="results/gemini-3-flash")
+realm.score("results/gemini-3-flash", server_url="http://localhost:8000")  # Qwen3-8B judge
 ```
 
-Reports the model's **robustness** to each attack against the clean baseline (judge: `openai/gpt-4o` on the same server) and saves it to `output/eval_results.json`.
+Collects the answers on each attack and the clean images, then a Qwen3-8B judge reads each chosen option and reports accuracy and ASR in `results/gemini-3-flash/eval_results.json`.
 
 ### Run the Full Pipeline
 
@@ -64,7 +65,9 @@ import realm
 targets = realm.target("dataset/physical/cases.json", "out/targets")
 ```
 
-**2. Attack.** Every attack (`foa`, `mattack`, `vattack`, `coa`, `physpatch`, `paattack`, `advdiffvlm`, `advedm`, `anyattack`, `figstep`, `promptinject`, `imagemix`) takes the same call:
+The agent changes each scene to show a wrong answer; `mode="salient"` instead draws a new, unmistakable picture of it (e.g. an arrow sign for a turn).
+
+**2. Attack.** Every attack (`foa`, `mattack`, `vattack`, `coa`, `physpatch`, `paattack`, `advdiffvlm`, `advedm`, `anyattack`, `figstep`, `promptinject`, `leadingq`, `scenetap`, `imagemix`) takes the same call:
 
 ```python
 adv = realm.attack("foa", "dataset/physical", "out/foa", targets=targets)
@@ -76,7 +79,8 @@ adv = realm.attack("foa", "dataset/physical", "out/foa", targets=targets)
 import os
 
 realm.evaluate(adv, targets=targets, server_url="https://openrouter.ai/api",
-               api_key=os.environ["OPENROUTER_API_KEY"], model="openai/gpt-4.1-mini", output="results/foa")
+               api_key=os.environ["OPENROUTER_API_KEY"], model="openai/gpt-4.1-mini", judge=None, output="results/foa")
+realm.score("results/foa", server_url="http://localhost:8000")  # Qwen3-8B judge
 ```
 
 For an open-source VLM, serve it with vLLM and pass `server_url="http://localhost:8000"`:
@@ -106,6 +110,83 @@ llm_api_key_env: "OPENROUTER_API_KEY"
 ```bash
 bash realm/agent/target_generator/server.sh 8091  # local target image generator (generator="local")
 ```
+
+## Extending REALM
+
+<details>
+<summary><b>New scenario or dataset</b></summary>
+
+Write a `cases.json` like `dataset/physical/cases.json` and run the pipeline on it:
+
+```json
+[{"id": "medical_0001", "image": "dataset/medical/clean/medical_0001.png", "domain": "medical",
+  "question": "Which part of the body does this image belong to?\nA. Chest\nB. Neck\nC. Abdomen\nD. Head",
+  "options": {"A": "Chest", "B": "Neck", "C": "Abdomen", "D": "Head"}, "answer": "D"}]
+```
+
+</details>
+
+<details>
+<summary><b>New model</b></summary>
+
+Any model or agent behind an OpenAI-compatible chat API (image + text in, text out):
+
+```python
+realm.evaluate(adv, targets=targets, server_url="http://localhost:8000", model="my-model",
+               judge=None, output="results/my-model")
+realm.score("results/my-model", server_url="http://localhost:8000")  # Qwen3-8B judge
+```
+
+</details>
+
+<details>
+<summary><b>New attack</b></summary>
+
+Subclass `BaseAttack`, register it and add `configs/attacks/<name>.yaml`:
+
+```python
+# realm/attacks/myattack/myattack_attack.py
+@dataclass
+class MyAttackConfig(AttackConfig):  # epsilon, max_iterations, surrogates, ...
+    target_images_dir: str = ""  # run inputs are filled by field name: target_images_dir or target_text (see AttackConfig)
+    my_param: float = 0.5
+
+class MyAttack(BaseAttack):
+    def generate(self, sample, **kwargs) -> AttackResult:  # sample: images, question, metadata (target text)
+        ...
+        return AttackResult(adversarial_sample=adv, perturbation_norm=self.config.epsilon)
+
+# realm/attacks/registry.py, in register_all_attacks(): add to the list
+("myattack", MyAttack, MyAttackConfig),
+```
+
+Then run it by name: `realm.attack("myattack", ...)`.
+
+</details>
+
+<details>
+<summary><b>New defense</b></summary>
+
+Subclass `BaseDefense`, register it and add `configs/defenses/<name>.yaml`:
+
+```python
+# realm/defense/mydefense/mydefense_defense.py
+@dataclass
+class MyDefenseConfig(DefenseConfig):  # device, seed, precision
+    strength: float = 0.3
+
+class MyDefense(BaseDefense):
+    def clean(self, image_path, **kwargs) -> DefenseResult:
+        ...
+        return DefenseResult(cleaned_sample=cleaned)
+
+# realm/defense/registry.py, in register_all_defenses(): add to the list
+("mydefense", MyDefense, MyDefenseConfig),
+```
+
+Then run it by name: `realm.defend("mydefense", ...)`.
+
+</details>
 
 ## Acknowledgements
 

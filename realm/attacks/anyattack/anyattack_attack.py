@@ -2,14 +2,14 @@
 
 import os
 from dataclasses import dataclass
-from pathlib import Path
+from typing import Optional
 
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
 
-from ..base_attack import AttackConfig, AttackResult, BaseAttack, pixel_linf, to_pil, to_tensor
-from ...data.base_dataset import Sample
+from ..base_attack import AttackConfig, AttackResult, BaseAttack, open_by_stem, pixel_linf, to_pil, to_tensor
+from ...data import Sample
 
 _ASSETS_DIR = os.path.join(os.path.dirname(__file__), "assets")
 
@@ -18,26 +18,26 @@ _ASSETS_DIR = os.path.join(os.path.dirname(__file__), "assets")
 class AnyAttackConfig(AttackConfig):
     epsilon: float = 16.0
     decoder_checkpoint: str = "coco_cos"  # L_Cos: general tasks
-    target_images_dir: str = ""
+    target_images_dir: Optional[str] = None
 
 
 class AnyAttack(BaseAttack):
+    config: AnyAttackConfig
+
     def __init__(self, config: AnyAttackConfig):
         super().__init__(config)
-        self.config: AnyAttackConfig = config
         self._clip_encoder = None
         self._decoder = None
 
     def _initialize_models(self) -> None:
-        if self._clip_encoder is not None:
+        if self._decoder is not None:  # set last: a failed load retries
             return
 
         from .core.model import CLIPEncoder, Decoder
 
         device = self.config.device
 
-        self._clip_encoder = CLIPEncoder(model_name="ViT-B/32")
-        self._clip_encoder = self._clip_encoder.to(device).eval()
+        self._clip_encoder = CLIPEncoder(model_name="ViT-B/32").to(device).eval()
 
         ckpt_name = self.config.decoder_checkpoint
         if os.path.isfile(ckpt_name):
@@ -56,28 +56,15 @@ class AnyAttack(BaseAttack):
         state = {k.removeprefix("module."): v for k, v in checkpoint.get("decoder_state_dict", checkpoint).items()}  # DDP prefix
         self._decoder = Decoder(embed_dim=state["fc.0.weight"].shape[1])
         self._decoder.load_state_dict(state)
-
         self._decoder = self._decoder.to(device).eval()
 
     def _prepare_image(self, image: Image.Image) -> torch.Tensor:
         """Squash to the decoder's size, as demo.py."""
         size = self._decoder.img_size
-        return transforms.Compose([transforms.Resize((size, size)), transforms.ToTensor()])(image.convert("RGB")).unsqueeze(0)
+        return to_tensor(image.resize((size, size), Image.BILINEAR))
 
     def _load_target_image(self, sample: Sample) -> torch.Tensor:
-        tgt_dir = self.config.target_images_dir
-        if not tgt_dir:
-            raise ValueError("target_images_dir not set in AnyAttackConfig")
-
-        tgt_path = Path(tgt_dir) / f"{sample.id}.jpg"
-        if not tgt_path.exists():
-            tgt_path = Path(tgt_dir) / f"{sample.id}.png"
-        if not tgt_path.exists():
-            tgt_path = Path(tgt_dir) / f"{sample.id}.jpeg"
-        if not tgt_path.exists():
-            raise FileNotFoundError(f"Target image not found: {tgt_dir}/{sample.id}.*")
-
-        return self._prepare_image(Image.open(tgt_path))
+        return self._prepare_image(open_by_stem(self.config.target_images_dir, sample.id))
 
     def generate(self, sample: Sample, **kwargs) -> AttackResult:
         self._initialize_models()
@@ -85,7 +72,7 @@ class AnyAttack(BaseAttack):
         device = self.config.device
         eps = self.config.epsilon / 255.0
 
-        clean = sample.images[0].convert("RGB")
+        clean = sample.images[0]
         target_tensor = self._load_target_image(sample).to(device)
 
         with torch.no_grad():
@@ -95,11 +82,4 @@ class AnyAttack(BaseAttack):
             adv_tensor = (to_tensor(clean).to(device) + noise).clamp(0, 1)
 
         adv_pil = to_pil(adv_tensor)
-        return AttackResult(
-            adversarial_sample=adv_pil,
-            perturbation_norm=pixel_linf(adv_pil, clean),
-            metadata={
-                "epsilon": self.config.epsilon,
-                "decoder_checkpoint": self.config.decoder_checkpoint,
-            },
-        )
+        return AttackResult(adversarial_sample=adv_pil, perturbation_norm=pixel_linf(adv_pil, clean))

@@ -1,16 +1,17 @@
-model: "openai/gpt-6-luna"        # reasoning VLM
+model: "openai/gpt-6-luna"        # agent VLM
 server_url: "https://openrouter.ai/api"
 api_key_env: "OPENROUTER_API_KEY"
-generator: "openrouter"           # or "local" (target_generator)
+mode: "scene"                     # or "salient"
+generator: "openrouter"           # or "local"
 generator_url: "http://localhost:8091"
 generator_model: "qwen/qwen-image-3"  # or "meta/muse-image"
-checker_models:                   # blind answerers; most must pick the target
-  - "anthropic/claude-haiku-5.5"   # not the agent's family, not a victim VLM
+checker_models:                   # blind voters
+  - "anthropic/claude-haiku-5.5"   # not agent or victim family
   - "meta-llama/llama-4-maverick"
   - "mistralai/mistral-medium-3.1"
-checker_server_url: ""            # e.g. http://localhost:8000; "" = server_url
+checker_server_url: ""            # "" = server_url
 checker_api_key_env: ""           # "" = api_key_env
-max_rounds: 5                     # images the agent may make
-max_steps: 24                     # tool-calling turns
+max_rounds: 5                     # images
+max_steps: 24                     # LLM turns
 num_inference_steps: 40           # local only
 seed: 0                           # local only

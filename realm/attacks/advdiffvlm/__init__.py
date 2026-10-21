@@ -1,8 +1,1 @@
 """AdvDiffVLM."""
-
-from .advdiffvlm_attack import AdvDiffVLMAttack, AdvDiffVLMConfig
-
-__all__ = [
-    "AdvDiffVLMAttack",
-    "AdvDiffVLMConfig",
-]

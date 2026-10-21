@@ -2,7 +2,7 @@ seed: 42
 precision: "bf16"           # or "fp32"
 amplitude_cut_range: 10
 phase_cut_range: 10
-delta: 0.3  # no effect
+delta: 0.3                   # upstream --delta; no effect for delta >= 0
 forward_noise_steps: 50
 max_timesteps: "50,50,50,50,50,50,50,50"
 num_denoising_steps: "5,5,5,5,5,5,5,5"

@@ -1,35 +1,23 @@
-"""CoA dataset: clean/target images and captions."""
+"""CoA dataset: clean/target images and captions, paired by stem."""
 
 from pathlib import Path
 from typing import Dict, List
-from PIL import Image
+
+from ....data import image_files, load_rgb
 
 
 class CoADataset:
-    def __init__(
-        self,
-        clean_images_dir: str,
-        clean_captions_path: str,
-        target_images_dir: str,
-        target_captions_path: str,
-    ):
-        self.clean_images_dir = Path(clean_images_dir)
-        self.target_images_dir = Path(target_images_dir)
-
-        self.clean_captions = self._load_captions(clean_captions_path)
+    def __init__(self, clean_images_dir: str, clean_captions_path: str, target_images_dir: str, target_captions_path: str):
+        self.clean_images_dir, self.target_images_dir = Path(clean_images_dir), Path(target_images_dir)
+        self.clean_captions = self._load_captions(clean_captions_path)  # line i: image i of the sorted dir
         self.target_captions = self._load_captions(target_captions_path)
-
-        self.clean_image_paths = sorted(
-            list(self.clean_images_dir.glob("*.jpg"))
-            + list(self.clean_images_dir.glob("*.png"))
-            + list(self.clean_images_dir.glob("*.jpeg"))
-        )
-        self.target_image_paths = sorted(
-            list(self.target_images_dir.glob("*.jpg"))
-            + list(self.target_images_dir.glob("*.png"))
-            + list(self.target_images_dir.glob("*.jpeg"))
-        )
-
+        self.clean_image_paths = image_files(self.clean_images_dir)
+        self.target_image_paths = image_files(self.target_images_dir)
+        self._clean, self._target = {}, {}
+        for i, p in enumerate(self.clean_image_paths):
+            self._clean.setdefault(p.stem, i)
+        for i, p in enumerate(self.target_image_paths):
+            self._target.setdefault(p.stem, i)
         self._validate_dataset()
 
     def _load_captions(self, captions_path: str) -> List[str]:
@@ -41,73 +29,41 @@ class CoADataset:
             print(f"  Warning: Captions file not found: {captions_path}")
             print("  Captions will be auto-generated during attack")
             return []
-
-        with open(captions_path, "r") as f:
-            captions = [line.strip() for line in f if line.strip()]
-        return captions
+        return [line.strip() for line in captions_path.read_text().splitlines() if line.strip()]
 
     def _validate_dataset(self):
-        n_clean_imgs = len(self.clean_image_paths)
-        n_clean_caps = len(self.clean_captions)
-        n_target_imgs = len(self.target_image_paths)
-        n_target_caps = len(self.target_captions)
-
+        n_clean_imgs, n_target_imgs = len(self.clean_image_paths), len(self.target_image_paths)
+        n_clean_caps, n_target_caps = len(self.clean_captions), len(self.target_captions)
         if n_clean_imgs == 0:
             raise ValueError(f"No clean images found in {self.clean_images_dir}")
-
         if n_target_imgs == 0:
             raise ValueError(f"No target images found in {self.target_images_dir}")
-
-        # missing clean captions are generated on demand
-        if n_clean_caps > n_clean_imgs:
-            raise ValueError(
-                f"Too many captions: {n_clean_caps} captions but only {n_clean_imgs} images"
-            )
-
+        if n_clean_caps > n_clean_imgs:  # missing clean captions are generated on demand
+            raise ValueError(f"Too many captions: {n_clean_caps} captions but only {n_clean_imgs} images")
         if n_target_caps > 0 and n_target_imgs != n_target_caps:
-            raise ValueError(
-                f"Mismatch: {n_target_imgs} target images but {n_target_caps} target captions"
-            )
-
-        if n_clean_imgs != n_target_imgs:
-            raise ValueError(
-                f"Mismatch: {n_clean_imgs} clean images but {n_target_imgs} target images"
-            )
+            raise ValueError(f"Mismatch: {n_target_imgs} target images but {n_target_caps} target captions")
 
         def _cap_status(n_caps, n_imgs):
             if n_caps == 0:
                 return "auto-generate on demand"
-            elif n_caps == n_imgs:
-                return "all pre-loaded"
-            return f"{n_caps} pre-loaded, {n_imgs - n_caps} auto-generate"
+            return "all pre-loaded" if n_caps == n_imgs else f"{n_caps} pre-loaded, {n_imgs - n_caps} auto-generate"
 
-        clean_status = _cap_status(n_clean_caps, n_clean_imgs)
-        target_status = _cap_status(n_target_caps, n_target_imgs)
-        print(f"✓ CoA dataset validated: {n_clean_imgs} samples")
-        print(f"  Clean captions:  {clean_status}")
-        print(f"  Target captions: {target_status}")
+        print(f"✓ CoA dataset validated: {n_clean_imgs} clean, {n_target_imgs} target images")
+        print(f"  Clean captions:  {_cap_status(n_clean_caps, n_clean_imgs)}")
+        print(f"  Target captions: {_cap_status(n_target_caps, n_target_imgs)}")
 
-    def __len__(self) -> int:
-        return len(self.clean_image_paths)
-
-    def __getitem__(self, idx: int) -> Dict:
-        """Sample dict: images, captions, paths."""
-        if idx < 0 or idx >= len(self):
-            raise IndexError(f"Index {idx} out of range [0, {len(self)})")
-
-        clean_img_path = self.clean_image_paths[idx]
-        target_img_path = self.target_image_paths[idx]
-
-        clean_caption = self.clean_captions[idx] if idx < len(self.clean_captions) else ""
-
-        target_caption = self.target_captions[idx] if idx < len(self.target_captions) else ""
-
+    def get(self, stem: str) -> Dict:
+        """Captions and paths of the clean image and the target with this stem."""
+        if stem not in self._clean:
+            raise ValueError(f"CoA: '{stem}' not found in {self.clean_images_dir}")
+        if stem not in self._target:
+            raise ValueError(f"CoA: no target for '{stem}' in {self.target_images_dir}")
+        i, j = self._clean[stem], self._target[stem]
+        target_img_path = self.target_image_paths[j]
         return {
-            "clean_image": Image.open(clean_img_path).convert("RGB"),
-            "clean_caption": clean_caption,
-            "target_image": Image.open(target_img_path).convert("RGB"),
-            "target_caption": target_caption,
+            "clean_caption": self.clean_captions[i] if i < len(self.clean_captions) else "",
+            "target_image": load_rgb(target_img_path),  # EXIF-upright, as the sources
+            "target_caption": self.target_captions[j] if j < len(self.target_captions) else "",
             "target_image_path": str(target_img_path),
-            "image_path": str(clean_img_path),
-            "image_name": clean_img_path.name,
+            "image_path": str(self.clean_image_paths[i]),
         }

@@ -10,8 +10,8 @@ import torch
 import torchvision.transforms as T
 from PIL import Image
 
-from ..base_attack import AttackConfig, AttackResult, BaseAttack, pixel_linf, to_pil, to_tensor
-from ...data.base_dataset import Sample
+from ..base_attack import AttackConfig, AttackResult, BaseAttack, aspect_crop, find_by_stem, pixel_linf, resize_center_crop, to_pil, to_tensor
+from ...data import Sample, load_rgb
 
 
 @dataclass
@@ -40,7 +40,6 @@ class OAttackConfig(AttackConfig):
     caption_model: str = "Qwen/Qwen2.5-VL-3B-Instruct"  # if no caption file covers the image
     source_captions_path: Optional[str] = None  # [{"image": "<stem>.png", "caption": [...]}]
     target_captions_path: Optional[str] = None
-    source_images_dir: Optional[str] = None
     target_images_dir: Optional[str] = None
 
 
@@ -51,9 +50,10 @@ def _load_captions(path):
 
 
 class OAttack(BaseAttack):
+    config: OAttackConfig
+
     def __init__(self, config: OAttackConfig):
         super().__init__(config)
-        self.config: OAttackConfig = config
         self._models = None
         self._captioner = None
         self._captions = {"source": _load_captions(config.source_captions_path),
@@ -66,9 +66,10 @@ class OAttack(BaseAttack):
             self._models = [CLIPAnchor(mid, c.image_layers[n], c.text_layers[n], c.input_res).to(c.device)
                             for n, mid in c.backbones.items()]
 
-    def _caption(self, kind: str, sid: str, image: Image.Image) -> List[str]:
-        """Captions from the file, else from caption_model."""
-        bank = self._captions[kind].get(sid)
+    def _caption(self, kind: str, sid: str, image: Image.Image, key: Optional[str] = None) -> List[str]:
+        """Captions from the file, else from caption_model, cached by key (default sid)."""
+        key = key or sid
+        bank = self._captions[kind].get(sid) or self._captions[kind].get(key)
         if bank:
             return bank
         if self._captioner is None:
@@ -89,44 +90,32 @@ class OAttack(BaseAttack):
         bank = [b for b in bank if b][:n]
         if not bank:
             raise RuntimeError(f"No captions generated for {kind} image {sid}")
-        self._captions[kind][sid] = bank
+        self._captions[kind][key] = bank
         return bank
-
-    def _target_image(self, sid: str) -> Image.Image:
-        for ext in (".jpg", ".jpeg", ".png"):
-            p = Path(self.config.target_images_dir) / f"{sid}{ext}"
-            if p.exists():
-                return Image.open(p).convert("RGB")
-        raise FileNotFoundError(f"No target image for '{sid}' in {self.config.target_images_dir}")
 
     def generate(self, sample: Sample, **kwargs) -> AttackResult:
         c = self.config
-        if not c.target_images_dir:
-            raise ValueError("target_images_dir must be set in config")
         sid = str(sample.id)
-        src_pil, tgt_pil = sample.images[0].convert("RGB"), self._target_image(sid)
-        src_bank, tgt_bank = self._caption("source", sid, src_pil), self._caption("target", sid, tgt_pil)
+        tgt_path = find_by_stem(c.target_images_dir, sid, required=True)
+        src_pil, tgt_pil = sample.images[0], load_rgb(tgt_path)
+        src_bank = self._caption("source", sid, src_pil)
+        tgt_bank = self._caption("target", sid, tgt_pil, str(tgt_path.resolve()))  # one shared target is captioned once
         if self._captioner is not None:
             self._captioner[0].to("cpu")  # free GPU for the surrogates
         self._load_models()
 
         image = to_tensor(src_pil, 255).to(c.device)
-        target = T.Compose([T.Resize(c.input_res, interpolation=T.InterpolationMode.BICUBIC),
-                            T.CenterCrop(c.input_res)])(tgt_pil)
-        target = to_tensor(target, 255).to(c.device)
-        aspect = image.shape[-1] / image.shape[-2]
-        source_aug = T.RandomResizedCrop(c.input_res, scale=c.source_crop_scale,
-                                         ratio=(aspect * c.crop_ratio[0], aspect * c.crop_ratio[1]))
+        target = to_tensor(resize_center_crop(tgt_pil, c.input_res), 255).to(c.device)
+        source_aug = aspect_crop(c.input_res, c.source_crop_scale, c.crop_ratio, image.shape[-1] / image.shape[-2])
         target_aug = T.RandomResizedCrop(c.input_res, scale=c.target_crop_scale)
 
         from .core import oattack
         adv = oattack(image, target, self._models, [c.dropout[n] for n in c.backbones], src_bank, tgt_bank,
                       source_aug, target_aug, c.max_iterations, c.epsilon, c.alpha, c.views,
-                      c.text_alpha, c.lambda_v, c.lambda_t, kwargs.get("sample_idx") or 0)
+                      c.text_alpha, c.lambda_v, c.lambda_t, kwargs.get("sample_idx", 0))
         adv_pil = to_pil(adv)
         return AttackResult(
             adversarial_sample=adv_pil,
             perturbation_norm=pixel_linf(adv_pil, src_pil),
-            metadata={"epsilon": c.epsilon, "max_iterations": c.max_iterations, "backbones": list(c.backbones),
-                      "source_captions": src_bank, "target_captions": tgt_bank},
+            metadata={"source_captions": src_bank, "target_captions": tgt_bank},
         )

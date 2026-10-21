@@ -1,14 +1,11 @@
+from .sample import DEFAULT_QUESTION, Sample, load_rgb
+from .files import (PROJECT_ROOT, file_data_url, image_bytes, image_data_url, image_files, input_stamp, list_images, manifest_samples, relpath,
+                    resolve, save_manifest, write_json)
 
-from pathlib import Path
-
-from .base_dataset import Sample, BaseDataset, load_rgb
-from .files import image_files, relpath, resolve, save_manifest
-from .nips2017_dataset import DEFAULT_QUESTION, Nips2017Dataset
-
-_ROOT = Path(__file__).resolve().parents[2] / "dataset"
-DATASETS = {  # --dataset name -> class and folders
-    "nips2017": {"class": Nips2017Dataset, "source": _ROOT / "nips2017" / "source",
-                 "target": _ROOT / "nips2017" / "target", "labels": _ROOT / "nips2017" / "labels.json"},
+_ROOT = PROJECT_ROOT / "dataset"
+DATASETS = {  # --dataset name -> folders
+    "nips2017": {"source": _ROOT / "nips2017" / "source", "target": _ROOT / "nips2017" / "target", "labels": _ROOT / "nips2017" / "labels.json"},
 }
 
-__all__ = ["Sample", "BaseDataset", "load_rgb", "Nips2017Dataset", "DATASETS", "DEFAULT_QUESTION", "image_files", "relpath", "resolve", "save_manifest"]
+__all__ = ["Sample", "load_rgb", "DATASETS", "DEFAULT_QUESTION", "PROJECT_ROOT", "file_data_url", "image_bytes", "image_data_url", "image_files",
+           "input_stamp", "list_images", "manifest_samples", "relpath", "resolve", "save_manifest", "write_json"]

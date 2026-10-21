@@ -12,8 +12,6 @@ hole_size: 8                 # k, latent px
 mask_floor: 0.045
 cam_clip: [0.3, 0.7]         # hole sampling range
 clip_models: ["RN50", "RN101", "ViT-B/16", "ViT-B/32"]
-gradcam_resolution: 64
 gradcam_layer: "layer4"
 auto_generate_masks: true
 class_label: null
-image_resolution: 256        # fixed

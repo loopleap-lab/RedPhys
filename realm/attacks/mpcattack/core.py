@@ -32,7 +32,7 @@ class CLIPSurrogate(nn.Module):
 
     @torch.no_grad()
     def text(self, text):
-        tok = self.tokenizer([text], padding=True, return_tensors="pt").to(self.model.device)
+        tok = self.tokenizer([text], padding=True, truncation=True, return_tensors="pt").to(self.model.device)
         return F.normalize(self.model.get_text_features(**tok), dim=-1)
 
 

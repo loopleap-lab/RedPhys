@@ -49,7 +49,7 @@ def run(f, images):
                    int(f.get("num_inference_steps", 40)), num_images_per_prompt=int(f.get("n", 1)),
                    generator=None if seed is None else torch.Generator(DIT).manual_seed(int(seed))).images
         torch.cuda.empty_cache()
-    if any(np.asarray(i).max() == 0 for i in out):  # black image: exit, serve.sh restarts
+    if any(np.asarray(i).max() == 0 for i in out):  # black image: exit, server.sh restarts
         threading.Timer(0.5, os._exit, (1,)).start()
         raise HTTPException(503, "generation failed, restarting")
     data = []

@@ -4,11 +4,12 @@ __version__ = "0.2.0"
 
 import os
 
-os.environ.setdefault("DISABLE_SAFETENSORS_CONVERSION", "true")  # transformers: no background weight fetch
+os.environ.setdefault("DISABLE_SAFETENSORS_CONVERSION", "true")
 
-from .data import Sample, BaseDataset, Nips2017Dataset
+from .data import Sample
 
-_RUNNERS = {"attack": ".attacks.run", "defend": ".defense.run", "target": ".agent.scenario_agent.run", "evaluate": ".evaluation"}
+_RUNNERS = {"attack": ".attacks.run", "defend": ".defense.run", "target": ".agent.scenario_agent.run",
+            "evaluate": ".evaluation", "score": ".evaluation"}
 
 
 def __getattr__(name):
@@ -19,4 +20,4 @@ def __getattr__(name):
     raise AttributeError(f"module 'realm' has no attribute {name!r}")
 
 
-__all__ = ["Sample", "BaseDataset", "Nips2017Dataset", "attack", "defend", "target", "evaluate"]
+__all__ = ["Sample", "attack", "defend", "target", "evaluate", "score"]

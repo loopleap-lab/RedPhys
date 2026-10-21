@@ -25,7 +25,7 @@ class DynamicPatchGenerator(nn.Module):
     """Dynamic patch mask generator with gradient-guided spatial refinement."""
 
     def __init__(self, image_size=(1600, 900), initial_threshold=0.7, learning_rate=0.15, sigma=0.2, device="cuda"):
-        super(DynamicPatchGenerator, self).__init__()
+        super().__init__()
 
         self.width, self.height = image_size
         self.scale = (self.width * self.height / (1600 * 900)) ** 0.5  # the pixel constants in get_mask are for 1600x900
@@ -54,8 +54,6 @@ class DynamicPatchGenerator(nn.Module):
         gaussian_field = torch.exp(-distance / (2 * sigma ** 2))
 
         self.potential_field = gaussian_field.mean(dim=0, keepdim=True).to(self.device)
-
-        return gaussian_field
 
     def get_mask(self, threshold=None):
         """Convert the potential field to a binary mask with morphological processing."""
@@ -91,7 +89,7 @@ class DynamicPatchGenerator(nn.Module):
         t_m = torch.tensor(t_m, dtype=torch.float32).unsqueeze(0).unsqueeze(0).to(self.device)
         return t_m
 
-    def update_potential_field(self, mask_grads, iter):
+    def update_potential_field(self, mask_grads):
         """Refine the potential field using mask gradients to focus on effective regions."""
         abs_grads = torch.abs(mask_grads) * self.mask_expanded
 
@@ -107,7 +105,7 @@ class DynamicPatchGenerator(nn.Module):
         self.potential_field = self.potential_field + self.learning_rate * norm_grads
         self.potential_field = TF.gaussian_blur(self.potential_field, kernel_size=3, sigma=1)
 
-    def forward(self, coord=(0.5, 0.5), threshold=None):
+    def forward(self, coord, threshold=None):
         """Generate a gradient-tracked binary mask for the given coordinates."""
         if self.potential_field is None:
             self.initialize_gaussian_field(coord, self.sigma)

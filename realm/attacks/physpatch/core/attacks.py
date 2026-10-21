@@ -5,7 +5,6 @@ import random
 import numpy as np
 import torch
 
-from .utils import apply_patch
 from .mask_generator import DynamicPatchGenerator
 from .transforms import My_T
 
@@ -49,15 +48,10 @@ def pgd(
             tgt = target_crop(tgt_tensor)
             ensemble_loss.set_ground_truth(tgt)
 
-
         adv_patch = init_patch + delta
-        if center is not None:
-
-            if mask_expanded.sum()  > th:
-                mask_expanded = patch_generator(center, threshold_list[iter])
-            adv_image = image_tensor * (1 - mask_expanded) + adv_patch * mask_expanded
-        else:
-            adv_image = apply_patch(image=image_tensor, patch=adv_patch)
+        if mask_expanded.sum() > th:
+            mask_expanded = patch_generator(center, threshold_list[iter])
+        adv_image = image_tensor * (1 - mask_expanded) + adv_patch * mask_expanded
 
         local = torch.cat([trans.transform(source_crop(adv_image)) for _ in range(1)])
         features, features_local = ensemble_extractor(local)
@@ -80,12 +74,12 @@ def pgd(
         delta.data = torch.clamp(delta.data, min=-epsilon, max=epsilon)
         if growing:
             with torch.no_grad():
-                patch_generator.update_potential_field(grad_mask, iter)
+                patch_generator.update_potential_field(grad_mask)
 
     final_patch = init_patch + delta
     final_image = image_tensor * (1 - mask_expanded) + final_patch * mask_expanded
     final_image = torch.clamp(final_image/255.0, 0.0, 1.0)
-    return final_image.detach(), final_patch
+    return final_image.detach()
 
 
 def mifgsm(
@@ -114,15 +108,10 @@ def mifgsm(
             tgt = target_crop(tgt_tensor)
             ensemble_loss.set_ground_truth(tgt)
 
-
         adv_patch = init_patch + delta
-        if center is not None:
-
-            if mask_expanded.sum()  > th:
-                mask_expanded = patch_generator(center, threshold_list[iter])
-            adv_image = image_tensor * (1 - mask_expanded) + adv_patch * mask_expanded
-        else:
-            adv_image = apply_patch(image=image_tensor, patch=adv_patch)
+        if mask_expanded.sum() > th:
+            mask_expanded = patch_generator(center, threshold_list[iter])
+        adv_image = image_tensor * (1 - mask_expanded) + adv_patch * mask_expanded
 
         local = torch.cat([trans.transform(source_crop(adv_image)) for _ in range(1)])
         features, features_local = ensemble_extractor(local)
@@ -149,9 +138,9 @@ def mifgsm(
         )
         if growing:
             with torch.no_grad():
-                patch_generator.update_potential_field(grad_mask, iter)
+                patch_generator.update_potential_field(grad_mask)
 
     final_patch = init_patch + delta
     final_image = image_tensor * (1 - mask_expanded) + final_patch * mask_expanded
     final_image = torch.clamp(final_image/255.0, 0.0, 1.0)
-    return final_image.detach(), final_patch
+    return final_image.detach()

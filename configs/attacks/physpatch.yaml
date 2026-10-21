@@ -17,5 +17,6 @@ field_lr: 0.15
 patch_area: 0.01             # 120x120 of 1600x900
 full_weight: 0.1
 coords_model: "gpt-5-mini-2025-08-07"
+coords_prompt: "general"   # or "driving" (upstream's prompt)
 llm_server_url: null  # OpenAI-compatible; null: OpenAI
 llm_api_key_env: "OPENAI_API_KEY"

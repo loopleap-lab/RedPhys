@@ -1,38 +1,8 @@
 """Defense registry."""
 
-from dataclasses import dataclass
-from typing import Dict, Type
+from ..registry import Registry
 
-from .base_defense import BaseDefense, DefenseConfig
-
-
-@dataclass
-class DefenseSpec:
-    name: str
-    category: str                     # "purification", "detection", ...
-    defense_class: Type[BaseDefense]
-    config_class: Type[DefenseConfig]
-
-
-class DefenseRegistry:
-    _registry: Dict[str, DefenseSpec] = {}
-
-    @classmethod
-    def register(cls, spec: DefenseSpec) -> None:
-        if spec.name in cls._registry:
-            raise ValueError(f"Defense '{spec.name}' already registered")
-        cls._registry[spec.name] = spec
-
-    @classmethod
-    def create(cls, name: str, **config_kwargs) -> BaseDefense:
-        spec = cls.get_spec(name)
-        return spec.defense_class(spec.config_class(**config_kwargs))
-
-    @classmethod
-    def get_spec(cls, name: str) -> DefenseSpec:
-        if name not in cls._registry:
-            raise ValueError(f"Unknown defense: {name}. Available: {list(cls._registry)}")
-        return cls._registry[name]
+DefenseRegistry = Registry("defense")
 
 
 def register_all_defenses():
@@ -49,4 +19,4 @@ def register_all_defenses():
         ("et3", ET3Defense, ET3DefenseConfig),
         ("oscp", OSCPDefense, OSCPDefenseConfig),
     ]:
-        DefenseRegistry.register(DefenseSpec(name, "purification", defense_class, config_class))
+        DefenseRegistry.register(name, defense_class, config_class)

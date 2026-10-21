@@ -1,0 +1,5 @@
+{
+ "license": "Apache-2.0 (MMMU items) and CC BY-NC-SA 4.0 (ScienceQA items, non-commercial)",
+ "scope": "30 4-option single-image physics questions from MMMU validation/dev (huggingface.co/datasets/MMMU/MMMU) and 20 3-option physics questions with images from ScienceQA (scienceqa.github.io; HF mirror derek-thomas/ScienceQA); source.dataset gives the origin per item.",
+ "attribution": "MMMU (Yue et al., CVPR 2024); ScienceQA (Lu et al., NeurIPS 2022)"
+}

@@ -24,7 +24,6 @@ def pgd_attack(
     vattack: bool = True,
     enhance: bool = True,
     both: bool = False,
-    vision_attack: bool = False,
     target_text_flag: bool = True,
     device: str = "cuda",
 ) -> torch.Tensor:
@@ -48,14 +47,14 @@ def pgd_attack(
             if not both:
                 local_features = ensemble_extractor.vforward(local_cropped, enhance=enhance)
                 local_features = _dict_to_list(local_features)
-                loss = -ensemble_loss(local_features, Vision_A=vision_attack, Target_A=target_text_flag)
+                loss = -ensemble_loss(local_features, Target_A=target_text_flag)
             else:
                 local_features, x_features = ensemble_extractor.vforward(local_cropped, enhance=enhance, both=both)
                 local_features = _dict_to_list(local_features)
-                loss = -ensemble_loss(local_features, x_features, vision_attack, target_text_flag)
+                loss = -ensemble_loss(local_features, x_features, Target_A=target_text_flag)
         else:
             local_features = ensemble_extractor.xforward(local_cropped)
-            loss = -ensemble_loss(local_features, Vision_A=vision_attack, Target_A=target_text_flag)
+            loss = -ensemble_loss(local_features, Target_A=target_text_flag)
 
         optimizer.zero_grad()
         loss.backward()

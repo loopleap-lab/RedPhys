@@ -1,8 +1,6 @@
 # REALM — Python dependencies
 # Tested with Python 3.10+ and CUDA-enabled PyTorch.
-# Install with:  pip install -r requirements.txt
-# A few components (PhysPatch's Semantic-SAM, OpenAI CLIP) need the
-# git-based installs listed at the bottom of this file.
+# Install with:  bash install.sh  (torch for your CUDA, the git installs listed below, vLLM and weights)
 
 # ── Core deep learning ────────────────────────────────────────────────
 torch>=2.0.0
@@ -22,11 +20,9 @@ regex
 
 # ── Vision & segmentation (PAD, PhysPatch) ────────────────────────────
 opencv-python-headless
-scikit-image
 scikit-learn
 scipy
 pycocotools
-albumentations
 
 # ── Model APIs ────────────────────────────────────────────────────────
 qwen-vl-utils>=0.0.2
@@ -35,30 +31,16 @@ requests
 tenacity
 peft             # BlueSuffix LoRA suffix generator; OSCP LoRA
 diffusers<0.40   # OSCP; 0.40 needs huggingface-hub>=1, which transformers 4.x rejects
-gdown            # CoA ClipCap weights (Google Drive)
+gdown            # Google Drive weights (install.sh)
 
 # ── Data handling & utilities ─────────────────────────────────────────
 numpy
 Pillow>=9.0.0
 matplotlib
 tqdm
-natsort
-more-itertools
 packaging
 PyYAML
 
-# ── Special installs (not plain PyPI wheels) ──────────────────────────
-# OpenAI CLIP (advedm / advedm_r / coa surrogate extractors):
-#   pip install git+https://github.com/openai/CLIP.git
-#
-# Segment Anything (PAD defense; PhysPatch masks):
-#   pip install git+https://github.com/facebookresearch/segment-anything.git
-#
-# Detectron2 (PhysPatch's Set-of-Mark / Semantic-SAM) — needs the wheel pkg
-# and build isolation disabled so it sees the installed torch:
-#   pip install wheel
-#   pip install --no-build-isolation git+https://github.com/facebookresearch/detectron2.git
-#
-# vLLM — ONLY for the eval/serving stage (evaluate_adversarial.py, figstep/
-# promptinject injection-text). Driver-sensitive; install a build matching
-# your CUDA driver, e.g.:  pip install vllm   (or a cuXXX-matched version)
+# ── Not on PyPI: install.sh installs them ─────────────────────────────
+# OpenAI CLIP, Segment Anything, Detectron2 (git; Detectron2 with --no-build-isolation);
+# vLLM and the target generator in their own venvs.

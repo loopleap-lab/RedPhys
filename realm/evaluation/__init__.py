@@ -1,5 +1,5 @@
 """Victim accuracy and attack success rate (ASR)."""
 
-from .run import evaluate
+from .run import evaluate, score
 
-__all__ = ["evaluate"]
+__all__ = ["evaluate", "score"]
