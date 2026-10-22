@@ -18,8 +18,8 @@ REALM is a unified red-teaming benchmark for vision-language models (VLMs) in sa
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/realm-dark.png">
-    <img src="assets/realm-light.png" alt="REALM library of scenarios, attacks, defenses and VLMs, and the red-teaming benchmark pipeline" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/realm-dark.png">
+    <img src="docs/assets/realm-light.png" alt="REALM library of scenarios, attacks, defenses and VLMs, and the red-teaming benchmark pipeline" width="100%">
   </picture>
 </p>
 
@@ -27,9 +27,9 @@ REALM is a unified red-teaming benchmark for vision-language models (VLMs) in sa
 
 - 🎯 **12 attacks** — perturbation, patch, diffusion generation and editing, and prompt/typographic injection.
 - 🛡️ **3 defenses** — PAD, FreqPure and BlueSuffix.
-- 🔒 **Black-box** — optimized on CLIP surrogates and transferred to the victim VLM.
-- 🧩 **Extensible** — add an attack or defense with one base class.
-- 🔌 **Any backend** — proprietary models via OpenRouter, open-source ones via vLLM.
+- 🔒 **Realistic threat model** — optimized on CLIP surrogates and transferred to the victim VLM.
+- ⚖️ **Adversarial alignment** — build an adversarial dataset with the attacks and fine-tune the victim on it (AdPO) to strengthen its alignment.
+- 🧩 **Extensible** — add an attack or defense with one base class; evaluate any VLM or VLM agent.
 
 ## Installation
 
@@ -97,7 +97,10 @@ For an open-source VLM, serve it with vLLM and pass `server_url="http://localhos
 
 Each step resumes where it stopped.
 
-### Configuration
+## FAQ
+
+<details>
+<summary><b><a href="docs/guides/configuration">Configuration</a></b></summary>
 
 Defaults (the paper settings) are in `configs/`; override any of them by keyword:
 
@@ -111,10 +114,10 @@ realm.target("dataset/physical/cases.json", "out/targets", generator="local")   
 bash realm/agent/target_generator/server.sh 8091  # local target image generator (generator="local")
 ```
 
-## Extending REALM
+</details>
 
 <details>
-<summary><b>New scenario or dataset</b></summary>
+<summary><b><a href="docs/guides/new-scenario">New scenario or dataset</a></b></summary>
 
 Write a `cases.json` like `dataset/physical/cases.json` and run the pipeline on it:
 
@@ -133,9 +136,9 @@ targets = realm.target("dataset/medical/cases.json", "out/medical_targets", max_
 </details>
 
 <details>
-<summary><b>New attack</b></summary>
+<summary><b><a href="docs/guides/new-attack-defense">New attack or defense</a></b></summary>
 
-Subclass `BaseAttack`, register it and add `configs/attacks/<name>.yaml`:
+Subclass `BaseAttack` or `BaseDefense`, register it and add its YAML under `configs/attacks/` or `configs/defenses/`:
 
 ```python
 # realm/attacks/myattack/myattack_attack.py
@@ -149,20 +152,6 @@ class MyAttack(BaseAttack):
         ...
         return AttackResult(adversarial_sample=adv, perturbation_norm=self.config.epsilon)
 
-# realm/attacks/registry.py, in register_all_attacks(): add to the list
-("myattack", MyAttack, MyAttackConfig),
-```
-
-Then run it by name: `realm.attack("myattack", ...)`.
-
-</details>
-
-<details>
-<summary><b>New defense</b></summary>
-
-Subclass `BaseDefense`, register it and add `configs/defenses/<name>.yaml`:
-
-```python
 # realm/defense/mydefense/mydefense_defense.py
 @dataclass
 class MyDefenseConfig(DefenseConfig):  # device, seed, precision
@@ -173,18 +162,17 @@ class MyDefense(BaseDefense):
         ...
         return DefenseResult(cleaned_sample=cleaned)
 
-# realm/defense/registry.py, in register_all_defenses(): add to the list
+# realm/attacks/registry.py (register_all_attacks) and realm/defense/registry.py (register_all_defenses)
+("myattack", MyAttack, MyAttackConfig),
 ("mydefense", MyDefense, MyDefenseConfig),
 ```
 
-Then run it by name: `realm.defend("mydefense", ...)`.
+Then run them by name: `realm.attack("myattack", ...)`, `realm.defend("mydefense", ...)`.
 
 </details>
 
-## FAQ
-
 <details>
-<summary><b>How do I build an adversarial dataset and train a more robust model?</b></summary>
+<summary><b><a href="docs/guides/alignment">How do I build an adversarial dataset and train a more robust model?</a></b></summary>
 
 **1. Build the dataset.** Run attacks on your cases (see *New scenario or dataset*):
 
@@ -222,7 +210,7 @@ Supported victims: Qwen3-VL, Cosmos-Reason2, InternVL3.5-HF, Qwen3.5 and Gemma 4
 </details>
 
 <details>
-<summary><b>How do I extend REALM to a victim agent?</b></summary>
+<summary><b><a href="docs/guides/victim-agent">How do I extend REALM to a victim agent?</a></b></summary>
 
 REALM queries every victim through an OpenAI-compatible chat API, so wrap the agent in one:
 
@@ -256,6 +244,10 @@ ThreadingHTTPServer(("", 9000), Chat).serve_forever()
 ## Acknowledgements
 
 This project integrates adversarial attack and defense methods proposed by prior research. We thank the original authors for making their work publicly available.
+
+## License
+
+REALM is released under the [Apache License 2.0](LICENSE). Code adapted from other projects keeps its original license (e.g. `realm/attacks/physpatch/LICENSE`), and each dataset keeps the terms of its sources (its `license.json`).
 
 ## Citation
 
