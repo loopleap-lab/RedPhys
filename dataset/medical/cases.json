@@ -2,1101 +2,1051 @@
  {
   "id": "medical_0001",
   "image": "dataset/medical/clean/medical_0001.png",
-  "question": "Which part of the body does this image belong to?\nA. Chest\nB. Neck\nC. Abdomen\nD. Head",
-  "answer": "D",
+  "question": "What is the main finding in this chest X-ray?\nA. Atelectasis\nB. Cardiomegaly\nC. No Finding\nD. Pleural Effusion",
+  "answer": "B",
   "options": {
-   "A": "Chest",
-   "B": "Neck",
-   "C": "Abdomen",
-   "D": "Head"
+   "A": "Atelectasis",
+   "B": "Cardiomegaly",
+   "C": "No Finding",
+   "D": "Pleural Effusion"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab448/source.jpg",
-   "qid": 10532,
-   "modality": "MRI",
-   "content_type": "Position",
+   "img_name": "xmlab164/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Cardiomegaly",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0002",
   "image": "dataset/medical/clean/medical_0002.png",
-  "question": "Which part of the body does this image belong to?\nA. Pelvic Cavity\nB. Head\nC. Abdomen\nD. Neck",
-  "answer": "C",
+  "question": "What is the main finding in this chest X-ray?\nA. No Finding\nB. Cardiomegaly\nC. Pneumothorax\nD. Pneumonia",
+  "answer": "B",
   "options": {
-   "A": "Pelvic Cavity",
-   "B": "Head",
-   "C": "Abdomen",
-   "D": "Neck"
+   "A": "No Finding",
+   "B": "Cardiomegaly",
+   "C": "Pneumothorax",
+   "D": "Pneumonia"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab258/source.jpg",
-   "qid": 10071,
-   "modality": "CT",
-   "content_type": "Position",
+   "img_name": "xmlab124/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Cardiomegaly",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0003",
   "image": "dataset/medical/clean/medical_0003.png",
-  "question": "Which part of the body does this image belong to?\nA. Neck\nB. Chest\nC. Head\nD. Pelvic Cavity",
-  "answer": "B",
+  "question": "What is the main finding in this chest X-ray?\nA. Cardiomegaly\nB. No Finding\nC. Mass\nD. Pneumothorax",
+  "answer": "A",
   "options": {
-   "A": "Neck",
-   "B": "Chest",
-   "C": "Head",
-   "D": "Pelvic Cavity"
+   "A": "Cardiomegaly",
+   "B": "No Finding",
+   "C": "Mass",
+   "D": "Pneumothorax"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab85/source.jpg",
-   "qid": 12972,
-   "modality": "CT",
-   "content_type": "Position",
+   "img_name": "xmlab351/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Cardiomegaly",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0004",
   "image": "dataset/medical/clean/medical_0004.png",
-  "question": "Which part of the body does this image belong to?\nA. Neck\nB. Pelvic Cavity\nC. Head\nD. Chest",
-  "answer": "D",
+  "question": "What is the main finding in this chest X-ray?\nA. Mass\nB. Nodule\nC. Atelectasis\nD. No Finding",
+  "answer": "C",
   "options": {
-   "A": "Neck",
-   "B": "Pelvic Cavity",
-   "C": "Head",
-   "D": "Chest"
+   "A": "Mass",
+   "B": "Nodule",
+   "C": "Atelectasis",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab159/source.jpg",
-   "qid": 12024,
+   "img_name": "xmlab129/source.jpg",
    "modality": "X-Ray",
-   "content_type": "Position",
+   "finding": "Atelectasis",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0005",
   "image": "dataset/medical/clean/medical_0005.png",
-  "question": "Which part of the body does this image belong to?\nA. Chest\nB. Abdomen\nC. Neck\nD. Head",
-  "answer": "D",
+  "question": "What is the main finding in this chest X-ray?\nA. No Finding\nB. Infiltration\nC. Atelectasis\nD. Mass",
+  "answer": "C",
   "options": {
-   "A": "Chest",
-   "B": "Abdomen",
-   "C": "Neck",
-   "D": "Head"
+   "A": "No Finding",
+   "B": "Infiltration",
+   "C": "Atelectasis",
+   "D": "Mass"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab476/source.jpg",
-   "qid": 10603,
-   "modality": "MRI",
-   "content_type": "Position",
+   "img_name": "xmlab315/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Atelectasis",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0006",
   "image": "dataset/medical/clean/medical_0006.png",
-  "question": "Which part of the body does this image belong to?\nA. Neck\nB. Abdomen\nC. Head\nD. Pelvic Cavity",
-  "answer": "B",
+  "question": "What is the main finding in this chest X-ray?\nA. Pneumonia\nB. No Finding\nC. Atelectasis\nD. Mass",
+  "answer": "C",
   "options": {
-   "A": "Neck",
-   "B": "Abdomen",
-   "C": "Head",
-   "D": "Pelvic Cavity"
+   "A": "Pneumonia",
+   "B": "No Finding",
+   "C": "Atelectasis",
+   "D": "Mass"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab250/source.jpg",
-   "qid": 12171,
-   "modality": "CT",
-   "content_type": "Position",
+   "img_name": "xmlab128/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Atelectasis",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0007",
   "image": "dataset/medical/clean/medical_0007.png",
-  "question": "Which part of the body does this image belong to?\nA. Head\nB. Neck\nC. Pelvic Cavity\nD. Abdomen",
-  "answer": "D",
+  "question": "What is the main finding in this chest X-ray?\nA. Atelectasis\nB. Pneumonia\nC. Nodule\nD. No Finding",
+  "answer": "C",
   "options": {
-   "A": "Head",
-   "B": "Neck",
-   "C": "Pelvic Cavity",
-   "D": "Abdomen"
+   "A": "Atelectasis",
+   "B": "Pneumonia",
+   "C": "Nodule",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab253/source.jpg",
-   "qid": 12208,
-   "modality": "CT",
-   "content_type": "Position",
+   "img_name": "xmlab144/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Nodule",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0008",
   "image": "dataset/medical/clean/medical_0008.png",
-  "question": "Which part of the body does this image belong to?\nA. Neck\nB. Pelvic Cavity\nC. Abdomen\nD. Head",
-  "answer": "C",
+  "question": "What is the main finding in this chest X-ray?\nA. Pleural Effusion\nB. Nodule\nC. No Finding\nD. Mass",
+  "answer": "B",
   "options": {
-   "A": "Neck",
-   "B": "Pelvic Cavity",
-   "C": "Abdomen",
-   "D": "Head"
+   "A": "Pleural Effusion",
+   "B": "Nodule",
+   "C": "No Finding",
+   "D": "Mass"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab25/source.jpg",
-   "qid": 12162,
-   "modality": "MRI",
-   "content_type": "Position",
+   "img_name": "xmlab339/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Nodule",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0009",
   "image": "dataset/medical/clean/medical_0009.png",
-  "question": "Which part of the body does this image belong to?\nA. Pelvic Cavity\nB. Head\nC. Neck\nD. Chest",
-  "answer": "D",
+  "question": "What is the main finding in this chest X-ray?\nA. Pleural Effusion\nB. Cardiomegaly\nC. Nodule\nD. No Finding",
+  "answer": "C",
   "options": {
-   "A": "Pelvic Cavity",
-   "B": "Head",
-   "C": "Neck",
-   "D": "Chest"
+   "A": "Pleural Effusion",
+   "B": "Cardiomegaly",
+   "C": "Nodule",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab103/source.jpg",
-   "qid": 11946,
-   "modality": "CT",
-   "content_type": "Position",
+   "img_name": "xmlab189/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Nodule",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0010",
   "image": "dataset/medical/clean/medical_0010.png",
-  "question": "Which part of the body does this image belong to?\nA. Chest\nB. Pelvic Cavity\nC. Head\nD. Neck",
-  "answer": "A",
+  "question": "What is the main finding in this chest X-ray?\nA. Infiltration\nB. No Finding\nC. Pneumonia\nD. Pneumothorax",
+  "answer": "C",
   "options": {
-   "A": "Chest",
-   "B": "Pelvic Cavity",
-   "C": "Head",
-   "D": "Neck"
+   "A": "Infiltration",
+   "B": "No Finding",
+   "C": "Pneumonia",
+   "D": "Pneumothorax"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab142/source.jpg",
-   "qid": 11995,
+   "img_name": "xmlab130/source.jpg",
    "modality": "X-Ray",
-   "content_type": "Position",
+   "finding": "Pneumonia",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0011",
   "image": "dataset/medical/clean/medical_0011.png",
-  "question": "Which part of the body does this image belong to?\nA. Chest\nB. Head\nC. Neck\nD. Pelvic Cavity",
+  "question": "What is the main finding in this chest X-ray?\nA. Pneumonia\nB. No Finding\nC. Mass\nD. Cardiomegaly",
   "answer": "A",
   "options": {
-   "A": "Chest",
-   "B": "Head",
-   "C": "Neck",
-   "D": "Pelvic Cavity"
+   "A": "Pneumonia",
+   "B": "No Finding",
+   "C": "Mass",
+   "D": "Cardiomegaly"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab112/source.jpg",
-   "qid": 9864,
-   "modality": "CT",
-   "content_type": "Position",
+   "img_name": "xmlab364/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Pneumonia",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0012",
   "image": "dataset/medical/clean/medical_0012.png",
-  "question": "Which part of the body does this image belong to?\nA. Head\nB. Pelvic Cavity\nC. Chest\nD. Neck",
+  "question": "What is the main finding in this chest X-ray?\nA. Infiltration\nB. Atelectasis\nC. Pneumonia\nD. No Finding",
   "answer": "C",
   "options": {
-   "A": "Head",
-   "B": "Pelvic Cavity",
-   "C": "Chest",
-   "D": "Neck"
+   "A": "Infiltration",
+   "B": "Atelectasis",
+   "C": "Pneumonia",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab164/source.jpg",
-   "qid": 9920,
+   "img_name": "xmlab146/source.jpg",
    "modality": "X-Ray",
-   "content_type": "Position",
+   "finding": "Pneumonia",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0013",
   "image": "dataset/medical/clean/medical_0013.png",
-  "question": "Which part of the body does this image belong to?\nA. Pelvic Cavity\nB. Head\nC. Neck\nD. Chest",
-  "answer": "D",
+  "question": "What is the main finding in this chest X-ray?\nA. Atelectasis\nB. Infiltration\nC. Pneumothorax\nD. No Finding",
+  "answer": "C",
   "options": {
-   "A": "Pelvic Cavity",
-   "B": "Head",
-   "C": "Neck",
-   "D": "Chest"
+   "A": "Atelectasis",
+   "B": "Infiltration",
+   "C": "Pneumothorax",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab147/source.jpg",
-   "qid": 12002,
+   "img_name": "xmlab190/source.jpg",
    "modality": "X-Ray",
-   "content_type": "Position",
+   "finding": "Pneumothorax",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0014",
   "image": "dataset/medical/clean/medical_0014.png",
-  "question": "What modality is used to take this image?\nA. Ultrasound\nB. X-Ray\nC. CT\nD. MRI",
-  "answer": "D",
+  "question": "What is the main finding in this chest X-ray?\nA. Infiltration\nB. Pneumothorax\nC. Cardiomegaly\nD. No Finding",
+  "answer": "B",
   "options": {
-   "A": "Ultrasound",
-   "B": "X-Ray",
-   "C": "CT",
-   "D": "MRI"
+   "A": "Infiltration",
+   "B": "Pneumothorax",
+   "C": "Cardiomegaly",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab462/source.jpg",
-   "qid": 10582,
-   "modality": "MRI",
-   "content_type": "Modality",
+   "img_name": "xmlab185/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Pneumothorax",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0015",
   "image": "dataset/medical/clean/medical_0015.png",
-  "question": "What modality is used to take this image?\nA. MRI\nB. X-Ray\nC. Ultrasound\nD. CT",
-  "answer": "A",
+  "question": "What is the main finding in this chest X-ray?\nA. No Finding\nB. Atelectasis\nC. Pneumonia\nD. Mass",
+  "answer": "D",
   "options": {
-   "A": "MRI",
-   "B": "X-Ray",
-   "C": "Ultrasound",
-   "D": "CT"
+   "A": "No Finding",
+   "B": "Atelectasis",
+   "C": "Pneumonia",
+   "D": "Mass"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab13/source.jpg",
-   "qid": 11972,
-   "modality": "MRI",
-   "content_type": "Modality",
+   "img_name": "xmlab174/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Mass",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0016",
   "image": "dataset/medical/clean/medical_0016.png",
-  "question": "What modality is used to take this image?\nA. Ultrasound\nB. MRI\nC. X-Ray\nD. CT",
+  "question": "What is the main finding in this chest X-ray?\nA. Pneumothorax\nB. Pneumonia\nC. No Finding\nD. Mass",
   "answer": "D",
   "options": {
-   "A": "Ultrasound",
-   "B": "MRI",
-   "C": "X-Ray",
-   "D": "CT"
+   "A": "Pneumothorax",
+   "B": "Pneumonia",
+   "C": "No Finding",
+   "D": "Mass"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab264/source.jpg",
-   "qid": 12221,
-   "modality": "CT",
-   "content_type": "Modality",
+   "img_name": "xmlab346/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Mass",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0017",
   "image": "dataset/medical/clean/medical_0017.png",
-  "question": "What modality is used to take this image?\nA. CT\nB. X-Ray\nC. Ultrasound\nD. MRI",
-  "answer": "B",
+  "question": "What is the main finding in this chest X-ray?\nA. No Finding\nB. Atelectasis\nC. Pleural Effusion\nD. Cardiomegaly",
+  "answer": "C",
   "options": {
-   "A": "CT",
-   "B": "X-Ray",
-   "C": "Ultrasound",
-   "D": "MRI"
+   "A": "No Finding",
+   "B": "Atelectasis",
+   "C": "Pleural Effusion",
+   "D": "Cardiomegaly"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab124/source.jpg",
-   "qid": 11965,
+   "img_name": "xmlab369/source.jpg",
    "modality": "X-Ray",
-   "content_type": "Modality",
+   "finding": "Pleural Effusion",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0018",
   "image": "dataset/medical/clean/medical_0018.png",
-  "question": "What modality is used to take this image?\nA. MRI\nB. CT\nC. X-Ray\nD. Ultrasound",
-  "answer": "B",
+  "question": "What is the main finding in this chest X-ray?\nA. Pleural Effusion\nB. Mass\nC. Pneumonia\nD. No Finding",
+  "answer": "A",
   "options": {
-   "A": "MRI",
-   "B": "CT",
-   "C": "X-Ray",
-   "D": "Ultrasound"
+   "A": "Pleural Effusion",
+   "B": "Mass",
+   "C": "Pneumonia",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab92/source.jpg",
-   "qid": 10879,
-   "modality": "CT",
-   "content_type": "Modality",
+   "img_name": "xmlab318/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Pleural Effusion",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0019",
   "image": "dataset/medical/clean/medical_0019.png",
-  "question": "What modality is used to take this image?\nA. X-Ray\nB. CT\nC. Ultrasound\nD. MRI",
-  "answer": "A",
+  "question": "What is the main finding in this chest X-ray?\nA. Pleural Effusion\nB. Cardiomegaly\nC. Infiltration\nD. No Finding",
+  "answer": "C",
   "options": {
-   "A": "X-Ray",
-   "B": "CT",
-   "C": "Ultrasound",
-   "D": "MRI"
+   "A": "Pleural Effusion",
+   "B": "Cardiomegaly",
+   "C": "Infiltration",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab127/source.jpg",
-   "qid": 9890,
+   "img_name": "xmlab302/source.jpg",
    "modality": "X-Ray",
-   "content_type": "Modality",
+   "finding": "Infiltration",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0020",
   "image": "dataset/medical/clean/medical_0020.png",
-  "question": "What modality is used to take this image?\nA. MRI\nB. Ultrasound\nC. CT\nD. X-Ray",
-  "answer": "A",
+  "question": "What is the main finding in this chest X-ray?\nA. Nodule\nB. No Finding\nC. Pneumothorax\nD. Infiltration",
+  "answer": "D",
   "options": {
-   "A": "MRI",
-   "B": "Ultrasound",
-   "C": "CT",
-   "D": "X-Ray"
+   "A": "Nodule",
+   "B": "No Finding",
+   "C": "Pneumothorax",
+   "D": "Infiltration"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab46/source.jpg",
-   "qid": 10563,
-   "modality": "MRI",
-   "content_type": "Modality",
+   "img_name": "xmlab140/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Infiltration",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0021",
   "image": "dataset/medical/clean/medical_0021.png",
-  "question": "What modality is used to take this image?\nA. Ultrasound\nB. MRI\nC. CT\nD. X-Ray",
-  "answer": "C",
+  "question": "What is the main finding in this chest CT?\nA. No Finding\nB. Lung Cancer\nC. Pneumonia\nD. Pleural Effusion",
+  "answer": "B",
   "options": {
-   "A": "Ultrasound",
-   "B": "MRI",
-   "C": "CT",
-   "D": "X-Ray"
+   "A": "No Finding",
+   "B": "Lung Cancer",
+   "C": "Pneumonia",
+   "D": "Pleural Effusion"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab82/source.jpg",
-   "qid": 12961,
+   "img_name": "xmlab81/source.jpg",
    "modality": "CT",
-   "content_type": "Modality",
+   "finding": "Lung Cancer",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0022",
   "image": "dataset/medical/clean/medical_0022.png",
-  "question": "What is the largest organ in the picture?\nA. Brain\nB. Heart\nC. Bladder\nD. Lung",
+  "question": "What is the main finding in this chest CT?\nA. Lung Cancer\nB. Pleural Effusion\nC. Pneumonia\nD. No Finding",
   "answer": "A",
   "options": {
-   "A": "Brain",
-   "B": "Heart",
-   "C": "Bladder",
-   "D": "Lung"
+   "A": "Lung Cancer",
+   "B": "Pleural Effusion",
+   "C": "Pneumonia",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab405/source.jpg",
-   "qid": 12558,
+   "img_name": "xmlab96/source.jpg",
    "modality": "CT",
-   "content_type": "Size",
+   "finding": "Lung Cancer",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0023",
   "image": "dataset/medical/clean/medical_0023.png",
-  "question": "What is the largest organ in the picture?\nA. Heart\nB. Small Bowel\nC. Brain\nD. Liver",
-  "answer": "C",
+  "question": "What is the main finding in this chest CT?\nA. Lung Cancer\nB. Pneumonia\nC. Pleural Effusion\nD. No Finding",
+  "answer": "A",
   "options": {
-   "A": "Heart",
-   "B": "Small Bowel",
-   "C": "Brain",
-   "D": "Liver"
+   "A": "Lung Cancer",
+   "B": "Pneumonia",
+   "C": "Pleural Effusion",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab58/source.jpg",
-   "qid": 12872,
-   "modality": "MRI",
-   "content_type": "Size",
+   "img_name": "xmlab87/source.jpg",
+   "modality": "CT",
+   "finding": "Lung Cancer",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0024",
   "image": "dataset/medical/clean/medical_0024.png",
-  "question": "What is the largest organ in the picture?\nA. Brain\nB. Lung\nC. Heart\nD. Small Bowel",
-  "answer": "B",
+  "question": "What is the main finding in this chest CT?\nA. No Finding\nB. Pleural Effusion\nC. Pneumonia\nD. Lung Cancer",
+  "answer": "D",
   "options": {
-   "A": "Brain",
-   "B": "Lung",
-   "C": "Heart",
-   "D": "Small Bowel"
+   "A": "No Finding",
+   "B": "Pleural Effusion",
+   "C": "Pneumonia",
+   "D": "Lung Cancer"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab121/source.jpg",
-   "qid": 9886,
-   "modality": "X-Ray",
-   "content_type": "Size",
+   "img_name": "xmlab105/source.jpg",
+   "modality": "CT",
+   "finding": "Lung Cancer",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0025",
   "image": "dataset/medical/clean/medical_0025.png",
-  "question": "What is the largest organ in the picture?\nA. Heart\nB. Brain\nC. Small Bowel\nD. Liver",
-  "answer": "D",
+  "question": "What is the main finding in this chest CT?\nA. Pleural Effusion\nB. Pneumonia\nC. Lung Cancer\nD. No Finding",
+  "answer": "C",
   "options": {
-   "A": "Heart",
-   "B": "Brain",
-   "C": "Small Bowel",
-   "D": "Liver"
+   "A": "Pleural Effusion",
+   "B": "Pneumonia",
+   "C": "Lung Cancer",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab285/source.jpg",
-   "qid": 10119,
+   "img_name": "xmlab106/source.jpg",
    "modality": "CT",
-   "content_type": "Size",
+   "finding": "Lung Cancer",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0026",
   "image": "dataset/medical/clean/medical_0026.png",
-  "question": "What is the largest organ in the picture?\nA. Bladder\nB. Small Bowel\nC. Lung\nD. Brain",
-  "answer": "C",
+  "question": "What is the main finding in this chest CT?\nA. Pneumonia\nB. No Finding\nC. Lung Cancer\nD. Pleural Effusion",
+  "answer": "B",
   "options": {
-   "A": "Bladder",
-   "B": "Small Bowel",
-   "C": "Lung",
-   "D": "Brain"
+   "A": "Pneumonia",
+   "B": "No Finding",
+   "C": "Lung Cancer",
+   "D": "Pleural Effusion"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab213/source.jpg",
-   "qid": 9975,
+   "img_name": "xmlab82/source.jpg",
    "modality": "CT",
-   "content_type": "Size",
+   "finding": "No Finding",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0027",
   "image": "dataset/medical/clean/medical_0027.png",
-  "question": "What is the largest organ in the picture?\nA. Brain\nB. Small Bowel\nC. Liver\nD. Bladder",
-  "answer": "C",
+  "question": "What is the main finding in this chest CT?\nA. Pneumonia\nB. No Finding\nC. Lung Cancer\nD. Pleural Effusion",
+  "answer": "B",
   "options": {
-   "A": "Brain",
-   "B": "Small Bowel",
-   "C": "Liver",
-   "D": "Bladder"
+   "A": "Pneumonia",
+   "B": "No Finding",
+   "C": "Lung Cancer",
+   "D": "Pleural Effusion"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab270/source.jpg",
-   "qid": 10102,
+   "img_name": "xmlab114/source.jpg",
    "modality": "CT",
-   "content_type": "Size",
+   "finding": "No Finding",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0028",
   "image": "dataset/medical/clean/medical_0028.png",
-  "question": "What is the largest organ in the picture?\nA. Liver\nB. Brain\nC. Heart\nD. Bladder",
-  "answer": "A",
+  "question": "What is the main finding in this chest CT?\nA. Pleural Effusion\nB. No Finding\nC. Lung Cancer\nD. Pneumonia",
+  "answer": "B",
   "options": {
-   "A": "Liver",
-   "B": "Brain",
-   "C": "Heart",
-   "D": "Bladder"
+   "A": "Pleural Effusion",
+   "B": "No Finding",
+   "C": "Lung Cancer",
+   "D": "Pneumonia"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab252/source.jpg",
-   "qid": 12193,
+   "img_name": "xmlab107/source.jpg",
    "modality": "CT",
-   "content_type": "Size",
+   "finding": "No Finding",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0029",
   "image": "dataset/medical/clean/medical_0029.png",
-  "question": "What is the largest organ in the picture?\nA. Liver\nB. Heart\nC. Bladder\nD. Brain",
-  "answer": "A",
+  "question": "What is the main finding in this chest CT?\nA. Lung Cancer\nB. Pleural Effusion\nC. No Finding\nD. Pneumonia",
+  "answer": "C",
   "options": {
-   "A": "Liver",
-   "B": "Heart",
-   "C": "Bladder",
-   "D": "Brain"
+   "A": "Lung Cancer",
+   "B": "Pleural Effusion",
+   "C": "No Finding",
+   "D": "Pneumonia"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab235/source.jpg",
-   "qid": 12140,
+   "img_name": "xmlab83/source.jpg",
    "modality": "CT",
-   "content_type": "Size",
+   "finding": "No Finding",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0030",
   "image": "dataset/medical/clean/medical_0030.png",
-  "question": "What is the scanning plane of this image?\nA. Sagittal Plane\nB. Coronal Plane\nC. Transverse Plane\nD. Oblique Plane",
-  "answer": "C",
+  "question": "What is the main finding in this abdominal CT?\nA. Liver Cancer\nB. Colitis\nC. Kidney Cancer\nD. No Finding",
+  "answer": "A",
   "options": {
-   "A": "Sagittal Plane",
-   "B": "Coronal Plane",
-   "C": "Transverse Plane",
-   "D": "Oblique Plane"
+   "A": "Liver Cancer",
+   "B": "Colitis",
+   "C": "Kidney Cancer",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab219/source.jpg",
-   "qid": 12105,
+   "img_name": "xmlab212/source.jpg",
    "modality": "CT",
-   "content_type": "Plane",
+   "finding": "Liver Cancer",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0031",
   "image": "dataset/medical/clean/medical_0031.png",
-  "question": "What is the scanning plane of this image?\nA. Oblique Plane\nB. Sagittal Plane\nC. Transverse Plane\nD. Coronal Plane",
+  "question": "What is the main finding in this abdominal CT?\nA. No Finding\nB. Colitis\nC. Liver Cancer\nD. Kidney Cancer",
   "answer": "C",
   "options": {
-   "A": "Oblique Plane",
-   "B": "Sagittal Plane",
-   "C": "Transverse Plane",
-   "D": "Coronal Plane"
+   "A": "No Finding",
+   "B": "Colitis",
+   "C": "Liver Cancer",
+   "D": "Kidney Cancer"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab238/source.jpg",
-   "qid": 10043,
+   "img_name": "xmlab230/source.jpg",
    "modality": "CT",
-   "content_type": "Plane",
+   "finding": "Liver Cancer",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0032",
   "image": "dataset/medical/clean/medical_0032.png",
-  "question": "What is the scanning plane of this image?\nA. Oblique Plane\nB. Transverse Plane\nC. Sagittal Plane\nD. Coronal Plane",
-  "answer": "D",
+  "question": "What is the main finding in this abdominal CT?\nA. Liver Cancer\nB. No Finding\nC. Colitis\nD. Kidney Cancer",
+  "answer": "A",
   "options": {
-   "A": "Oblique Plane",
-   "B": "Transverse Plane",
-   "C": "Sagittal Plane",
-   "D": "Coronal Plane"
+   "A": "Liver Cancer",
+   "B": "No Finding",
+   "C": "Colitis",
+   "D": "Kidney Cancer"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab299/source.jpg",
-   "qid": 12265,
-   "modality": "X-Ray",
-   "content_type": "Plane",
+   "img_name": "xmlab229/source.jpg",
+   "modality": "CT",
+   "finding": "Liver Cancer",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0033",
   "image": "dataset/medical/clean/medical_0033.png",
-  "question": "What is the scanning plane of this image?\nA. Sagittal Plane\nB. Coronal Plane\nC. Oblique Plane\nD. Transverse Plane",
-  "answer": "D",
+  "question": "What is the main finding in this abdominal CT?\nA. Liver Cancer\nB. No Finding\nC. Colitis\nD. Kidney Cancer",
+  "answer": "A",
   "options": {
-   "A": "Sagittal Plane",
-   "B": "Coronal Plane",
-   "C": "Oblique Plane",
-   "D": "Transverse Plane"
+   "A": "Liver Cancer",
+   "B": "No Finding",
+   "C": "Colitis",
+   "D": "Kidney Cancer"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab488/source.jpg",
-   "qid": 10628,
-   "modality": "MRI",
-   "content_type": "Plane",
+   "img_name": "xmlab284/source.jpg",
+   "modality": "CT",
+   "finding": "Liver Cancer",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0034",
   "image": "dataset/medical/clean/medical_0034.png",
-  "question": "What is the scanning plane of this image?\nA. Sagittal Plane\nB. Coronal Plane\nC. Oblique Plane\nD. Transverse Plane",
-  "answer": "D",
+  "question": "What is the main finding in this abdominal CT?\nA. Colitis\nB. Kidney Cancer\nC. Liver Cancer\nD. No Finding",
+  "answer": "C",
   "options": {
-   "A": "Sagittal Plane",
-   "B": "Coronal Plane",
-   "C": "Oblique Plane",
-   "D": "Transverse Plane"
+   "A": "Colitis",
+   "B": "Kidney Cancer",
+   "C": "Liver Cancer",
+   "D": "No Finding"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
    "dataset": "SLAKE",
-   "img_name": "xmlab224/source.jpg",
-   "qid": 12119,
+   "img_name": "xmlab262/source.jpg",
    "modality": "CT",
-   "content_type": "Plane",
+   "finding": "Liver Cancer",
    "license": "CC BY 4.0"
   }
  },
  {
   "id": "medical_0035",
   "image": "dataset/medical/clean/medical_0035.png",
-  "question": "What diseases are included in the picture?\nA. Colitis\nB. Brain Edema\nC. Liver Cancer\nD. Lung Cancer",
-  "answer": "D",
+  "question": "What is the diagnosis in this brain MRI?\nA. Meningioma\nB. No Tumor\nC. Glioma\nD. Pituitary Tumor",
+  "answer": "C",
   "options": {
-   "A": "Colitis",
-   "B": "Brain Edema",
-   "C": "Liver Cancer",
-   "D": "Lung Cancer"
+   "A": "Meningioma",
+   "B": "No Tumor",
+   "C": "Glioma",
+   "D": "Pituitary Tumor"
   },
   "domain": "medical",
-  "task": "Reasoning",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab106/source.jpg",
-   "qid": 9860,
-   "modality": "CT",
-   "content_type": "Abnormality",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test103.png",
+   "modality": "MRI",
+   "finding": "Glioma",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0036",
   "image": "dataset/medical/clean/medical_0036.png",
-  "question": "What diseases are included in the picture?\nA. Brain Edema\nB. Cardiomegaly\nC. Liver Cancer\nD. Colitis",
-  "answer": "B",
+  "question": "What is the diagnosis in this brain MRI?\nA. Meningioma\nB. No Tumor\nC. Glioma\nD. Pituitary Tumor",
+  "answer": "C",
   "options": {
-   "A": "Brain Edema",
-   "B": "Cardiomegaly",
-   "C": "Liver Cancer",
-   "D": "Colitis"
+   "A": "Meningioma",
+   "B": "No Tumor",
+   "C": "Glioma",
+   "D": "Pituitary Tumor"
   },
   "domain": "medical",
-  "task": "Reasoning",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab191/source.jpg",
-   "qid": 9939,
-   "modality": "X-Ray",
-   "content_type": "Abnormality",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test78.png",
+   "modality": "MRI",
+   "finding": "Glioma",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0037",
   "image": "dataset/medical/clean/medical_0037.png",
-  "question": "What diseases are included in the picture?\nA. Atelectasis\nB. Liver Cancer\nC. Kidney Cyst\nD. Fracture",
+  "question": "What is the diagnosis in this brain MRI?\nA. Glioma\nB. No Tumor\nC. Meningioma\nD. Pituitary Tumor",
   "answer": "A",
   "options": {
-   "A": "Atelectasis",
-   "B": "Liver Cancer",
-   "C": "Kidney Cyst",
-   "D": "Fracture"
+   "A": "Glioma",
+   "B": "No Tumor",
+   "C": "Meningioma",
+   "D": "Pituitary Tumor"
   },
   "domain": "medical",
-  "task": "Reasoning",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab379/source.jpg",
-   "qid": 10366,
-   "modality": "X-Ray",
-   "content_type": "Abnormality",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test177.png",
+   "modality": "MRI",
+   "finding": "Glioma",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0038",
   "image": "dataset/medical/clean/medical_0038.png",
-  "question": "What diseases are included in the picture?\nA. Nodule\nB. Atelectasis\nC. Cardiomegaly\nD. Brain Edema",
+  "question": "What is the diagnosis in this brain MRI?\nA. Pituitary Tumor\nB. No Tumor\nC. Meningioma\nD. Glioma",
   "answer": "D",
   "options": {
-   "A": "Nodule",
-   "B": "Atelectasis",
-   "C": "Cardiomegaly",
-   "D": "Brain Edema"
+   "A": "Pituitary Tumor",
+   "B": "No Tumor",
+   "C": "Meningioma",
+   "D": "Glioma"
   },
   "domain": "medical",
-  "task": "Reasoning",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab61/source.jpg",
-   "qid": 10834,
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test205.png",
    "modality": "MRI",
-   "content_type": "Abnormality",
-   "license": "CC BY 4.0"
+   "finding": "Glioma",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0039",
   "image": "dataset/medical/clean/medical_0039.png",
-  "question": "What diseases are included in the picture?\nA. Fracture\nB. Liver Cancer\nC. Kidney Cyst\nD. Atelectasis",
-  "answer": "D",
+  "question": "What is the diagnosis in this brain MRI?\nA. Glioma\nB. Pituitary Tumor\nC. Meningioma\nD. No Tumor",
+  "answer": "C",
   "options": {
-   "A": "Fracture",
-   "B": "Liver Cancer",
-   "C": "Kidney Cyst",
-   "D": "Atelectasis"
+   "A": "Glioma",
+   "B": "Pituitary Tumor",
+   "C": "Meningioma",
+   "D": "No Tumor"
   },
   "domain": "medical",
-  "task": "Reasoning",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab129/source.jpg",
-   "qid": 9908,
-   "modality": "X-Ray",
-   "content_type": "Abnormality",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test67.png",
+   "modality": "MRI",
+   "finding": "Meningioma",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0040",
   "image": "dataset/medical/clean/medical_0040.png",
-  "question": "What diseases are included in the picture?\nA. Fracture\nB. Liver Cancer\nC. Brain Edema\nD. Pneumonia",
-  "answer": "D",
+  "question": "What is the diagnosis in this brain MRI?\nA. Pituitary Tumor\nB. Meningioma\nC. No Tumor\nD. Glioma",
+  "answer": "B",
   "options": {
-   "A": "Fracture",
-   "B": "Liver Cancer",
-   "C": "Brain Edema",
-   "D": "Pneumonia"
+   "A": "Pituitary Tumor",
+   "B": "Meningioma",
+   "C": "No Tumor",
+   "D": "Glioma"
   },
   "domain": "medical",
-  "task": "Reasoning",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab353/source.jpg",
-   "qid": 10306,
-   "modality": "X-Ray",
-   "content_type": "Abnormality",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test68.png",
+   "modality": "MRI",
+   "finding": "Meningioma",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0041",
   "image": "dataset/medical/clean/medical_0041.png",
-  "question": "What diseases are included in the picture?\nA. Colitis\nB. Fracture\nC. Lung Cancer\nD. Brain Edema",
+  "question": "What is the diagnosis in this brain MRI?\nA. Glioma\nB. No Tumor\nC. Meningioma\nD. Pituitary Tumor",
   "answer": "C",
   "options": {
-   "A": "Colitis",
-   "B": "Fracture",
-   "C": "Lung Cancer",
-   "D": "Brain Edema"
+   "A": "Glioma",
+   "B": "No Tumor",
+   "C": "Meningioma",
+   "D": "Pituitary Tumor"
   },
   "domain": "medical",
-  "task": "Reasoning",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab119/source.jpg",
-   "qid": 9879,
-   "modality": "CT",
-   "content_type": "Abnormality",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test27.png",
+   "modality": "MRI",
+   "finding": "Meningioma",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0042",
   "image": "dataset/medical/clean/medical_0042.png",
-  "question": "What diseases are included in the picture?\nA. Pulmonary Mass\nB. Liver Cancer\nC. Colitis\nD. Kidney Cyst",
-  "answer": "A",
+  "question": "What is the diagnosis in this brain MRI?\nA. No Tumor\nB. Meningioma\nC. Glioma\nD. Pituitary Tumor",
+  "answer": "B",
   "options": {
-   "A": "Pulmonary Mass",
-   "B": "Liver Cancer",
-   "C": "Colitis",
-   "D": "Kidney Cyst"
+   "A": "No Tumor",
+   "B": "Meningioma",
+   "C": "Glioma",
+   "D": "Pituitary Tumor"
   },
   "domain": "medical",
-  "task": "Reasoning",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab324/source.jpg",
-   "qid": 10208,
-   "modality": "X-Ray",
-   "content_type": "Abnormality",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test15.png",
+   "modality": "MRI",
+   "finding": "Meningioma",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0043",
   "image": "dataset/medical/clean/medical_0043.png",
-  "question": "What diseases are included in the picture?\nA. Colitis\nB. Pleural Effusion\nC. Fracture\nD. Kidney Cyst",
-  "answer": "B",
+  "question": "What is the diagnosis in this brain MRI?\nA. Glioma\nB. Meningioma\nC. No Tumor\nD. Pituitary Tumor",
+  "answer": "C",
   "options": {
-   "A": "Colitis",
-   "B": "Pleural Effusion",
-   "C": "Fracture",
-   "D": "Kidney Cyst"
+   "A": "Glioma",
+   "B": "Meningioma",
+   "C": "No Tumor",
+   "D": "Pituitary Tumor"
   },
   "domain": "medical",
-  "task": "Reasoning",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab386/source.jpg",
-   "qid": 12526,
-   "modality": "X-Ray",
-   "content_type": "Abnormality",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test363.png",
+   "modality": "MRI",
+   "finding": "No Tumor",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0044",
   "image": "dataset/medical/clean/medical_0044.png",
-  "question": "What diseases are included in the picture?\nA. Liver Cancer\nB. Cardiomegaly\nC. Fracture\nD. Colitis",
-  "answer": "B",
+  "question": "What is the diagnosis in this brain MRI?\nA. Glioma\nB. Meningioma\nC. Pituitary Tumor\nD. No Tumor",
+  "answer": "D",
   "options": {
-   "A": "Liver Cancer",
-   "B": "Cardiomegaly",
-   "C": "Fracture",
-   "D": "Colitis"
+   "A": "Glioma",
+   "B": "Meningioma",
+   "C": "Pituitary Tumor",
+   "D": "No Tumor"
   },
   "domain": "medical",
-  "task": "Reasoning",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab196/source.jpg",
-   "qid": 9947,
-   "modality": "X-Ray",
-   "content_type": "Abnormality",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test277.png",
+   "modality": "MRI",
+   "finding": "No Tumor",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0045",
   "image": "dataset/medical/clean/medical_0045.png",
-  "question": "How many kidneys in this image?\nA. 2\nB. 1\nC. 0\nD. 3",
-  "answer": "C",
+  "question": "What is the diagnosis in this brain MRI?\nA. Pituitary Tumor\nB. Meningioma\nC. Glioma\nD. No Tumor",
+  "answer": "D",
   "options": {
-   "A": "2",
-   "B": "1",
-   "C": "0",
-   "D": "3"
+   "A": "Pituitary Tumor",
+   "B": "Meningioma",
+   "C": "Glioma",
+   "D": "No Tumor"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab274/source.jpg",
-   "qid": 12257,
-   "modality": "CT",
-   "content_type": "Quantity",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test334.png",
+   "modality": "MRI",
+   "finding": "No Tumor",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0046",
   "image": "dataset/medical/clean/medical_0046.png",
-  "question": "How many lungs are shown in this image?\nA. 0\nB. 2\nC. 3\nD. 1",
+  "question": "What is the diagnosis in this brain MRI?\nA. Pituitary Tumor\nB. No Tumor\nC. Glioma\nD. Meningioma",
   "answer": "B",
   "options": {
-   "A": "0",
-   "B": "2",
-   "C": "3",
-   "D": "1"
+   "A": "Pituitary Tumor",
+   "B": "No Tumor",
+   "C": "Glioma",
+   "D": "Meningioma"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab587/source.jpg",
-   "qid": 10802,
-   "modality": "CT",
-   "content_type": "Quantity",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test243.png",
+   "modality": "MRI",
+   "finding": "No Tumor",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0047",
   "image": "dataset/medical/clean/medical_0047.png",
-  "question": "How many lungs have existed in this image?\nA. 2\nB. 1\nC. 0\nD. 3",
-  "answer": "A",
+  "question": "What is the diagnosis in this brain MRI?\nA. Meningioma\nB. Pituitary Tumor\nC. No Tumor\nD. Glioma",
+  "answer": "B",
   "options": {
-   "A": "2",
-   "B": "1",
-   "C": "0",
-   "D": "3"
+   "A": "Meningioma",
+   "B": "Pituitary Tumor",
+   "C": "No Tumor",
+   "D": "Glioma"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab543/source.jpg",
-   "qid": 12799,
-   "modality": "CT",
-   "content_type": "Quantity",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test67.png",
+   "modality": "MRI",
+   "finding": "Pituitary Tumor",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0048",
   "image": "dataset/medical/clean/medical_0048.png",
-  "question": "How many lungs are shown in this image?\nA. 1\nB. 3\nC. 0\nD. 2",
-  "answer": "D",
+  "question": "What is the diagnosis in this brain MRI?\nA. Glioma\nB. Pituitary Tumor\nC. No Tumor\nD. Meningioma",
+  "answer": "B",
   "options": {
-   "A": "1",
-   "B": "3",
-   "C": "0",
-   "D": "2"
+   "A": "Glioma",
+   "B": "Pituitary Tumor",
+   "C": "No Tumor",
+   "D": "Meningioma"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab344/source.jpg",
-   "qid": 12395,
-   "modality": "X-Ray",
-   "content_type": "Quantity",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test76.png",
+   "modality": "MRI",
+   "finding": "Pituitary Tumor",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0049",
   "image": "dataset/medical/clean/medical_0049.png",
-  "question": "How many kidneys have existed in this image?\nA. 3\nB. 0\nC. 1\nD. 2",
-  "answer": "B",
+  "question": "What is the diagnosis in this brain MRI?\nA. Pituitary Tumor\nB. No Tumor\nC. Meningioma\nD. Glioma",
+  "answer": "A",
   "options": {
-   "A": "3",
-   "B": "0",
-   "C": "1",
-   "D": "2"
+   "A": "Pituitary Tumor",
+   "B": "No Tumor",
+   "C": "Meningioma",
+   "D": "Glioma"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab573/source.jpg",
-   "qid": 12852,
-   "modality": "CT",
-   "content_type": "Quantity",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test194.png",
+   "modality": "MRI",
+   "finding": "Pituitary Tumor",
+   "license": "CC0 1.0"
   }
  },
  {
   "id": "medical_0050",
   "image": "dataset/medical/clean/medical_0050.png",
-  "question": "How many lungs are shown in this image?\nA. 2\nB. 1\nC. 0\nD. 3",
-  "answer": "A",
+  "question": "What is the diagnosis in this brain MRI?\nA. Meningioma\nB. Glioma\nC. Pituitary Tumor\nD. No Tumor",
+  "answer": "C",
   "options": {
-   "A": "2",
-   "B": "1",
-   "C": "0",
-   "D": "3"
+   "A": "Meningioma",
+   "B": "Glioma",
+   "C": "Pituitary Tumor",
+   "D": "No Tumor"
   },
   "domain": "medical",
-  "task": "Perception",
+  "task": "Diagnosis",
   "source": {
-   "dataset": "SLAKE",
-   "img_name": "xmlab338/source.jpg",
-   "qid": 12380,
-   "modality": "X-Ray",
-   "content_type": "Quantity",
-   "license": "CC BY 4.0"
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test237.png",
+   "modality": "MRI",
+   "finding": "Pituitary Tumor",
+   "license": "CC0 1.0"
   }
  }
 ]

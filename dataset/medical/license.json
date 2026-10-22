@@ -1,5 +1,5 @@
 {
- "license": "CC BY 4.0",
- "scope": "50 multiple-choice cases from SLAKE (Liu et al., ISBI 2021; huggingface.co/datasets/BoKelvin/SLAKE), English test/validation questions with 4 options; distractors are drawn from SLAKE answer vocabularies, excluding answers SLAKE gives for the same image.",
- "attribution": "SLAKE: A Semantically-Labeled Knowledge-Enhanced Dataset for Medical Visual Question Answering"
+ "license": "CC BY 4.0 (SLAKE items) and CC0 1.0 (Brain Tumor MRI items)",
+ "scope": "50 diagnosis cases: chest X-ray and CT findings from SLAKE (huggingface.co/datasets/BoKelvin/SLAKE; images with one labeled disease), brain MRI from the Brain Tumor MRI Dataset (kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset; via huggingface.co/datasets/AIOmarRehan/Brain_Tumor_MRI_Dataset). Options are diagnoses of the same organ and a normal option; source.dataset gives the origin per item.",
+ "attribution": "SLAKE: A Semantically-Labeled Knowledge-Enhanced Dataset for Medical Visual Question Answering (Liu et al., ISBI 2021); Brain Tumor MRI Dataset (M. Nickparvar, 2021), from figshare (Cheng et al.), SARTAJ and Br35H"
 }

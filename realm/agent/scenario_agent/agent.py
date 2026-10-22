@@ -15,7 +15,8 @@ from PIL import Image
 
 from ...data import image_bytes, image_data_url, load_rgb
 from ...judge import clean_llm_text, no_reasoning
-from .prompts import AGENT_TOOLS, BLIND_CHECK, CHECK, DOMAIN_CONSTRAINTS, GENERAL_SYSTEM, PHYSICAL_SYSTEM, SALIENT_DOMAIN, SALIENT_TOOLS
+from .prompts import (AGENT_TOOLS, BLIND_CHECK, CHECK, DOMAIN_CONSTRAINTS, GENERAL_SYSTEM, GENERATE_DOMAIN, PHYSICAL_SYSTEM, SALIENT_DOMAIN,
+                      SALIENT_TOOLS)
 
 
 @dataclass
@@ -39,6 +40,11 @@ class ScenarioConfig:
         for k, ok in (("mode", ("scene", "salient")), ("generator", ("local", "openrouter"))):
             if getattr(self, k) not in ok:
                 raise ValueError(f"{k}: {'|'.join(ok)}; got {getattr(self, k)!r}")
+
+
+def _constraint(case) -> str:
+    """The domain's look to keep (DOMAIN_CONSTRAINTS; unknown domains: general)."""
+    return DOMAIN_CONSTRAINTS.get(case.domain, DOMAIN_CONSTRAINTS["general"])
 
 
 @dataclass
@@ -168,7 +174,7 @@ class ScenarioAgent:
         """Edited source or new image."""
         c = self.config
         if edit:
-            prompt = f"{DOMAIN_CONSTRAINTS.get(case.domain, DOMAIN_CONSTRAINTS['general'])} {prompt}"
+            prompt = f"{_constraint(case)} {prompt}"
         if c.generator == "openrouter":
             return openrouter_image(c.server_url, self.key, c.generator_model, prompt, [src] if edit else [])
         body = {"prompt": prompt, "num_inference_steps": c.num_inference_steps, "seed": seed}
@@ -248,7 +254,8 @@ class ScenarioAgent:
             system, text = GENERAL_SYSTEM, f"Question: {case.question}\nCorrect answer: {case.answer}"
         if case.target:
             text += f"\nWrong answer to use: {case.target}"
-        tools = (SALIENT_TOOLS + "\n" + SALIENT_DOMAIN.get(case.domain, "")).rstrip() if self.salient else AGENT_TOOLS
+        tools = ((SALIENT_TOOLS + "\n" + SALIENT_DOMAIN.get(case.domain, "")).rstrip() if self.salient
+                 else AGENT_TOOLS + GENERATE_DOMAIN.format(rule=_constraint(case)))
         messages = [{"role": "system", "content": system + tools}, self._user(text, image_data_url(src))]
         st = {"plan": None, "img": None, "url": None, "prompt": "", "tool": "", "rounds": 0, "ok": False, "done": False, "log": []}
         for _ in range(self.config.max_steps):

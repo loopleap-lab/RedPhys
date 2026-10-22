@@ -134,6 +134,10 @@ Output format:
 ANSWER: <option letter>
 REASON: <one sentence: what in the image decides it>"""
 
+_SCAN = ("CT: bone bright white, fat dark gray, air black; MRI: soft-tissue contrast, fat bright, cortical bone dark; "
+         "X-ray: projection radiograph")
+_ORIENT = "radiological orientation (patient's left on the image right)"
+
 DOMAIN_CONSTRAINTS = {  # prefix of every edit prompt
     "driving": "Front-facing dashcam view from a vehicle on the road, photorealistic.",
     "manipulation": "Robot workspace seen from the same fixed camera, a robot arm and gripper, photorealistic.",
@@ -143,17 +147,20 @@ DOMAIN_CONSTRAINTS = {  # prefix of every edit prompt
     "diagnostics": "Same scene and camera framing as the source, photorealistic.",
     "scene_qa": "Same scene, viewpoint and framing as the source photo, photorealistic.",
     "assistive": "Handheld phone photo as taken by a blind or low-vision user, same framing as the source.",
-    "medical": "Same imaging modality as the source scan (CT: bone bright white, fat dark gray, air black; MRI: soft-tissue contrast, "
-               "fat bright, cortical bone dark; X-ray: projection radiograph), same plane (axial/coronal/sagittal), view and grayscale "
-               "appearance, anatomically plausible.",
+    "medical": f"Same imaging modality as the source scan ({_SCAN}), same MRI sequence, same plane (axial/coronal/sagittal), view and "
+               f"grayscale appearance, {_ORIENT}, anatomically plausible.",
     "physics_diagram": "Same textbook diagram style, layout and labels as the source, clean line drawing.",
     "general": "Same viewpoint and framing as the source photo, photorealistic.",
 }
 
+GENERATE_DOMAIN = (  # scene mode: generate gets no prefix, so the agent restates the rule
+    "\nFor this domain, edit prefixes your prompt with: \"{rule}\" The generate tool does not see the source: describe these "
+    "properties of the source in its prompt yourself.")
+
 SALIENT_DOMAIN = {  # salient: overrides the sign and light rules
-    "medical": "Domain rule: draw a clean grayscale scan of the same modality (CT: bone bright white, fat dark gray, air black; MRI: "
-               "soft-tissue contrast, fat bright, cortical bone dark; X-ray: projection radiograph) and the same plane (axial/coronal/"
-               "sagittal) in which the target anatomy or finding is large and unmistakable; no signs, arrows, markers or text.",
+    "medical": f"Domain rule (overrides the style rule above): draw a clean grayscale scan of the same modality ({_SCAN}), the same MRI "
+               f"sequence and the same plane (axial/coronal/sagittal), in {_ORIENT}, in which the target anatomy or finding is large and "
+               "unmistakable; no signs, arrows, markers or text.",
     "physics_diagram": "Domain rule: draw a clean textbook line diagram of the target configuration; show directions as arrows inside "
                        "the diagram, not road signs, and keep only the labels the question needs.",
 }
