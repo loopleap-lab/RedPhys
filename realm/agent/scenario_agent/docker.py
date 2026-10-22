@@ -29,7 +29,7 @@ def run_in_docker(args) -> Path:
     if args.dataset:  # resolved inside the container
         ro |= {Path(DATASETS[args.dataset]["source"]), Path(DATASETS[args.dataset]["labels"]).parent}
     mounts = [Path(sys.prefix), Path(sys.base_prefix), PROJECT_ROOT / "realm", PROJECT_ROOT / "scripts", PROJECT_ROOT / "configs", *ro]
-    argv = [str(PROJECT_ROOT / "scripts" / "generate_targets.py")]
+    argv = [str(PROJECT_ROOT / "scripts" / "target.py")]
     for k, v in vars(args).items():
         if k == "params":
             argv += ["--params", json.dumps(v)] if v else []

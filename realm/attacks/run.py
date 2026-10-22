@@ -1,4 +1,4 @@
-"""Run an attack over a folder of images (realm.attack and scripts/generate_adversarial.py)."""
+"""Run an attack over a folder of images (realm.attack and scripts/attack.py)."""
 
 from __future__ import annotations
 

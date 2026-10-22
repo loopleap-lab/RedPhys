@@ -1,4 +1,4 @@
-"""realm.target and scripts/generate_targets.py."""
+"""realm.target and scripts/target.py."""
 
 import dataclasses
 import json

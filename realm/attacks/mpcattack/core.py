@@ -9,6 +9,10 @@ from tqdm import tqdm
 _CLIP_NORM = transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
 
 
+def _features(out):
+    return out if isinstance(out, torch.Tensor) else out.pooler_output  # transformers 4 / 5
+
+
 def _normalizer(res):
     return transforms.Compose([
         transforms.Resize((res, res), interpolation=transforms.InterpolationMode.BICUBIC, antialias=True),
@@ -28,12 +32,12 @@ class CLIPSurrogate(nn.Module):
         self.normalizer = _normalizer(224)
 
     def forward(self, x):
-        return F.normalize(self.model.get_image_features(pixel_values=self.normalizer(x)), dim=-1)
+        return F.normalize(_features(self.model.get_image_features(pixel_values=self.normalizer(x))), dim=-1)
 
     @torch.no_grad()
     def text(self, text):
         tok = self.tokenizer([text], padding=True, truncation=True, return_tensors="pt").to(self.model.device)
-        return F.normalize(self.model.get_text_features(**tok), dim=-1)
+        return F.normalize(_features(self.model.get_text_features(**tok)), dim=-1)
 
 
 class InternVLSurrogate(nn.Module):
@@ -50,7 +54,7 @@ class InternVLSurrogate(nn.Module):
     def forward(self, x):
         x = transforms.Resize((224, 224), interpolation=transforms.InterpolationMode.BICUBIC, antialias=True)(x)
         x = F.interpolate(x, size=(448, 448), mode="bilinear", align_corners=False)  # one 448 tile, as upstream
-        feats = self.model.get_image_features(pixel_values=self.normalizer(x).to(torch.bfloat16))
+        feats = _features(self.model.get_image_features(pixel_values=self.normalizer(x).to(torch.bfloat16)))
         return (feats / feats.norm(dim=1, keepdim=True)).mean(1).float()
 
     @torch.no_grad()

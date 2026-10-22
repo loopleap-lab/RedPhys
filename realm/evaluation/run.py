@@ -1,4 +1,4 @@
-"""realm.evaluate and scripts/evaluate_adversarial.py."""
+"""realm.evaluate and scripts/evaluate.py."""
 
 import json
 import time

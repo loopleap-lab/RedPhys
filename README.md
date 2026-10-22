@@ -26,7 +26,7 @@ REALM is a unified red-teaming benchmark for vision-language models (VLMs) in sa
 ## Key Features
 
 - 🎯 **12 attacks** — perturbation, patch, diffusion generation and editing, and prompt/typographic injection.
-- 🛡️ **3 defenses** — PAD, FreqPure and BlueSuffix, applied to the input with no retraining.
+- 🛡️ **3 defenses** — PAD, FreqPure and BlueSuffix.
 - 🔒 **Black-box** — optimized on CLIP surrogates and transferred to the victim VLM.
 - 🧩 **Extensible** — add an attack or defense with one base class.
 - 🔌 **Any backend** — proprietary models via OpenRouter, open-source ones via vLLM.
@@ -55,10 +55,10 @@ import realm
 realm.evaluate(["dataset/realm_dataset/adversarial/foa", "dataset/realm_dataset/adversarial/figstep"],
                server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
                model="google/gemini-3-flash-preview", judge=None, output="results/gemini-3-flash")
-realm.score("results/gemini-3-flash", server_url="http://localhost:8000")  # Qwen3-8B judge
+realm.score("results/gemini-3-flash", server_url="http://localhost:8000")
 ```
 
-Collects the answers on each attack and the clean images, then a Qwen3-8B judge reads each chosen option and reports accuracy and ASR in `results/gemini-3-flash/eval_results.json`.
+A Qwen3-8B judge scores the answers; accuracy and ASR go to `results/gemini-3-flash/eval_results.json`.
 
 ### Run the Full Pipeline
 
@@ -67,14 +67,15 @@ Collects the answers on each attack and the clean images, then a Qwen3-8B judge 
 **1. Generate targets** with the scenario agent (in Docker):
 
 ```python
+import os
 import realm
 
 targets = realm.target("dataset/physical/cases.json", "out/targets")
 ```
 
-The agent changes each scene to show a wrong answer; `mode="salient"` instead draws a new, unmistakable picture of it (e.g. an arrow sign for a turn).
+The agent changes each scene to show a wrong answer.
 
-**2. Attack.** Every attack (`foa`, `mattack`, `vattack`, `coa`, `physpatch`, `paattack`, `advdiffvlm`, `advedm`, `anyattack`, `figstep`, `promptinject`, `leadingq`, `scenetap`, `imagemix`) takes the same call:
+**2. Attack.** Every attack (`foa`, `mattack`, `vattack`, `coa`, `physpatch`, `paattack`, `advdiffvlm`, `advedm`, `anyattack`, `figstep`, `promptinject`, `imagemix`) takes the same call:
 
 ```python
 adv = realm.attack("foa", "dataset/physical", "out/foa", targets=targets)
@@ -83,11 +84,9 @@ adv = realm.attack("foa", "dataset/physical", "out/foa", targets=targets)
 **3. Evaluate.**
 
 ```python
-import os
-
 realm.evaluate(adv, targets=targets, server_url="https://openrouter.ai/api",
                api_key=os.environ["OPENROUTER_API_KEY"], model="openai/gpt-4.1-mini", judge=None, output="results/foa")
-realm.score("results/foa", server_url="http://localhost:8000")  # Qwen3-8B judge
+realm.score("results/foa", server_url="http://localhost:8000")
 ```
 
 For an open-source VLM, serve it with vLLM and pass `server_url="http://localhost:8000"`:
@@ -108,12 +107,6 @@ realm.defend("freqpure", adv, "out/foa_fp30", forward_noise_steps=30)           
 realm.target("dataset/physical/cases.json", "out/targets", generator="local")       # configs/agents/scenario.yaml
 ```
 
-```yaml
-# configs/attacks/figstep.yaml: helper LLM for the injection text
-llm_server_url: "https://openrouter.ai/api"
-llm_api_key_env: "OPENROUTER_API_KEY"
-```
-
 ```bash
 bash realm/agent/target_generator/server.sh 8091  # local target image generator (generator="local")
 ```
@@ -131,17 +124,10 @@ Write a `cases.json` like `dataset/physical/cases.json` and run the pipeline on 
   "options": {"A": "Chest", "B": "Neck", "C": "Abdomen", "D": "Head"}, "answer": "D"}]
 ```
 
-</details>
-
-<details>
-<summary><b>New model</b></summary>
-
-Any model or agent behind an OpenAI-compatible chat API (image + text in, text out):
+For a new `domain`, add a view constraint to `DOMAIN_CONSTRAINTS` in `realm/agent/scenario_agent/prompts.py` so target images keep the source's look. Try a few cases first:
 
 ```python
-realm.evaluate(adv, targets=targets, server_url="http://localhost:8000", model="my-model",
-               judge=None, output="results/my-model")
-realm.score("results/my-model", server_url="http://localhost:8000")  # Qwen3-8B judge
+targets = realm.target("dataset/medical/cases.json", "out/medical_targets", max_samples=5)
 ```
 
 </details>
@@ -155,11 +141,11 @@ Subclass `BaseAttack`, register it and add `configs/attacks/<name>.yaml`:
 # realm/attacks/myattack/myattack_attack.py
 @dataclass
 class MyAttackConfig(AttackConfig):  # epsilon, max_iterations, surrogates, ...
-    target_images_dir: str = ""  # run inputs are filled by field name: target_images_dir or target_text (see AttackConfig)
+    target_images_dir: str = ""  # filled per run (or target_text)
     my_param: float = 0.5
 
 class MyAttack(BaseAttack):
-    def generate(self, sample, **kwargs) -> AttackResult:  # sample: images, question, metadata (target text)
+    def generate(self, sample, **kwargs) -> AttackResult:  # sample: images, question, metadata
         ...
         return AttackResult(adversarial_sample=adv, perturbation_norm=self.config.epsilon)
 
@@ -192,6 +178,70 @@ class MyDefense(BaseDefense):
 ```
 
 Then run it by name: `realm.defend("mydefense", ...)`.
+
+</details>
+
+## FAQ
+
+<details>
+<summary><b>How do I build an adversarial dataset and train a more robust model?</b></summary>
+
+**1. Build the dataset.** Run attacks on your cases (see *New scenario or dataset*):
+
+```python
+targets = realm.target("dataset/medical/cases.json", "out/medical/targets")
+for name in ["foa", "mattack", "vattack"]:
+    realm.attack(name, "dataset/medical", f"out/medical/{name}", targets=targets)
+```
+
+Each attack directory holds the adversarial images and a `manifest.json`, in the format of the released dataset.
+
+**2. Train.** [AdPO](https://arxiv.org/abs/2504.01735) is an additional, training-based defense: unlike the 3 input defenses, it fine-tunes the victim's vision encoder. With $y_w$ and $y_l$ the model's answers on the clean image $x$ and the adversarial image $x_{adv}$:
+
+$$\mathcal{L}_{\text{PIO}} = -\log \sigma\left(\beta \log \frac{\pi_\theta(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)} - \beta \log \frac{\pi_\theta(y_l \mid x_{adv})}{\pi_{\text{ref}}(y_l \mid x_{adv})}\right)$$
+
+$$\mathcal{L}_{\text{AIO}} = -\sum_t \text{sg}\left(\pi_\theta(y_w^t \mid x_{adv})\right) \log \pi_\theta(y_w^t \mid x_{adv}), \qquad \mathcal{L} = \mathcal{L}_{\text{PIO}} + \lambda \mathcal{L}_{\text{AIO}}$$
+
+$\mathcal{L}_{\text{PIO}}$ (DPO) prefers the clean answer over the adversarial one, relative to the original model $\pi_{\text{ref}}$; $\mathcal{L}_{\text{AIO}}$ makes the model give the clean answer on the adversarial image, weighted by its confidence (sg: stop-gradient).
+
+```python
+realm.defend("adpo", ["out/medical/foa", "out/medical/mattack", "out/medical/vattack"], "out/medical/adpo",
+             model="Qwen/Qwen3-VL-8B-Instruct")
+```
+
+Supported victims: Qwen3-VL, Cosmos-Reason2, InternVL3.5-HF, Qwen3.5 and Gemma 4. Settings ($\beta$, $\lambda$, ...) are in `configs/defenses/adpo.yaml`; the trained model is written to `out/medical/adpo/checkpoint`.
+
+</details>
+
+<details>
+<summary><b>How do I extend REALM to a victim agent?</b></summary>
+
+REALM queries every victim through an OpenAI-compatible chat API, so wrap the agent in one:
+
+```python
+# agent_server.py
+import json
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+def my_agent(messages):
+    ...
+    return answer
+
+class Chat(BaseHTTPRequestHandler):
+    def do_POST(self):
+        req = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+        msg = {"role": "assistant", "content": my_agent(req["messages"])}
+        body = json.dumps({"id": "0", "object": "chat.completion", "created": 0, "model": req["model"],
+                           "choices": [{"index": 0, "finish_reason": "stop", "message": msg}]}).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(body)
+
+ThreadingHTTPServer(("", 9000), Chat).serve_forever()
+```
+
+`my_agent` receives the chat messages (images and question) and returns the agent's final answer. Then pass `server_url="http://localhost:9000"` to `realm.evaluate`.
 
 </details>
 

@@ -1,6 +1,7 @@
-"""realm.defend and scripts/clean_adversarial.py."""
+"""realm.defend and scripts/defense.py."""
 
 import json
+import os
 import traceback
 from datetime import datetime
 from pathlib import Path
@@ -34,12 +35,42 @@ def load_samples(path_str: str, max_samples: int | None) -> tuple[str, list[tupl
     return p.name, [(f, {"id": f.stem, "source": relpath(f)}) for f in files]
 
 
+def fit(args) -> Path:
+    """A training-based defense (e.g. AdPO): fit it on the attack dirs in args.input -> args.output (checkpoint, manifest.json)."""
+    inputs = [args.input] if isinstance(args.input, (str, Path)) else list(args.input)
+    out_dir = Path(args.output)
+    if any(out_dir.resolve() == Path(i).resolve() for i in inputs):
+        raise ValueError("output must differ from the input directories")
+    config_class = DefenseRegistry.get_spec(args.defense).config_class
+    defense = DefenseRegistry.create(args.defense, **build_config("defenses", args.defense, config_class, args.config, args.params))
+    config, inputs_rel = config_snapshot(defense.config), [relpath(i) for i in inputs]
+    if (out_dir / "manifest.json").exists():  # resume only the same fit
+        prior = json.loads((out_dir / "manifest.json").read_text())
+        if prior.get("config") != config or prior.get("inputs") != inputs_rel:
+            raise ValueError(f"{out_dir} holds another {args.defense} fit (other config or inputs); use another output")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    main = int(os.environ.get("RANK", 0)) == 0  # under accelerate every rank runs this; one writes the manifest
+    if main:
+        save_manifest(out_dir, args.defense, [], 0.0, defense=args.defense, config=config, inputs=inputs_rel)  # claims the dir
+    t0 = datetime.now()
+    outputs = defense.fit([str(i) for i in inputs], out_dir)
+    if main:
+        save_manifest(out_dir, args.defense, [], (datetime.now() - t0).total_seconds(), defense=args.defense,
+                      config=config, inputs=inputs_rel, outputs=outputs)
+    print(f"\nDone: {args.defense} fitted on {len(inputs)} attack dirs -> {out_dir}")
+    return out_dir
+
+
 def run(args) -> Path:
     """Clean args.input with args.defense -> args.output."""
 
     print(f"Defense: {args.defense}")
     print(f"Input:   {args.input}")
     print(f"Output:  {args.output}")
+    if getattr(DefenseRegistry.get_spec(args.defense).cls, "trains", False):
+        return fit(args)
+    if not isinstance(args.input, (str, Path)):
+        raise ValueError(f"{args.defense} cleans one input; several attack dirs are for training-based defenses")
 
     source_attack, samples = load_samples(args.input, args.max_samples)
     print(f"Images:  {len(samples)} from '{source_attack}'")
@@ -107,7 +138,8 @@ def run(args) -> Path:
     return out_dir
 
 
-def defend(name: str, input: str, output: str, *, question: str | None = None, config: str | None = None, max_samples: int | None = None,
-           **params) -> Path:
-    """Clean `input` (a realm.attack dir) with defense `name` -> `output` (images, manifest.json); params override its YAML."""
+def defend(name: str, input: str | list[str], output: str, *, question: str | None = None, config: str | None = None,
+           max_samples: int | None = None, **params) -> Path:
+    """Clean `input` (a realm.attack dir) with defense `name` -> `output` (images, manifest.json); params override its YAML.
+    A training-based defense (adpo) takes one or more attack dirs and writes a checkpoint instead."""
     return run(SimpleNamespace(defense=name, input=input, output=output, question=question, config=config, max_samples=max_samples, params=params))
