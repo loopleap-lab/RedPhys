@@ -54,16 +54,17 @@ def _case_image(image: str, cases_dir: Path) -> Path:
     return (p if p.is_absolute() else next((q for q in (PROJECT_ROOT / p, cases_dir / p) if q.exists()), PROJECT_ROOT / p)).resolve()
 
 
-def case_questions(images: list[Path]) -> dict:
-    """stem -> question from the nearest cases.json at or above each image's dir (up to dataset/, elsewhere the dir and its parent).
+def case_questions(images: list[Path], cases: str | None = None) -> dict:
+    """stem -> question from `cases` (realm.target's cases.json), else the nearest cases.json at or above each image's dir
+    (up to dataset/, elsewhere the dir and its parent).
 
-    Rows match by image path, else by id == stem in the nearest cases.json.
+    Rows match by image path, else by id == stem in the first cases.json.
     """
     datasets, cache, out = PROJECT_ROOT / "dataset", {}, {}
     for img in images:
         chain = [img.absolute().parent, *img.absolute().parent.parents]  # the dirs as given: symlinked images keep their source's cases.json
         top = next((i for i, x in enumerate(chain) if x.resolve() == datasets), 2)
-        found = [f for f in (x / "cases.json" for x in chain[:top]) if f.is_file()]
+        found = [f for f in ([Path(cases)] if cases else []) + [x / "cases.json" for x in chain[:top]] if f.is_file()]
         for f in found:
             if f not in cache:
                 rows = [c for c in json.loads(f.read_text()) if "question" in c]
@@ -172,7 +173,12 @@ def run(args) -> Path:
     """Attack args.source into args.output (+ manifest.json)."""
     validate_args(args)
 
-    images = list_images(args.source, args.max_samples)
+    images = list_images(args.source)
+    if getattr(args, "cases", None) and Path(args.labels_file).is_file():  # targets=: only the images realm.target made targets for
+        labeled = json.loads(Path(args.labels_file).read_text())
+        if not (images := [p for p in images if p.stem in labeled]):
+            raise ValueError(f"no image of {args.source} has a target in {args.labels_file}")
+    images = images[:args.max_samples] if args.max_samples else images
     print(f"Attack:  {args.attack}")
     print(f"Source:  {args.source} ({len(images)} images)")
     print(f"Output:  {args.output}")
@@ -216,7 +222,9 @@ def run(args) -> Path:
     remaining = [p for p in images if p.stem not in done]
     t0 = datetime.now()
 
-    questions = case_questions(remaining)  # datasets with a cases.json: the question of each case
+    questions = case_questions(remaining, getattr(args, "cases", None))  # datasets with a cases.json: the question of each case
+    if spec.config_class.uses_question and (miss := [p.stem for p in remaining if p.stem not in questions]):
+        print(f"WARNING: {len(miss)} images (e.g. {miss[0]}) have no cases.json question; using {args.question!r}")
     position = {p.stem: i for i, p in enumerate(images)}
     target_files = {p.stem: p for p in list_images(args.target)} if args.target and Path(args.target).is_dir() else {}
     for img_path in tqdm(remaining, desc=args.attack):
@@ -279,4 +287,5 @@ def attack(name: str, source: str, output: str, *, targets: str | None = None, t
     if targets:
         target, labels = target or f"{targets}/target", labels or f"{targets}/labels.json"
     return run(SimpleNamespace(attack=name, dataset=None, source=source, output=output, max_samples=max_samples, surrogates=surrogates,
-                               config=config, target=target, target_text=target_text, question=question, labels_file=labels, params=params))
+                               config=config, target=target, target_text=target_text, question=question, labels_file=labels, params=params,
+                               cases=f"{targets}/cases.json" if targets else None))

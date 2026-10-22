@@ -196,20 +196,24 @@ for name in ["foa", "mattack", "vattack"]:
 
 Each attack directory holds the adversarial images and a `manifest.json`, in the format of the released dataset.
 
-**2. Train.** [AdPO](https://arxiv.org/abs/2504.01735) is an additional, training-based defense: unlike the 3 input defenses, it fine-tunes the victim's vision encoder. With $y_w$ and $y_l$ the model's answers on the clean image $x$ and the adversarial image $x_{adv}$:
+**2. Train.** [AdPO](https://arxiv.org/abs/2504.01735) is an additional, training-based defense: unlike the 3 input defenses, it fine-tunes the victim's vision encoder. With $`y_w`$ and $`y_l`$ the model's answers on the clean image $`x`$ and the adversarial image $`x_{adv}`$:
 
-$$\mathcal{L}_{\text{PIO}} = -\log \sigma\left(\beta \log \frac{\pi_\theta(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)} - \beta \log \frac{\pi_\theta(y_l \mid x_{adv})}{\pi_{\text{ref}}(y_l \mid x_{adv})}\right)$$
+```math
+\mathcal{L}_{\text{PIO}} = -\log \sigma\left(\beta \log \frac{\pi_\theta(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)} - \beta \log \frac{\pi_\theta(y_l \mid x_{adv})}{\pi_{\text{ref}}(y_l \mid x_{adv})}\right)
+```
 
-$$\mathcal{L}_{\text{AIO}} = -\sum_t \text{sg}\left(\pi_\theta(y_w^t \mid x_{adv})\right) \log \pi_\theta(y_w^t \mid x_{adv}), \qquad \mathcal{L} = \mathcal{L}_{\text{PIO}} + \lambda \mathcal{L}_{\text{AIO}}$$
+```math
+\mathcal{L}_{\text{AIO}} = -\sum_t \text{sg}\left(\pi_\theta(y_w^t \mid x_{adv})\right) \log \pi_\theta(y_w^t \mid x_{adv}), \qquad \mathcal{L} = \mathcal{L}_{\text{PIO}} + \lambda \mathcal{L}_{\text{AIO}}
+```
 
-$\mathcal{L}_{\text{PIO}}$ (DPO) prefers the clean answer over the adversarial one, relative to the original model $\pi_{\text{ref}}$; $\mathcal{L}_{\text{AIO}}$ makes the model give the clean answer on the adversarial image, weighted by its confidence (sg: stop-gradient).
+$`\mathcal{L}_{\text{PIO}}`$ (DPO) prefers the clean answer over the adversarial one, relative to the original model $`\pi_{\text{ref}}`$; $`\mathcal{L}_{\text{AIO}}`$ makes the model give the clean answer on the adversarial image, weighted by its confidence (sg: stop-gradient).
 
 ```python
 realm.defend("adpo", ["out/medical/foa", "out/medical/mattack", "out/medical/vattack"], "out/medical/adpo",
              model="Qwen/Qwen3-VL-8B-Instruct")
 ```
 
-Supported victims: Qwen3-VL, Cosmos-Reason2, InternVL3.5-HF, Qwen3.5 and Gemma 4. Settings ($\beta$, $\lambda$, ...) are in `configs/defenses/adpo.yaml`; the trained model is written to `out/medical/adpo/checkpoint`.
+Supported victims: Qwen3-VL, Cosmos-Reason2, InternVL3.5-HF, Qwen3.5 and Gemma 4. Settings ($`\beta`$, $`\lambda`$, ...) are in `configs/defenses/adpo.yaml`; the trained model is written to `out/medical/adpo/checkpoint`.
 
 </details>
 
