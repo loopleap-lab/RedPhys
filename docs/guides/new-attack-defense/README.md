@@ -31,10 +31,9 @@ class MPCAttack(BaseAttack):
         c = self.config
         self._load_models()                                     # lazily, once per run
         src = sample.images[0]                                  # PIL RGB, native size
-        tgt = load_rgb(find_by_stem(c.target_images_dir, sample.id, required=True))
-        adv = to_pil(mpcattack(to_tensor(src, 255).to(c.device), ...))  # upstream loop (core.py)
-        return AttackResult(adversarial_sample=adv, perturbation_norm=pixel_linf(adv, src),
-                            metadata={"target_description": tgt_text})
+        tgt = load_rgb(find_by_stem(c.target_images_dir, sample.id, required=True))  # paired by file stem
+        adv = to_pil(mpcattack(src, tgt, self._models, c))     # upstream loop (core.py), simplified
+        return AttackResult(adversarial_sample=adv, perturbation_norm=pixel_linf(adv, src))
 ```
 
 **3. Register** in `realm/attacks/registry.py` (`register_all_attacks`):
@@ -95,7 +94,7 @@ and put the LoRA in `install.sh` with its sha256. Then:
 
 ```python
 cleaned = realm.defend("oscp", "out/mpcattack", "out/mpcattack_oscp")
-realm.evaluate(["out/mpcattack", cleaned], targets="out/targets", server_url=..., model=...)  # attacked vs. defended
+realm.evaluate(["out/mpcattack", cleaned], targets="out/targets", server_url=..., model=..., judge=None)  # attacked vs. defended
 ```
 
 A defense that also rewrites the text receives the victim's question as `clean(image_path, prompt=...)` and returns

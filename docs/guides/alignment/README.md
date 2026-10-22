@@ -15,8 +15,8 @@ for name in ["foa", "mattack", "vattack"]:
 ```
 
 Each attack directory has `<id>.png` and a `manifest.json`, the format of the released dataset, so released attack
-directories (`dataset/realm_dataset/adversarial/<attack>`) can be used directly. Text-only attacks (`promptinject`,
-`leadingq`) leave the image unchanged and are skipped.
+directories (`dataset/realm_dataset/adversarial/<attack>`) can be used directly. Use attacks that perturb the image:
+text-only attacks (`promptinject`, `leadingq`) are skipped, and FigStep replaces the image with a typographic one.
 
 ## 2. Objective
 
@@ -81,8 +81,9 @@ vllm serve out/medical/adpo/checkpoint --port 8000
 ```
 
 ```python
-realm.evaluate(["out/medical/foa", "out/medical/vattack"], targets="out/medical/targets",
-               server_url="http://localhost:8000", model="out/medical/adpo/checkpoint", output="results/adpo")
+realm.evaluate(["out/medical/foa", "out/medical/vattack"], targets="out/medical/targets", server_url="http://localhost:8000",
+               model="out/medical/adpo/checkpoint", judge=None, output="results/adpo")
+realm.score("results/adpo", server_url="http://localhost:8001")  # judge (Qwen3-8B) on its own server
 ```
 
 Compare with the original model on the test split and on held-out attacks, and check clean accuracy as well.

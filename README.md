@@ -125,7 +125,7 @@ Write a `cases.json` like `dataset/physical/cases.json` and run the pipeline on 
   "options": {"A": "Atelectasis", "B": "Cardiomegaly", "C": "No Finding", "D": "Pleural Effusion"}, "answer": "B"}]
 ```
 
-For a new `domain`, add a view constraint to `DOMAIN_CONSTRAINTS` in `realm/agent/scenario_agent/prompts.py` so target images keep the source's look. Try a few cases first:
+Targets (a wrong answer and an image that shows it) can be your own images, or come from the scenario agent, which plans the wrong answer, edits or draws the image and checks it with independent VLMs. For a new `domain`, tell it what to keep from the source in `DOMAIN_CONSTRAINTS` (`realm/agent/scenario_agent/prompts.py`). Try a few cases first:
 
 ```python
 targets = realm.target("dataset/medical/cases.json", "out/medical_targets", max_samples=5)
@@ -177,7 +177,7 @@ Then run them by name: `realm.attack("myattack", ...)`, `realm.defend("mydefense
 ```python
 targets = realm.target("dataset/medical/cases.json", "out/medical/targets")
 for name in ["foa", "mattack", "vattack"]:
-    realm.attack(name, "dataset/medical", f"out/medical/{name}", targets=targets)
+    realm.attack(name, "dataset/medical/clean", f"out/medical/{name}", targets=targets)
 ```
 
 Each attack directory holds the adversarial images and a `manifest.json`, in the format of the released dataset.

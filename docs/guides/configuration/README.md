@@ -51,11 +51,11 @@ into the same output is refused, so give each setting its own output directory.
 Local image generator (Qwen-Image, two 24 GB GPUs; restarted if it exits):
 
 ```bash
-bash realm/agent/target_generator/server.sh 8092
+bash realm/agent/target_generator/server.sh 8091  # the default generator_url
 ```
 
 ```python
-realm.target(..., generator="local", generator_url="http://localhost:8092")
+realm.target(..., generator="local")
 ```
 
 ## Evaluation (`realm.evaluate` / `realm.score` arguments)

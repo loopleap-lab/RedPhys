@@ -20,38 +20,41 @@ out at a glance make both the question and the target trivial.
 |---|---|
 | `id`, `image`, `question`, `answer` | Required. `id` = the image's file stem; `answer` = an option letter, or the answer text for open questions. |
 | `options` | Multiple choice: the agent picks a wrong option. Without it, the agent names a wrong answer. |
-| `domain` | Selects the domain rule below (default `general`). |
-| `target` | Optional: force the wrong answer. |
+| `domain` | Selects the domain rule (section 3; default `general`). |
+| `target` | Optional: a preset wrong answer (section 2). |
 
-## 2. Domain rule
+## 2. Targets
 
-`DOMAIN_CONSTRAINTS` in `realm/agent/scenario_agent/prompts.py` says what a target must keep from the source: it prefixes
-every edit prompt, and the agent restates it in prompts that draw a new image (which do not see the source). Add one line
-for a new domain:
+A target is a wrong answer plus an image that shows it. There are three ways to get one.
+
+**Your own targets.** Put `target/<id>.png` and `labels.json` (`{"<id>": {"source": "<correct>", "target": "<wrong>"}}`)
+in a folder and pass them to the attacks; no agent runs:
 
 ```python
-"medical": "Same imaging modality as the source scan (CT: bone bright white, fat dark gray, air black; MRI: soft-tissue "
-           "contrast, fat bright, cortical bone dark; X-ray: projection radiograph), same MRI sequence, same plane "
-           "(axial/coronal/sagittal), ..., radiological orientation (patient's left on the image right), ...",
-"physics_diagram": "Same textbook diagram style, layout and labels as the source, clean line drawing.",
+realm.attack("foa", "dataset/medical/clean", "out/medical/foa", target="my_targets/target", labels="my_targets/labels.json")
 ```
 
-Be concrete about what the target must keep: early medical targets had the right finding but switched an axial CT to a
-coronal view, or CT to MRI, until the plane and the look of each modality were spelled out.
+**A preset wrong answer, drawn by the agent.** Add `"target": "A"` (an option letter) to a case; the agent only makes the image.
 
-## 3. Targets
+**Everything by the scenario agent.**
 
 ```python
 import realm
 
-targets = realm.target("dataset/medical/cases.json", "out/medical_targets", max_samples=5,
-                       generator="local", generator_url="http://localhost:8092")
+targets = realm.target("dataset/medical/cases.json", "out/medical_targets", max_samples=5, generator="local")
 ```
 
-The agent (in Docker) plans the wrong answer, writes an image prompt, and checks the image with three independent VLMs that
-see only the target image; it retries until most of them pick the wrong answer. Start with `max_samples=5` and look at the
-images. Images come from a local server (`bash realm/agent/target_generator/server.sh 8092`) or from OpenRouter
-(`generator="openrouter"`, the default).
+For each case the agent (a VLM in Docker):
+
+1. **plans**: reads the image and question, picks the wrong option that one visual change can show, and names the cue in
+   the source that gives the correct answer and the cue that would give the wrong one;
+2. **draws**: `edit`s the source image (small changes, the scene stays) or `generate`s a new one from a prompt;
+3. **checks**: three independent VLMs answer the question seeing only the new image; it passes if most of them pick the
+   wrong answer (open questions: the agent model reviews the image against its plan);
+4. retries with a better prompt or another wrong option, up to `max_rounds` images.
+
+Start with `max_samples=5` and look at the images. Images come from a local server
+(`bash realm/agent/target_generator/server.sh`, port 8091) or from OpenRouter (`generator="openrouter"`, the default).
 
 Examples (source left, target right):
 
@@ -102,12 +105,37 @@ out/medical_targets/
 Look at the cases with `"verified": false`: the checkers did not accept the last image. Questions that need a calculation
 (like the physics ones) fail more often, since the image must change exactly the quantity the answer depends on.
 
+## 3. Customize the agent
+
+The prompts are in `realm/agent/scenario_agent/prompts.py`:
+
+| Prompt | Controls |
+|---|---|
+| `DOMAIN_CONSTRAINTS[domain]` | What a target must keep from the source. It prefixes every `edit` prompt, and the agent restates it when it uses `generate`. |
+| `PHYSICAL_SYSTEM`, `GENERAL_SYSTEM` | The agent's task and failure modes, for multiple-choice and open questions. |
+| `AGENT_TOOLS` | How the agent uses plan / edit / generate / check / submit. |
+| `BLIND_CHECK`, `CHECK` | The checkers' question (multiple choice); the agent's own review (open questions). |
+
+For a new domain, add one line to `DOMAIN_CONSTRAINTS`, and be concrete about what a target can get wrong. Early medical
+targets had the right finding but switched an axial CT to a coronal view, or CT to MRI, until this was spelled out:
+
+```python
+"medical": "Same imaging modality as the source scan (CT: bone bright white, fat dark gray, air black; MRI: soft-tissue "
+           "contrast, fat bright, cortical bone dark; X-ray: projection radiograph), same MRI sequence, same plane "
+           "(axial/coronal/sagittal), ..., radiological orientation (patient's left on the image right), ...",
+"physics_diagram": "Same textbook diagram style, layout and labels as the source, clean line drawing.",
+```
+
+Models and limits are settings (`configs/agents/scenario.yaml`, or keywords of `realm.target`): `model` (the agent),
+`checker_models`, `generator`, `max_rounds`, `max_steps`.
+
 ## 4. Attack and evaluate
 
 ```python
 adv = realm.attack("foa", "dataset/medical/clean", "out/medical/foa", targets=targets)  # only the cases with a target
 realm.evaluate(adv, targets=targets, server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
-               model="openai/gpt-4.1-mini", output="results/medical_foa")
+               model="openai/gpt-4.1-mini", judge=None, output="results/medical_foa")
+realm.score("results/medical_foa", server_url="http://localhost:8000")  # judge (Qwen3-8B on vLLM)
 ```
 
 Results: clean accuracy, and per attack the attack success rate (the victim picks the target) and the accuracy under attack,
