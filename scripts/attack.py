@@ -7,9 +7,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from realm.attacks.run import ALL_ATTACKS, config_fields, run
-from realm.attacks.surrogates import SURROGATE_MODES
-from realm.data import DATASETS
+from redphys.attacks.run import ALL_ATTACKS, config_fields, run
+from redphys.attacks.surrogates import SURROGATE_MODES
+from redphys.data import DATASETS
 
 
 def parse_args():

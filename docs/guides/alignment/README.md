@@ -1,22 +1,22 @@
 # Alignment
 
-REALM's attacks turn any cases into pairs of clean and adversarial images. The `adpo` defense uses these pairs to fine-tune the
+RedPhys's attacks turn any cases into pairs of clean and adversarial images. The `adpo` defense uses these pairs to fine-tune the
 victim's vision encoder with [AdPO](https://arxiv.org/abs/2504.01735) (ICLR 2026), so that it answers the adversarial image as
 it answers the clean one.
 
 ## 1. Build the dataset
 
 ```python
-import realm
+import redphys
 
-targets = realm.target("dataset/medical/cases.json", "out/medical/targets", generator="local")
+targets = redphys.target("dataset/medical/cases.json", "out/medical/targets", generator="local")
 for name in ["foa", "mattack", "vattack"]:
-    realm.attack(name, "dataset/medical/clean", f"out/medical/{name}", targets=targets)
+    redphys.attack(name, "dataset/medical/clean", f"out/medical/{name}", targets=targets)
 ```
 
 Each attack directory has `<id>.png` and a `manifest.json`, the format of the released dataset, so released attack
-directories (`dataset/realm_dataset/adversarial/<attack>`) can be used directly. Use attacks that perturb the image:
-text-only attacks (`promptinject`, `leadingq`) are skipped, and FigStep replaces the image with a typographic one.
+directories (`dataset/redphys_dataset/adversarial/<attack>`) can be used directly. Use attacks that perturb the image:
+attacks that do not perturb the image (`promptinject`, `leadingq`, and FigStep, which replaces it with a typographic one) are skipped.
 
 ## 2. Objective
 
@@ -41,11 +41,11 @@ vision encoder is trained.
 ## 3. Train
 
 ```python
-realm.defend("adpo", ["out/medical/foa", "out/medical/mattack", "out/medical/vattack"], "out/medical/adpo",
+redphys.defend("adpo", ["out/medical/foa", "out/medical/mattack", "out/medical/vattack"], "out/medical/adpo",
              model="Qwen/Qwen3-VL-8B-Instruct", holdout_attacks=["vattack"])
 ```
 
-The output directory, built in order (an interrupted run resumes):
+The output directory, built in order (an interrupted run resumes at its first unfinished step; the training itself restarts):
 
 | File | Content |
 |---|---|
@@ -68,7 +68,7 @@ Supported victims: Qwen3-VL, Cosmos-Reason2, InternVL3.5-HF, Qwen3.5 and Gemma 4
 |---|---|---|
 | `beta`, `lam` | 0.1, 1.0 | paper |
 | `lr`, `epochs`, `batch_size` | 1e-5, 2, 128 | paper (AdamW, weight decay 1e-4) |
-| `adv_source` | `realm` | the attack outputs; `pgd`: the paper's online PGD (ε = 2/255) |
+| `adv_source` | `redphys` | the attack outputs; `pgd`: the paper's online PGD (ε = 2/255) |
 | `prompt` | "What is the content of the image?" | `null`: each case's question |
 | `device` | `cuda` | `auto`: one model over several GPUs (8B on 24 GB cards) |
 
@@ -81,9 +81,9 @@ vllm serve out/medical/adpo/checkpoint --port 8000
 ```
 
 ```python
-realm.evaluate(["out/medical/foa", "out/medical/vattack"], targets="out/medical/targets", server_url="http://localhost:8000",
+redphys.evaluate(["out/medical/foa", "out/medical/vattack"], targets="out/medical/targets", server_url="http://localhost:8000",
                model="out/medical/adpo/checkpoint", judge=None, output="results/adpo")
-realm.score("results/adpo", server_url="http://localhost:8001")  # judge (Qwen3-8B) on its own server
+redphys.score("results/adpo", server_url="http://localhost:8001")  # judge (Qwen3-8B) on its own server
 ```
 
 Compare with the original model on the test split and on held-out attacks, and check clean accuracy as well.
@@ -91,11 +91,11 @@ Compare with the original model on the test split and on held-out attacks, and c
 ## 5. A new alignment algorithm
 
 Any training method on the same pairs plugs in as a training defense: set `trains = True` and implement `fit` instead of
-`clean`. `realm.defend` passes it the attack directories and the output directory, records the config and resumes only the
+`clean`. `redphys.defend` passes it the attack directories and the output directory, records the config and resumes only the
 same fit.
 
 ```python
-# realm/defense/mymethod/mymethod_defense.py
+# redphys/defense/mymethod/mymethod_defense.py
 from ..adpo.data import load_pairs, write_jsonl     # (attack, image) pairs with the train/test split
 from ..adpo.models import load, encode, token_logps  # Qwen3-VL / InternVL / Gemma 4 loading and log-probs
 
@@ -117,7 +117,7 @@ class MyMethodDefense(BaseDefense):
         return {"pairs": "pairs.jsonl", "checkpoint": "checkpoint"}  # recorded in the manifest
 ```
 
-Register it (`("mymethod", MyMethodDefense, MyMethodConfig)` in `realm/defense/registry.py`), add
-`configs/defenses/mymethod.yaml`, and run `realm.defend("mymethod", attack_dirs, "out/mymethod")`. The same split
-(`pairs.jsonl`) and evaluation make the methods directly comparable. AdPO (`realm/defense/adpo/`) is the reference
+Register it (`("mymethod", MyMethodDefense, MyMethodConfig)` in `redphys/defense/registry.py`), add
+`configs/defenses/mymethod.yaml`, and run `redphys.defend("mymethod", attack_dirs, "out/mymethod")`. The same split
+(`pairs.jsonl`) and evaluation make the methods directly comparable. AdPO (`redphys/defense/adpo/`) is the reference
 implementation: stage-1 answers, an HF `Trainer` subclass, and an export to a vLLM-servable checkpoint.

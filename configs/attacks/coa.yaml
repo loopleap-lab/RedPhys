@@ -5,6 +5,7 @@ max_iterations: 100
 alpha: 1.0
 clip_model_name: "ViT-B/32"  # fixed by the ClipCap weights
 input_res: 224
+resize_source: false          # true: as upstream, the source is resized + center-cropped to input_res and the output has that size
 prefix_length: 10  # fixed by the ClipCap weights
 fusion_type: "add_weight"
 a_weight: 0.3

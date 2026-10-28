@@ -7,9 +7,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from realm.data import DATASETS
-from realm.evaluation import evaluate
-from realm.judge import DEFAULT_JUDGE_MODEL, DEFAULT_PROMPT, JUDGES
+from redphys.data import DATASETS
+from redphys.evaluation import evaluate
+from redphys.judge import DEFAULT_JUDGE_MODEL, DEFAULT_PROMPT, JUDGES
 
 
 def parse_args():

@@ -3,8 +3,8 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "realm"
-description = "REALM: A Unified Red-Teaming Benchmark for Physical-World VLMs"
+name = "redphys"
+description = "RedPhys: A Unified Red-Teaming Benchmark for Physical-World VLMs"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
@@ -12,12 +12,12 @@ license-files = ["LICENSE"]
 dynamic = ["version", "dependencies"]
 
 [project.urls]
-Repository = "https://github.com/UCF-ML-Research/REALM"
+Repository = "https://github.com/UCF-ML-Research/RedPhys"
 
 [tool.setuptools.dynamic]
 # Reuse requirements.txt; comment lines (e.g. the git-only installs) are ignored.
-version = { attr = "realm.__version__" }
+version = { attr = "redphys.__version__" }
 dependencies = { file = ["requirements.txt"] }
 
 [tool.setuptools.packages.find]
-include = ["realm*"]
+include = ["redphys*"]

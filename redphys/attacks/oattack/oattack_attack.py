@@ -1,0 +1,122 @@
+"""O-Attack: semantic anchoring, progressive sampling, consensus optimization (arXiv 2609.33833)."""
+
+import json
+import re
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
+
+import torch
+import torchvision.transforms as T
+from PIL import Image
+
+from ..base_attack import AttackConfig, AttackResult, BaseAttack, aspect_crop, find_by_stem, pixel_linf, resize_center_crop, to_pil, to_tensor
+from ...data import Sample, load_rgb
+
+
+@dataclass
+class OAttackConfig(AttackConfig):
+    epsilon: float = 16.0
+    max_iterations: int = 300
+    alpha: float = 1.0  # Adam lr, pixel units
+    backbones: Dict[str, str] = field(default_factory=lambda: {
+        "Laion": "laion/CLIP-ViT-g-14-laion2B-s12B-b42K",
+        "B16": "openai/clip-vit-base-patch16",
+        "B32": "openai/clip-vit-base-patch32",
+    })
+    image_layers: Dict[str, int] = field(default_factory=lambda: {"Laion": 15, "B16": 4, "B32": 4})
+    text_layers: Dict[str, int] = field(default_factory=lambda: {"Laion": 5, "B16": 2, "B32": 2})
+    dropout: Dict[str, List[float]] = field(default_factory=lambda: {
+        "Laion": [0.10, 0.15], "B16": [0.05, 0.10], "B32": [0.05, 0.10]})  # (p_start, p_end)
+    input_res: int = 224
+    resize_source: bool = False  # as upstream: the source is resized and center-cropped to input_res; the output has that size
+    views: int = 10  # K
+    source_crop_scale: Tuple[float, float] = (0.55, 0.95)
+    target_crop_scale: Tuple[float, float] = (0.9, 1.0)
+    crop_ratio: Tuple[float, float] = (3 / 4, 4 / 3)  # x image W/H
+    text_alpha: float = 1.0
+    lambda_v: float = 1.0
+    lambda_t: float = 1.0
+    num_captions: int = 5
+    caption_model: str = "Qwen/Qwen2.5-VL-3B-Instruct"  # if no caption file covers the image
+    source_captions_path: Optional[str] = None  # [{"image": "<stem>.png", "caption": [...]}]
+    target_captions_path: Optional[str] = None
+    target_images_dir: Optional[str] = None
+
+
+def _load_captions(path):
+    if not path:
+        return {}
+    return {Path(r["image"]).stem: r["caption"] for r in json.loads(Path(path).read_text())}
+
+
+class OAttack(BaseAttack):
+    config: OAttackConfig
+
+    def __init__(self, config: OAttackConfig):
+        super().__init__(config)
+        self._models = None
+        self._captioner = None
+        self._captions = {"source": _load_captions(config.source_captions_path),
+                          "target": _load_captions(config.target_captions_path)}
+
+    def _load_models(self):
+        if self._models is None:
+            from .core import CLIPAnchor
+            c = self.config
+            self._models = [CLIPAnchor(mid, c.image_layers[n], c.text_layers[n], c.input_res).to(c.device)
+                            for n, mid in c.backbones.items()]
+
+    def _caption(self, kind: str, sid: str, image: Image.Image, key: Optional[str] = None) -> List[str]:
+        """Captions from the file, else from caption_model, cached by key (default sid)."""
+        key = key or sid
+        bank = self._captions[kind].get(sid) or self._captions[kind].get(key)
+        if bank:
+            return bank
+        if self._captioner is None:
+            from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
+            model = Qwen2_5_VLForConditionalGeneration.from_pretrained(self.config.caption_model, dtype=torch.bfloat16)
+            self._captioner = (model.eval(), AutoProcessor.from_pretrained(self.config.caption_model))
+        model, proc = self._captioner
+        model.to(self.config.device)
+        n = self.config.num_captions
+        messages = [{"role": "user", "content": [{"type": "image"}, {"type": "text", "text": (
+            f"Write {n} different one-sentence English descriptions of this image as a numbered list (1. to {n}.).")}]}]
+        inputs = proc(text=[proc.apply_chat_template(messages, add_generation_prompt=True)], images=[image],
+                      return_tensors="pt").to(model.device)
+        with torch.no_grad():
+            out = model.generate(**inputs, max_new_tokens=60 * n, do_sample=False)
+        text = proc.batch_decode(out[:, inputs.input_ids.shape[1]:], skip_special_tokens=True)[0]
+        bank = [re.sub(r"^\s*(\d+[.)]|[-*•])\s*", "", l).strip() for l in text.splitlines()]
+        bank = [b for b in bank if b][:n]
+        if not bank:
+            raise RuntimeError(f"No captions generated for {kind} image {sid}")
+        self._captions[kind][key] = bank
+        return bank
+
+    def generate(self, sample: Sample, **kwargs) -> AttackResult:
+        c = self.config
+        sid = str(sample.id)
+        tgt_path = find_by_stem(c.target_images_dir, sid, required=True)
+        src_pil, tgt_pil = sample.images[0], load_rgb(tgt_path)
+        src_bank = self._caption("source", sid, src_pil)
+        tgt_bank = self._caption("target", sid, tgt_pil, str(tgt_path.resolve()))  # one shared target is captioned once
+        if self._captioner is not None:
+            self._captioner[0].to("cpu")  # free GPU for the surrogates
+        self._load_models()
+
+        image = to_tensor(src_pil, 255).to(c.device)
+        target = to_tensor(resize_center_crop(tgt_pil, c.input_res), 255).to(c.device)
+        source_aug = aspect_crop(c.input_res, c.source_crop_scale, c.crop_ratio, image.shape[-1] / image.shape[-2])
+        target_aug = T.RandomResizedCrop(c.input_res, scale=c.target_crop_scale)
+
+        from .core import oattack
+        adv = oattack(image, target, self._models, [c.dropout[n] for n in c.backbones], src_bank, tgt_bank,
+                      source_aug, target_aug, c.max_iterations, c.epsilon, c.alpha, c.views,
+                      c.text_alpha, c.lambda_v, c.lambda_t, kwargs.get("sample_idx", 0))
+        adv_pil = to_pil(adv)
+        return AttackResult(
+            adversarial_sample=adv_pil,
+            perturbation_norm=pixel_linf(adv_pil, src_pil),
+            metadata={"source_captions": src_bank, "target_captions": tgt_bank},
+        )

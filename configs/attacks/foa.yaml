@@ -20,5 +20,6 @@ llm_description_model: "gpt-4o-mini"
 llm_scorer_model: "gpt-4o-mini"
 llm_similarity_threshold: 0.5
 input_res: 224
+resize_source: false          # true: as upstream, the source is resized + center-cropped to input_res and the output has that size
 llm_server_url: null  # OpenAI-compatible; null: OpenAI
 llm_api_key_env: "OPENAI_API_KEY"

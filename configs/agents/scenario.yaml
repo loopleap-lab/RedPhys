@@ -14,4 +14,5 @@ checker_api_key_env: ""           # "" = api_key_env
 max_rounds: 5                     # images
 max_steps: 24                     # LLM turns
 num_inference_steps: 40           # local only
+generator_workers: 2              # local only: concurrent requests
 seed: 0                           # local only

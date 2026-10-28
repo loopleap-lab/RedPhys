@@ -31,7 +31,7 @@ A target is a wrong answer plus an image that shows it. There are three ways to 
 in a folder and pass them to the attacks; no agent runs:
 
 ```python
-realm.attack("foa", "dataset/medical/clean", "out/medical/foa", target="my_targets/target", labels="my_targets/labels.json")
+redphys.attack("foa", "dataset/medical/clean", "out/medical/foa", target="my_targets/target", labels="my_targets/labels.json")
 ```
 
 **A preset wrong answer, drawn by the agent.** Add `"target": "A"` (an option letter) to a case; the agent only makes the image.
@@ -39,9 +39,9 @@ realm.attack("foa", "dataset/medical/clean", "out/medical/foa", target="my_targe
 **Everything by the scenario agent.**
 
 ```python
-import realm
+import redphys
 
-targets = realm.target("dataset/medical/cases.json", "out/medical_targets", max_samples=5, generator="local")
+targets = redphys.target("dataset/medical/cases.json", "out/medical_targets", max_samples=5, generator="local")
 ```
 
 For each case the agent (a VLM in Docker):
@@ -54,7 +54,7 @@ For each case the agent (a VLM in Docker):
 4. retries with a better prompt or another wrong option, up to `max_rounds` images.
 
 Start with `max_samples=5` and look at the images. Images come from a local server
-(`bash realm/agent/target_generator/server.sh`, port 8091) or from OpenRouter (`generator="openrouter"`, the default).
+(`bash redphys/agent/target_generator/server.sh`, port 8091) or from OpenRouter (`generator="openrouter"`, the default).
 
 Examples (source left, target right):
 
@@ -107,7 +107,7 @@ Look at the cases with `"verified": false`: the checkers did not accept the last
 
 ## 3. Customize the agent
 
-The prompts are in `realm/agent/scenario_agent/prompts.py`:
+The prompts are in `redphys/agent/scenario_agent/prompts.py`:
 
 | Prompt | Controls |
 |---|---|
@@ -126,16 +126,16 @@ targets had the right finding but switched an axial CT to a coronal view, or CT 
 "physics_diagram": "Same textbook diagram style, layout and labels as the source, clean line drawing.",
 ```
 
-Models and limits are settings (`configs/agents/scenario.yaml`, or keywords of `realm.target`): `model` (the agent),
+Models and limits are settings (`configs/agents/scenario.yaml`, or keywords of `redphys.target`): `model` (the agent),
 `checker_models`, `generator`, `max_rounds`, `max_steps`.
 
 ## 4. Attack and evaluate
 
 ```python
-adv = realm.attack("foa", "dataset/medical/clean", "out/medical/foa", targets=targets)  # only the cases with a target
-realm.evaluate(adv, targets=targets, server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
+adv = redphys.attack("foa", "dataset/medical/clean", "out/medical/foa", targets=targets)  # only the cases with a target
+redphys.evaluate(adv, targets=targets, server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
                model="openai/gpt-4.1-mini", judge=None, output="results/medical_foa")
-realm.score("results/medical_foa", server_url="http://localhost:8000")  # judge (Qwen3-8B on vLLM)
+redphys.score("results/medical_foa", server_url="http://localhost:8000")  # judge (Qwen3-8B on vLLM)
 ```
 
 Results: clean accuracy, and per attack the attack success rate (the victim picks the target) and the accuracy under attack,

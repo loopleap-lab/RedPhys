@@ -1,4 +1,4 @@
-# REALM — Python dependencies
+# RedPhys — Python dependencies
 # Tested with Python 3.10+ and CUDA-enabled PyTorch.
 # Install with:  bash install.sh  (torch for your CUDA, the git installs listed below, vLLM and weights)
 

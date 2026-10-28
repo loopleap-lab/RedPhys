@@ -14,6 +14,7 @@ dropout:                     # (p_start, p_end) cap schedule
   B16: [0.05, 0.10]
   B32: [0.05, 0.10]
 input_res: 224
+resize_source: false          # true: as upstream, the source is resized + center-cropped to input_res and the output has that size
 views: 10                    # augmented views per step
 source_crop_scale: [0.55, 0.95]
 target_crop_scale: [0.9, 1.0]

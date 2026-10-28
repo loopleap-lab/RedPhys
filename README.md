@@ -1,25 +1,25 @@
 <div align="center">
 
-# REALM: A Unified Red-Teaming Benchmark for Physical-World VLMs
+# RedPhys: A Unified Red-Teaming Benchmark for Physical-World VLMs
 
 **NeurIPS 2026 · Evaluations & Datasets Track**
 
 <p>
 <a href="https://arxiv.org/abs/2606.23892"><img src="https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white" alt="Paper"></a>
-<a href="https://github.com/UCF-ML-Research/REALM"><img src="https://img.shields.io/badge/Website-REALM-7c5cff?logo=googlechrome&logoColor=white" alt="Website"></a>
-<a href="https://huggingface.co/datasets/yifeiz29/REALM"><img src="https://img.shields.io/badge/Dataset-Hugging%20Face-ffd21e?logo=huggingface" alt="Hugging Face"></a>
+<a href="https://github.com/UCF-ML-Research/RedPhys"><img src="https://img.shields.io/badge/Website-RedPhys-7c5cff?logo=googlechrome&logoColor=white" alt="Website"></a>
+<a href="https://huggingface.co/datasets/yifeiz29/RedPhys"><img src="https://img.shields.io/badge/Dataset-Hugging%20Face-ffd21e?logo=huggingface" alt="Hugging Face"></a>
 </p>
 
 </div>
 
 ## Overview
 
-REALM is a unified red-teaming benchmark for vision-language models (VLMs) in safety-critical physical-world tasks such as driving and robotics. It brings **12 red-teaming methods**, **3 model-agnostic defenses** and **13 VLMs** under one black-box threat model with shared data and metrics, and an agentic pipeline builds a scenario-specific target for each scene so that all attacks are compared on the same failure.
+RedPhys is a unified red-teaming benchmark for vision-language models (VLMs) in safety-critical physical-world tasks such as driving and robotics. It brings **12 red-teaming methods**, **3 model-agnostic defenses** and **13 VLMs** under one black-box threat model with shared data and metrics, and an agentic pipeline builds a scenario-specific target for each scene so that all attacks are compared on the same failure.
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/realm-dark.png">
-    <img src="docs/assets/realm-light.png" alt="REALM library of scenarios, attacks, defenses and VLMs, and the red-teaming benchmark pipeline" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dark.png">
+    <img src="docs/assets/light.png" alt="RedPhys library of scenarios, attacks, defenses and VLMs, and the red-teaming benchmark pipeline" width="100%">
   </picture>
 </p>
 
@@ -34,15 +34,15 @@ REALM is a unified red-teaming benchmark for vision-language models (VLMs) in sa
 ## Installation
 
 ```bash
-git clone https://github.com/UCF-ML-Research/REALM.git
-cd REALM
+git clone https://github.com/UCF-ML-Research/RedPhys.git
+cd RedPhys
 bash install.sh
-hf download yifeiz29/REALM --repo-type dataset --local-dir dataset/realm_dataset
+hf download yifeiz29/RedPhys --repo-type dataset --local-dir dataset/redphys_dataset
 ```
 
-`install.sh` sets up REALM, its dependencies and the model weights (Python 3.10+; Docker for `realm.target`).
+`install.sh` sets up RedPhys, its dependencies and the model weights (Python 3.10+; Docker for `redphys.target`).
 
-## How to Use REALM
+## How to Use RedPhys
 
 ### Evaluate on the Released Dataset
 
@@ -50,12 +50,12 @@ Score any VLM on the released adversarial images, here a proprietary model throu
 
 ```python
 import os
-import realm
+import redphys
 
-realm.evaluate(["dataset/realm_dataset/adversarial/foa", "dataset/realm_dataset/adversarial/figstep"],
+redphys.evaluate(["dataset/redphys_dataset/adversarial/foa", "dataset/redphys_dataset/adversarial/figstep"],
                server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
                model="google/gemini-3-flash-preview", judge=None, output="results/gemini-3-flash")
-realm.score("results/gemini-3-flash", server_url="http://localhost:8000")
+redphys.score("results/gemini-3-flash", server_url="http://localhost:8000")
 ```
 
 A Qwen3-8B judge scores the answers; accuracy and ASR go to `results/gemini-3-flash/eval_results.json`.
@@ -68,9 +68,9 @@ A Qwen3-8B judge scores the answers; accuracy and ASR go to `results/gemini-3-fl
 
 ```python
 import os
-import realm
+import redphys
 
-targets = realm.target("dataset/physical/cases.json", "out/targets")
+targets = redphys.target("dataset/physical/cases.json", "out/targets")
 ```
 
 The agent changes each scene to show a wrong answer.
@@ -78,15 +78,15 @@ The agent changes each scene to show a wrong answer.
 **2. Attack.** Every attack (`foa`, `mattack`, `vattack`, `coa`, `physpatch`, `paattack`, `advdiffvlm`, `advedm`, `anyattack`, `figstep`, `promptinject`, `imagemix`) takes the same call:
 
 ```python
-adv = realm.attack("foa", "dataset/physical", "out/foa", targets=targets)
+adv = redphys.attack("foa", "dataset/physical", "out/foa", targets=targets)
 ```
 
 **3. Evaluate.**
 
 ```python
-realm.evaluate(adv, targets=targets, server_url="https://openrouter.ai/api",
+redphys.evaluate(adv, targets=targets, server_url="https://openrouter.ai/api",
                api_key=os.environ["OPENROUTER_API_KEY"], model="openai/gpt-4.1-mini", judge=None, output="results/foa")
-realm.score("results/foa", server_url="http://localhost:8000")
+redphys.score("results/foa", server_url="http://localhost:8000")
 ```
 
 For an open-source VLM, serve it with vLLM and pass `server_url="http://localhost:8000"`:
@@ -103,13 +103,13 @@ For an open-source VLM, serve it with vLLM and pass `server_url="http://localhos
 Defaults (the paper settings) are in `configs/`; override any of them by keyword:
 
 ```python
-realm.attack("foa", "dataset/physical", "out/foa_eps8", targets=targets, epsilon=8)  # configs/attacks/foa.yaml
-realm.defend("freqpure", adv, "out/foa_fp30", forward_noise_steps=30)               # configs/defenses/freqpure.yaml
-realm.target("dataset/physical/cases.json", "out/targets", generator="local")       # configs/agents/scenario.yaml
+redphys.attack("foa", "dataset/physical", "out/foa_eps8", targets=targets, epsilon=8)  # configs/attacks/foa.yaml
+redphys.defend("freqpure", adv, "out/foa_fp30", forward_noise_steps=30)               # configs/defenses/freqpure.yaml
+redphys.target("dataset/physical/cases.json", "out/targets", generator="local")       # configs/agents/scenario.yaml
 ```
 
 ```bash
-bash realm/agent/target_generator/server.sh 8091  # local target image generator (generator="local")
+bash redphys/agent/target_generator/server.sh 8091  # local target image generator (generator="local")
 ```
 
 </details>
@@ -125,10 +125,10 @@ Write a `cases.json` like `dataset/physical/cases.json` and run the pipeline on 
   "options": {"A": "Atelectasis", "B": "Cardiomegaly", "C": "No Finding", "D": "Pleural Effusion"}, "answer": "B"}]
 ```
 
-Targets (a wrong answer and an image that shows it) can be your own images, or come from the scenario agent, which plans the wrong answer, edits or draws the image and checks it with independent VLMs. For a new `domain`, tell it what to keep from the source in `DOMAIN_CONSTRAINTS` (`realm/agent/scenario_agent/prompts.py`). Try a few cases first:
+Targets (a wrong answer and an image that shows it) can be your own images, or come from the scenario agent, which plans the wrong answer, edits or draws the image and checks it with independent VLMs. For a new `domain`, tell it what to keep from the source in `DOMAIN_CONSTRAINTS` (`redphys/agent/scenario_agent/prompts.py`). Try a few cases first:
 
 ```python
-targets = realm.target("dataset/medical/cases.json", "out/medical_targets", max_samples=5)
+targets = redphys.target("dataset/medical/cases.json", "out/medical_targets", max_samples=5)
 ```
 
 </details>
@@ -139,7 +139,7 @@ targets = realm.target("dataset/medical/cases.json", "out/medical_targets", max_
 Subclass `BaseAttack` or `BaseDefense`, register it and add its YAML under `configs/attacks/` or `configs/defenses/`:
 
 ```python
-# realm/attacks/myattack/myattack_attack.py
+# redphys/attacks/myattack/myattack_attack.py
 @dataclass
 class MyAttackConfig(AttackConfig):  # epsilon, max_iterations, surrogates, ...
     target_images_dir: str = ""  # filled per run (or target_text)
@@ -150,7 +150,7 @@ class MyAttack(BaseAttack):
         ...
         return AttackResult(adversarial_sample=adv, perturbation_norm=self.config.epsilon)
 
-# realm/defense/mydefense/mydefense_defense.py
+# redphys/defense/mydefense/mydefense_defense.py
 @dataclass
 class MyDefenseConfig(DefenseConfig):  # device, seed, precision
     strength: float = 0.3
@@ -160,12 +160,12 @@ class MyDefense(BaseDefense):
         ...
         return DefenseResult(cleaned_sample=cleaned)
 
-# realm/attacks/registry.py (register_all_attacks) and realm/defense/registry.py (register_all_defenses)
+# redphys/attacks/registry.py (register_all_attacks) and redphys/defense/registry.py (register_all_defenses)
 ("myattack", MyAttack, MyAttackConfig),
 ("mydefense", MyDefense, MyDefenseConfig),
 ```
 
-Then run them by name: `realm.attack("myattack", ...)`, `realm.defend("mydefense", ...)`.
+Then run them by name: `redphys.attack("myattack", ...)`, `redphys.defend("mydefense", ...)`.
 
 </details>
 
@@ -175,9 +175,9 @@ Then run them by name: `realm.attack("myattack", ...)`, `realm.defend("mydefense
 **1. Build the dataset.** Run attacks on your cases (see *New scenario or dataset*):
 
 ```python
-targets = realm.target("dataset/medical/cases.json", "out/medical/targets")
+targets = redphys.target("dataset/medical/cases.json", "out/medical/targets")
 for name in ["foa", "mattack", "vattack"]:
-    realm.attack(name, "dataset/medical/clean", f"out/medical/{name}", targets=targets)
+    redphys.attack(name, "dataset/medical/clean", f"out/medical/{name}", targets=targets)
 ```
 
 Each attack directory holds the adversarial images and a `manifest.json`, in the format of the released dataset.
@@ -199,7 +199,7 @@ $`\displaystyle \mathcal{L}_{\text{AIO}} = -\sum_t \text{sg}\left(\pi_\theta(y_w
 $`\mathcal{L}_{\text{PIO}}`$ (DPO) prefers the clean answer over the adversarial one, relative to the original model $`\pi_{\text{ref}}`$; $`\mathcal{L}_{\text{AIO}}`$ makes the model give the clean answer on the adversarial image, weighted by its confidence (sg: stop-gradient).
 
 ```python
-realm.defend("adpo", ["out/medical/foa", "out/medical/mattack", "out/medical/vattack"], "out/medical/adpo",
+redphys.defend("adpo", ["out/medical/foa", "out/medical/mattack", "out/medical/vattack"], "out/medical/adpo",
              model="Qwen/Qwen3-VL-8B-Instruct")
 ```
 
@@ -208,34 +208,17 @@ Supported victims: Qwen3-VL, Cosmos-Reason2, InternVL3.5-HF, Qwen3.5 and Gemma 4
 </details>
 
 <details>
-<summary><b><a href="docs/guides/victim-agent">How do I extend REALM to a victim agent?</a></b></summary>
+<summary><b><a href="docs/guides/victim-agent">How do I extend RedPhys to a victim agent?</a></b></summary>
 
-REALM queries every victim through an OpenAI-compatible chat API, so wrap the agent in one:
+Put the agent behind an OpenAI-compatible chat API ([`agent_server.py`](docs/guides/victim-agent/agent_server.py) is a runnable
+example with tools) and evaluate it like any VLM. Every attack, defense and metric applies, so you can analyze the agent's
+robustness and compare it with its VLM:
 
 ```python
-# agent_server.py
-import json
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-
-def my_agent(messages):
-    ...
-    return answer
-
-class Chat(BaseHTTPRequestHandler):
-    def do_POST(self):
-        req = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
-        msg = {"role": "assistant", "content": my_agent(req["messages"])}
-        body = json.dumps({"id": "0", "object": "chat.completion", "created": 0, "model": req["model"],
-                           "choices": [{"index": 0, "finish_reason": "stop", "message": msg}]}).encode()
-        self.send_response(200)
-        self.send_header("Content-Type", "application/json")
-        self.end_headers()
-        self.wfile.write(body)
-
-ThreadingHTTPServer(("", 9000), Chat).serve_forever()
+redphys.evaluate(["out/foa", "out/figstep"], targets="out/targets", server_url="http://localhost:9000",
+               model="my-agent", judge=None, output="results/my_agent")
+redphys.score("results/my_agent", server_url="http://localhost:8000")  # the judge on its own server
 ```
-
-`my_agent` receives the chat messages (images and question) and returns the agent's final answer. Then pass `server_url="http://localhost:9000"` to `realm.evaluate`.
 
 </details>
 
@@ -245,7 +228,7 @@ This project integrates adversarial attack and defense methods proposed by prior
 
 ## License
 
-REALM is released under the [Apache License 2.0](LICENSE). Code adapted from other projects keeps its original license (e.g. `realm/attacks/physpatch/LICENSE`), and each dataset keeps the terms of its sources (its `license.json`).
+RedPhys is released under the [Apache License 2.0](LICENSE). Code adapted from other projects keeps its original license (e.g. `redphys/attacks/physpatch/LICENSE`), and each dataset keeps the terms of its sources (its `license.json`).
 
 ## Citation
 

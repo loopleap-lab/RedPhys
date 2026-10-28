@@ -7,8 +7,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from realm.defense import DefenseRegistry
-from realm.defense.run import run
+from redphys.defense import DefenseRegistry
+from redphys.defense.run import run
 
 
 def parse_args():

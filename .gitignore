@@ -21,13 +21,13 @@ env/
 *.ckpt
 *.safetensors
 *.bin
-realm/**/assets/checkpoints/
-realm/**/assets/pretrained/
-realm/**/assets/models/
-realm/**/assets/som/*.pth
-realm/attacks/figstep/assets/*.ttf
-realm/attacks/scenetap/assets/*.ttf
-realm/attacks/paattack/prototypes/
+redphys/**/assets/checkpoints/
+redphys/**/assets/pretrained/
+redphys/**/assets/models/
+redphys/**/assets/som/*.pth
+redphys/attacks/figstep/assets/*.ttf
+redphys/attacks/scenetap/assets/*.ttf
+redphys/attacks/paattack/prototypes/
 
 # ── Generated outputs / caches ──────────────────────────────────────
 out/
@@ -37,7 +37,7 @@ dataset/**/coordinates/
 dataset/**/sam_labels/
 dataset/**/som/
 dataset/coco/
-dataset/realm_dataset/
+dataset/redphys_dataset/
 dataset/physical_dataset/
 eval_results/
 results/

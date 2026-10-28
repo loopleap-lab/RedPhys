@@ -11,3 +11,4 @@ crop_scale: [0.5, 0.9]
 crop_ratio: [0.75, 1.3333333333333333]  # x image W/H
 momentum: 0.9                # MI-FGSM
 input_res: 224
+resize_source: false          # true: as upstream, the source is resized + center-cropped to input_res and the output has that size

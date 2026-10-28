@@ -8,8 +8,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from realm.agent.scenario_agent.run import run
-from realm.data import DATASETS, DEFAULT_QUESTION
+from redphys.agent.scenario_agent.run import run
+from redphys.data import DATASETS, DEFAULT_QUESTION
 
 
 def parse_args():

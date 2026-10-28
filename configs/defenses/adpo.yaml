@@ -2,7 +2,7 @@ seed: 42
 precision: "bf16"
 device: "cuda"               # "auto": one model split over the GPUs (8B on 24 GB)
 model: "Qwen/Qwen3-VL-8B-Instruct"  # or Cosmos-Reason2, InternVL3.5-*-HF, Qwen3.5 / Gemma 4 (transformers 5)
-adv_source: "realm"          # REALM attack outputs; "pgd": paper
+adv_source: "redphys"          # RedPhys attack outputs; "pgd": paper
 holdout_attacks: []          # test only, e.g. ["coa"]
 test_fraction: 0.2           # by source id
 max_pairs: null

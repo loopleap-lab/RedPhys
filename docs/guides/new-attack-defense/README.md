@@ -1,14 +1,14 @@
 # New Attack or Defense
 
-An attack or defense is a config dataclass, a class with one method, a registry line and a YAML. `realm.attack` / `realm.defend`
+An attack or defense is a config dataclass, a class with one method, a registry line and a YAML. `redphys.attack` / `redphys.defend`
 do the rest: loading images, targets and questions, seeding, writing `<id>.png` + `manifest.json`, resuming.
 
 ## Example: adding MPCAttack
 
 [MPCAttack](https://arxiv.org/abs/2603.04846) (CVPR 2026) attacks an ensemble of CLIP, InternVL and DINOv2 surrogates toward a
-target image. Files: `realm/attacks/mpcattack/{mpcattack_attack.py, core.py}`, `configs/attacks/mpcattack.yaml`.
+target image. Files: `redphys/attacks/mpcattack/{mpcattack_attack.py, core.py}`, `configs/attacks/mpcattack.yaml`.
 
-**1. Config:** every hyperparameter, plus the run inputs it needs (`target_images_dir` is filled by `realm.attack`).
+**1. Config:** every hyperparameter, plus the run inputs it needs (`target_images_dir` is filled by `redphys.attack`).
 
 ```python
 @dataclass
@@ -36,7 +36,7 @@ class MPCAttack(BaseAttack):
         return AttackResult(adversarial_sample=adv, perturbation_norm=pixel_linf(adv, src))
 ```
 
-**3. Register** in `realm/attacks/registry.py` (`register_all_attacks`):
+**3. Register** in `redphys/attacks/registry.py` (`register_all_attacks`):
 
 ```python
 ("mpcattack", MPCAttack, MPCAttackConfig),
@@ -54,10 +54,10 @@ internvl_model: "OpenGVLab/InternVL3-1B-hf"
 **5. Run:**
 
 ```python
-realm.attack("mpcattack", "dataset/physical", "out/mpcattack", targets="out/targets", max_iterations=10)  # quick test
+redphys.attack("mpcattack", "dataset/physical", "out/mpcattack", targets="out/targets", max_iterations=10)  # quick test
 ```
 
-What `realm.attack` can give an attack:
+What `redphys.attack` can give an attack:
 
 | Need | Declare | Gets |
 |---|---|---|
@@ -70,7 +70,7 @@ What `realm.attack` can give an attack:
 ## Example: adding OSCP
 
 [OSCP](https://arxiv.org/abs/2408.17064) (CVPR 2025) purifies an image with one ControlNet-guided diffusion step. File:
-`realm/defense/oscp/oscp_defense.py`, weights in `realm/defense/oscp/assets/`.
+`redphys/defense/oscp/oscp_defense.py`, weights in `redphys/defense/oscp/assets/`.
 
 ```python
 @dataclass
@@ -89,12 +89,12 @@ class OSCPDefense(BaseDefense):
         return DefenseResult(cleaned_sample=out.resize(image.size))  # back to the input size
 ```
 
-Register it in `realm/defense/registry.py` (`("oscp", OSCPDefense, OSCPDefenseConfig)`), add `configs/defenses/oscp.yaml`
+Register it in `redphys/defense/registry.py` (`("oscp", OSCPDefense, OSCPDefenseConfig)`), add `configs/defenses/oscp.yaml`
 and put the LoRA in `install.sh` with its sha256. Then:
 
 ```python
-cleaned = realm.defend("oscp", "out/mpcattack", "out/mpcattack_oscp")
-realm.evaluate(["out/mpcattack", cleaned], targets="out/targets", server_url=..., model=..., judge=None)  # attacked vs. defended
+cleaned = redphys.defend("oscp", "out/mpcattack", "out/mpcattack_oscp")
+redphys.evaluate(["out/mpcattack", cleaned], targets="out/targets", server_url=..., model=..., judge=None)  # attacked vs. defended
 ```
 
 A defense that also rewrites the text receives the victim's question as `clean(image_path, prompt=...)` and returns

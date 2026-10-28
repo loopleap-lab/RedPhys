@@ -42,7 +42,7 @@ install_env() {
       huggingface-hub==1.33.0 fastapi==0.141.1 uvicorn==0.54.0 python-multipart==0.0.32 numpy==2.5.3 pillow==12.3.0 \
       "diffusers @ git+https://github.com/huggingface/diffusers@e0abab83b5df05de9e7abd788643c1a7c1e42e28"
   fi
-  $PY -c "import torch, realm.attacks, realm.defense; print('>> torch', torch.__version__, '| CUDA', torch.cuda.is_available(), '| REALM OK')"
+  $PY -c "import torch, redphys.attacks, redphys.defense; print('>> torch', torch.__version__, '| CUDA', torch.cuda.is_available(), '| RedPhys OK')"
   [ "$PY" = "$BOOT" ] || echo ">> installed in ./.venv: run  source .venv/bin/activate"
 }
 
@@ -52,7 +52,7 @@ install_weights() {
     case "$arg" in --check) MODE=check ;; --download-all) MODE=download-all ;; --delete) MODE=delete ;;
       *) echo "unknown weights option: $arg"; return 1 ;; esac
   done
-  local W=realm CLIP=$HOME/.cache/clip COCO=dataset/coco missing=0 HUB  # CLIP: clip.load's default
+  local W=redphys CLIP=$HOME/.cache/clip COCO=dataset/coco missing=0 HUB  # CLIP: clip.load's default
   HUB=$($PY -c "from huggingface_hub.constants import HF_HUB_CACHE; print(HF_HUB_CACHE)") || return 1  # HF_HOME as Python sees it
   local FP=$W/defense/freqpure/assets/pretrained/guided_diffusion/256x256_diffusion_uncond.pt
   local BLUE_SG=$W/defense/bluesuffix/assets/suffix_generator/adapter_model.safetensors
@@ -68,7 +68,7 @@ install_weights() {
     "$W/attacks/coa/assets/conceptual_weights.pt|f09faf2b3b390c201ec3b80b223ea0baa2b303074d43dc3dec5663a9ecd34607|gdrive:14pXWwB4Zm82rsDdvbGguLfx9F8aM7ovT"
   )
   local QWEN GEN=.venv-target-generator/bin/python  # at server.py's REVISION
-  QWEN=Qwen/Qwen-Image-2.1@$(sed -n 's/^REVISION = "\([0-9a-f]*\)".*/\1/p' realm/agent/target_generator/server.py)
+  QWEN=Qwen/Qwen-Image-2.1@$(sed -n 's/^REVISION = "\([0-9a-f]*\)".*/\1/p' redphys/agent/target_generator/server.py)
   local HF=(  # repo|patterns to skip: only the files the code loads
     "laion/CLIP-ViT-g-14-laion2B-s12B-b42K|pytorch_model.bin open_clip_pytorch_model.safetensors"  # open_clip reads the .bin
     "laion/CLIP-ViT-bigG-14-laion2B-39B-b160k|*.bin pytorch_model-*"
@@ -223,13 +223,13 @@ PY
 }
 
 enter_venv() {  # a script cannot activate the caller's shell
-  [ "$PY" = "$PWD/.venv/bin/python" ] && [ -z "${REALM_NO_SHELL:-}" ] && [ -t 0 ] && [ -t 1 ] || return 0
+  [ "$PY" = "$PWD/.venv/bin/python" ] && [ -z "${REDPHYS_NO_SHELL:-}" ] && [ -t 0 ] && [ -t 1 ] || return 0
   echo ">> opening a shell with .venv active (type exit to leave)"
   exec bash --rcfile <(printf '[ -f ~/.bashrc ] && . ~/.bashrc\n. %q/.venv/bin/activate\n' "$PWD") -i
 }
 
 case "${1:-all}" in
-  all)     REALM_NO_SHELL=1 bash "$0" env && install_weights && enter_venv ;;  # separate process: set -e is ignored before &&
+  all)     REDPHYS_NO_SHELL=1 bash "$0" env && install_weights && enter_venv ;;  # separate process: set -e is ignored before &&
   env)     (set -e; install_env) && enter_venv ;;
   weights) shift; install_weights "$@" ;;
   *)       sed -n '2,4p' "$0"; exit 1 ;;
