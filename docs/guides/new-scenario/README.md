@@ -82,14 +82,17 @@ prompt        Photorealistic clinical axial FLAIR brain MRI scan in the same rad
               infiltrative heterogeneous bright lesion ... with surrounding bright edema and mild local mass effect ...
 ```
 
-**physics_0005** (`dataset/physics`): average speed between 3 s and 4 s, 7.0 cm/s → 3.0 cm/s.
+**physics_0015** (`dataset/physics`): speed of a falling block, 3.07 m/s → 3.56 m/s. The agent changes one label, the drop height from 5.00 m to 6.72 m.
 
-![physics_0005: source and target](images/physics_0005.jpg)
+![physics_0015: source and target](images/physics_0015.jpg)
 
 ```text
-prompt        Modify only the 4-second position marker and its label in this physics timeline diagram: move the 4s
-              dashed ball marker from 16 cm to 12 cm along the line, and change the label beneath it from "16cm" to
-              "12cm". Keep 0s at 0cm, 1s at 1cm, 2s at 4cm, and 3s at 9cm exactly as shown. ...
+failure mode  Attribute swap
+source cue    The distance label shows the 4.00 kg block is 5.00 m above the floor.
+target cue    Change the drop-distance label and arrow to 6.72 m, keeping the masses and pulley properties unchanged; this yields a speed of about 3.56 m/s.
+prompt        Keep the same textbook physics diagram, layout, pulley, blocks, labels, and clean line-art style. Change only
+              the vertical distance label next to the arrow from "5.00 m" to "6.72 m". Preserve the arrow showing the
+              distance from the 4.00 kg block's starting height down to the floor.
 ```
 
 Output:
