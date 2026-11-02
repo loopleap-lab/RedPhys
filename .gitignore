@@ -57,3 +57,4 @@ runs/
 # ── Physical-world sets kept out of the repo ─────────────────────────
 dataset/physical_world/
 dataset/physics_simulation/
+dataset/extension/

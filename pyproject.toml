@@ -12,7 +12,7 @@ license-files = ["LICENSE"]
 dynamic = ["version", "dependencies"]
 
 [project.urls]
-Repository = "https://github.com/UCF-ML-Research/RedPhys"
+Repository = "https://github.com/loopleap-lab/RedPhys"
 
 [tool.setuptools.dynamic]
 # Reuse requirements.txt; comment lines (e.g. the git-only installs) are ignored.
