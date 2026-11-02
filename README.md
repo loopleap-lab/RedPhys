@@ -1,4 +1,8 @@
-<h2 align="center">RedPhys: A Unified Red-Teaming Benchmark for Physical-World VLMs</h2>
+<p align="center">
+  <img alt="RedPhys" src="docs/logo.png" width="340">
+</p>
+
+<h3 align="center">RedPhys: A Unified Red-Teaming Benchmark for Physical-World VLMs</h3>
 
 <p align="center">
   <b>Project</b>&nbsp; · &nbsp;
