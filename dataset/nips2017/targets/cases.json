@@ -1,7 +1,7 @@
 [
  {
-  "id": "general_0000",
-  "image": "dataset/general/clean/general_0000.png",
+  "id": "nips2017_0000",
+  "image": "dataset/nips2017/clean/nips2017_0000.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -36,8 +36,8 @@
   "literature_index": 0
  },
  {
-  "id": "general_0001",
-  "image": "dataset/general/clean/general_0001.png",
+  "id": "nips2017_0001",
+  "image": "dataset/nips2017/clean/nips2017_0001.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -72,8 +72,8 @@
   "literature_index": 1
  },
  {
-  "id": "general_0002",
-  "image": "dataset/general/clean/general_0002.png",
+  "id": "nips2017_0002",
+  "image": "dataset/nips2017/clean/nips2017_0002.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -108,8 +108,8 @@
   "literature_index": 2
  },
  {
-  "id": "general_0003",
-  "image": "dataset/general/clean/general_0003.png",
+  "id": "nips2017_0003",
+  "image": "dataset/nips2017/clean/nips2017_0003.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -143,8 +143,8 @@
   "literature_index": 3
  },
  {
-  "id": "general_0004",
-  "image": "dataset/general/clean/general_0004.png",
+  "id": "nips2017_0004",
+  "image": "dataset/nips2017/clean/nips2017_0004.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -180,8 +180,8 @@
   "literature_index": 4
  },
  {
-  "id": "general_0005",
-  "image": "dataset/general/clean/general_0005.png",
+  "id": "nips2017_0005",
+  "image": "dataset/nips2017/clean/nips2017_0005.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -215,8 +215,8 @@
   "literature_index": 5
  },
  {
-  "id": "general_0006",
-  "image": "dataset/general/clean/general_0006.png",
+  "id": "nips2017_0006",
+  "image": "dataset/nips2017/clean/nips2017_0006.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -251,8 +251,8 @@
   "literature_index": 6
  },
  {
-  "id": "general_0007",
-  "image": "dataset/general/clean/general_0007.png",
+  "id": "nips2017_0007",
+  "image": "dataset/nips2017/clean/nips2017_0007.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -286,8 +286,8 @@
   "literature_index": 7
  },
  {
-  "id": "general_0008",
-  "image": "dataset/general/clean/general_0008.png",
+  "id": "nips2017_0008",
+  "image": "dataset/nips2017/clean/nips2017_0008.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -322,8 +322,8 @@
   "literature_index": 8
  },
  {
-  "id": "general_0009",
-  "image": "dataset/general/clean/general_0009.png",
+  "id": "nips2017_0009",
+  "image": "dataset/nips2017/clean/nips2017_0009.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -359,8 +359,8 @@
   "literature_index": 9
  },
  {
-  "id": "general_0010",
-  "image": "dataset/general/clean/general_0010.png",
+  "id": "nips2017_0010",
+  "image": "dataset/nips2017/clean/nips2017_0010.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -394,8 +394,8 @@
   "literature_index": 10
  },
  {
-  "id": "general_0011",
-  "image": "dataset/general/clean/general_0011.png",
+  "id": "nips2017_0011",
+  "image": "dataset/nips2017/clean/nips2017_0011.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -430,8 +430,8 @@
   "literature_index": 11
  },
  {
-  "id": "general_0012",
-  "image": "dataset/general/clean/general_0012.png",
+  "id": "nips2017_0012",
+  "image": "dataset/nips2017/clean/nips2017_0012.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -465,8 +465,8 @@
   "literature_index": 12
  },
  {
-  "id": "general_0013",
-  "image": "dataset/general/clean/general_0013.png",
+  "id": "nips2017_0013",
+  "image": "dataset/nips2017/clean/nips2017_0013.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -501,8 +501,8 @@
   "literature_index": 13
  },
  {
-  "id": "general_0014",
-  "image": "dataset/general/clean/general_0014.png",
+  "id": "nips2017_0014",
+  "image": "dataset/nips2017/clean/nips2017_0014.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -538,8 +538,8 @@
   "literature_index": 14
  },
  {
-  "id": "general_0015",
-  "image": "dataset/general/clean/general_0015.png",
+  "id": "nips2017_0015",
+  "image": "dataset/nips2017/clean/nips2017_0015.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -573,8 +573,8 @@
   "literature_index": 15
  },
  {
-  "id": "general_0016",
-  "image": "dataset/general/clean/general_0016.png",
+  "id": "nips2017_0016",
+  "image": "dataset/nips2017/clean/nips2017_0016.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -608,8 +608,8 @@
   "literature_index": 16
  },
  {
-  "id": "general_0017",
-  "image": "dataset/general/clean/general_0017.png",
+  "id": "nips2017_0017",
+  "image": "dataset/nips2017/clean/nips2017_0017.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -644,8 +644,8 @@
   "literature_index": 17
  },
  {
-  "id": "general_0018",
-  "image": "dataset/general/clean/general_0018.png",
+  "id": "nips2017_0018",
+  "image": "dataset/nips2017/clean/nips2017_0018.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -681,8 +681,8 @@
   "literature_index": 18
  },
  {
-  "id": "general_0019",
-  "image": "dataset/general/clean/general_0019.png",
+  "id": "nips2017_0019",
+  "image": "dataset/nips2017/clean/nips2017_0019.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -717,8 +717,8 @@
   "literature_index": 19
  },
  {
-  "id": "general_0020",
-  "image": "dataset/general/clean/general_0020.png",
+  "id": "nips2017_0020",
+  "image": "dataset/nips2017/clean/nips2017_0020.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -752,8 +752,8 @@
   "literature_index": 20
  },
  {
-  "id": "general_0021",
-  "image": "dataset/general/clean/general_0021.png",
+  "id": "nips2017_0021",
+  "image": "dataset/nips2017/clean/nips2017_0021.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -788,8 +788,8 @@
   "literature_index": 21
  },
  {
-  "id": "general_0022",
-  "image": "dataset/general/clean/general_0022.png",
+  "id": "nips2017_0022",
+  "image": "dataset/nips2017/clean/nips2017_0022.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -825,8 +825,8 @@
   "literature_index": 22
  },
  {
-  "id": "general_0023",
-  "image": "dataset/general/clean/general_0023.png",
+  "id": "nips2017_0023",
+  "image": "dataset/nips2017/clean/nips2017_0023.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -861,8 +861,8 @@
   "literature_index": 23
  },
  {
-  "id": "general_0024",
-  "image": "dataset/general/clean/general_0024.png",
+  "id": "nips2017_0024",
+  "image": "dataset/nips2017/clean/nips2017_0024.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -897,8 +897,8 @@
   "literature_index": 24
  },
  {
-  "id": "general_0025",
-  "image": "dataset/general/clean/general_0025.png",
+  "id": "nips2017_0025",
+  "image": "dataset/nips2017/clean/nips2017_0025.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -934,8 +934,8 @@
   "literature_index": 25
  },
  {
-  "id": "general_0026",
-  "image": "dataset/general/clean/general_0026.png",
+  "id": "nips2017_0026",
+  "image": "dataset/nips2017/clean/nips2017_0026.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -968,8 +968,8 @@
   "literature_index": 26
  },
  {
-  "id": "general_0027",
-  "image": "dataset/general/clean/general_0027.png",
+  "id": "nips2017_0027",
+  "image": "dataset/nips2017/clean/nips2017_0027.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1002,8 +1002,8 @@
   "literature_index": 27
  },
  {
-  "id": "general_0028",
-  "image": "dataset/general/clean/general_0028.png",
+  "id": "nips2017_0028",
+  "image": "dataset/nips2017/clean/nips2017_0028.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1038,8 +1038,8 @@
   "literature_index": 28
  },
  {
-  "id": "general_0029",
-  "image": "dataset/general/clean/general_0029.png",
+  "id": "nips2017_0029",
+  "image": "dataset/nips2017/clean/nips2017_0029.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1073,8 +1073,8 @@
   "literature_index": 29
  },
  {
-  "id": "general_0030",
-  "image": "dataset/general/clean/general_0030.png",
+  "id": "nips2017_0030",
+  "image": "dataset/nips2017/clean/nips2017_0030.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1109,8 +1109,8 @@
   "literature_index": 30
  },
  {
-  "id": "general_0031",
-  "image": "dataset/general/clean/general_0031.png",
+  "id": "nips2017_0031",
+  "image": "dataset/nips2017/clean/nips2017_0031.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1143,8 +1143,8 @@
   "literature_index": 31
  },
  {
-  "id": "general_0032",
-  "image": "dataset/general/clean/general_0032.png",
+  "id": "nips2017_0032",
+  "image": "dataset/nips2017/clean/nips2017_0032.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1179,8 +1179,8 @@
   "literature_index": 32
  },
  {
-  "id": "general_0033",
-  "image": "dataset/general/clean/general_0033.png",
+  "id": "nips2017_0033",
+  "image": "dataset/nips2017/clean/nips2017_0033.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1215,8 +1215,8 @@
   "literature_index": 33
  },
  {
-  "id": "general_0034",
-  "image": "dataset/general/clean/general_0034.png",
+  "id": "nips2017_0034",
+  "image": "dataset/nips2017/clean/nips2017_0034.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1251,8 +1251,8 @@
   "literature_index": 34
  },
  {
-  "id": "general_0035",
-  "image": "dataset/general/clean/general_0035.png",
+  "id": "nips2017_0035",
+  "image": "dataset/nips2017/clean/nips2017_0035.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1287,8 +1287,8 @@
   "literature_index": 35
  },
  {
-  "id": "general_0036",
-  "image": "dataset/general/clean/general_0036.png",
+  "id": "nips2017_0036",
+  "image": "dataset/nips2017/clean/nips2017_0036.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1323,8 +1323,8 @@
   "literature_index": 36
  },
  {
-  "id": "general_0037",
-  "image": "dataset/general/clean/general_0037.png",
+  "id": "nips2017_0037",
+  "image": "dataset/nips2017/clean/nips2017_0037.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1359,8 +1359,8 @@
   "literature_index": 37
  },
  {
-  "id": "general_0038",
-  "image": "dataset/general/clean/general_0038.png",
+  "id": "nips2017_0038",
+  "image": "dataset/nips2017/clean/nips2017_0038.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1394,8 +1394,8 @@
   "literature_index": 38
  },
  {
-  "id": "general_0039",
-  "image": "dataset/general/clean/general_0039.png",
+  "id": "nips2017_0039",
+  "image": "dataset/nips2017/clean/nips2017_0039.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1431,8 +1431,8 @@
   "literature_index": 39
  },
  {
-  "id": "general_0040",
-  "image": "dataset/general/clean/general_0040.png",
+  "id": "nips2017_0040",
+  "image": "dataset/nips2017/clean/nips2017_0040.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1467,8 +1467,8 @@
   "literature_index": 40
  },
  {
-  "id": "general_0041",
-  "image": "dataset/general/clean/general_0041.png",
+  "id": "nips2017_0041",
+  "image": "dataset/nips2017/clean/nips2017_0041.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1503,8 +1503,8 @@
   "literature_index": 41
  },
  {
-  "id": "general_0042",
-  "image": "dataset/general/clean/general_0042.png",
+  "id": "nips2017_0042",
+  "image": "dataset/nips2017/clean/nips2017_0042.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1540,8 +1540,8 @@
   "literature_index": 42
  },
  {
-  "id": "general_0043",
-  "image": "dataset/general/clean/general_0043.png",
+  "id": "nips2017_0043",
+  "image": "dataset/nips2017/clean/nips2017_0043.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1576,8 +1576,8 @@
   "literature_index": 43
  },
  {
-  "id": "general_0044",
-  "image": "dataset/general/clean/general_0044.png",
+  "id": "nips2017_0044",
+  "image": "dataset/nips2017/clean/nips2017_0044.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1611,8 +1611,8 @@
   "literature_index": 44
  },
  {
-  "id": "general_0045",
-  "image": "dataset/general/clean/general_0045.png",
+  "id": "nips2017_0045",
+  "image": "dataset/nips2017/clean/nips2017_0045.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1645,8 +1645,8 @@
   "literature_index": 45
  },
  {
-  "id": "general_0046",
-  "image": "dataset/general/clean/general_0046.png",
+  "id": "nips2017_0046",
+  "image": "dataset/nips2017/clean/nips2017_0046.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1681,8 +1681,8 @@
   "literature_index": 46
  },
  {
-  "id": "general_0047",
-  "image": "dataset/general/clean/general_0047.png",
+  "id": "nips2017_0047",
+  "image": "dataset/nips2017/clean/nips2017_0047.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1717,8 +1717,8 @@
   "literature_index": 47
  },
  {
-  "id": "general_0048",
-  "image": "dataset/general/clean/general_0048.png",
+  "id": "nips2017_0048",
+  "image": "dataset/nips2017/clean/nips2017_0048.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1752,8 +1752,8 @@
   "literature_index": 48
  },
  {
-  "id": "general_0049",
-  "image": "dataset/general/clean/general_0049.png",
+  "id": "nips2017_0049",
+  "image": "dataset/nips2017/clean/nips2017_0049.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1787,8 +1787,8 @@
   "literature_index": 49
  },
  {
-  "id": "general_0050",
-  "image": "dataset/general/clean/general_0050.png",
+  "id": "nips2017_0050",
+  "image": "dataset/nips2017/clean/nips2017_0050.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1823,8 +1823,8 @@
   "literature_index": 50
  },
  {
-  "id": "general_0051",
-  "image": "dataset/general/clean/general_0051.png",
+  "id": "nips2017_0051",
+  "image": "dataset/nips2017/clean/nips2017_0051.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1858,8 +1858,8 @@
   "literature_index": 51
  },
  {
-  "id": "general_0052",
-  "image": "dataset/general/clean/general_0052.png",
+  "id": "nips2017_0052",
+  "image": "dataset/nips2017/clean/nips2017_0052.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1893,8 +1893,8 @@
   "literature_index": 52
  },
  {
-  "id": "general_0053",
-  "image": "dataset/general/clean/general_0053.png",
+  "id": "nips2017_0053",
+  "image": "dataset/nips2017/clean/nips2017_0053.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1928,8 +1928,8 @@
   "literature_index": 53
  },
  {
-  "id": "general_0054",
-  "image": "dataset/general/clean/general_0054.png",
+  "id": "nips2017_0054",
+  "image": "dataset/nips2017/clean/nips2017_0054.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1963,8 +1963,8 @@
   "literature_index": 54
  },
  {
-  "id": "general_0055",
-  "image": "dataset/general/clean/general_0055.png",
+  "id": "nips2017_0055",
+  "image": "dataset/nips2017/clean/nips2017_0055.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -1998,8 +1998,8 @@
   "literature_index": 55
  },
  {
-  "id": "general_0056",
-  "image": "dataset/general/clean/general_0056.png",
+  "id": "nips2017_0056",
+  "image": "dataset/nips2017/clean/nips2017_0056.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2033,8 +2033,8 @@
   "literature_index": 56
  },
  {
-  "id": "general_0057",
-  "image": "dataset/general/clean/general_0057.png",
+  "id": "nips2017_0057",
+  "image": "dataset/nips2017/clean/nips2017_0057.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2068,8 +2068,8 @@
   "literature_index": 57
  },
  {
-  "id": "general_0058",
-  "image": "dataset/general/clean/general_0058.png",
+  "id": "nips2017_0058",
+  "image": "dataset/nips2017/clean/nips2017_0058.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2103,8 +2103,8 @@
   "literature_index": 58
  },
  {
-  "id": "general_0059",
-  "image": "dataset/general/clean/general_0059.png",
+  "id": "nips2017_0059",
+  "image": "dataset/nips2017/clean/nips2017_0059.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2138,8 +2138,8 @@
   "literature_index": 59
  },
  {
-  "id": "general_0060",
-  "image": "dataset/general/clean/general_0060.png",
+  "id": "nips2017_0060",
+  "image": "dataset/nips2017/clean/nips2017_0060.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2172,8 +2172,8 @@
   "literature_index": 60
  },
  {
-  "id": "general_0061",
-  "image": "dataset/general/clean/general_0061.png",
+  "id": "nips2017_0061",
+  "image": "dataset/nips2017/clean/nips2017_0061.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2208,8 +2208,8 @@
   "literature_index": 61
  },
  {
-  "id": "general_0062",
-  "image": "dataset/general/clean/general_0062.png",
+  "id": "nips2017_0062",
+  "image": "dataset/nips2017/clean/nips2017_0062.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2243,8 +2243,8 @@
   "literature_index": 62
  },
  {
-  "id": "general_0063",
-  "image": "dataset/general/clean/general_0063.png",
+  "id": "nips2017_0063",
+  "image": "dataset/nips2017/clean/nips2017_0063.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2279,8 +2279,8 @@
   "literature_index": 63
  },
  {
-  "id": "general_0064",
-  "image": "dataset/general/clean/general_0064.png",
+  "id": "nips2017_0064",
+  "image": "dataset/nips2017/clean/nips2017_0064.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2314,8 +2314,8 @@
   "literature_index": 64
  },
  {
-  "id": "general_0065",
-  "image": "dataset/general/clean/general_0065.png",
+  "id": "nips2017_0065",
+  "image": "dataset/nips2017/clean/nips2017_0065.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2349,8 +2349,8 @@
   "literature_index": 65
  },
  {
-  "id": "general_0066",
-  "image": "dataset/general/clean/general_0066.png",
+  "id": "nips2017_0066",
+  "image": "dataset/nips2017/clean/nips2017_0066.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2384,8 +2384,8 @@
   "literature_index": 66
  },
  {
-  "id": "general_0067",
-  "image": "dataset/general/clean/general_0067.png",
+  "id": "nips2017_0067",
+  "image": "dataset/nips2017/clean/nips2017_0067.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2420,8 +2420,8 @@
   "literature_index": 67
  },
  {
-  "id": "general_0068",
-  "image": "dataset/general/clean/general_0068.png",
+  "id": "nips2017_0068",
+  "image": "dataset/nips2017/clean/nips2017_0068.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2455,8 +2455,8 @@
   "literature_index": 68
  },
  {
-  "id": "general_0069",
-  "image": "dataset/general/clean/general_0069.png",
+  "id": "nips2017_0069",
+  "image": "dataset/nips2017/clean/nips2017_0069.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2491,8 +2491,8 @@
   "literature_index": 69
  },
  {
-  "id": "general_0070",
-  "image": "dataset/general/clean/general_0070.png",
+  "id": "nips2017_0070",
+  "image": "dataset/nips2017/clean/nips2017_0070.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2527,8 +2527,8 @@
   "literature_index": 70
  },
  {
-  "id": "general_0071",
-  "image": "dataset/general/clean/general_0071.png",
+  "id": "nips2017_0071",
+  "image": "dataset/nips2017/clean/nips2017_0071.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2562,8 +2562,8 @@
   "literature_index": 71
  },
  {
-  "id": "general_0072",
-  "image": "dataset/general/clean/general_0072.png",
+  "id": "nips2017_0072",
+  "image": "dataset/nips2017/clean/nips2017_0072.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2599,8 +2599,8 @@
   "literature_index": 72
  },
  {
-  "id": "general_0073",
-  "image": "dataset/general/clean/general_0073.png",
+  "id": "nips2017_0073",
+  "image": "dataset/nips2017/clean/nips2017_0073.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2634,8 +2634,8 @@
   "literature_index": 73
  },
  {
-  "id": "general_0074",
-  "image": "dataset/general/clean/general_0074.png",
+  "id": "nips2017_0074",
+  "image": "dataset/nips2017/clean/nips2017_0074.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2670,8 +2670,8 @@
   "literature_index": 74
  },
  {
-  "id": "general_0075",
-  "image": "dataset/general/clean/general_0075.png",
+  "id": "nips2017_0075",
+  "image": "dataset/nips2017/clean/nips2017_0075.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2705,8 +2705,8 @@
   "literature_index": 75
  },
  {
-  "id": "general_0076",
-  "image": "dataset/general/clean/general_0076.png",
+  "id": "nips2017_0076",
+  "image": "dataset/nips2017/clean/nips2017_0076.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2741,8 +2741,8 @@
   "literature_index": 76
  },
  {
-  "id": "general_0077",
-  "image": "dataset/general/clean/general_0077.png",
+  "id": "nips2017_0077",
+  "image": "dataset/nips2017/clean/nips2017_0077.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2777,8 +2777,8 @@
   "literature_index": 77
  },
  {
-  "id": "general_0078",
-  "image": "dataset/general/clean/general_0078.png",
+  "id": "nips2017_0078",
+  "image": "dataset/nips2017/clean/nips2017_0078.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2811,8 +2811,8 @@
   "literature_index": 78
  },
  {
-  "id": "general_0079",
-  "image": "dataset/general/clean/general_0079.png",
+  "id": "nips2017_0079",
+  "image": "dataset/nips2017/clean/nips2017_0079.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2846,8 +2846,8 @@
   "literature_index": 79
  },
  {
-  "id": "general_0080",
-  "image": "dataset/general/clean/general_0080.png",
+  "id": "nips2017_0080",
+  "image": "dataset/nips2017/clean/nips2017_0080.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2880,8 +2880,8 @@
   "literature_index": 80
  },
  {
-  "id": "general_0081",
-  "image": "dataset/general/clean/general_0081.png",
+  "id": "nips2017_0081",
+  "image": "dataset/nips2017/clean/nips2017_0081.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2915,8 +2915,8 @@
   "literature_index": 81
  },
  {
-  "id": "general_0082",
-  "image": "dataset/general/clean/general_0082.png",
+  "id": "nips2017_0082",
+  "image": "dataset/nips2017/clean/nips2017_0082.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2951,8 +2951,8 @@
   "literature_index": 82
  },
  {
-  "id": "general_0083",
-  "image": "dataset/general/clean/general_0083.png",
+  "id": "nips2017_0083",
+  "image": "dataset/nips2017/clean/nips2017_0083.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -2986,8 +2986,8 @@
   "literature_index": 83
  },
  {
-  "id": "general_0084",
-  "image": "dataset/general/clean/general_0084.png",
+  "id": "nips2017_0084",
+  "image": "dataset/nips2017/clean/nips2017_0084.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3020,8 +3020,8 @@
   "literature_index": 84
  },
  {
-  "id": "general_0085",
-  "image": "dataset/general/clean/general_0085.png",
+  "id": "nips2017_0085",
+  "image": "dataset/nips2017/clean/nips2017_0085.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3056,8 +3056,8 @@
   "literature_index": 85
  },
  {
-  "id": "general_0086",
-  "image": "dataset/general/clean/general_0086.png",
+  "id": "nips2017_0086",
+  "image": "dataset/nips2017/clean/nips2017_0086.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3091,8 +3091,8 @@
   "literature_index": 86
  },
  {
-  "id": "general_0087",
-  "image": "dataset/general/clean/general_0087.png",
+  "id": "nips2017_0087",
+  "image": "dataset/nips2017/clean/nips2017_0087.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3125,8 +3125,8 @@
   "literature_index": 87
  },
  {
-  "id": "general_0088",
-  "image": "dataset/general/clean/general_0088.png",
+  "id": "nips2017_0088",
+  "image": "dataset/nips2017/clean/nips2017_0088.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3161,8 +3161,8 @@
   "literature_index": 88
  },
  {
-  "id": "general_0089",
-  "image": "dataset/general/clean/general_0089.png",
+  "id": "nips2017_0089",
+  "image": "dataset/nips2017/clean/nips2017_0089.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3197,8 +3197,8 @@
   "literature_index": 89
  },
  {
-  "id": "general_0090",
-  "image": "dataset/general/clean/general_0090.png",
+  "id": "nips2017_0090",
+  "image": "dataset/nips2017/clean/nips2017_0090.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3233,8 +3233,8 @@
   "literature_index": 90
  },
  {
-  "id": "general_0091",
-  "image": "dataset/general/clean/general_0091.png",
+  "id": "nips2017_0091",
+  "image": "dataset/nips2017/clean/nips2017_0091.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3268,8 +3268,8 @@
   "literature_index": 91
  },
  {
-  "id": "general_0092",
-  "image": "dataset/general/clean/general_0092.png",
+  "id": "nips2017_0092",
+  "image": "dataset/nips2017/clean/nips2017_0092.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3304,8 +3304,8 @@
   "literature_index": 92
  },
  {
-  "id": "general_0093",
-  "image": "dataset/general/clean/general_0093.png",
+  "id": "nips2017_0093",
+  "image": "dataset/nips2017/clean/nips2017_0093.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3339,8 +3339,8 @@
   "literature_index": 93
  },
  {
-  "id": "general_0094",
-  "image": "dataset/general/clean/general_0094.png",
+  "id": "nips2017_0094",
+  "image": "dataset/nips2017/clean/nips2017_0094.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3374,8 +3374,8 @@
   "literature_index": 94
  },
  {
-  "id": "general_0095",
-  "image": "dataset/general/clean/general_0095.png",
+  "id": "nips2017_0095",
+  "image": "dataset/nips2017/clean/nips2017_0095.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3409,8 +3409,8 @@
   "literature_index": 95
  },
  {
-  "id": "general_0096",
-  "image": "dataset/general/clean/general_0096.png",
+  "id": "nips2017_0096",
+  "image": "dataset/nips2017/clean/nips2017_0096.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3444,8 +3444,8 @@
   "literature_index": 96
  },
  {
-  "id": "general_0097",
-  "image": "dataset/general/clean/general_0097.png",
+  "id": "nips2017_0097",
+  "image": "dataset/nips2017/clean/nips2017_0097.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3480,8 +3480,8 @@
   "literature_index": 97
  },
  {
-  "id": "general_0098",
-  "image": "dataset/general/clean/general_0098.png",
+  "id": "nips2017_0098",
+  "image": "dataset/nips2017/clean/nips2017_0098.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
@@ -3515,8 +3515,8 @@
   "literature_index": 98
  },
  {
-  "id": "general_0099",
-  "image": "dataset/general/clean/general_0099.png",
+  "id": "nips2017_0099",
+  "image": "dataset/nips2017/clean/nips2017_0099.png",
   "question": "Describe this image in one concise sentence, no longer than 20 words.",
   "domain": "general",
   "task": "Captioning",
