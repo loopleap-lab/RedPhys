@@ -1,12 +1,12 @@
 <p align="center">
-  <img alt="RedPhys" src="docs/logo.png" width="340">
+  <img alt="RedPhys" src="docs/images/logo.png" width="340">
 </p>
 
 <h3 align="center">RedPhys: A Unified Red-Teaming Benchmark for Physical-World VLMs</h3>
 
 <p align="center">
   <b>Project</b>&nbsp; · &nbsp;
-  <a href="https://github.com/loopleap-lab/RedPhys">Website</a> ·
+  <a href="https://loopleap-lab.github.io/RedPhys/">Website</a> ·
   <a href="https://arxiv.org/abs/2606.23892">Paper</a> ·
   <a href="https://huggingface.co/datasets/yifeiz29/RedPhys">Dataset</a> ·
   <a href="#citation">Cite</a>
@@ -20,17 +20,18 @@
   <a href="docs/guides/configuration">Configuration</a> ·
   <a href="docs/guides/new-attack-defense">New attack or defense</a> ·
   <a href="docs/guides/new-scenario">New dataset</a> ·
-  <a href="#faq">FAQ</a>
+  <a href="#faq">FAQ</a> ·
+  <a href="docs/roadmap.md">Roadmap</a>
 </p>
 
 ## About
 
-**RedPhys** (NeurIPS 2026, Evaluations & Datasets Track) is a unified library and benchmark for studying the adversarial robustness of vision-language models (VLMs). It integrates representative attacks and defenses for VLMs in one interface, from adversarial perturbations, patches and diffusion-based edits to prompt and typographic injection, and from input purification to adversarial fine-tuning. Any VLM served behind an OpenAI-compatible API can be evaluated, including VLM agents. Its benchmark focuses on physical-world tasks such as driving, manipulation, grasping and egocentric assistance, and extends to medical imaging, intuitive physics and the natural images widely used in adversarial robustness research.
+**RedPhys** (NeurIPS 2026, Evaluations & Datasets Track) is a unified library and benchmark for studying the adversarial robustness of vision-language models (VLMs). It integrates representative attacks and defenses for VLMs in one interface, from adversarial perturbations, patches and diffusion-based edits to prompt and typographic injection, and from input purification to prompt sanitization. Any VLM served behind an OpenAI-compatible API can be evaluated, including VLM agents. Its benchmark focuses on physical-world tasks such as driving, manipulation, grasping and egocentric assistance, and extends to medical imaging, intuitive physics and the natural images widely used in adversarial robustness research.
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dark.png">
-    <img src="docs/assets/light.png" alt="RedPhys library of scenarios, attacks, defenses and VLMs, and the red-teaming benchmark pipeline" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/dark.png">
+    <img src="docs/images/light.png" alt="RedPhys library of scenarios, attacks, defenses and VLMs, and the red-teaming benchmark pipeline" width="100%">
   </picture>
 </p>
 
@@ -64,8 +65,8 @@ import os
 import redphys
 
 redphys.evaluate(["dataset/redphys_dataset/adversarial/foa", "dataset/redphys_dataset/adversarial/figstep"],
-               server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
-               model="google/gemini-3-flash-preview", judge=None, output="results/gemini-3-flash")
+                 server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
+                 model="google/gemini-3-flash-preview", judge=None, output="results/gemini-3-flash")
 redphys.score("results/gemini-3-flash", server_url="http://localhost:8000")
 ```
 
@@ -96,14 +97,15 @@ adv = redphys.attack("foa", "dataset/physical", "out/foa", targets=targets)
 
 ```python
 redphys.evaluate(adv, targets=targets, server_url="https://openrouter.ai/api",
-               api_key=os.environ["OPENROUTER_API_KEY"], model="openai/gpt-4.1-mini", judge=None, output="results/foa")
+                 api_key=os.environ["OPENROUTER_API_KEY"], model="openai/gpt-4.1-mini", judge=None, output="results/foa")
 redphys.score("results/foa", server_url="http://localhost:8000")
 ```
 
-For an open-source VLM, serve it with vLLM and pass `server_url="http://localhost:8000"`:
+Serve the judge and an open-source VLM with vLLM on separate ports, then pass `server_url="http://localhost:8001"` for the VLM:
 
 ```bash
-.venv-vllm/bin/vllm serve Qwen/Qwen3-VL-8B-Instruct --port 8000
+.venv-vllm/bin/vllm serve Qwen/Qwen3-8B --port 8000                # judge
+.venv-vllm/bin/vllm serve Qwen/Qwen3-VL-8B-Instruct --port 8001   # victim VLM
 ```
 
 ## FAQ
@@ -211,7 +213,7 @@ $`\mathcal{L}_{\text{PIO}}`$ (DPO) prefers the clean answer over the adversarial
 
 ```python
 redphys.defend("adpo", ["out/medical/foa", "out/medical/mattack", "out/medical/vattack"], "out/medical/adpo",
-             model="Qwen/Qwen3-VL-8B-Instruct")
+               model="Qwen/Qwen3-VL-8B-Instruct")
 ```
 
 Supported victims: Qwen3-VL, Cosmos-Reason2, InternVL3.5-HF, Qwen3.5 and Gemma 4. Settings ($`\beta`$, $`\lambda`$, ...) are in `configs/defenses/adpo.yaml`; the trained model is written to `out/medical/adpo/checkpoint`.
@@ -227,7 +229,7 @@ robustness and compare it with its VLM:
 
 ```python
 redphys.evaluate(["out/foa", "out/figstep"], targets="out/targets", server_url="http://localhost:9000",
-               model="my-agent", judge=None, output="results/my_agent")
+                 model="my-agent", judge=None, output="results/my_agent")
 redphys.score("results/my_agent", server_url="http://localhost:8000")  # the judge on its own server
 ```
 

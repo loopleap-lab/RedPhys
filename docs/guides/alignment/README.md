@@ -42,7 +42,7 @@ vision encoder is trained.
 
 ```python
 redphys.defend("adpo", ["out/medical/foa", "out/medical/mattack", "out/medical/vattack"], "out/medical/adpo",
-             model="Qwen/Qwen3-VL-8B-Instruct", holdout_attacks=["vattack"])
+               model="Qwen/Qwen3-VL-8B-Instruct", holdout_attacks=["vattack"])
 ```
 
 The output directory, built in order (an interrupted run resumes at its first unfinished step; the training itself restarts):
@@ -77,13 +77,13 @@ Several GPUs in data parallel: `torchrun --nproc_per_node N` around the same cal
 ## 4. Evaluate the trained model
 
 ```bash
-vllm serve out/medical/adpo/checkpoint --port 8000
+vllm serve out/medical/adpo/checkpoint --port 8001
 ```
 
 ```python
-redphys.evaluate(["out/medical/foa", "out/medical/vattack"], targets="out/medical/targets", server_url="http://localhost:8000",
-               model="out/medical/adpo/checkpoint", judge=None, output="results/adpo")
-redphys.score("results/adpo", server_url="http://localhost:8001")  # judge (Qwen3-8B) on its own server
+redphys.evaluate(["out/medical/foa", "out/medical/vattack"], targets="out/medical/targets", server_url="http://localhost:8001",
+                 model="out/medical/adpo/checkpoint", judge=None, output="results/adpo")
+redphys.score("results/adpo", server_url="http://localhost:8000")  # judge (Qwen3-8B) on its own server
 ```
 
 Compare with the original model on the test split and on held-out attacks, and check clean accuracy as well.

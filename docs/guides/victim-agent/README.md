@@ -71,7 +71,7 @@ measure it, evaluate both on the same attack outputs:
 attacks = ["out/foa", "out/figstep", "out/promptinject"]
 for name, url, model in [("vlm", "https://openrouter.ai/api", "openai/gpt-4.1-mini"), ("agent", "http://localhost:9000", "my-agent")]:
     redphys.evaluate(attacks, targets="out/targets", server_url=url, api_key=os.environ["OPENROUTER_API_KEY"], model=model,
-                   workers=2, judge=None, output=f"results/{name}")
+                     workers=2, judge=None, output=f"results/{name}")
     redphys.score(f"results/{name}", server_url="http://localhost:8000")  # the judge on its own server
 ```
 

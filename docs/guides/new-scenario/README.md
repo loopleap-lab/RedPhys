@@ -137,7 +137,7 @@ Models and limits are settings (`configs/agents/scenario.yaml`, or keywords of `
 ```python
 adv = redphys.attack("foa", "dataset/medical/clean", "out/medical/foa", targets=targets)  # only the cases with a target
 redphys.evaluate(adv, targets=targets, server_url="https://openrouter.ai/api", api_key=os.environ["OPENROUTER_API_KEY"],
-               model="openai/gpt-4.1-mini", judge=None, output="results/medical_foa")
+                 model="openai/gpt-4.1-mini", judge=None, output="results/medical_foa")
 redphys.score("results/medical_foa", server_url="http://localhost:8000")  # judge (Qwen3-8B on vLLM)
 ```
 
