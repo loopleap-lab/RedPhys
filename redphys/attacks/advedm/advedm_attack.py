@@ -6,6 +6,7 @@ from typing import ClassVar, Optional
 import torch
 import torch.nn.functional as F
 
+from .. import trace
 from ..base_attack import AttackConfig, AttackResult, BaseAttack, find_by_stem, pixel_linf, to_pil, to_tensor
 from ...data import Sample, load_rgb, relpath
 
@@ -74,7 +75,8 @@ class _ADVEDMBase(BaseAttack):
                 loss, comps = loss_of(c, x_aug)
                 if i == 0:
                     n[0] += 1
-                    if (n[0] - 1) % self.config.ssa_N == 0:
+                    if (n[0] - 1) % self.config.ssa_N == 0:  # once per outer step: surrogate 0
+                        trace.log((n[0] - 1) // self.config.ssa_N, loss=loss, **{k: v for k, v in comps.items() if k != "total" and not isinstance(v, str)})
                         print(f"  [{self.tag} sur0 iter={(n[0] - 1) // self.config.ssa_N:2d}] loss={loss.item():.4f}  {log(comps)}", flush=True)
                 return -loss  # SSA ascends
             return fn

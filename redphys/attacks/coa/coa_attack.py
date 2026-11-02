@@ -13,6 +13,7 @@ from .core.clipcap import ClipCaptionModel, generate_cap
 
 from ..base_attack import BaseAttack, AttackConfig, AttackResult, LLMClientMixin, pixel_linf, resize_center_crop, to_pil, to_tensor
 from ..surrogates import UNIFIED_SURROGATES
+from .. import trace
 from ...data import Sample, file_data_url, image_files
 from .data.coa_dataset import CoADataset
 
@@ -318,6 +319,8 @@ class COAAttack(LLMClientMixin, BaseAttack):
             delta.data = d
             delta.grad.zero_()
 
+            if j % trace.EVERY == 0 or j == self.config.max_iterations - 1:
+                trace.log(j, loss=loss)
             if j % 20 == 0:
                 print(f"  PGD step {j}/{self.config.max_iterations}: loss={loss.item():.4f}, caption={current_caption_list[0][:50]}")
 

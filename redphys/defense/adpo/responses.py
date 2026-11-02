@@ -15,7 +15,7 @@ from .models import answer, encode
 def answer_remote(client, model_id: str, image, prompt: str, max_new_tokens: int) -> tuple[str, bool]:
     content = [{"type": "image_url", "image_url": {"url": image_data_url(image)}}, {"type": "text", "text": prompt}]
     out = client.chat.completions.create(model=model_id, messages=[{"role": "user", "content": content}], temperature=0.0,
-                                         max_tokens=max_new_tokens, extra_body=no_reasoning(client)).choices[0]
+                                         max_tokens=max_new_tokens, extra_body=no_reasoning(client, model_id)).choices[0]
     return (out.message.content or "").strip(), out.finish_reason != "length"
 
 

@@ -2,7 +2,7 @@ model: "openai/gpt-6-luna"        # agent VLM
 server_url: "https://openrouter.ai/api"
 api_key_env: "OPENROUTER_API_KEY"
 mode: "scene"                     # or "salient"
-generator: "openrouter"           # or "local"
+generator: "local"                # or "openrouter"
 generator_url: "http://localhost:8091"
 generator_model: "qwen/qwen-image-3"  # or "meta/muse-image"
 checker_models:                   # blind voters

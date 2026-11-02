@@ -26,7 +26,7 @@ class ScenarioConfig:
     server_url: str = "https://openrouter.ai/api"
     api_key_env: str = "OPENROUTER_API_KEY"
     mode: str = "scene"  # or "salient"
-    generator: str = "openrouter"  # or "local"
+    generator: str = "local"  # or "openrouter"
     generator_url: str = "http://localhost:8091"
     generator_model: str = "qwen/qwen-image-3"
     checker_models: tuple = ("anthropic/claude-haiku-5.5", "meta-llama/llama-4-maverick", "mistralai/mistral-medium-3.1")
@@ -146,8 +146,9 @@ class ScenarioAgent:
 
     def _chat(self, messages, tools=None, model=None, client=None):
         client = client or self.client
-        return client.chat.completions.create(model=model or self.config.model, messages=messages, temperature=0.0, max_tokens=1200,
-                                              extra_body=no_reasoning(client), **({"tools": tools} if tools else {})).choices[0].message
+        model = model or self.config.model
+        return client.chat.completions.create(model=model, messages=messages, temperature=0.0, max_tokens=1200,
+                                              extra_body=no_reasoning(client, model), **({"tools": tools} if tools else {})).choices[0].message
 
     @staticmethod
     def _user(text: str, url: str) -> dict:

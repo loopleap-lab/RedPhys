@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from redphys.data import DATASETS
 from redphys.evaluation import evaluate
-from redphys.judge import DEFAULT_JUDGE_MODEL, DEFAULT_PROMPT, JUDGES
+from redphys.judge import DEFAULT_PROMPT, JUDGES
 
 
 def parse_args():
@@ -24,10 +24,12 @@ def parse_args():
 
     p.add_argument("--judge", choices=[*JUDGES, "none"], default=DEFAULT_PROMPT,
                    help=f"choice reads the option letter of each answer; none only collects the responses; default {DEFAULT_PROMPT}")
+    p.add_argument("--reference", choices=["label", "target_image"], default="label",
+                   help="target_image: the victim's answer on each target image is the target (M-Attack/FOA; --judge gptscore)")
     p.add_argument("--model", default="qwen/qwen3-vl-8b-instruct", help="Victim VLM on --server_url")
     p.add_argument("--server_url", required=True, help="OpenAI-compatible victim server, e.g. http://localhost:8000")
     p.add_argument("--api_key", default="dummy", help="API key for --server_url")
-    p.add_argument("--judge_model", default=DEFAULT_JUDGE_MODEL, help="Judge model on --server_url (the paper: Qwen3-8B)")
+    p.add_argument("--judge_model", help="Judge model on --server_url; default per judge: gptscore/kmr openai/gpt-4o, else Qwen3-8B")
     p.add_argument("--output", "-o", help="Output directory for eval_results.json")
     p.add_argument("--workers", type=int, default=4, help="Concurrent VLM queries and judge calls")
     return p.parse_args()
@@ -39,6 +41,6 @@ if __name__ == "__main__":
     try:
         evaluate(args.attack_dirs, server_url=args.server_url, labels=labels, target_text=args.target_text, question=args.question,
                  model=args.model, judge=None if args.judge == "none" else args.judge, judge_model=args.judge_model,
-                 api_key=args.api_key, output=args.output, workers=args.workers)
+                 api_key=args.api_key, output=args.output, workers=args.workers, reference=args.reference)
     except ValueError as e:
         sys.exit(f"ERROR: {e}")

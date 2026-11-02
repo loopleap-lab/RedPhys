@@ -90,7 +90,7 @@ class SceneTAPAttack(LLMClientMixin, BaseAttack):
         self._som = (SamAutomaticMaskGenerator(sam), Visualizer, MetadataCatalog.get("coco_2017_train_panoptic"))  # last: set once all loaded
 
     def _segment(self, image: Image.Image) -> tuple:
-        """SoM (SAM, numbered marks): (marked image at the input size, regions in mark order)."""
+        """SoM (SAM, numbered marks): (marked image at the input size, at least the mark size; regions in mark order)."""
         generator, Visualizer, metadata = self._som
         c = self.config
         small = np.asarray(transforms.Resize(c.mark_size, interpolation=transforms.InterpolationMode.BICUBIC)(image))
@@ -112,12 +112,13 @@ class SceneTAPAttack(LLMClientMixin, BaseAttack):
         for number, a in enumerate(regions, 1):
             visual.draw_binary_mask_with_number(a["segmentation"], text=str(number), label_mode="1", alpha=c.mark_alpha,
                                                 anno_mode=["Mask", "Mark"])
-        return Image.fromarray(visual.output.get_image()).resize(image.size), regions
+        marked = Image.fromarray(visual.output.get_image())
+        return (marked if min(image.size) < c.mark_size else marked.resize(image.size)), regions
 
     def _ask(self, messages: list, response_format: dict) -> dict:
         c, client = self.config, self.llm()
         out = client.chat.completions.create(model=c.llm_model, messages=messages, temperature=c.temperature, top_p=c.top_p,
-                                             max_tokens=c.max_tokens, response_format=response_format, extra_body=no_reasoning(client))
+                                             max_tokens=c.max_tokens, response_format=response_format, extra_body=no_reasoning(client, c.llm_model))
         choice = out.choices[0]
         if choice.finish_reason == "length":
             raise RuntimeError(f"LLM reply cut off at max_tokens={c.max_tokens}")

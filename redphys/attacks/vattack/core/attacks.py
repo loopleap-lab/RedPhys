@@ -6,6 +6,8 @@ from torch import nn
 from typing import Optional
 from tqdm import tqdm
 
+from ... import trace
+
 
 def _dict_to_list(features_dict):
     return [features_dict[i] for i in range(len(features_dict))]
@@ -58,6 +60,8 @@ def pgd_attack(
 
         optimizer.zero_grad()
         loss.backward()
+        if epoch % trace.EVERY == 0 or epoch == steps - 1:
+            trace.log(epoch, loss=loss)
 
         optimizer.step()
         delta.data = torch.clamp(

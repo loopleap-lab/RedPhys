@@ -6,6 +6,8 @@ from torch import nn
 from torchvision import transforms
 from tqdm import tqdm
 
+from .. import trace
+
 _CLIP_NORM = transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
 
 
@@ -109,4 +111,5 @@ def mpcattack(image, z_src, z_tgt, extract, source_crop, num_iters, epsilon, alp
             with torch.no_grad():
                 sims = [F.cosine_similarity(z_adv, z, dim=-1).item() for z in (z_tgt, z_src)]
             pbar.set_postfix(loss=f"{loss.item():.3f}", sim_tgt=f"{sims[0]:.3f}", sim_src=f"{sims[1]:.3f}")
+            trace.log(i, loss=loss, sim_tgt=sims[0], sim_src=sims[1], max_delta=delta.abs().max())
     return torch.clamp((image + delta.detach()) / 255.0, 0.0, 1.0)

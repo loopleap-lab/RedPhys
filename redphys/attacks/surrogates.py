@@ -1,4 +1,4 @@
-"""Surrogates: `default` (each attack's own) or `unified` (below)."""
+"""Surrogates: `unified` (below; the default) or `default` (each attack's own)."""
 
 UNIFIED_SURROGATES = (
     {"hf": "openai/clip-vit-base-patch16", "clip": "ViT-B/16", "open_clip": ("ViT-B-16", "openai")},

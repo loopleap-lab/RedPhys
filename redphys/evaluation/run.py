@@ -6,9 +6,9 @@ from pathlib import Path
 
 from openai import OpenAI
 
-from ..data import write_json
+from ..data import image_files, write_json
 
-from ..judge import DEFAULT_JUDGE_MODEL, DEFAULT_PROMPT, JUDGES, no_reasoning, options
+from ..judge import DEFAULT_PROMPT, JUDGES, judge_model_for, no_reasoning, options
 from .metrics import VICTIM, judge_all, label_of, letter_of, load_attack_dir, rates, run_queries, target_of, victim_item, victim_prompt, with_options
 from .report import print_summary, results_dict
 
@@ -22,7 +22,7 @@ def _client(server_url: str, api_key: str, models: set[str]) -> OpenAI:
     client = OpenAI(base_url=f"{server_url}/v1", api_key=api_key)
     for m in models:  # fail fast
         try:
-            client.chat.completions.create(model=m, messages=[{"role": "user", "content": "Hi"}], max_tokens=16, extra_body=no_reasoning(client))
+            client.chat.completions.create(model=m, messages=[{"role": "user", "content": "Hi"}], max_tokens=16, extra_body=no_reasoning(client, m))
         except Exception as e:
             raise ValueError(f"{m} on {server_url}: {e} (no OpenAI-compatible server? start one, e.g. `vllm serve <model>`)") from e
     return client
@@ -51,7 +51,7 @@ def _score(model: str, question: str, target_text: str | None, labels: dict | No
         print(f"\nJudging ({judge}" + (f", {judge_model})" if judge != "substring" else ")"))
         for name, responses in [("clean", clean), *attacks.items()]:
             verdicts[name] = judge_all(responses, judge, client, judge_model, workers, labels, target_text)
-            metrics[name] = rates(responses, verdicts[name])
+            metrics[name] = rates(responses, verdicts[name], judge)
         print_summary(metrics, target_text, labels, judge)
     return results_dict(model, question, target_text, clean, attacks, verdicts, metrics, labels, judge, judge_model)
 
@@ -74,7 +74,8 @@ def _prior(output: str | None, model: str) -> dict:
     data = json.loads(f.read_text())
     if data["model"] != model or {k: v for k, v in data.get("victim", {}).items() if k != "max_image_mb"} != VICTIM:
         return {}
-    sets = {"clean": data["clean_baseline"]["responses"], **{n: a["responses"] for n, a in data["attacks"].items()}}
+    sets = {"clean": data["clean_baseline"]["responses"], "target": data.get("reference", {}).get("responses", []),
+            **{n: a["responses"] for n, a in data["attacks"].items()}}
     return {(s, r["id"]): r for s, rs in sets.items() for r in rs if r["status"] == "ok"}
 
 
@@ -91,13 +92,18 @@ def _query(client: OpenAI, model: str, items: list[dict], question: str, workers
 
 def evaluate(attack_dirs: str | list[str], *, server_url: str, targets: str | None = None, labels: str | None = None,
              target_text: str | None = None, question: str | None = None, model: str = "qwen/qwen3-vl-8b-instruct",
-             judge: str | None = DEFAULT_PROMPT, judge_model: str = DEFAULT_JUDGE_MODEL, api_key: str = "dummy",
-             output: str | None = None, workers: int = 4, max_image_mb: float | None = None) -> dict:
+             judge: str | None = DEFAULT_PROMPT, judge_model: str | None = None, api_key: str = "dummy",
+             output: str | None = None, workers: int = 4, max_image_mb: float | None = None, reference: str = "label") -> dict:
     """Victim accuracy and ASR per attack dir vs. clean; resumes.
 
     Target: target_text (wins, as in the attacks), else `targets` / `labels`, else the manifests' labels or target texts. judge: one of redphys.judge.JUDGES, or None to collect only (then redphys.score).
     max_image_mb: downscale larger images (API limits).
+    reference: "label", or "target_image": the victim's answer on each target image (manifests, else `targets`/target) is the
+    target, as M-Attack / FOA (judge="gptscore").
     """
+    judge_model = judge_model or judge_model_for(judge)
+    if reference not in ("label", "target_image") or (reference == "target_image" and target_text):
+        raise ValueError(f"reference must be 'label' or 'target_image' (without target_text), got {reference!r}")
     attack_dirs = [attack_dirs] if isinstance(attack_dirs, (str, Path)) else attack_dirs
     labels = json.loads(Path(labels or f"{targets}/labels.json").read_text()) if labels or targets else None
     attacks = {}
@@ -128,6 +134,13 @@ def evaluate(attack_dirs: str | list[str], *, server_url: str, targets: str | No
                 attacks[name] = [r for r in res if r["id"] in labels]
     _check_judge(judge, [(r["id"], options(r.get("question", question)), target_of(r["id"], labels, target_text),
                           label_of(r["id"], labels, "source")) for res in attacks.values() for r in res])
+    target_images = {}
+    if reference == "target_image":
+        tdir = Path(targets or "") / "target"
+        found = {p.stem: p for p in image_files(tdir)} if targets and tdir.is_dir() else {}
+        target_images = {r["id"]: r.get("target_image") or found.get(r["id"]) for res in attacks.values() for r in res}
+        if miss := [k for k, v in target_images.items() if not v]:
+            raise ValueError(f"{len(miss)} samples (e.g. {miss[0]}) have no target image (pass targets=)")
 
     print(f"Server:   {server_url}  model={model}")
     print(f"Target:   {target_text!r}" if target_text else f"Targets:  per-case ({len(labels)} cases)")
@@ -141,15 +154,23 @@ def evaluate(attack_dirs: str | list[str], *, server_url: str, targets: str | No
         for r in results:
             item = {"id": r["id"], "image": r["source"], **({"question": r["question"]} if r.get("question") else {})}
             clean.setdefault(r["id"], with_options(item, r.get("question", question)))
-    victim, attack_responses = {**VICTIM, "max_image_mb": max_image_mb}, {}
+    victim, attack_responses, target_responses = {**VICTIM, "max_image_mb": max_image_mb}, {}, []
 
     def save(j=None, quiet=True):  # after every set: a crash keeps the answers paid for
         result = _score(model, question, target_text, labels, clean_responses, attack_responses, j, client, judge_model, workers)
-        return _save({**result, "victim": victim}, output, quiet)
+        return _save({**result, "victim": victim, "reference": {"mode": reference, "responses": target_responses}}, output, quiet)
 
     t0 = time.time()
     clean_responses = _query(client, model, [clean[k] for k in sorted(clean)], question, workers, "clean", prior, max_image_mb)
     print(f"  clean: {len(clean_responses)} responses [{time.time() - t0:.1f}s]{_errors(clean_responses)}")
+    if target_images:
+        items = [{**clean[k], "image": v} for k, v in sorted(target_images.items())]
+        target_responses = [{**r, "image": str(r["image"])}
+                            for r in _query(client, model, items, question, workers, "target", prior, max_image_mb)]
+        print(f"  target: {len(target_responses)} responses{_errors(target_responses)}")
+        labels = {r["id"]: {"source": label_of(r["id"], labels, "source"), "target": r["response"]} for r in target_responses if r["status"] == "ok"}
+        attacks = {name: [r for r in res if r["id"] in labels] for name, res in attacks.items()}  # failed target answers drop their samples
+        clean_responses = [r for r in clean_responses if r["id"] in labels]
     save()
     for name, results in attacks.items():
         t0 = time.time()
@@ -159,14 +180,14 @@ def evaluate(attack_dirs: str | list[str], *, server_url: str, targets: str | No
     return save(judge, quiet=False)
 
 
-def score(results: str, *, server_url: str, judge: str = DEFAULT_PROMPT, judge_model: str = DEFAULT_JUDGE_MODEL, api_key: str = "dummy",
+def score(results: str, *, server_url: str, judge: str = DEFAULT_PROMPT, judge_model: str | None = None, api_key: str = "dummy",
           output: str | None = None, workers: int = 4) -> dict:
     """Judge redphys.evaluate output `results`; writes eval_results.json to `output` (default `results`)."""
-    data = json.loads((Path(results) / "eval_results.json").read_text())
+    data, judge_model = json.loads((Path(results) / "eval_results.json").read_text()), judge_model or judge_model_for(judge)
     clean, attacks = data["clean_baseline"]["responses"], {name: a["responses"] for name, a in data["attacks"].items()}
     labels = {r["id"]: {"source": r["source"], "target": r["target"]} for r in clean} if data["per_pair_labels"] else None
     _check_judge(judge, [(r["id"], r.get("options") or options(r["question"]), r["target"], r["source"]) for r in clean])
     result = _score(data["model"], data["question"], data["target_text"], labels, clean, attacks, judge,
                     _client(server_url, api_key, {judge_model} if judge and judge != "substring" else set()), judge_model, workers)
-    result["victim"] = data["victim"]
+    result.update(victim=data["victim"], **({"reference": data["reference"]} if "reference" in data else {}))
     return _save(result, output or results)

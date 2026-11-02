@@ -92,7 +92,7 @@ class LLMClientMixin:
         from ..judge import clean_llm_text, no_reasoning
         client = self.llm()
         resp = client.chat.completions.create(
-            model=self.config.llm_model, max_tokens=256, temperature=0.0, extra_body=no_reasoning(client),
+            model=self.config.llm_model, max_tokens=256, temperature=0.0, extra_body=no_reasoning(client, self.config.llm_model),
             messages=[{"role": "system", "content": "You are a concise assistant. /no_think"}, {"role": "user", "content": prompt}])
         if not (text := clean_llm_text(resp.choices[0].message.content)):
             raise RuntimeError(f"LLM returned empty text for: {prompt[:80]!r}")
@@ -114,7 +114,7 @@ class AttackConfig:
     max_iterations: int = 10
     alpha: Optional[float] = None  # None: epsilon/10
     device: str = "cuda"
-    surrogates: str = "default"  # see surrogates.py
+    surrogates: str = "unified"  # see surrogates.py
     precision: str = "bf16"  # or "fp32"
 
     def __post_init__(self):

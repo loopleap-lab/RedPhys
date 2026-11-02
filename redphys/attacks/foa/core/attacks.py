@@ -6,6 +6,8 @@ from typing import Optional
 import torchvision.transforms as transforms
 from tqdm import tqdm
 
+from ... import trace
+
 
 def fgsm_attack(
     image_tensor: torch.Tensor,
@@ -35,6 +37,7 @@ def fgsm_attack(
         if epoch % 10 == 0 or epoch == num_iters - 1:  # .item() syncs the GPU
             pbar.set_postfix(max_delta=f"{delta.abs().max().item():.3f}", mean_delta=f"{delta.abs().mean().item():.3f}",
                              similarity=f"{sim.item():.5f}")
+            trace.log(epoch, sim=sim, max_delta=delta.abs().max())
 
         grad = torch.autograd.grad(loss, delta, create_graph=False)[0]
 
@@ -80,6 +83,7 @@ def mifgsm_attack(
         if epoch % 10 == 0 or epoch == num_iters - 1:  # .item() syncs the GPU
             pbar.set_postfix(max_delta=f"{delta.abs().max().item():.3f}", mean_delta=f"{delta.abs().mean().item():.3f}",
                              similarity=f"{sim.item():.5f}")
+            trace.log(epoch, sim=sim, max_delta=delta.abs().max())
 
         grad = torch.autograd.grad(loss, delta, create_graph=False)[0]
 
@@ -125,6 +129,7 @@ def pgd_attack(
         if epoch % 10 == 0 or epoch == num_iters - 1:  # .item() syncs the GPU
             pbar.set_postfix(max_delta=f"{delta.abs().max().item():.3f}", mean_delta=f"{delta.abs().mean().item():.3f}",
                              similarity=f"{sim.item():.5f}")
+            trace.log(epoch, sim=sim, max_delta=delta.abs().max())
 
         optimizer.zero_grad()
         loss.backward()

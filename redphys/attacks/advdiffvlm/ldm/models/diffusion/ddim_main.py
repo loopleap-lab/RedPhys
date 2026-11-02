@@ -4,6 +4,7 @@ import os
 import torch
 import numpy as np
 from tqdm import tqdm
+from redphys.attacks import trace
 from functools import partial
 import torchvision.transforms as T
 
@@ -376,6 +377,8 @@ class DDIMSampler(object):
                             gradient = torch.autograd.grad(loss, img_n)[0]
                         gradient = torch.clamp(gradient, min=-g["grad_clip"], max=g["grad_clip"])
                         img = img + s * gradient
+                    if (i - idx_time) % trace.EVERY == 0 or i == total_steps - 1:  # guided step; each refinement is a new phase
+                        trace.log(i - idx_time, loss=loss, sim=costs[i - idx_time].mean())
                     
                     
                 if callback: callback(i)

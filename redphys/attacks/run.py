@@ -6,7 +6,9 @@ import atexit
 import dataclasses
 import json
 import os
+import platform
 import shutil
+import subprocess
 import tempfile
 import traceback
 from datetime import datetime
@@ -16,9 +18,10 @@ from types import SimpleNamespace
 from tqdm import tqdm
 
 from ..configs import build_config, config_snapshot, seeded
-from ..data import DATASETS, DEFAULT_QUESTION, PROJECT_ROOT, Sample, input_stamp, list_images, load_rgb, relpath, resolve, save_manifest
+from ..data import DATASETS, DEFAULT_QUESTION, PROJECT_ROOT, Sample, input_stamp, list_images, load_rgb, relpath, resolve, save_manifest, write_json
 from ..judge import options
 from .base_attack import resize_center_crop
+from . import trace
 from .registry import AttackRegistry
 from .surrogates import NO_SURROGATES, SURROGATE_MODES
 
@@ -125,6 +128,18 @@ def prepare_imagefolder_dir(target_arg: str, source_images: list[Path]) -> str:
     return tmpdir
 
 
+def run_env() -> dict:
+    """Code version and hardware of a run."""
+    import torch
+    from .. import __version__
+    git = lambda *a: subprocess.run(["git", "-C", str(PROJECT_ROOT), *a], capture_output=True, text=True).stdout.strip()
+    commit = git("rev-parse", "--short", "HEAD") or None
+    return {"redphys": __version__, "commit": commit, "dirty": bool(git("status", "--porcelain")) if commit else None,
+            "python": platform.python_version(), "torch": torch.__version__, "cuda": torch.version.cuda,
+            "gpu": torch.cuda.get_device_name() if torch.cuda.is_available() else None, "host": platform.node(),
+            "started": datetime.now().isoformat(timespec="seconds")}
+
+
 def attack_kwargs(name: str, args, source_images: list[Path]) -> dict:
     """Config kwargs: run inputs < the YAML < target_text= < params."""
     is_file = Path(args.source).is_file()
@@ -138,7 +153,7 @@ def attack_kwargs(name: str, args, source_images: list[Path]) -> dict:
     params = {**({"target_text": args.target_text} if args.target_text and "target_text" in fields else {}), **args.params}
     kwargs = build_config("attacks", name, AttackRegistry.get_spec(name).config_class, args.config, params,
                           base={k: v for k, v in run_inputs(context).items() if k in fields})
-    if args.surrogates != "default":
+    if args.surrogates != "unified":
         if name in NO_SURROGATES:
             print(f"WARNING: {name} has no swappable surrogates; surrogates={args.surrogates} ignored")
         else:  # attacks whose own surrogates are the unified ones ignore it
@@ -226,7 +241,7 @@ def run(args) -> Path:
             print(f"Resume:  {n} already done, skipping them")
     done = {s["id"] for s in results}
     remaining = [p for p in images if p.stem not in done]
-    t0 = datetime.now()
+    t0, env = datetime.now(), run_env()
 
     questions = case_questions(remaining, getattr(args, "cases", None))  # datasets with a cases.json: the question of each case
     if spec.config_class.uses_question and (miss := [p.stem for p in remaining if p.stem not in questions]):
@@ -242,7 +257,12 @@ def run(args) -> Path:
             sample_meta.update(attack_source_text=src_text, source_label=src_text, attack_target_text=tgt_text, target_label=tgt_text)
 
         try:
+            trace.take()
+            ts = datetime.now()
             result = seeded(lambda: attack.generate(sample, sample_idx=position[stem]), attack.config.seed, stem, img_path.name)
+            if rows := trace.take():  # loss every trace.EVERY steps
+                (out_dir / "traces").mkdir(exist_ok=True)
+                write_json(out_dir / "traces" / f"{stem}.json", rows)
             out_file = out_dir / f"{stem}.png"
             result.adversarial_sample.save(out_file)
             source = img_path
@@ -257,6 +277,7 @@ def run(args) -> Path:
                 "input": input_stamp(img_path),
                 "question": sample.question,
                 "perturbation_norm": result.perturbation_norm,
+                "duration_s": round((datetime.now() - ts).total_seconds(), 1),
             }
             if sample_meta.get("source_label"):
                 entry["source_label"] = sample_meta["source_label"]
@@ -274,10 +295,10 @@ def run(args) -> Path:
             traceback.print_exc()
             results.append({"id": stem, "source": relpath(img_path), "error": str(e)})
 
-        save_manifest(out_dir, args.attack, results, prior_duration + (datetime.now() - t0).total_seconds(), config=config)
+        save_manifest(out_dir, args.attack, results, prior_duration + (datetime.now() - t0).total_seconds(), config=config, env=env)
 
     duration = (datetime.now() - t0).total_seconds()
-    save_manifest(out_dir, args.attack, results, prior_duration + duration, config=config)
+    save_manifest(out_dir, args.attack, results, prior_duration + duration, config=config, env=env)
 
     selected = {p.stem for p in images}
     n_ok = sum("output" in r for r in results if r["id"] in selected)
@@ -289,7 +310,7 @@ def run(args) -> Path:
 
 
 def attack(name: str, source: str, output: str, *, targets: str | None = None, target: str | None = None, labels: str | None = None,
-           target_text: str | None = None, question: str | None = None, config: str | None = None, surrogates: str = "default",
+           target_text: str | None = None, question: str | None = None, config: str | None = None, surrogates: str = "unified",
            max_samples: int | None = None, **params) -> Path:
     """Attack `source` images into `output` (+ manifest.json); resumes.
 

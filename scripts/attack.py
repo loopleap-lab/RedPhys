@@ -19,8 +19,8 @@ def parse_args():
     p.add_argument("--source", help="Source image file or directory")
     p.add_argument("--output", "-o", required=True, help="Output directory")
     p.add_argument("--max_samples", type=int, help="Max images to process")
-    p.add_argument("--surrogates", choices=SURROGATE_MODES, default="default",
-                   help="default: each attack's original surrogates; unified: shared CLIP ensemble (surrogates.py)")
+    p.add_argument("--surrogates", choices=SURROGATE_MODES, default="unified",
+                   help="unified: shared CLIP ensemble (surrogates.py); default: each attack's original surrogates")
     p.add_argument("--config", help="Attack hyperparameters YAML (default: configs/attacks/<attack>.yaml)")
     p.add_argument("--target", help="Target image file or directory")
     p.add_argument("--target_text", help=f"Target text ({', '.join(a for a in ALL_ATTACKS if 'target_text' in config_fields(a))})")

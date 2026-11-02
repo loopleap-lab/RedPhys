@@ -20,7 +20,7 @@ class LeadingQAttack(LLMClientMixin, BaseAttack):
                    {"type": "text", "text": PROMPT.format(target=target, question=stem, options=options)}]
         client = self.llm()
         out = client.chat.completions.create(model=self.config.llm_model, messages=[{"role": "user", "content": content}],
-                                             temperature=self.config.temperature, max_tokens=200, extra_body=no_reasoning(client))
+                                             temperature=self.config.temperature, max_tokens=200, extra_body=no_reasoning(client, self.config.llm_model))
         leading = clean_llm_text(out.choices[0].message.content)
         if not leading:
             raise RuntimeError(f"empty leading question for sample {sample.id}")

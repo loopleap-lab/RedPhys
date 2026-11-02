@@ -7,6 +7,7 @@ import torch
 
 from .mask_generator import DynamicPatchGenerator
 from .transforms import My_T
+from ... import trace
 
 
 def set_environment(seed=42):
@@ -58,6 +59,8 @@ def pgd(
         full = ensemble_extractor.encode_img(adv_image)
         loss_a = ensemble_loss(features, features_local, full, full_weight=full_weight)
         loss = loss_a
+        if iter % trace.EVERY == 0 or iter == num_iters - 1:
+            trace.log(iter, loss=loss)
 
         growing = bool(mask_expanded.sum() > th)
         if growing:
@@ -118,6 +121,8 @@ def mifgsm(
         full = ensemble_extractor.encode_img(adv_image)
         loss_a = ensemble_loss(features, features_local, full, full_weight=full_weight)
         loss = loss_a
+        if iter % trace.EVERY == 0 or iter == num_iters - 1:
+            trace.log(iter, loss=loss)
 
         growing = bool(mask_expanded.sum() > th)
         if growing:

@@ -13,7 +13,8 @@ def print_summary(metrics: dict[str, dict], target_text: str | None, labels: dic
     print(f"{'Source':<{nw}} {'ASR':>{w}} {'Match':>{w}} {'Total':>{w}} {'Accuracy':>{w}}")
     pct = lambda v: f"{100 * v:{w - 1}.1f}%" if v is not None else f"{'n/a':>{w}}"
     for name, m in metrics.items():
-        print(f"{name:<{nw}} {pct(m['asr'])} {m['n_match']:{w}} {m['n_total']:{w}} {pct(m['accuracy'])}")
+        levels = "  " + " ".join(f"@{t}:{100 * v:.1f}%" for t, v in m["asr_at"].items()) + f" avg {m['avg_score']:.3f}" if "asr_at" in m else ""
+        print(f"{name:<{nw}} {pct(m['asr'])} {m['n_match']:{w}} {m['n_total']:{w}} {pct(m['accuracy'])}{levels}")
     print(f"{rule}\n")
 
 

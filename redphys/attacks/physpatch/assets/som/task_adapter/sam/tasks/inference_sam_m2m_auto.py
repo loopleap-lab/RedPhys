@@ -32,7 +32,7 @@ def inference_sam_m2m_auto(model, image, text_size, label_mode='1', alpha=0.1, a
     sorted_anns = sorted(outputs, key=(lambda x: x['area']), reverse=True)
     label = 1
 
-    mask_map = np.zeros(image_ori.shape, dtype=np.uint8)    
+    mask_map = np.zeros(image_ori.shape, dtype=np.int32)  # uint8 overflows past 255 masks on numpy 2
     for i, ann in enumerate(sorted_anns):
         mask = ann['segmentation']
         color_mask = np.random.random((1, 3)).tolist()[0]

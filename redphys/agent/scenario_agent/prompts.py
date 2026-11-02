@@ -149,7 +149,7 @@ DOMAIN_CONSTRAINTS = {  # prefix of every edit prompt
     "assistive": "Handheld phone photo as taken by a blind or low-vision user, same framing as the source.",
     "medical": f"Same imaging modality as the source scan ({_SCAN}), same MRI sequence, same plane (axial/coronal/sagittal), view and "
                f"grayscale appearance, {_ORIENT}, anatomically plausible.",
-    "physics_diagram": "Same textbook diagram style, layout and labels as the source, clean line drawing.",
+    "intuitive_physics": "Real tabletop physics experiment seen from the same fixed camera, physically plausible, photorealistic.",
     "general": "Same viewpoint and framing as the source photo, photorealistic.",
 }
 
@@ -161,6 +161,4 @@ SALIENT_DOMAIN = {  # salient: overrides the sign and light rules
     "medical": f"Domain rule (overrides the style rule above): draw a clean grayscale scan of the same modality ({_SCAN}), the same MRI "
                f"sequence and the same plane (axial/coronal/sagittal), in {_ORIENT}, in which the target anatomy or finding is large and "
                "unmistakable; no signs, arrows, markers or text.",
-    "physics_diagram": "Domain rule: draw a clean textbook line diagram of the target configuration; show directions as arrows inside "
-                       "the diagram, not road signs, and keep only the labels the question needs.",
 }

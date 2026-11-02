@@ -1,5 +1,6 @@
 import torch
 from .utils import project_perturbation, normalize_grad
+from ... import trace
 
 
 def pgd_veattack(
@@ -30,6 +31,8 @@ def pgd_veattack(
             loss = loss_fn(embedding, tokens)
             if verbose:
                 print(f'[{i}] {loss.item():.5f}')
+            if i % trace.EVERY == 0 or i == iterations - 1:
+                trace.log(i, loss=loss)
 
         with torch.no_grad():
             gradient = torch.autograd.grad(loss, perturbation)[0]

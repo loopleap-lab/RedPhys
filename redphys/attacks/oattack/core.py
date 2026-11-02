@@ -8,6 +8,8 @@ from torch import nn
 from torchvision import transforms
 from tqdm import tqdm
 
+from .. import trace
+
 
 class CLIPAnchor(nn.Module):
     """CLIP surrogate: projected late-layer CLS/EOS features [B, K, D] (CSA), with dropout (PSS)."""
@@ -103,4 +105,5 @@ def oattack(image, target, models, caps, src_bank, tgt_bank, source_aug, target_
         delta.data.clamp_(-epsilon, epsilon)
         if t % 10 == 0 or t == num_iters - 1:  # .item() syncs the GPU
             pbar.set_postfix(vis=f"{mu_v.item():.3f}", txt=f"{mu_t.item():.3f}", max_delta=f"{delta.abs().max().item():.1f}")
+            trace.log(t, objective=objective, vis=mu_v, txt=mu_t, max_delta=delta.abs().max())
     return torch.clamp((image + delta.detach()) / 255.0, 0.0, 1.0)
