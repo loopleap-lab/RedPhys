@@ -1,0 +1,5 @@
+{
+ "license": "Clean images: CC BY 2.0 (per-image author in cases.json source.author); target images: original MS-COCO val2014 files under their Flickr licenses (cases.json target.license)",
+ "scope": "the first 100 of the 1000 source-target pairs used by M-Attack (arXiv 2503.10635) and FOA-Attack (arXiv 2505.21494), in their order (literature_index); clean = NIPS 2017 dev images resized 299->224 (PIL bilinear), targets = MS-COCO val2014 originals",
+ "attribution": "NIPS 2017 Adversarial Attacks and Defenses Competition development set (Kurakin et al., 2018); Microsoft COCO (Lin et al., ECCV 2014); pair list from M-Attack (Li et al., 2025)"
+}
