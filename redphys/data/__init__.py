@@ -4,7 +4,8 @@ from .files import (PROJECT_ROOT, file_data_url, image_bytes, image_data_url, im
 
 _ROOT = PROJECT_ROOT / "dataset"
 DATASETS = {  # --dataset name -> folders
-    "nips2017": {"source": _ROOT / "nips2017" / "source", "target": _ROOT / "nips2017" / "target", "labels": _ROOT / "nips2017" / "labels.json"},
+    "nips2017": {"source": _ROOT / "nips2017" / "clean", "target": _ROOT / "nips2017" / "targets" / "target",
+                 "labels": _ROOT / "nips2017" / "targets" / "labels.json"},
 }
 
 __all__ = ["Sample", "load_rgb", "DATASETS", "DEFAULT_QUESTION", "PROJECT_ROOT", "file_data_url", "image_bytes", "image_data_url", "image_files",
