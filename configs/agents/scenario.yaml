@@ -5,6 +5,7 @@ mode: "scene"                     # or "salient"
 generator: "local"                # or "openrouter"
 generator_url: "http://localhost:8091"
 generator_model: "qwen/qwen-image-3"  # or "meta/muse-image"
+check: false                      # true: checkers vote
 checker_models:                   # blind voters
   - "anthropic/claude-haiku-5.5"   # not agent or victim family
   - "meta-llama/llama-4-maverick"

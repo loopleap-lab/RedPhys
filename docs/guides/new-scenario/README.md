@@ -22,6 +22,7 @@ out at a glance make both the question and the target trivial.
 | `options` | Multiple choice: the agent picks a wrong option. Without it, the agent names a wrong answer. |
 | `domain` | Selects the domain rule (section 3; default `general`). |
 | `target` | Optional: a preset wrong answer (section 2). |
+| `hazard` | Optional: what a wrong answer puts at risk; the agent prefers the wrong option that hides it. |
 
 ## 2. Targets
 
@@ -49,8 +50,9 @@ For each case the agent (a VLM in Docker):
 1. **plans**: reads the image and question, picks the wrong option that one visual change can show, and names the cue in
    the source that gives the correct answer and the cue that would give the wrong one;
 2. **draws**: `edit`s the source image (small changes, the scene stays) or `generate`s a new one from a prompt;
-3. **checks**: three independent VLMs answer the question seeing only the new image; it passes if most of them pick the
-   wrong answer (open questions: the agent model reviews the image against its plan);
+3. **reviews**: the agent looks at the new image itself and keeps it if it shows the target cue (default; no target is
+   `verified`). With `check=True`, three independent VLMs answer the question seeing only the new image instead; it passes if
+   most of them pick the wrong answer (open questions: the agent model reviews the image against its plan);
 4. retries with a better prompt or another wrong option, up to `max_rounds` images.
 
 Start with `max_samples=5` and look at the images. Images come from a local server
@@ -105,7 +107,7 @@ out/medical_targets/
   cases.json
 ```
 
-Look at the cases with `"verified": false`: the checkers did not accept the last image. Findings that depend on fine detail
+With `check=True`, look at the cases with `"verified": false`: the checkers did not accept the last image. Findings that depend on fine detail
 (subtle chest X-ray findings, for example) fail more often, since the image must change exactly what the answer depends on.
 
 ## 3. Customize the agent
@@ -130,7 +132,7 @@ targets had the right finding but switched an axial CT to a coronal view, or CT 
 ```
 
 Models and limits are settings (`configs/agents/scenario.yaml`, or keywords of `redphys.target`): `model` (the agent),
-`checker_models`, `generator`, `max_rounds`, `max_steps`.
+`check`, `checker_models`, `generator`, `max_rounds`, `max_steps`.
 
 ## 4. Attack and evaluate
 

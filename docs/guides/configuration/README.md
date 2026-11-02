@@ -47,9 +47,10 @@ clean image is saved in `<output>/_source` and is the manifest's `source`, so ev
 | Setting | Default | |
 |---|---|---|
 | `model` | `openai/gpt-6-luna` | agent VLM (`server_url`, `api_key_env`: OpenRouter) |
-| `generator` | `openrouter` | `local`: the server at `generator_url` |
+| `generator` | `local` | the server at `generator_url`; `openrouter`: `generator_model` |
 | `generator_model` | `qwen/qwen-image-3` | OpenRouter image model |
-| `checker_models` | 3 models | independent voters that check each target image |
+| `check` | `false` | `true`: `checker_models` vote on each target image (`verified` in `targets.json`) |
+| `checker_models` | 3 models | independent voters, with `check` |
 | `max_rounds`, `max_steps` | 5, 24 | images and agent turns per case |
 | `num_inference_steps`, `seed`, `generator_workers` | 40, 0, 2 | local generator only; `generator_workers`: concurrent requests to it |
 

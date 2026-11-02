@@ -12,8 +12,8 @@ unchecked.
 Grouped by when they land, the work is:
 1. **Library and benchmark (done):** attacks, defenses, the scenario agent and evaluation behind one API, and the
    paper's benchmark of 832 physical-world cases on 13 VLMs.
-2. **Benchmark v2 and the live leaderboard (next):** cases where a successful attack leads to a dangerous outcome,
-   video and multi-turn inputs, and a public leaderboard that reruns every submission on a hidden split.
+2. **Benchmark v2 and the live leaderboard (next):** scenes with clearer hazard signals, where a successful attack leads to a dangerous outcome,
+   and a public leaderboard that reruns every submission on a hidden split.
 3. **Automatic red-teaming (later):** a model or a use case in, a weakness report out, with agents that find
    scenes and integrate, run and evolve attacks and defenses.
 
@@ -25,17 +25,14 @@ Grouped by when they land, the work is:
 - [x] `dataset/intuitive_physics` (100, Physics-IQ) and `dataset/medical` (100, VQA-RAD, SLAKE, Brain Tumor MRI)
 - [x] `dataset/nips2017`: 100 of the NIPS 2017 / COCO pairs that M-Attack and FOA-Attack report on, scored by the captioning protocol (GPTScore, keyword match)
 - [ ] [`nips2017`](https://www.kaggle.com/datasets/google-brain/nips-2017-adversarial-learning-development-set) adversarial images of every attack on all 1000 pairs, with manifests and captioning scores, on Hugging Face, as baselines for researchers to compare new attacks and defenses against (generated; judging and upload open)
-- [ ] Benchmark v2: cases with explicit hazard signals, where a successful attack leads to a dangerous outcome (collision, fall, wrong treatment); each case labeled with its hazard and severity, and ASR weighted by severity
-- [ ] Video, multi-image and multi-turn cases (today: one image and one question per case; the victim API already takes several images)
+- [ ] Benchmark v2: scenes with clearer hazard signals (a red light, a pedestrian in the lane, an open flame) that an adversarial attack must hide, so a successful attack leads to a dangerous outcome (collision, fall, wrong treatment); each case labeled with its hazard and severity, and ASR weighted by severity
 
 ## 2. Targets: the scenario agent
 
-- [x] `redphys.target`: plans a wrong answer for each case, edits or draws the image to show it, and checks it with independent VLMs until they agree
+- [x] `redphys.target`: plans a wrong answer for each case, edits or draws the image to show it, and reviews the image itself (`check=True`: independent VLMs vote on it instead)
 - [x] Domain rules for what an edit must keep from the source (`DOMAIN_CONSTRAINTS`), with a default for new domains
 - [x] Image generators: OpenRouter, or a local Qwen-Image server (`generator="local"`)
 - [x] Runs in Docker; resumable; your own target images instead of the agent's
-- [ ] Targets that pick the dangerous wrong answer (benchmark v2): the target states the hazard the attack should hide
-- [ ] Targets for video and multi-turn cases
 
 ## 3. Attacks and defenses
 
@@ -46,9 +43,6 @@ Grouped by when they land, the work is:
 - [x] Threat model: optimized on a shared CLIP surrogate ensemble (`surrogates="unified"`) or each method's own (`"default"`), transferred to the victim
 - [x] The paper's settings in `configs/`, overridable by keyword or YAML; `manifest.json` records the config of every run
 - [x] New methods: a `BaseAttack` or `BaseDefense` subclass, a registry line and a YAML
-- [ ] Attacks on video: perturbations across frames, or on key frames
-- [ ] Attacks on multi-turn inputs: across the image and the turns of a dialogue
-- [ ] Defenses for video and multi-turn inputs
 
 ## 4. Victims and scoring
 

@@ -11,7 +11,7 @@ from tqdm import tqdm
 
 from ...configs import default_config_path, load_config, with_overrides
 from ...data import DATASETS, DEFAULT_QUESTION, PROJECT_ROOT, image_files, relpath, write_json
-from .agent import Case, ScenarioAgent, ScenarioConfig
+from .agent import Case, ScenarioAgent, ScenarioConfig, preflight
 
 
 def scenario_config(args) -> ScenarioConfig:
@@ -54,6 +54,7 @@ def run(args) -> Path:
 
         return run_in_docker(args)
     config = scenario_config(args)
+    preflight(config)
     agent, cases, out = ScenarioAgent(config), load_cases(args)[:args.max_samples or None], Path(args.output)  # 0: all
     (out / "target").mkdir(parents=True, exist_ok=True)
     write_json(out / "cases.json", [dataclasses.asdict(c) | {"image": relpath(c.image)} for c in cases])
@@ -76,8 +77,8 @@ def run(args) -> Path:
     labels = {k: {"source": s["source_text"], "target": s["target_text"]} for k, s in specs.items()}
     write_json(out / "labels.json", labels)
     unverified = [k for k, s in specs.items() if not s["verified"]]
-    print(f"Done: {len(specs)}/{len(cases)} targets ({len(specs) - len(unverified)} verified) -> {out}")
-    if unverified:
+    print(f"Done: {len(specs)}/{len(cases)} targets" + (f" ({len(specs) - len(unverified)} verified)" if config.check else "") + f" -> {out}")
+    if unverified and config.check:
         print(f"Not verified (the checker did not accept the last image): {', '.join(unverified)}")
     return out
 
