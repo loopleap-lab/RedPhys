@@ -1,5 +1,0 @@
-{
- "license": "MIT (PhyX)",
- "scope": "50 four-option single-image physics problems from the PhyX test_mini multiple-choice split (huggingface.co/datasets/Cloudriver/PhyX), spread over mechanics, electromagnetism, optics, thermodynamics, waves/acoustics and modern physics; source.id gives the PhyX index of each item.",
- "attribution": "PhyX (Shen et al., 2025, arXiv:2505.15929)"
-}
