@@ -1,20 +1,27 @@
-<div align="center">
+<h2 align="center">RedPhys: A Unified Red-Teaming Benchmark for Physical-World VLMs</h2>
 
-# RedPhys: A Unified Red-Teaming Benchmark for Physical-World VLMs
-
-**NeurIPS 2026 · Evaluations & Datasets Track**
-
-<p>
-<a href="https://arxiv.org/abs/2606.23892"><img src="https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white" alt="Paper"></a>
-<a href="https://github.com/UCF-ML-Research/RedPhys"><img src="https://img.shields.io/badge/Website-RedPhys-7c5cff?logo=googlechrome&logoColor=white" alt="Website"></a>
-<a href="https://huggingface.co/datasets/yifeiz29/RedPhys"><img src="https://img.shields.io/badge/Dataset-Hugging%20Face-ffd21e?logo=huggingface" alt="Hugging Face"></a>
+<p align="center">
+  <b>Project</b>&nbsp; · &nbsp;
+  <a href="https://github.com/loopleap-lab/RedPhys">Website</a> ·
+  <a href="https://arxiv.org/abs/2606.23892">Paper</a> ·
+  <a href="https://huggingface.co/datasets/yifeiz29/RedPhys">Dataset</a> ·
+  <a href="#citation">Cite</a>
+  <br>
+  <b>Get started</b>&nbsp; · &nbsp;
+  <a href="#installation">Installation</a> ·
+  <a href="#evaluate-on-the-released-dataset">Evaluate</a> ·
+  <a href="#run-the-full-pipeline">Full pipeline</a>
+  <br>
+  <b>Reference</b>&nbsp; · &nbsp;
+  <a href="docs/guides/configuration">Configuration</a> ·
+  <a href="docs/guides/new-attack-defense">New attack or defense</a> ·
+  <a href="docs/guides/new-scenario">New dataset</a> ·
+  <a href="#faq">FAQ</a>
 </p>
 
-</div>
+## About
 
-## Overview
-
-RedPhys is a unified red-teaming benchmark for vision-language models (VLMs) in safety-critical physical-world tasks such as driving and robotics. It brings **12 red-teaming methods**, **3 model-agnostic defenses** and **13 VLMs** under one black-box threat model with shared data and metrics, and an agentic pipeline builds a scenario-specific target for each scene so that all attacks are compared on the same failure.
+**RedPhys** (NeurIPS 2026, Evaluations & Datasets Track) is a unified library and benchmark for studying the adversarial robustness of vision-language models (VLMs). It integrates representative attacks and defenses for VLMs in one interface, from adversarial perturbations, patches and diffusion-based edits to prompt and typographic injection, and from input purification to adversarial fine-tuning. Any VLM served behind an OpenAI-compatible API can be evaluated, including VLM agents. Its benchmark focuses on physical-world tasks such as driving, manipulation, grasping and egocentric assistance, and extends to medical imaging, intuitive physics and the natural images widely used in adversarial robustness research.
 
 <p align="center">
   <picture>
@@ -34,7 +41,7 @@ RedPhys is a unified red-teaming benchmark for vision-language models (VLMs) in 
 ## Installation
 
 ```bash
-git clone https://github.com/UCF-ML-Research/RedPhys.git
+git clone https://github.com/loopleap-lab/RedPhys
 cd RedPhys
 bash install.sh
 hf download yifeiz29/RedPhys --repo-type dataset --local-dir dataset/redphys_dataset
