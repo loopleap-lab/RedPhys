@@ -2,7 +2,7 @@
   <img alt="RedPhys" src="docs/images/logo.png" width="340">
 </p>
 
-<h3 align="center">RedPhys: An Extensible Red-Teaming Platform for Physical-World Vision-Language Models and Agents</h3>
+<h3 align="center">RedPhys: An Extensible Red-Teaming &amp; Pressure-testing Platform for Physical-World Models and Agents</h3>
 
 <p align="center">
   <b>Project</b>&nbsp; · &nbsp;
@@ -26,14 +26,14 @@
 
 ## About
 
-**RedPhys** (NeurIPS 2026, Evaluations & Datasets Track) is an extensible red-teaming platform for physical-world vision-language models (VLMs) and agents. Shared interfaces let researchers configure tasks, attacks, defenses, and victim systems; compare existing methods; and integrate emerging methods without rebuilding the evaluation pipeline. Any VLM or VLM agent served behind an OpenAI-compatible API can be evaluated. The platform integrates adversarial perturbations, patches, diffusion-based edits, prompt and typographic injection, input purification, and prompt sanitization. Its benchmark focuses on driving, manipulation, grasping, and egocentric assistance, and extends to medical imaging, intuitive physics, and the natural images widely used in adversarial robustness research.
+**RedPhys** (NeurIPS 2026, Evaluations & Datasets Track) is an extensible red-teaming and pressure-testing platform for physical-world models (PhyModels) and agents (PhyAgents). Shared interfaces let researchers configure tasks, attacks, defenses, and victim systems; compare existing methods; and integrate emerging methods without rebuilding the evaluation pipeline. PhyModels perform grounded perception, reasoning, or decision tasks; PhyAgents combine these models with planning or tool use. These terms describe their physical-world role: the current benchmark evaluates image-and-language inputs and task-level outputs. Compatible PhyModels and PhyAgents served behind an OpenAI-compatible API can be evaluated. The platform integrates adversarial perturbations, patches, diffusion-based edits, prompt and typographic injection, input purification, and prompt sanitization. Its benchmark focuses on driving, manipulation, grasping, and egocentric assistance, and extends to medical imaging, intuitive physics, and the natural images widely used in adversarial robustness research.
 
-RedPhys also supports non-adversarial robustness testing with input perturbations or obfuscations applied without an adversarial objective. The paper and benchmark primarily focus on the more demanding adversarial stress-testing setting, where attacks deliberately seek physically grounded functional errors. An agentic target-generation pipeline gives targeted attacks a shared, scenario-specific objective. The same workflow can collect perturbed inputs and model responses for robustness analysis and alignment research.
+Pressure testing covers adversarial and non-adversarial input conditions. RedPhys supports non-adversarial robustness testing with input perturbations or obfuscations applied without an adversarial objective. The paper and benchmark primarily focus on the more demanding adversarial stress-testing setting, where attacks deliberately seek physically grounded functional errors. An agentic target-generation pipeline gives targeted attacks a shared, scenario-specific objective. The same workflow can collect perturbed inputs and model responses for robustness analysis and alignment research.
 
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/dark.png">
-    <img src="docs/images/light.png" alt="RedPhys library of scenarios, attacks, defenses and VLMs, and the red-teaming benchmark pipeline" width="100%">
+    <img src="docs/images/light.png" alt="RedPhys library of scenarios, attacks, defenses and PhyModels, and the red-teaming benchmark pipeline" width="100%">
   </picture>
 </p>
 
@@ -41,9 +41,9 @@ RedPhys also supports non-adversarial robustness testing with input perturbation
 
 - 🎯 **12 attacks** — perturbation, patch, diffusion generation and editing, and prompt/typographic injection.
 - 🛡️ **3 defenses** — removal, purification and sanitization.
-- 🔒 **Realistic threat model** — optimized on CLIP surrogates and transferred to the victim VLM.
+- 🔒 **Realistic threat model** — optimized on CLIP surrogates and transferred to the victim PhyModel.
 - ⚖️ **Adversarial alignment** — build an adversarial dataset with the attacks and fine-tune the victim on it to strengthen its alignment.
-- 🧩 **Extensible** — add an attack or defense with one base class; evaluate any VLM or VLM agent.
+- 🧩 **Extensible** — add an attack or defense with one base class; evaluate any PhyModel or PhyAgent.
 
 ## Installation
 
@@ -60,7 +60,7 @@ hf download yifeiz29/RedPhys --repo-type dataset --local-dir dataset/redphys_dat
 
 ### Evaluate on the Released Dataset
 
-Score any VLM on the released adversarial images, here a proprietary model through OpenRouter:
+Score any PhyModel on the released adversarial images, here a proprietary model through OpenRouter:
 
 ```python
 import os
@@ -107,11 +107,11 @@ redphys.score("results/foa", server_url="http://localhost:8000")
 
 `redphys.report(["results/foa"])` tabulates accuracy and ASR per run; `redphys methods` lists every attack and defense. [`examples/quickstart.ipynb`](examples/quickstart.ipynb) runs these steps end to end.
 
-Serve the judge and an open-source VLM with vLLM on separate ports, then pass `server_url="http://localhost:8001"` for the VLM:
+Serve the judge and an open-source PhyModel with vLLM on separate ports, then pass `server_url="http://localhost:8001"` for the PhyModel:
 
 ```bash
 .venv-vllm/bin/vllm serve Qwen/Qwen3-8B --port 8000                # judge
-.venv-vllm/bin/vllm serve Qwen/Qwen3-VL-8B-Instruct --port 8001   # victim VLM
+.venv-vllm/bin/vllm serve Qwen/Qwen3-VL-8B-Instruct --port 8001   # victim PhyModel
 ```
 
 ## FAQ
@@ -227,11 +227,11 @@ Supported victims: Qwen3-VL, Cosmos-Reason2, InternVL3.5-HF, Qwen3.5 and Gemma 4
 </details>
 
 <details>
-<summary><b><a href="docs/guides/victim-agent">How do I extend RedPhys to a victim agent?</a></b></summary>
+<summary><b><a href="docs/guides/victim-agent">How do I extend RedPhys to a PhyAgent?</a></b></summary>
 
 Put the agent behind an OpenAI-compatible chat API ([`agent_server.py`](docs/guides/victim-agent/agent_server.py) is a runnable
-example with tools) and evaluate it like any VLM. Every attack, defense and metric applies, so you can analyze the agent's
-robustness and compare it with its VLM:
+example with tools) and evaluate it like any PhyModel. Every attack, defense and metric applies, so you can analyze the agent's
+robustness and compare it with its PhyModel:
 
 ```python
 redphys.evaluate(["out/foa", "out/figstep"], targets="out/targets", server_url="http://localhost:9000",
