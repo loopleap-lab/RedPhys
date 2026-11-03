@@ -45,13 +45,13 @@ import redphys
 targets = redphys.target("dataset/medical/cases.json", "out/medical_targets", max_samples=5, generator="local")
 ```
 
-For each case the agent (a VLM in Docker):
+For each case the agent (a PhyModel in Docker):
 
 1. **plans**: reads the image and question, picks the wrong option that one visual change can show, and names the cue in
    the source that gives the correct answer and the cue that would give the wrong one;
 2. **draws**: `edit`s the source image (small changes, the scene stays) or `generate`s a new one from a prompt;
 3. **reviews**: the agent looks at the new image itself and keeps it if it shows the target cue (default; no target is
-   `verified`). With `check=True`, three independent VLMs answer the question seeing only the new image instead; it passes if
+   `verified`). With `check=True`, three independent PhyModels answer the question seeing only the new image instead; it passes if
    most of them pick the wrong answer (open questions: the agent model reviews the image against its plan);
 4. retries with a better prompt or another wrong option, up to `max_rounds` images.
 
