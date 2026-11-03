@@ -81,7 +81,7 @@ class PAAttack(BaseAttack):
 
         files = sorted(_COCO.glob("*.jpg"))
         if len(files) < n_images:
-            raise FileNotFoundError(f"PA-Attack needs {n_images} COCO val2014 images in {_COCO}; run `bash install.sh weights`")
+            raise FileNotFoundError(f"PA-Attack needs {n_images} COCO val2014 images in {_COCO}; run `bash install.sh weights paattack`")
         files = random.Random(self.config.seed).sample(files, n_images) if len(files) > n_images else files
         tokens = torch.cat([
             vis(vision=torch.cat([to_tensor(resize_center_crop(Image.open(f).convert("RGB"), self.config.input_res)).to(self.config.device) for f in files[i:i + 16]]),

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #   bash install.sh                                       # environment + weights
 #   bash install.sh env                                   # environment only
-#   bash install.sh weights [--check|--download-all|--delete]   # --check: verify only
+#   bash install.sh weights [METHOD...] [--check|--download-all|--delete]   # METHOD: only its weights; --check: verify only
 cd "$(dirname "$0")"
 BOOT="${PYTHON:-python3}"  # runs uv
 PY=$BOOT                   # gets the packages
@@ -47,10 +47,28 @@ install_env() {
 }
 
 install_weights() {
-  local MODE=default arg
+  local MODE=default arg methods=()
   for arg in "$@"; do
     case "$arg" in --check) MODE=check ;; --download-all) MODE=download-all ;; --delete) MODE=delete ;;
-      *) echo "unknown weights option: $arg"; return 1 ;; esac
+      -*) echo "unknown weights option: $arg"; return 1 ;; *) methods+=("$arg") ;; esac
+  done
+  # method -> its weights (measured); Hugging Face, OpenAI CLIP and torchvision weights also download on first use
+  local G14=laion/CLIP-ViT-g-14-laion2B-s12B-b42K SD=stable-diffusion-v1-5/stable-diffusion-v1-5 SAMH=sam_vit_h_4b8939.pth
+  local UNI="openai/clip-vit-base-patch16 openai/clip-vit-base-patch32 $G14"  # surrogates="unified" via transformers
+  local -A NEEDS=(
+    [foa]="$UNI" [mattack]="$UNI" [vattack]="$UNI openai/clip-vit-large-patch14-336" [physpatch]="$UNI $SAMH"
+    [mpcattack]="$UNI facebook/dinov2-base OpenGVLab/InternVL3-1B-hf" [oattack]="$UNI Qwen/Qwen2.5-VL-3B-Instruct"
+    [coa]="conceptual_weights.pt clip gpt2 $G14" [advedm]="clip $G14" [advedm_r]="clip $G14" [anyattack]="coco_cos.pt clip"
+    [advdiffvlm]="ldm_cin256-v2.ckpt clip resnet $G14" [paattack]="coco $G14 timm/vit_base_patch16_clip_224.openai timm/vit_base_patch32_clip_224.openai"
+    [scenetap]="$SAMH LiberationSans-Bold.ttf JingyeChen22/textdiffuser2-full-ft-inpainting $SD" [figstep]="FreeMonoBold.ttf"
+    [imagemix]="" [promptinject]="" [leadingq]="" [corruption]="" [pad]="sam_vit_l_0b3195.pth" [freqpure]="256x256_diffusion_uncond.pt"
+    [bluesuffix]="suffix_generator 256x256_diffusion_uncond.pt gpt2" [et3]="chs20/fare4-clip"
+    [oscp]="oscp_lora.safetensors $SD lllyasviel/sd-controlnet-canny" [target]="target_generator"
+  )
+  local want=" " m
+  for m in "${methods[@]}"; do
+    [[ -v NEEDS[$m] ]] || { echo "unknown method: $m (${!NEEDS[*]})"; return 1; }
+    want+="${NEEDS[$m]} "
   done
   local W=redphys CLIP=$HOME/.cache/clip COCO=dataset/coco missing=0 HUB  # CLIP: clip.load's default
   HUB=$($PY -c "from huggingface_hub.constants import HF_HUB_CACHE; print(HF_HUB_CACHE)") || return 1  # HF_HOME as Python sees it
@@ -102,10 +120,11 @@ install_weights() {
     return
   fi
 
-  # need LABEL TEST...: report; true = download now
+  # need KEY LABEL TEST...: report; true = download now; KEY not needed by the methods asked for: skipped
   need() {
-    if [[ $MODE != download-all ]] && "${@:2}" 2>/dev/null; then echo "  OK       $1"; return 1; fi
-    echo "  MISSING/BAD  $1"; missing=$((missing + 1)); [[ $MODE != check ]]
+    (( ${#methods[@]} == 0 )) || [[ $want == *" $1 "* ]] || return 1
+    if [[ $MODE != download-all ]] && "${@:3}" 2>/dev/null; then echo "  OK       $2"; return 1; fi
+    echo "  MISSING/BAD  $2"; missing=$((missing + 1)); [[ $MODE != check ]]
   }
   sha_ok() { pyw check file "$1" "$2"; }
   fetch() {  # url dest sha256; keep only if the hash matches
@@ -167,7 +186,7 @@ PY
 
   for e in "${FILES[@]}"; do
     IFS='|' read -r path sum url <<< "$e"
-    need "$path" sha_ok "$path" "$sum" && fetch "$url" "$path" "$sum"
+    need "$(basename "$path")" "$path" sha_ok "$path" "$sum" && fetch "$url" "$path" "$sum"
   done
   fetch_member() {  # url member dest sha256: one file out of a zip or tar archive (gdrive:<id> via gdown)
     local tmp; tmp=$(mktemp -d)
@@ -181,23 +200,23 @@ open(o, 'wb').write(data)" "$tmp/archive" "$2" "$tmp/file" \
   }
   local SG_SHA=96afced00b0220f8e95bb1f39efad8fb4f965e87ff4d2d0197a58dfc150275c4 FONT_SHA=acd5fbb1985f9c2266c96a995b6cfba981609d598c9ce815388c1d5a8a23962a
   local SFONT_SHA=788abee4c806d660e8aee46689dd8540cd4bb98da03dcc9d171ce3efd99a9173
-  need "$BLUE_SG (official BlueSuffix release)" sha_ok "$BLUE_SG" $SG_SHA \
-    && fetch_member gdrive:15X6RbcjuvIE3SfgnzhrGJZXU9TgpHk2O fine-tuned_suffix_generator/adapter_model.safetensors "$BLUE_SG" $SG_SHA \
-    || echo "!! get it from https://drive.google.com/drive/folders/1WQYXE0hD_b5xfkg-Nqvm-IonMgj0o6d4"
-  need "$FONT (GNU FreeFont 20120503)" sha_ok "$FONT" $FONT_SHA \
+  need suffix_generator "$BLUE_SG (official BlueSuffix release)" sha_ok "$BLUE_SG" $SG_SHA \
+    && { fetch_member gdrive:15X6RbcjuvIE3SfgnzhrGJZXU9TgpHk2O fine-tuned_suffix_generator/adapter_model.safetensors "$BLUE_SG" $SG_SHA
+         [ -f "$BLUE_SG" ] || echo "!! get it from https://drive.google.com/drive/folders/1WQYXE0hD_b5xfkg-Nqvm-IonMgj0o6d4"; }
+  need FreeMonoBold.ttf "$FONT (GNU FreeFont 20120503)" sha_ok "$FONT" $FONT_SHA \
     && fetch_member https://ftp.gnu.org/gnu/freefont/freefont-ttf-20120503.zip freefont-20120503/FreeMonoBold.ttf "$FONT" $FONT_SHA
-  need "$SFONT (Liberation Fonts 2.1.5)" sha_ok "$SFONT" $SFONT_SHA \
+  need LiberationSans-Bold.ttf "$SFONT (Liberation Fonts 2.1.5)" sha_ok "$SFONT" $SFONT_SHA \
     && fetch_member https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz \
       liberation-fonts-ttf-2.1.5/LiberationSans-Bold.ttf "$SFONT" $SFONT_SHA
-  need "~/.cache/clip (OpenAI CLIP x5, clip.load's default dir)" pyw check clip "$CLIP" && pyw get clip "$CLIP"
-  need "torchvision ResNet50 (AdvDiffVLM Grad-CAM)" pyw check resnet && pyw get resnet
+  need clip "~/.cache/clip (OpenAI CLIP x5, clip.load's default dir)" pyw check clip "$CLIP" && pyw get clip "$CLIP"
+  need resnet "torchvision ResNet50 (AdvDiffVLM Grad-CAM)" pyw check resnet && pyw get resnet
   for e in "${HF[@]}"; do
     repo=${e%%|*}; read -ra skip <<< "${e#*|}"
-    need "HF $repo" pyw check hf "$repo" "${skip[@]}" && pyw get hf "$repo" "${skip[@]}"
+    need "${repo%@*}" "HF $repo" pyw check hf "$repo" "${skip[@]}" && pyw get hf "$repo" "${skip[@]}"
   done
-  [ -x "$GEN" ] && PYW=$GEN need "HF $QWEN (target_generator)" pyw check hf "$QWEN" && PYW=$GEN pyw get hf "$QWEN"  # its venv, its HF cache; none on CPU
+  [ -x "$GEN" ] && PYW=$GEN need target_generator "HF $QWEN (target_generator)" pyw check hf "$QWEN" && PYW=$GEN pyw get hf "$QWEN"  # its venv, its HF cache; none on CPU
   # for PA-Attack's prototypes
-  need "$COCO/val2014 (3000 images)" coco_ok && $PY - "$COCO" <<'PY'
+  need coco "$COCO/val2014 (3000 images)" coco_ok && $PY - "$COCO" <<'PY'
 import io, json, random, sys, zipfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path

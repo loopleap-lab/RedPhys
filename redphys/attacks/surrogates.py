@@ -8,4 +8,4 @@ UNIFIED_SURROGATES = (
 
 SURROGATE_MODES = ("default", "unified")
 # No swappable surrogates.
-NO_SURROGATES = {"anyattack", "figstep", "promptinject", "imagemix", "leadingq", "scenetap"}
+NO_SURROGATES = {"anyattack", "figstep", "promptinject", "imagemix", "leadingq", "scenetap", "corruption"}

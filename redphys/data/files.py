@@ -22,6 +22,13 @@ def resolve(path) -> Path:
     return p if p.is_absolute() else PROJECT_ROOT / p
 
 
+def weight(path, method: str) -> Path:
+    """path, or an error naming the install command."""
+    if not Path(path).exists():
+        raise FileNotFoundError(f"{path} is missing: run `bash install.sh weights {method}`")
+    return Path(path)
+
+
 def image_bytes(img, fmt: str = "PNG") -> bytes:
     """A PIL image encoded (PNG by default)."""
     buf = io.BytesIO()

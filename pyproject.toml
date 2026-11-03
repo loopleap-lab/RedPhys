@@ -14,6 +14,9 @@ dynamic = ["version", "dependencies"]
 [project.urls]
 Repository = "https://github.com/loopleap-lab/RedPhys"
 
+[project.scripts]
+redphys = "redphys.cli:main"
+
 [tool.setuptools.dynamic]
 # Reuse requirements.txt; comment lines (e.g. the git-only installs) are ignored.
 version = { attr = "redphys.__version__" }

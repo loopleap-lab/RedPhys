@@ -79,15 +79,20 @@ def _prior(output: str | None, model: str) -> dict:
     return {(s, r["id"]): r for s, rs in sets.items() for r in rs if r["status"] == "ok"}
 
 
+def _mtime(image) -> int | None:
+    return p.stat().st_mtime_ns if (p := Path(image)).is_file() else None
+
+
 def _query(client: OpenAI, model: str, items: list[dict], question: str, workers: int, label: str, prior: dict,
            max_image_mb: float | None) -> list[dict]:
     """run_queries for items not yet answered."""
-    old = {i["id"]: p for i in items  # the same image and question sent, else asked again
-           if (p := prior.get((label, i["id"]))) and p["image"] == str(i["image"]) and p["question"] == victim_prompt(i.get("question", question))[1]}
+    old = {i["id"]: p for i in items  # the same image file (path, mtime) and question sent, else asked again
+           if (p := prior.get((label, i["id"]))) and p["image"] == str(i["image"]) and p.get("mtime") == _mtime(i["image"])
+           and p["question"] == victim_prompt(i.get("question", question))[1]}
     new = {r["id"]: r for r in run_queries(client, model, [i for i in items if i["id"] not in old], question, workers, label,
                                                   max_image_mb=max_image_mb)}
-    return [{**i, "question": old[i["id"]]["question"], "response": old[i["id"]]["response"], "status": "ok"} if i["id"] in old
-            else new[i["id"]] for i in items]
+    return [{**i, **{k: old[i["id"]][k] for k in ("question", "response", "mtime")}, "status": "ok"} if i["id"] in old
+            else new[i["id"]] | {"mtime": _mtime(i["image"])} for i in items]
 
 
 def evaluate(attack_dirs: str | list[str], *, server_url: str, targets: str | None = None, labels: str | None = None,

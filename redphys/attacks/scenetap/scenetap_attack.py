@@ -11,7 +11,7 @@ from PIL import Image, ImageFont
 from torchvision import transforms
 
 from ..base_attack import AttackResult, BaseAttack, LLMClientMixin, target_text
-from ...data import Sample, image_data_url
+from ...data import Sample, image_data_url, weight
 from ...judge import clean_llm_text, no_reasoning
 from .config import ADJUST, ASSETS, PLAN, TARGET_LINE, SceneTAPConfig
 
@@ -73,7 +73,7 @@ class SceneTAPAttack(LLMClientMixin, BaseAttack):
     def __init__(self, config: SceneTAPConfig):
         super().__init__(config)
         self.llm()  # fails here without llm_model, a key or a server
-        self.font = ImageFont.truetype(str(ASSETS / config.font), config.font_size)
+        self.font = ImageFont.truetype(str(weight(ASSETS / config.font, "scenetap")), config.font_size)
         self._som = self._diffuser = None
 
     def _load(self):
@@ -85,7 +85,7 @@ class SceneTAPAttack(LLMClientMixin, BaseAttack):
         from task_adapter.utils.visualizer import Visualizer
         from .textdiffuser import TextDiffuser
         c = self.config
-        sam = sam_model_registry["vit_h"](checkpoint=c.sam_checkpoint or str(SOM.parent / "checkpoints" / "sam_vit_h_4b8939.pth")).eval().to(c.device)
+        sam = sam_model_registry["vit_h"](checkpoint=str(weight(c.sam_checkpoint or SOM.parent / "checkpoints" / "sam_vit_h_4b8939.pth", "scenetap"))).eval().to(c.device)
         self._diffuser = TextDiffuser(c.sd_model, c.td_model, c.device, c.td_revision)
         self._som = (SamAutomaticMaskGenerator(sam), Visualizer, MetadataCatalog.get("coco_2017_train_panoptic"))  # last: set once all loaded
 

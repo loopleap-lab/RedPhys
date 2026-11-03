@@ -133,6 +133,10 @@ def _letter(s: str, allowed: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ") -> str:
     return m[1] if m else ""
 
 
+def _words(s: str) -> set:
+    return set(re.findall(r"[a-z]{3,}", s.lower())) - {"and", "the", "with"}
+
+
 def _options(case) -> str:
     return "\n".join(f"{k}. {v}" for k, v in case.options.items())
 
@@ -196,6 +200,8 @@ class ScenarioAgent:
             plan["attack_target"] = letter
         elif plan["attack_target"].strip().lower() == case.answer.strip().lower():
             return "attack_target must differ from the correct answer."
+        elif not case.target and _words(plan["attack_target"]) & _words(case.answer):  # near miss
+            return "attack_target must be another kind of thing and share no word with the correct answer."
         if case.target:  # given wrong answer
             given = _letter(case.target, "".join(case.options)) if case.options else case.target.strip().lower()
             if (plan["attack_target"] if case.options else plan["attack_target"].strip().lower()) != given:
@@ -310,6 +316,7 @@ class ScenarioAgent:
                 except Exception as e:  # a failed image/checker call must not end the case
                     out, url = f"Tool error: {e}", None
                 messages.append({"role": "tool", "tool_call_id": t.id, "content": out})
+                st["last"] = f"{t.function.name}: {out[:200]}"
                 shown += [url] if url else []
             messages += [self._user("The generated image.", url) for url in shown]
             if st["done"]:
@@ -317,7 +324,7 @@ class ScenarioAgent:
             if not calls:
                 messages.append({"role": "user", "content": "Use the tools; call submit when the image is final."})
         if not (st["plan"] and st["img"]):
-            raise RuntimeError(f"{case.id}: no plan and image after {self.config.max_steps} steps")
+            raise RuntimeError(f"{case.id}: no plan and image after {self.config.max_steps} steps (last tool reply: {st.get('last', 'none')})")
         plan, img, prompt = st["passed"] or (st["plan"], st["img"], st["prompt"])
         source_text = case.options[_letter(case.answer)] if case.options else case.answer
         return TargetSpec(case.id, plan["failure_mode"], plan["attack_target"], self._target_text(case, plan), source_text, plan["source_cue"],

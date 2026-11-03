@@ -9,6 +9,7 @@ import cv2
 import numpy as np
 from PIL import Image
 
+from ...data import weight
 from ..base_defense import BaseDefense, DefenseConfig, DefenseResult
 
 ASSETS = Path(__file__).parent / "assets"
@@ -39,8 +40,7 @@ class PADDefense(BaseDefense):
         from segment_anything import sam_model_registry, SamAutomaticMaskGenerator
 
         ckpt = self.config.sam_checkpoint or ASSETS / "models" / SAM_CHECKPOINTS[self.config.sam_model_type]
-        if not Path(ckpt).exists():
-            raise FileNotFoundError(f"SAM checkpoint not found at {ckpt}: run install.sh or set sam_checkpoint in the defense YAML")
+        weight(ckpt, "pad")
         print(f"Loading SAM model from {ckpt}")
         sam = sam_model_registry[self.config.sam_model_type](checkpoint=str(ckpt))
         sam.to(device=self.config.device)

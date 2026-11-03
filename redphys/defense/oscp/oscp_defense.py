@@ -9,7 +9,7 @@ import numpy as np
 import torch
 from PIL import Image
 
-from ...data import load_rgb
+from ...data import load_rgb, weight
 from ..base_defense import BaseDefense, DefenseConfig, DefenseResult
 
 ASSETS = Path(__file__).parent / "assets"
@@ -47,7 +47,7 @@ class OSCPDefense(BaseDefense):
             c.sd_model, controlnet=controlnet, torch_dtype=torch.float16, variant="fp16", safety_checker=None,
         ).to(c.device, dtype=torch.float32)  # fp32 inference, as upstream
         pipe.scheduler = LCMScheduler.from_config(pipe.scheduler.config)
-        pipe.load_lora_weights({k.replace("base_model.model.", "unet."): v for k, v in load_file(c.lora or ASSETS / "checkpoints" / "oscp_lora.safetensors").items()})
+        pipe.load_lora_weights({k.replace("base_model.model.", "unet."): v for k, v in load_file(weight(c.lora or ASSETS / "checkpoints" / "oscp_lora.safetensors", "oscp")).items()})
         pipe.set_progress_bar_config(disable=True)
         self._pipe = pipe
 

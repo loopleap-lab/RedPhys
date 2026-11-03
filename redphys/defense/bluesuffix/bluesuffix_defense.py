@@ -8,7 +8,7 @@ from typing import Optional
 import torch
 from PIL import Image
 
-from ...data import load_rgb
+from ...data import load_rgb, weight
 from ...data.tensors import to_tensor
 from ..base_defense import BaseDefense, DefenseConfig, DefenseResult
 
@@ -62,8 +62,7 @@ class BlueSuffixDefense(BaseDefense):
         from .core.suffix_generator import load_suffix_generator
 
         suffix_dir = Path(self.config.suffix_generator_dir or ASSETS / "suffix_generator")
-        if not suffix_dir.exists():
-            raise FileNotFoundError(f"Suffix generator not found at {suffix_dir}: run install.sh")
+        weight(suffix_dir, "bluesuffix")
         print("Loading BlueSuffix suffix generator...")
         self._suffix_model, self._suffix_tokenizer = load_suffix_generator(str(suffix_dir), device=self.config.device)
 

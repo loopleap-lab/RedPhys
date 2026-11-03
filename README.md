@@ -54,7 +54,7 @@ bash install.sh
 hf download yifeiz29/RedPhys --repo-type dataset --local-dir dataset/redphys_dataset
 ```
 
-`install.sh` sets up RedPhys, its dependencies and the model weights (Python 3.10+; Docker for `redphys.target`).
+`install.sh` sets up RedPhys, its dependencies and the model weights (Python 3.10+; Docker for `redphys.target`). `bash install.sh weights foa freqpure` fetches only the weights those methods need.
 
 ## How to Use RedPhys
 
@@ -95,6 +95,8 @@ The agent changes each scene to show a wrong answer.
 adv = redphys.attack("foa", "dataset/physical", "out/foa", targets=targets)
 ```
 
+The non-adversarial `corruption` (`kind=` blur, noise, jpeg, occlusion or lighting; `severity=1`–`5`, after ImageNet-C) takes the same call.
+
 **3. Evaluate.**
 
 ```python
@@ -102,6 +104,8 @@ redphys.evaluate(adv, targets=targets, server_url="https://openrouter.ai/api",
                  api_key=os.environ["OPENROUTER_API_KEY"], model="openai/gpt-4.1-mini", judge=None, output="results/foa")
 redphys.score("results/foa", server_url="http://localhost:8000")
 ```
+
+`redphys.report(["results/foa"])` tabulates accuracy and ASR per run; `redphys methods` lists every attack and defense. [`examples/quickstart.ipynb`](examples/quickstart.ipynb) runs these steps end to end.
 
 Serve the judge and an open-source VLM with vLLM on separate ports, then pass `server_url="http://localhost:8001"` for the VLM:
 
@@ -140,7 +144,7 @@ Write a `cases.json` like `dataset/physical/cases.json` and run the pipeline on 
   "options": {"A": "Atelectasis", "B": "Cardiomegaly", "C": "No Finding", "D": "Pleural Effusion"}, "answer": "B"}]
 ```
 
-Targets (a wrong answer and an image that shows it) can be your own images, or come from the scenario agent, which plans the wrong answer, edits or draws the image and checks it with independent VLMs. For a new `domain`, tell it what to keep from the source in `DOMAIN_CONSTRAINTS` (`redphys/agent/scenario_agent/prompts.py`). Try a few cases first:
+Targets (a wrong answer and an image that shows it) can be your own images, or come from the scenario agent, which plans the wrong answer and edits or draws the image. For a new `domain`, tell it what to keep from the source in `DOMAIN_CONSTRAINTS` (`redphys/agent/scenario_agent/prompts.py`). Try a few cases first:
 
 ```python
 targets = redphys.target("dataset/medical/cases.json", "out/medical_targets", max_samples=5)

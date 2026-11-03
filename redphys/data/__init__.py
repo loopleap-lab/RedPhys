@@ -1,6 +1,6 @@
 from .sample import DEFAULT_QUESTION, Sample, load_rgb
 from .files import (PROJECT_ROOT, file_data_url, image_bytes, image_data_url, image_files, input_stamp, list_images, manifest_samples, relpath,
-                    resolve, save_manifest, write_json)
+                    resolve, save_manifest, weight, write_json)
 
 _ROOT = PROJECT_ROOT / "dataset"
 DATASETS = {  # --dataset name -> folders
@@ -9,4 +9,4 @@ DATASETS = {  # --dataset name -> folders
 }
 
 __all__ = ["Sample", "load_rgb", "DATASETS", "DEFAULT_QUESTION", "PROJECT_ROOT", "file_data_url", "image_bytes", "image_data_url", "image_files",
-           "input_stamp", "list_images", "manifest_samples", "relpath", "resolve", "save_manifest", "write_json"]
+           "input_stamp", "list_images", "manifest_samples", "relpath", "resolve", "save_manifest", "weight", "write_json"]

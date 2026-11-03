@@ -218,6 +218,7 @@ def run(args) -> Path:
         raise ValueError(f"{args.attack} needs the correct answer too: labels (labels=, targets= or a dataset)"
                          + (", or source_text in its YAML" if "source_text" in fields else ""))
     attack = AttackRegistry.create(args.attack, **kwargs)
+    name = getattr(attack, "run_name", args.attack)  # the manifest's: e.g. corruption-blur
 
     size = attack.config.input_res if getattr(attack.config, "resize_source", False) else None  # as upstream: the source at input_res
     config = config_snapshot(attack.config, drop=RUN_INPUTS + (() if size else ("resize_source",)))
@@ -228,9 +229,9 @@ def run(args) -> Path:
     results, prior_duration = [], 0.0
     if (out_dir / "manifest.json").exists():
         prior = json.loads((out_dir / "manifest.json").read_text())
-        if "config" not in prior and prior.get("attack") == args.attack:  # manifests before the config field
+        if "config" not in prior and prior.get("attack") == name:  # manifests before the config field
             print(f"WARNING: {out_dir} has no recorded config; resuming with the current one")
-        elif prior.get("attack") != args.attack or prior.get("config") != config:
+        elif prior.get("attack") != name or prior.get("config") != config:
             raise ValueError(f"{out_dir} holds another run ('{prior.get('attack')}', other config or older version); use another output")
         prior_duration = prior.get("duration_s", 0.0)  # accumulated over resumes
         inputs = {p.stem: input_stamp(p) for p in images}
@@ -248,7 +249,8 @@ def run(args) -> Path:
         print(f"WARNING: {len(miss)} images (e.g. {miss[0]}) have no cases.json question; using {args.question!r}")
     position = {p.stem: i for i, p in enumerate(images)}
     target_files = {p.stem: p for p in list_images(args.target)} if args.target and Path(args.target).is_dir() else {}
-    for img_path in tqdm(remaining, desc=args.attack):
+    trace.BAR = bar = tqdm(remaining, desc=args.attack)  # shows each attack's objective as it optimizes
+    for img_path in bar:
         stem = img_path.stem
         sample = make_sample(img_path, question=questions.get(stem, args.question or ""), size=size)
         sample_meta = sample.metadata
@@ -295,10 +297,11 @@ def run(args) -> Path:
             traceback.print_exc()
             results.append({"id": stem, "source": relpath(img_path), "error": str(e)})
 
-        save_manifest(out_dir, args.attack, results, prior_duration + (datetime.now() - t0).total_seconds(), config=config, env=env)
+        save_manifest(out_dir, name, results, prior_duration + (datetime.now() - t0).total_seconds(), config=config, env=env)
 
+    trace.BAR = None
     duration = (datetime.now() - t0).total_seconds()
-    save_manifest(out_dir, args.attack, results, prior_duration + duration, config=config, env=env)
+    save_manifest(out_dir, name, results, prior_duration + duration, config=config, env=env)
 
     selected = {p.stem for p in images}
     n_ok = sum("output" in r for r in results if r["id"] in selected)

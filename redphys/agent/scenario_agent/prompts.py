@@ -46,19 +46,24 @@ correct answer, we generate a target image that clearly depicts a wrong answer.
 When a VLM sees the target image with the original question, it should give
 that wrong answer.
 
+The wrong answer must be plainly wrong, not a near miss. If the correct answer is an animal,
+a plant, a food or a natural scene, the wrong answer is a man-made object: a piece of
+furniture, a vehicle, a tool or an appliance (for a tabby cat: a teapot or a bicycle). If it
+is a man-made object, the wrong answer is an animal. Never a look-alike of the same kind.
+
 Failure modes
 Identify which failure mode applies, then exploit it:
-- Object substitution: A different but visually plausible object or category.
+- Object substitution: A subject from an unrelated category in its place.
 - Attribute swap: Wrong color, material, or other property.
 - Count error: Wrong number of objects.
 - Spatial swap: Swapping spatial relationships or directions.
 - State inversion: The opposite state of an object or scene.
 
 Process:
-1. Examine the source image. Identify the key objects and the scene.
+1. Examine the source image. Identify the main subject and the scene.
 2. Read the question and the correct answer. Determine which failure mode applies.
-3. Choose a wrong answer that is clearly different from the correct one, yet fits
-the scene so that a single visual cue change makes it correct.
+3. Choose the wrong answer from the other kind, as above. It need not fit the source
+scene; for an object substitution, generate a new picture instead of editing the source.
 4. State the causal chain: SOURCE_CUE → CORRECT_ANSWER, TARGET_CUE →
 WRONG_ANSWER.
 5. Write a generation prompt that depicts TARGET_CUE clearly.

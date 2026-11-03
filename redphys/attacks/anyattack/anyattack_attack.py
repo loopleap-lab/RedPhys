@@ -9,7 +9,7 @@ import torchvision.transforms as transforms
 from PIL import Image
 
 from ..base_attack import AttackConfig, AttackResult, BaseAttack, open_by_stem, pixel_linf, to_pil, to_tensor
-from ...data import Sample
+from ...data import Sample, weight
 
 _ASSETS_DIR = os.path.join(os.path.dirname(__file__), "assets")
 
@@ -45,13 +45,7 @@ class AnyAttack(BaseAttack):
         else:
             ckpt_path = os.path.join(_ASSETS_DIR, "checkpoints", f"{ckpt_name}.pt")
 
-        if not os.path.isfile(ckpt_path):
-            raise FileNotFoundError(
-                f"Decoder checkpoint not found: {ckpt_path}\n"
-                f"Available: {os.listdir(os.path.join(_ASSETS_DIR, 'checkpoints'))}"
-            )
-
-        checkpoint = torch.load(ckpt_path, map_location="cpu")
+        checkpoint = torch.load(weight(ckpt_path, "anyattack"), map_location="cpu")
 
         state = {k.removeprefix("module."): v for k, v in checkpoint.get("decoder_state_dict", checkpoint).items()}  # DDP prefix
         self._decoder = Decoder(embed_dim=state["fc.0.weight"].shape[1])

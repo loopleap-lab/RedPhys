@@ -14,7 +14,7 @@ from .core.clipcap import ClipCaptionModel, generate_cap
 from ..base_attack import BaseAttack, AttackConfig, AttackResult, LLMClientMixin, pixel_linf, resize_center_crop, to_pil, to_tensor
 from ..surrogates import UNIFIED_SURROGATES
 from .. import trace
-from ...data import Sample, file_data_url, image_files
+from ...data import Sample, file_data_url, image_files, weight
 from .data.coa_dataset import CoADataset
 
 CLEAN_PROMPT = "Describe this image in one sentence in English, focusing on the main objects and scene."
@@ -72,10 +72,7 @@ class COAAttack(LLMClientMixin, BaseAttack):
     def __init__(self, config: COAAttackConfig):
         super().__init__(config)
         config.clipcap_weights_path = config.clipcap_weights_path or str(Path(__file__).parent / "assets" / "conceptual_weights.pt")
-        if not Path(config.clipcap_weights_path).exists():
-            raise FileNotFoundError(
-                f"ClipCap weights not found at {config.clipcap_weights_path}"
-            )
+        weight(config.clipcap_weights_path, "coa")
 
         self._loss_models = self._process_vision_info = self._coa_dataset = None  # set last when loaded
         self._to_pil_image = T.ToPILImage()

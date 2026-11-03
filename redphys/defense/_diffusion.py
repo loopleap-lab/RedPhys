@@ -6,6 +6,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
+from ..data import weight
 from ._guided_diffusion.script_util import create_model_and_diffusion, model_and_diffusion_defaults
 
 CHECKPOINT = Path(__file__).parent / "freqpure" / "assets" / "pretrained" / "guided_diffusion" / "256x256_diffusion_uncond.pt"
@@ -16,9 +17,7 @@ MODEL = dict(attention_resolutions="32,16,8", class_cond=False, diffusion_steps=
 
 def load_diffusion(checkpoint, device, use_fp16: bool):
     """(unconditional ImageNet 256 model, gaussian diffusion)."""
-    checkpoint = Path(checkpoint or CHECKPOINT)
-    if not checkpoint.exists():
-        raise FileNotFoundError(f"Guided-diffusion checkpoint not found at {checkpoint}: run install.sh")
+    checkpoint = weight(checkpoint or CHECKPOINT, "freqpure")
     model, diffusion = create_model_and_diffusion(**{**model_and_diffusion_defaults(), **MODEL, "use_fp16": use_fp16})
     model.load_state_dict(torch.load(checkpoint, map_location="cpu"))
     if use_fp16:

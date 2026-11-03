@@ -10,6 +10,7 @@ def register_all_attacks():
     from .advedm.advedm_attack import ADVEDMAttack, ADVEDMConfig, ADVEDMRAttack, ADVEDMRConfig
     from .anyattack.anyattack_attack import AnyAttack, AnyAttackConfig
     from .coa.coa_attack import COAAttack, COAAttackConfig
+    from .corruption.corruption_attack import CorruptionAttack, CorruptionConfig
     from .figstep.config import FigStepConfig
     from .figstep.figstep_attack import FigStepAttack
     from .foa.foa_attack import FOAAttack, FOAAttackConfig
@@ -45,5 +46,6 @@ def register_all_attacks():
         ("anyattack", AnyAttack, AnyAttackConfig),
         ("paattack", PAAttack, PAAttackConfig),
         ("imagemix", ImageMixAttack, ImageMixConfig),
+        ("corruption", CorruptionAttack, CorruptionConfig),
     ]:
         AttackRegistry.register(name, attack_class, config_class)

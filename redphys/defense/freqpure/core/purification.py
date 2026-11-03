@@ -1,5 +1,3 @@
-from functools import lru_cache
-
 import numpy as np
 import torch
 
@@ -13,7 +11,7 @@ class PurificationForward(Purifier):
                  forward_noise_steps):
         super().__init__(model, max_timestep, attack_steps, sampling_method, device)
         self.amplitude_cut_range, self.phase_cut_range, self.delta = amplitude_cut_range, phase_cut_range, delta
-        self.forward_noise_steps = forward_noise_steps
+        self.forward_noise_steps, self._disks = forward_noise_steps, {}
 
     def compute_fft(self, image):
         amplitude_channels = []
@@ -24,11 +22,12 @@ class PurificationForward(Purifier):
             phase_channels.append(torch.angle(fshift) + torch.pi)
         return amplitude_channels, phase_channels
 
-    @lru_cache(maxsize=None)
     def low_frequency(self, rows, cols, cut_range):
-        """Centered disk mask of radius cut_range (constant per shape)."""
-        U, V = np.meshgrid(np.arange(-cols // 2, cols // 2), np.arange(-rows // 2, rows // 2))
-        return torch.from_numpy(np.sqrt(U ** 2 + V ** 2) <= cut_range).to(self.device)
+        """Centered disk mask of radius cut_range, cached per instance (an lru_cache would keep the model alive)."""
+        if (k := (rows, cols, cut_range)) not in self._disks:
+            U, V = np.meshgrid(np.arange(-cols // 2, cols // 2), np.arange(-rows // 2, rows // 2))
+            self._disks[k] = torch.from_numpy(np.sqrt(U ** 2 + V ** 2) <= cut_range).to(self.device)
+        return self._disks[k]
 
     def low_pass_exchange(self, src, dst, cut_range):
         """dst channels with src inside the low-frequency disk."""

@@ -11,16 +11,14 @@ from PIL import Image
 
 from ..base_attack import BaseAttack, AttackConfig, AttackResult, pixel_linf, resize_center_crop, to_pil, to_tensor
 from ..surrogates import UNIFIED_SURROGATES
-from ...data import Sample, load_rgb
+from ...data import Sample, load_rgb, weight
 
 _RES = 256  # the cin256 LDM's image size
 _ASSETS = Path(__file__).parent / "assets"
 
 
 def _asset(rel: str) -> str:
-    if not (p := _ASSETS / rel).exists():
-        raise FileNotFoundError(f"Not found: {p}")
-    return str(p)
+    return str(weight(_ASSETS / rel, "advdiffvlm"))
 
 
 @dataclass

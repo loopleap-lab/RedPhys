@@ -9,7 +9,7 @@ import torch
 from PIL import Image
 from scipy.ndimage import center_of_mass
 
-from ...data import file_data_url, image_files, load_rgb
+from ...data import file_data_url, image_files, load_rgb, weight
 
 
 def generate_som_labels(
@@ -246,8 +246,7 @@ def ensure_coordinates(
     if no_som:
         print("\n[1/2] Generating SoM annotations and labels...")
 
-        if not Path(sam_checkpoint).exists():
-            raise ValueError(f"SAM checkpoint not found: {sam_checkpoint}")
+        weight(sam_checkpoint, "physpatch")
 
         generate_som_labels(
             clean_images_dir=clean_images_dir,
