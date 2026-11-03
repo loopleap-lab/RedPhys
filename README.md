@@ -2,7 +2,7 @@
   <img alt="RedPhys" src="docs/images/logo.png" width="340">
 </p>
 
-<h3 align="center">RedPhys: A Unified Red-Teaming Benchmark for Physical-World VLMs</h3>
+<h3 align="center">RedPhys: An Extensible Red-Teaming Platform for Physical-World Vision-Language Models and Agents</h3>
 
 <p align="center">
   <b>Project</b>&nbsp; · &nbsp;
@@ -26,7 +26,9 @@
 
 ## About
 
-**RedPhys** (NeurIPS 2026, Evaluations & Datasets Track) is a unified library and benchmark for studying the adversarial robustness of vision-language models (VLMs). It integrates representative attacks and defenses for VLMs in one interface, from adversarial perturbations, patches and diffusion-based edits to prompt and typographic injection, and from input purification to prompt sanitization. Any VLM served behind an OpenAI-compatible API can be evaluated, including VLM agents. Its benchmark focuses on physical-world tasks such as driving, manipulation, grasping and egocentric assistance, and extends to medical imaging, intuitive physics and the natural images widely used in adversarial robustness research.
+**RedPhys** (NeurIPS 2026, Evaluations & Datasets Track) is an extensible red-teaming platform for physical-world vision-language models (VLMs) and agents. Shared interfaces let researchers configure tasks, attacks, defenses, and victim systems; compare existing methods; and integrate emerging methods without rebuilding the evaluation pipeline. Any VLM or VLM agent served behind an OpenAI-compatible API can be evaluated. The platform integrates adversarial perturbations, patches, diffusion-based edits, prompt and typographic injection, input purification, and prompt sanitization. Its benchmark focuses on driving, manipulation, grasping, and egocentric assistance, and extends to medical imaging, intuitive physics, and the natural images widely used in adversarial robustness research.
+
+RedPhys also supports non-adversarial robustness testing with input perturbations or obfuscations applied without an adversarial objective. The paper and benchmark primarily focus on the more demanding adversarial stress-testing setting, where attacks deliberately seek physically grounded functional errors. An agentic target-generation pipeline gives targeted attacks a shared, scenario-specific objective. The same workflow can collect perturbed inputs and model responses for robustness analysis and alignment research.
 
 <p align="center">
   <picture>
