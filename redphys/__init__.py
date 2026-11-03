@@ -1,4 +1,4 @@
-"""RedPhys: red-teaming benchmark for physical-world VLMs."""
+"""RedPhys: red-teaming and pressure-testing platform for PhyModels and PhyAgents."""
 
 __version__ = "0.2.0"
 
