@@ -1,8 +1,8 @@
-# Victim Agent
+# Physical-World Agent (PhyAgent)
 
 RedPhys queries every victim through an OpenAI-compatible chat API. Put that API in front of an agent and the agent is attacked
-and evaluated like any VLM: every attack, defense and metric of RedPhys applies, so you can analyze the robustness of an agent
-and compare it with the VLM it is built on.
+and evaluated like any PhyModel: every attack, defense and metric of RedPhys applies, so you can analyze the robustness of an agent
+and compare it with the PhyModel it is built on.
 
 ## The request
 
@@ -18,9 +18,9 @@ and compare it with the VLM it is built on.
 FigStep sends two images; prompt-injection attacks send a rewritten question. The agent returns its final answer as
 `choices[0].message.content`, ending with the option letter. Before evaluating, RedPhys sends one text-only `"Hi"`.
 
-## Example: a VLM agent with tools
+## Example: a PhyAgent with tools
 
-[`agent_server.py`](agent_server.py) is a function-calling agent loop: the VLM sees the images itself and can call tools for
+[`agent_server.py`](agent_server.py) is a function-calling agent loop: the PhyModel sees the images itself and can call tools for
 up to four rounds before it answers. A `@tool` decorator turns a typed function and its docstring into the tool spec, as in
 LangChain, smolagents and the OpenAI Agents SDK. The tools:
 
@@ -45,7 +45,7 @@ def image_rotate_tool(img_idx: Image.Image, angle: int):
     return img_idx.rotate(angle, expand=True)
 
 for step in range(MAX_STEPS):
-    msg = chat(messages, tools=SPECS if step < MAX_STEPS - 1 else None)   # the VLM sees the images and everything so far
+    msg = chat(messages, tools=SPECS if step < MAX_STEPS - 1 else None)   # the PhyModel sees the images and everything so far
     if not msg.tool_calls:
         return msg.content                                                  # the final answer
     messages.append(msg.model_dump(exclude_none=True))
@@ -58,13 +58,13 @@ for step in range(MAX_STEPS):
 The rest of the file wraps `agent` in a chat-completions endpoint (stdlib `http.server`). Run it:
 
 ```bash
-OPENROUTER_API_KEY=... python docs/guides/victim-agent/agent_server.py   # port 9000; AGENT_MODEL picks the VLM
+OPENROUTER_API_KEY=... python docs/guides/victim-agent/agent_server.py   # port 9000; AGENT_MODEL picks the PhyModel
 ```
 
 ## Robustness analysis
 
-An attacked image reaches the agent's VLM directly, and again in every view it asks for. A perturbation optimized for the full
-image may not survive a crop, an enlargement or a rotation, so an agent can be more or less robust than its VLM alone. To
+An attacked image reaches the agent's PhyModel directly, and again in every view it asks for. A perturbation optimized for the full
+image may not survive a crop, an enlargement or a rotation, so an agent can be more or less robust than its PhyModel alone. To
 measure it, evaluate both on the same attack outputs:
 
 ```python
