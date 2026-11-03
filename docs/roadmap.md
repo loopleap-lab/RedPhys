@@ -1,6 +1,6 @@
 # RedPhys Roadmap
 
-RedPhys red-teams vision-language models (VLMs) on physical-world tasks. A case (an image, a question and its
+RedPhys red-teams and pressure-tests physical-world models (PhyModels) and agents (PhyAgents). Adversarial stress testing is the primary focus; non-adversarial input perturbations and obfuscations are also supported. A case (an image, a question and its
 answer) goes in; the scenario agent turns it into a target, a wrong answer and an image that shows it; an attack
 pushes the victim toward that target and a defense tries to undo it; the judge scores every answer. This roadmap
 follows that path: the cases, the targets, the attacks and defenses, the victims and the scoring, then the
@@ -11,7 +11,7 @@ unchecked.
 
 Grouped by when they land, the work is:
 1. **Library and benchmark (done):** attacks, defenses, the scenario agent and evaluation behind one API, and the
-   paper's benchmark of 832 physical-world cases on 13 VLMs.
+   paper's benchmark of 832 physical-world cases on 13 PhyModels.
 2. **Benchmark v2 and the live leaderboard (next):** scenes with clearer hazard signals, where a successful attack leads to a dangerous outcome,
    and a public leaderboard that reruns every submission on a hidden split.
 3. **Automatic red-teaming (later):** a model or a use case in, a weakness report out, with agents that find
@@ -20,7 +20,7 @@ Grouped by when they land, the work is:
 ## 1. Cases and datasets
 
 - [x] `cases.json`: image, question, options and answer per case; any folder of cases runs through the pipeline
-- [x] The paper's benchmark: 832 cases in 7 domains (driving, manipulation, grasping, physics, egocentric, diagnostics, scene QA), with every attack's images and 13 VLMs' answers ([Hugging Face](https://huggingface.co/datasets/yifeiz29/RedPhys))
+- [x] The paper's benchmark: 832 cases in 7 domains (driving, manipulation, grasping, physics, egocentric, diagnostics, scene QA), with every attack's images and 13 PhyModels' answers ([Hugging Face](https://huggingface.co/datasets/yifeiz29/RedPhys))
 - [x] `dataset/physical`: 50 cases where a wrong answer hides a hazard (collision, burn, cut, fall, fire), each with a `hazard` note and its source's license
 - [x] `dataset/intuitive_physics` (100, Physics-IQ) and `dataset/medical` (100, VQA-RAD, SLAKE, Brain Tumor MRI)
 - [x] `dataset/nips2017`: 100 of the NIPS 2017 / COCO pairs that M-Attack and FOA-Attack report on, scored by the captioning protocol (GPTScore, keyword match)
@@ -29,7 +29,7 @@ Grouped by when they land, the work is:
 
 ## 2. Targets: the scenario agent
 
-- [x] `redphys.target`: plans a wrong answer for each case, edits or draws the image to show it, and reviews the image itself (`check=True`: independent VLMs vote on it instead)
+- [x] `redphys.target`: plans a wrong answer for each case, edits or draws the image to show it, and reviews the image itself (`check=True`: independent PhyModels vote on it instead)
 - [x] Domain rules for what an edit must keep from the source (`DOMAIN_CONSTRAINTS`), with a default for new domains
 - [x] Image generators: OpenRouter, or a local Qwen-Image server (`generator="local"`)
 - [x] Runs in Docker; resumable; your own target images instead of the agent's
@@ -46,7 +46,7 @@ Grouped by when they land, the work is:
 
 ## 4. Victims and scoring
 
-- [x] Any VLM behind an OpenAI-compatible API: vLLM for open-source models, OpenRouter for proprietary ones
+- [x] Any PhyModel behind an OpenAI-compatible API: vLLM for open-source models, OpenRouter for proprietary ones
 - [x] Victim agents behind the same API, with a runnable example with tools (`docs/guides/victim-agent`)
 - [x] `redphys.evaluate` collects answers; `redphys.score` judges them with Qwen3-8B on its own server; accuracy and ASR per attack in `eval_results.json`
 - [x] Multiple-choice scoring (the exact wrong option is success) and captioning scoring (similarity to the target image's description, keyword match)
