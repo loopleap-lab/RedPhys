@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="RedPhys" src="docs/images/logo.png" width="340">
+  <img alt="RedPhys" src="docs/images/redphys-logo.svg" width="340">
 </p>
 
 <h3 align="center">RedPhys: An Extensible Red-Teaming &amp; Pressure-testing Platform for Physical-World Models and Agents</h3>
@@ -31,10 +31,7 @@
 Pressure testing covers adversarial and non-adversarial input conditions. RedPhys supports non-adversarial robustness testing with input perturbations or obfuscations applied without an adversarial objective. The paper and benchmark primarily focus on the more demanding adversarial stress-testing setting, where attacks deliberately seek physically grounded functional errors. An agentic target-generation pipeline gives targeted attacks a shared, scenario-specific objective. The same workflow can collect perturbed inputs and model responses for robustness analysis and alignment research.
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/dark.png">
-    <img src="docs/images/light.png" alt="RedPhys library of scenarios, attacks, defenses and PhyModels, and the red-teaming benchmark pipeline" width="100%">
-  </picture>
+  <img src="docs/images/overview-phymodels.svg" alt="RedPhys extensible platform: physical tasks, test methods, protection, PhyModels and PhyAgents, robustness reports, and datasets for future alignment" width="100%">
 </p>
 
 ## Key Features
