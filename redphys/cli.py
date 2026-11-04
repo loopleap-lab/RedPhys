@@ -1,4 +1,4 @@
-"""redphys <command>: target, attack, defend, evaluate (scripts/), report, methods."""
+"""redphys <command>: target, attack, defend, evaluate (scripts/), report, methods, serve (a PhyAgent)."""
 
 import argparse
 import sys
@@ -21,10 +21,21 @@ def main():
         from .evaluation import report
 
         print(report(a.results, a.output))
+    elif cmd == "serve":
+        p = argparse.ArgumentParser(prog="redphys serve", description="A PhyAgent behind an OpenAI-compatible chat API")
+        p.add_argument("victim", help="phymodel (the PhyModel alone), tools, sketchpad or spatialclaw")
+        p.add_argument("--port", type=int, default=9000)
+        p.add_argument("--model", help="The PhyModel")
+        p.add_argument("--server-url", help="The PhyModel's API base")
+        a = p.parse_args(args)
+        from .victims import serve
+
+        print(f"{a.victim} on http://localhost:{a.port}")
+        serve(a.victim, a.port, background=False, **{k: v for k, v in (("model", a.model), ("server_url", a.server_url)) if v})
     elif cmd == "methods":
         from . import methods
 
         for kind, names in methods().items():
             print(f"{kind}: {' '.join(names)}")
     else:
-        sys.exit(f"usage: redphys {{{','.join([*SCRIPTS, 'report', 'methods'])}}} ...  (redphys <command> -h)")
+        sys.exit(f"usage: redphys {{{','.join([*SCRIPTS, 'report', 'methods', 'serve'])}}} ...  (redphys <command> -h)")

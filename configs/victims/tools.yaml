@@ -1,0 +1,4 @@
+model: "openai/gpt-4.1-mini"          # the PhyModel; needs tool calls
+server_url: "https://openrouter.ai/api"
+api_key_env: "OPENROUTER_API_KEY"
+max_steps: 4                          # model calls; the last one answers without tools

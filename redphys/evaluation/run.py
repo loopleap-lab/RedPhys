@@ -18,8 +18,8 @@ def _errors(responses: list[dict]) -> str:
     return f"  ({n} failed queries left out)" if n else ""
 
 
-def _client(server_url: str, api_key: str, models: set[str]) -> OpenAI:
-    client = OpenAI(base_url=f"{server_url}/v1", api_key=api_key)
+def _client(server_url: str, api_key: str, models: set[str], timeout: float = 600) -> OpenAI:
+    client = OpenAI(base_url=f"{server_url}/v1", api_key=api_key, timeout=timeout)
     for m in models:  # fail fast
         try:
             client.chat.completions.create(model=m, messages=[{"role": "user", "content": "Hi"}], max_tokens=16, extra_body=no_reasoning(client, m))
@@ -98,11 +98,12 @@ def _query(client: OpenAI, model: str, items: list[dict], question: str, workers
 def evaluate(attack_dirs: str | list[str], *, server_url: str, targets: str | None = None, labels: str | None = None,
              target_text: str | None = None, question: str | None = None, model: str = "qwen/qwen3-vl-8b-instruct",
              judge: str | None = DEFAULT_PROMPT, judge_model: str | None = None, api_key: str = "dummy",
-             output: str | None = None, workers: int = 4, max_image_mb: float | None = None, reference: str = "label") -> dict:
+             output: str | None = None, workers: int = 4, max_image_mb: float | None = None, reference: str = "label",
+             timeout: float = 600) -> dict:
     """Victim accuracy and ASR per attack dir vs. clean; resumes.
 
     Target: target_text (wins, as in the attacks), else `targets` / `labels`, else the manifests' labels or target texts. judge: one of redphys.judge.JUDGES, or None to collect only (then redphys.score).
-    max_image_mb: downscale larger images (API limits).
+    max_image_mb: downscale larger images (API limits). timeout: seconds per query (an agent victim may need more).
     reference: "label", or "target_image": the victim's answer on each target image (manifests, else `targets`/target) is the
     target, as M-Attack / FOA (judge="gptscore").
     """
@@ -149,7 +150,7 @@ def evaluate(attack_dirs: str | list[str], *, server_url: str, targets: str | No
 
     print(f"Server:   {server_url}  model={model}")
     print(f"Target:   {target_text!r}" if target_text else f"Targets:  per-case ({len(labels)} cases)")
-    client = _client(server_url, api_key, {model} | ({judge_model} if judge and judge != "substring" else set()))
+    client = _client(server_url, api_key, {model} | ({judge_model} if judge and judge != "substring" else set()), timeout)
 
     prior = _prior(output, model)
     if prior:

@@ -1,0 +1,7 @@
+model: "Qwen/Qwen3-VL-8B-Instruct"      # the PhyModel (vLLM or OpenRouter)
+server_url: "http://localhost:8031"
+root: "third_party/SpatialClaw"                         # bash install.sh spatialclaw; relative to the RedPhys root
+python: "third_party/SpatialClaw/.venv-agent/bin/python"  # its environment
+gpu_server: "http://127.0.0.1:9700"     # its GPU tool server
+max_tokens: 4096                        # per model call, every role
+timeout: 1800                           # seconds per question

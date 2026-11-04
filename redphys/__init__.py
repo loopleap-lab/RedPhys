@@ -25,11 +25,13 @@ def __dir__():
 
 
 def methods() -> dict[str, list[str]]:
-    """Registered names: {"attack": [...], "defense": [...]}."""
+    """Registered names: {"attack": [...], "defense": [...], "victim": [...]}."""
     from .attacks import AttackRegistry
     from .defense import DefenseRegistry
 
-    return {"attack": AttackRegistry.names(), "defense": DefenseRegistry.names()}
+    from .victims import VictimRegistry
+
+    return {"attack": AttackRegistry.names(), "defense": DefenseRegistry.names(), "victim": VictimRegistry.names()}
 
 
 __all__ = ["Sample", "attack", "defend", "target", "evaluate", "score", "report", "methods"]
