@@ -2,7 +2,7 @@
   <img alt="RedPhys" src="docs/images/redphys-logo.svg" width="340">
 </p>
 
-<h3 align="center">RedPhys: An Extensible Red-Teaming &amp; Pressure-testing Platform for Physical-World Models and Agents</h3>
+<h3 align="center">RedPhys: An Extensible Red-Teaming &amp; Pressure-Testing Platform for Physical-World Models and Agents</h3>
 
 <p align="center">
   <b>Project</b>&nbsp; · &nbsp;
