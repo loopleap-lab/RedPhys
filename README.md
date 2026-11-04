@@ -2,33 +2,21 @@
   <img alt="RedPhys" src="docs/images/redphys-logo.svg" width="340">
 </p>
 
-<h3 align="center">RedPhys: An Extensible Red-Teaming &amp; Pressure-Testing Platform for Physical-World Models and Agents</h3>
+<h3 align="center">RedPhys: An Extensible Red-Teaming Platform for Physical-World Models and Agents</h3>
 
 <p align="center">
   <a href="https://github.com/loopleap-lab"><b>LoopLeap Lab</b></a> · University of Central Florida (UCF)<br>
-  Yifei Zhao · Qian Lou · Mengxin Zheng<br>
-  Project repository: <a href="https://github.com/loopleap-lab/RedPhys">loopleap-lab/RedPhys</a>
+  Yifei Zhao · Qian Lou · Mengxin Zheng
 </p>
 
 <p align="center">
-  <b>Project</b>&nbsp; · &nbsp;
+  <a href="docs/paper/redphys-paper.pdf">Paper</a> ·
   <a href="https://loopleap-lab.github.io/RedPhys/">Website</a> ·
-  <a href="docs/paper/redphys-paper.pdf">Paper (current PDF)</a> ·
-  <a href="https://arxiv.org/abs/2606.23892">arXiv</a> ·
   <a href="https://huggingface.co/datasets/yifeiz29/RedPhys">Dataset</a> ·
-  <a href="#citation">Cite</a> ·
-  <a href="docs/redphys.bib">BibTeX</a>
+  <a href="#citation">Cite</a>
   <br>
-  <b>Get started</b>&nbsp; · &nbsp;
-  <a href="#installation">Installation</a> ·
-  <a href="#evaluate-on-the-released-dataset">Evaluate</a> ·
-  <a href="#run-the-full-pipeline">Full pipeline</a>
-  <br>
-  <b>Reference</b>&nbsp; · &nbsp;
-  <a href="docs/guides/configuration">Configuration</a> ·
-  <a href="docs/guides/new-attack-defense">New attack or defense</a> ·
-  <a href="docs/guides/new-scenario">New dataset</a> ·
-  <a href="#faq">FAQ</a> ·
+  <a href="#installation">Quick start</a> ·
+  <a href="#faq">Docs</a> ·
   <a href="docs/roadmap.md">Roadmap</a>
 </p>
 
