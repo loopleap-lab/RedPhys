@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-message: "If you use RedPhys, please cite the paper below. The public arXiv version currently retains the earlier REALM title."
-title: "RedPhys: An Extensible Red-Teaming & Pressure-Testing Platform for Physical-World Models and Agents"
+message: "If you use RedPhys, please cite the current manuscript below."
+title: "RedPhys: An Extensible Red-Teaming Platform for Physical-World Models and Agents"
 type: software
 authors:
   - family-names: Zhao
@@ -13,7 +13,7 @@ repository-code: "https://github.com/loopleap-lab/RedPhys"
 url: "https://loopleap-lab.github.io/RedPhys/"
 preferred-citation:
   type: article
-  title: "REALM: A Unified Red-Teaming Benchmark for Physical-World VLMs"
+  title: "RedPhys: An Extensible Red-Teaming Platform for Physical-World Models and Agents"
   authors:
     - family-names: Zhao
       given-names: Yifei

@@ -258,13 +258,13 @@ RedPhys is released under the [Apache License 2.0](LICENSE). Code adapted from o
 
 ## Citation
 
-If you use RedPhys, please cite the [paper on arXiv](https://arxiv.org/abs/2606.23892). [Download BibTeX](docs/redphys.bib) · [Project website](https://loopleap-lab.github.io/RedPhys/)
+If you use RedPhys, please cite the [current manuscript](docs/paper/redphys-paper.pdf). [Download BibTeX](docs/redphys.bib) · [Project website](https://loopleap-lab.github.io/RedPhys/)
 
-The current manuscript and platform are named **RedPhys**. The public arXiv record currently uses the earlier **REALM** title; the entry below preserves that published metadata.
+The citation below uses the current **RedPhys** title and retains the same arXiv identifier, [2606.23892](https://arxiv.org/abs/2606.23892).
 
 ```bibtex
-@article{zhao2026realm,
-  title={{REALM}: A Unified Red-Teaming Benchmark for Physical-World {VLMs}},
+@article{zhao2026redphys,
+  title={{RedPhys}: An Extensible Red-Teaming Platform for Physical-World Models and Agents},
   author={Zhao, Yifei and Lou, Qian and Zheng, Mengxin},
   journal={arXiv preprint arXiv:2606.23892},
   year={2026},
