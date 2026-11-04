@@ -260,14 +260,15 @@ RedPhys is released under the [Apache License 2.0](LICENSE). Code adapted from o
 
 If you use RedPhys, please cite the [current manuscript](docs/paper/redphys-paper.pdf). [Download BibTeX](docs/redphys.bib) · [Project website](https://loopleap-lab.github.io/RedPhys/)
 
-The citation below uses the current **RedPhys** title and retains the same arXiv identifier, [2606.23892](https://arxiv.org/abs/2606.23892).
+**RedPhys is accepted at NeurIPS 2026 (Evaluations & Datasets Track).** The citation below reflects the accepted conference paper; the [arXiv version](https://arxiv.org/abs/2606.23892) remains available.
 
 ```bibtex
-@article{zhao2026redphys,
+@inproceedings{zhao2026redphys,
   title={{RedPhys}: An Extensible Red-Teaming Platform for Physical-World Models and Agents},
   author={Zhao, Yifei and Lou, Qian and Zheng, Mengxin},
-  journal={arXiv preprint arXiv:2606.23892},
+  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
   year={2026},
+  note={Accepted, Evaluations and Datasets Track},
   doi={10.48550/arXiv.2606.23892},
   url={https://arxiv.org/abs/2606.23892}
 }
