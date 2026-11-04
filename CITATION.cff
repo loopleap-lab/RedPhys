@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use RedPhys, please cite the paper below. The public arXiv version currently retains the earlier REALM title."
-title: "RedPhys: An Extensible Adversarial Testing Platform for Physical-World Models and Agents"
+title: "RedPhys: An Extensible Red-Teaming Platform for Physical-World Models and Agents"
 type: software
 authors:
   - family-names: Zhao

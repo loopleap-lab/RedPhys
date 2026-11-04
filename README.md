@@ -2,7 +2,7 @@
   <img alt="RedPhys" src="docs/images/redphys-logo.svg" width="340">
 </p>
 
-<h3 align="center">RedPhys: An Extensible Adversarial Testing Platform for Physical-World Models and Agents</h3>
+<h3 align="center">RedPhys: An Extensible Red-Teaming Platform for Physical-World Models and Agents</h3>
 
 <p align="center">
   <a href="https://github.com/loopleap-lab"><b>LoopLeap Lab</b></a> · University of Central Florida (UCF)<br>
@@ -33,7 +33,7 @@
 
 ## About
 
-**RedPhys** (NeurIPS 2026, Evaluations & Datasets Track) is an extensible adversarial testing platform for physical-world models (PhyModels) and agents (PhyAgents). Shared interfaces let researchers configure tasks, attacks, defenses, and victim systems; compare existing methods; and integrate emerging methods without rebuilding the evaluation pipeline. Compatible PhyModels and PhyAgents served behind an OpenAI-compatible API can be evaluated. The platform integrates adversarial perturbations, patches, diffusion-based edits, prompt and typographic injection, input purification, and prompt sanitization. Its benchmark focuses on driving, manipulation, grasping, and egocentric assistance, and extends to medical imaging, intuitive physics, and the natural images widely used in adversarial robustness research.
+**RedPhys** (NeurIPS 2026, Evaluations & Datasets Track) is an extensible red-teaming platform for physical-world models (PhyModels) and agents (PhyAgents). Shared interfaces let researchers configure tasks, attacks, defenses, and victim systems; compare existing methods; and integrate emerging methods without rebuilding the evaluation pipeline. Compatible PhyModels and PhyAgents served behind an OpenAI-compatible API can be evaluated. The platform integrates adversarial perturbations, patches, diffusion-based edits, prompt and typographic injection, input purification, and prompt sanitization. Its benchmark focuses on driving, manipulation, grasping, and egocentric assistance, and extends to medical imaging, intuitive physics, and the natural images widely used in adversarial robustness research.
 
 **PhyModels and PhyAgents.** Physical-world models (PhyModels) perform grounded perception, reasoning, prediction, or decision-making about physical scenes. Physical-world agents (PhyAgents) use these models with planning or tool use to carry out grounded tasks. These names describe task roles across model architectures. The current paper focuses on vision-language PhyModels and tool-using PhyAgents built on vision-language backbones, evaluated with scene images, questions, and task-level responses.
 
