@@ -1,5 +1,0 @@
-{
- "license": "CC BY 4.0 (SLAKE items), CC0 1.0 (VQA-RAD and Brain Tumor MRI items)",
- "scope": "100 diagnosis cases: chest X-ray, chest/abdominal/head CT and brain MRI findings from VQA-RAD (huggingface.co/datasets/flaviagiammarino/vqa-rad; clinician answers kept as the key), SLAKE (huggingface.co/datasets/BoKelvin/SLAKE; images with one labeled disease), brain tumor MRI from the Brain Tumor MRI Dataset (kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset; via huggingface.co/datasets/AIOmarRehan/Brain_Tumor_MRI_Dataset). Options are diagnoses of the same organ and a normal option; source.dataset gives the origin per item.",
- "attribution": "VQA-RAD (Lau et al., Scientific Data 2018); SLAKE: A Semantically-Labeled Knowledge-Enhanced Dataset for Medical Visual Question Answering (Liu et al., ISBI 2021); Brain Tumor MRI Dataset (M. Nickparvar, 2021), from figshare (Cheng et al.), SARTAJ and Br35H"
-}

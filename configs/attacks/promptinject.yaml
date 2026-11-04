@@ -1,5 +1,0 @@
-seed: 42
-level: "instruction"
-llm_server_url: "https://openrouter.ai/api"
-llm_api_key_env: "OPENROUTER_API_KEY"
-llm_model: "openai/gpt-4o-mini"

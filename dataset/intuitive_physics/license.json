@@ -1,5 +1,0 @@
-{
- "license": "CC BY 4.0 (Physics-IQ Verified)",
- "scope": "100 four-option questions on single 960x540 frames of real physics experiments from Physics-IQ Verified (huggingface.co/datasets/Anates-Labs-Research/Physics-IQ-Verified), take 1, three camera views. Prediction items show the frame where the event starts and are answered by what the video shows next; Perception items show the last frame; Reasoning items ask why the filmed outcome happens. Questions and options were written and checked against the videos for this benchmark.",
- "attribution": "Physics-IQ (Motamed et al., 2025, arXiv:2501.09038); Physics-IQ Verified (Anates Labs)"
-}

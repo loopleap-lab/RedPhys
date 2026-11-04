@@ -1,1 +1,0 @@
-"""ImageMix baseline."""

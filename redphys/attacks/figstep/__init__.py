@@ -1,1 +1,0 @@
-"""FigStep typographic injection."""

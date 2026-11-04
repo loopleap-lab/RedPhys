@@ -1,8 +1,0 @@
-seed: 42
-precision: "fp32"           # bf16 unsupported (SAM mask generator)
-iou_threshold: 0.5      # intersection / mask area (IoA)
-overlap_threshold: 0.1  # vs already-removed regions
-ratio_mi: 0.5
-kernel_param: 80
-thresh_param: 80        # percentile
-sam_model_type: "vit_l"

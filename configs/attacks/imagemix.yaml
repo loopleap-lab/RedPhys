@@ -1,3 +1,0 @@
-seed: 42
-alpha: 0.3                   # mixup: target weight; else patch side ratio
-mix_type: "mixup"            # mixup | cutmix | resizemix
