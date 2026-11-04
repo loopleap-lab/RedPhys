@@ -12,7 +12,7 @@
 <p align="center">
   <a href="docs/paper/redphys-paper.pdf">Paper</a> ·
   <a href="https://loopleap-lab.github.io/RedPhys/">Website</a> ·
-  <a href="https://huggingface.co/datasets/yifeiz29/RedPhys">Dataset</a> ·
+  <a href="https://huggingface.co/collections/yifeiz29/redphys">Dataset</a> ·
   <a href="#citation">Cite</a>
   <br>
   <a href="#installation">Quick start</a> ·

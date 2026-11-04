@@ -41,7 +41,7 @@ class CorruptionAttack(BaseAttack):
 
     def __init__(self, config: CorruptionConfig):
         super().__init__(config)
-        self.run_name = f"corruption-{config.kind}"  # the manifest's name: kinds stay apart in evaluate and report
+        self.run_name = f"corruption-{config.kind}-s{config.severity}"  # the manifest's name: runs stay apart in evaluate and report
 
     def generate(self, sample: Sample, **kwargs) -> AttackResult:
         clean, kind = sample.images[0].convert("RGB"), self.config.kind

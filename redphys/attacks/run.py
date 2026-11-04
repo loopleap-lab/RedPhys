@@ -218,7 +218,7 @@ def run(args) -> Path:
         raise ValueError(f"{args.attack} needs the correct answer too: labels (labels=, targets= or a dataset)"
                          + (", or source_text in its YAML" if "source_text" in fields else ""))
     attack = AttackRegistry.create(args.attack, **kwargs)
-    name = getattr(attack, "run_name", args.attack)  # the manifest's: e.g. corruption-blur
+    name = getattr(attack, "run_name", args.attack)  # the manifest's: e.g. corruption-blur-s3
 
     size = attack.config.input_res if getattr(attack.config, "resize_source", False) else None  # as upstream: the source at input_res
     config = config_snapshot(attack.config, drop=RUN_INPUTS + (() if size else ("resize_source",)))
