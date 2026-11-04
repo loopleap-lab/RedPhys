@@ -8,6 +8,9 @@ dist/
 .pytest_cache/
 .ipynb_checkpoints/
 
+# ── Third-party installs (bash install.sh spatialclaw) ─────────────
+third_party/
+
 # ── Virtual environments ────────────────────────────────────────────
 .venv/
 .venv-*/

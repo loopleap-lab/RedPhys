@@ -2,6 +2,7 @@
 #   bash install.sh                                       # environment + weights
 #   bash install.sh env                                   # environment only
 #   bash install.sh weights [METHOD...] [--check|--download-all|--delete]   # METHOD: only its weights; --check: verify only
+#   bash install.sh spatialclaw [DIR]                     # the spatialclaw PhyAgent: SpatialClaw in DIR (third_party/SpatialClaw)
 cd "$(dirname "$0")"
 BOOT="${PYTHON:-python3}"  # runs uv
 PY=$BOOT                   # gets the packages
@@ -10,32 +11,39 @@ PY=$BOOT                   # gets the packages
 UV="$BOOT -m uv"
 PIP="$UV pip install --python $PY"
 
+torch_tag() {  # the highest PyTorch CUDA build <= driver CUDA $1 (minor-compatible)
+  local t
+  for t in 13.0:cu130 12.0:cu128 11.0:cu118; do
+    [ -n "$1" ] && [ "$(printf '%s\n' "${t%:*}" "$1" | sort -V | head -1)" = "${t%:*}" ] && { echo "${t#*:}"; return; }
+  done
+  echo cpu
+}
+driver_cuda() { nvidia-smi 2>/dev/null | grep -oE "CUDA Version: [0-9.]+" | grep -oE "[0-9.]+$" || true; }
+
 install_env() {
   $BOOT -c 'import sys; sys.exit(sys.version_info < (3, 10))' || { echo "!! Python >= 3.10 required"; exit 1; }
   $UV --version >/dev/null 2>&1 || $BOOT -m pip install -q uv 2>/dev/null || $BOOT -m pip install -q --user uv 2>/dev/null \
     || $BOOT -m pip install -q --user --break-system-packages uv || { echo "!! pip is missing: apt install python3-pip"; exit 1; }
   [ "$PY" = "$BOOT" ] || [ -x "$PY" ] || $UV venv .venv --python "$BOOT"
-  # highest CUDA build <= the driver's
-  local cuda arch tag=cpu t
-  cuda=$(nvidia-smi 2>/dev/null | grep -oE "CUDA Version: [0-9.]+" | grep -oE "[0-9.]+$" || true)
+  local cuda arch tag
+  cuda=$(driver_cuda)
   arch=$(nvidia-smi --query-gpu=compute_cap --format=csv,noheader 2>/dev/null | head -1 || true)
-  for t in 13.0:cu130 12.0:cu128 11.0:cu118; do  # minor-compatible
-    [ -n "$cuda" ] && [ "$(printf '%s\n' "${t%:*}" "$cuda" | sort -V | head -1)" = "${t%:*}" ] && { tag=${t#*:}; break; }
-  done
+  tag=$(torch_tag "$cuda")
   echo ">> PyTorch build: $tag${arch:+ (compute capability $arch)}"
   $PIP --index-url "https://download.pytorch.org/whl/$tag" torch torchvision
   $PIP -e . "git+https://github.com/openai/CLIP.git" "git+https://github.com/facebookresearch/segment-anything.git"
   if [ "$tag" != cpu ]; then
-    TORCH_CUDA_ARCH_LIST="$arch" $PIP --no-build-isolation "git+https://github.com/facebookresearch/detectron2.git" \
-      || echo "!! Detectron2 build failed (PhysPatch and SceneTAP only): https://detectron2.readthedocs.io"
-    # own venv; > 0.19.1 needs CUDA 13
-    local major=${cuda%%.*} vllm=vllm
+    local tc d nv=  # an nvcc of torch's CUDA major (torch refuses another)
+    tc=$($PY -c "import torch; print(torch.version.cuda.split('.')[0])")
+    for d in ${CUDA_HOME:+"$CUDA_HOME"} /usr/local/cuda $(ls -d /usr/local/cuda-* 2>/dev/null | sort -rV); do
+      [ -x "$d/bin/nvcc" ] && "$d/bin/nvcc" --version | grep -q "release $tc\." && { nv=$d; break; }
+    done
+    CUDA_HOME=${nv:-${CUDA_HOME:-}} PATH=${nv:+$nv/bin:}$PATH TORCH_CUDA_ARCH_LIST="$arch" $PIP --no-build-isolation "git+https://github.com/facebookresearch/detectron2.git" \
+      || echo "!! Detectron2 build failed (PhysPatch and SceneTAP only; needs an nvcc of CUDA $tc): https://detectron2.readthedocs.io"
+    local major=${cuda%%.*} vllm=vllm  # its own venv; > 0.19.1 needs CUDA 13
     [ "$major" -lt 13 ] && vllm="vllm==0.19.1"
-    if [ "$major" -lt 12 ]; then
-      echo "!! CUDA $cuda is too old for vLLM: serve models elsewhere and pass --server_url"
-    else
-      $UV venv .venv-vllm --python "$PY" --allow-existing && $UV pip install --python .venv-vllm/bin/python "$vllm"
-    fi
+    [ "$major" -lt 12 ] && echo "!! CUDA $cuda is too old for vLLM: serve models elsewhere and pass --server_url" \
+      || { $UV venv .venv-vllm --python "$PY" --allow-existing && $UV pip install --python .venv-vllm/bin/python "$vllm"; }
     # target generator server: own venv
     $UV venv .venv-target-generator --python 3.12 --allow-existing && $UV pip install --python .venv-target-generator/bin/python \
       --torch-backend=cu129 torch==2.13.0 torchvision==0.28.0 transformers==5.17.0 accelerate==1.15.0 safetensors==0.8.0 \
@@ -52,7 +60,7 @@ install_weights() {
     case "$arg" in --check) MODE=check ;; --download-all) MODE=download-all ;; --delete) MODE=delete ;;
       -*) echo "unknown weights option: $arg"; return 1 ;; *) methods+=("$arg") ;; esac
   done
-  # method -> its weights (measured); Hugging Face, OpenAI CLIP and torchvision weights also download on first use
+  # method -> its weights (measured); HF, CLIP and torchvision weights also download on first use
   local G14=laion/CLIP-ViT-g-14-laion2B-s12B-b42K SD=stable-diffusion-v1-5/stable-diffusion-v1-5 SAMH=sam_vit_h_4b8939.pth
   local UNI="openai/clip-vit-base-patch16 openai/clip-vit-base-patch32 $G14"  # surrogates="unified" via transformers
   local -A NEEDS=(
@@ -64,6 +72,7 @@ install_weights() {
     [imagemix]="" [promptinject]="" [leadingq]="" [corruption]="" [pad]="sam_vit_l_0b3195.pth" [freqpure]="256x256_diffusion_uncond.pt"
     [bluesuffix]="suffix_generator 256x256_diffusion_uncond.pt gpt2" [et3]="chs20/fare4-clip"
     [oscp]="oscp_lora.safetensors $SD lllyasviel/sd-controlnet-canny" [target]="target_generator"
+    [sketchpad]="$SAMH IDEA-Research/grounding-dino-tiny LiheYoung/depth-anything-large-hf"  # its GroundingDINO, Depth-Anything, SoM
   )
   local want=" " m
   for m in "${methods[@]}"; do
@@ -107,6 +116,8 @@ install_weights() {
     "timm/ViT-B-16-SigLIP|*.bin *.safetensors"  # AdvEDM: open_clip SigLIP tokenizer only
     "gpt2|*.bin *.h5 *.msgpack *.ot *.tflite onnx/*"
     "Qwen/Qwen2.5-VL-3B-Instruct|"  # CoA / OAttack captions
+    "IDEA-Research/grounding-dino-tiny|pytorch_model.bin"  # Sketchpad
+    "LiheYoung/depth-anything-large-hf|"  # Sketchpad
   )
   local e path sum url repo skip
 
@@ -120,7 +131,7 @@ install_weights() {
     return
   fi
 
-  # need KEY LABEL TEST...: report; true = download now; KEY not needed by the methods asked for: skipped
+  # need KEY LABEL TEST...: report; true: fetch now; skipped when no method asked for needs KEY
   need() {
     (( ${#methods[@]} == 0 )) || [[ $want == *" $1 "* ]] || return 1
     if [[ $MODE != download-all ]] && "${@:3}" 2>/dev/null; then echo "  OK       $2"; return 1; fi
@@ -174,7 +185,7 @@ elif what == "hf":  # a: repo[@rev], skip patterns; blobs are named by sha256
         snapshot_download(repo, revision=rev, ignore_patterns=skip)
     else:
         try:
-            snap = Path(snapshot_download(repo, revision=rev, local_files_only=True))
+            snap = Path(snapshot_download(repo, revision=rev, local_files_only=True, ignore_patterns=skip))  # skipped files are not missing
             try: want = [f for f in list_repo_files(repo, revision=rev) if not any(fnmatch.fnmatch(f, s) for s in skip + ["*.md", ".gitattributes"])]
             except Exception: want = []  # offline: check what is there
             ok = all((snap / f).exists() for f in want) and not bad()
@@ -241,6 +252,27 @@ PY
     || echo "$missing item(s) $([[ $MODE == check ]] && echo "missing or corrupt; run without --check to fetch" || echo "fetched; run --check to verify")."
 }
 
+install_spatialclaw() {  # SpatialClaw (NVIDIA Source Code License-NC) in its own venv, as its setup.sh --agent
+  local R=${1:-third_party/SpatialClaw} REV=486b1b9  # the tested commit
+  local E=$R/.venv-agent W=$R/tools/third_party/sam3/weights
+  local SP="$UV pip install --python $E/bin/python"
+  command -v docker >/dev/null || echo "!! Docker is missing: the spatialclaw PhyAgent runs SpatialClaw in a sandbox"
+  [ -d "$R/.git" ] || git clone https://github.com/NVlabs/SpatialClaw.git "$R"
+  git -C "$R" checkout -q $REV && git -C "$R" submodule update --init --recursive
+  $UV venv "$E" --python 3.11 --allow-existing
+  $SP --index-url "https://download.pytorch.org/whl/$(torch_tag "$(driver_cuda)")" torch==2.11.0 torchvision==0.26.0  # tested; it leaves torch open
+  $SP -r "$R/spatial_agent/requirements/requirements-agent.txt" -e "$R/tools/third_party/sam3[dev]" "setuptools<81" \
+    plyfile imageio typer evo pillow_heif open3d "numpy<2" "pyarrow<20"  # + DA3's deps, parquet; sam3 needs pkg_resources
+  $SP "matplotlib<3.9" "ipython<9.16"  # own step (moviepy pins decorator<5): cm.get_cmap is gone in 3.9; 3.8 needs IPython <9.16
+  $UV pip uninstall --python "$E/bin/python" opencv-python 2>/dev/null || true; $SP --reinstall --no-deps "opencv-python-headless==4.11.0.86"  # no libGL
+  "$E/bin/python" -c "import sam3, langgraph, jupyter_client, torch, matplotlib; print('>> SpatialClaw env OK, torch', torch.__version__, '| CUDA', torch.cuda.is_available())"
+  "$E/bin/python" -c "import sys; from huggingface_hub import snapshot_download as s; s('facebook/sam3.1', local_dir=sys.argv[1], allow_patterns=['*.pt', '*.txt.gz']); s('depth-anything/DA3NESTED-GIANT-LARGE-1.1')" "$W" \
+    || { echo "!! weights failed: SAM3.1 is gated (accept huggingface.co/facebook/sam3.1, run hf auth login), then rerun"; return 1; }
+  [ -e "$W/bpe_simple_vocab_16e6.txt.gz" ] || ln -s ../sam3/assets/bpe_simple_vocab_16e6.txt.gz "$W/bpe_simple_vocab_16e6.txt.gz"
+  echo ">> SpatialClaw in $R; start its GPU tool server (one GPU) before redphys serve spatialclaw:"
+  echo "   cd $R && CUDA_VISIBLE_DEVICES=0 .venv-agent/bin/python -m spatial_agent.entrypoints.launch_gpu_server --reconstruct_backend da3 --http_port 9700 --host 127.0.0.1"
+}
+
 enter_venv() {  # a script cannot activate the caller's shell
   [ "$PY" = "$PWD/.venv/bin/python" ] && [ -z "${REDPHYS_NO_SHELL:-}" ] && [ -t 0 ] && [ -t 1 ] || return 0
   echo ">> opening a shell with .venv active (type exit to leave)"
@@ -248,8 +280,9 @@ enter_venv() {  # a script cannot activate the caller's shell
 }
 
 case "${1:-all}" in
-  all)     REDPHYS_NO_SHELL=1 bash "$0" env && install_weights && enter_venv ;;  # separate process: set -e is ignored before &&
-  env)     (set -e; install_env) && enter_venv ;;
-  weights) shift; install_weights "$@" ;;
-  *)       sed -n '2,4p' "$0"; exit 1 ;;
+  all)         REDPHYS_NO_SHELL=1 bash "$0" env && install_weights && enter_venv ;;  # separate process: set -e is ignored before &&
+  env)         (set -e; install_env) && enter_venv ;;
+  weights)     shift; install_weights "$@" ;;
+  spatialclaw) shift; (set -e; install_spatialclaw "$@") ;;
+  *)           sed -n '2,5p' "$0"; exit 1 ;;
 esac
