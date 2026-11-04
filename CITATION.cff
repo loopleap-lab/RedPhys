@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use RedPhys, please cite our paper accepted at NeurIPS 2026 (Evaluations and Datasets Track)."
+title: "RedPhys: An Extensible Red-Teaming Platform for Physical-World Models and Agents"
+type: software
+authors:
+  - family-names: Zhao
+    given-names: Yifei
+  - family-names: Lou
+    given-names: Qian
+  - family-names: Zheng
+    given-names: Mengxin
+repository-code: "https://github.com/loopleap-lab/RedPhys"
+url: "https://loopleap-lab.github.io/RedPhys/"
+preferred-citation:
+  type: conference-paper
+  title: "RedPhys: An Extensible Red-Teaming Platform for Physical-World Models and Agents"
+  authors:
+    - family-names: Zhao
+      given-names: Yifei
+    - family-names: Lou
+      given-names: Qian
+    - family-names: Zheng
+      given-names: Mengxin
+  collection-title: "Advances in Neural Information Processing Systems (NeurIPS)"
+  notes: "Accepted at NeurIPS 2026, Evaluations and Datasets Track."
+  year: 2026
+  doi: "10.48550/arXiv.2606.23892"
+  url: "https://arxiv.org/abs/2606.23892"

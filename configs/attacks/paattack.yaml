@@ -1,0 +1,12 @@
+epsilon: 16.0
+seed: 42
+precision: "bf16"           # or "fp32"
+max_iterations: 100
+alpha: 1.0  # step size, pixel units
+momentum: 0.9  # under linf: matters only where the gradient is exactly 0
+attn_layer: null  # middle block
+attn_temp: 20.0
+phase1_iters: 50
+clip_model_name: "ViT-L-14"
+clip_pretrained: "openai"
+input_res: 224  # prototype building only

@@ -1,0 +1,24 @@
+seed: 42
+precision: "bf16"
+device: "cuda"               # "auto": one model split over the GPUs (8B on 24 GB)
+model: "Qwen/Qwen3-VL-8B-Instruct"  # or Cosmos-Reason2, InternVL3.5-*-HF, Qwen3.5 / Gemma 4 (transformers 5)
+adv_source: "redphys"          # RedPhys attack outputs; "pgd": paper
+holdout_attacks: []          # test only, e.g. ["coa"]
+test_fraction: 0.2           # by source id
+max_pairs: null
+prompt: "What is the content of the image?"  # paper; null: case question
+max_new_tokens: 256
+max_pixels: null             # Qwen only; null: as served
+server_url: null             # stage-1 answers from vLLM, e.g. "http://localhost:8000"
+beta: 0.1                    # paper
+lam: 1.0                     # paper
+aio_reduction: "sum"         # Eq. 7
+lr: 1.0e-5                   # paper
+weight_decay: 1.0e-4         # paper
+epochs: 2                    # paper
+batch_size: 128              # paper, effective
+micro_batch: 1
+train_projector: false       # projector frozen
+pgd_eps: 2.0                 # /255, paper
+pgd_steps: 10                # paper
+pgd_alpha: 1.0               # /255, FARE

@@ -1,0 +1,11 @@
+seed: 100                    # paper App. 7.1
+precision: "fp32"           # fp32 inference, as upstream
+sd_model: "stable-diffusion-v1-5/stable-diffusion-v1-5"
+controlnet: "lllyasviel/sd-controlnet-canny"
+resolution: 512
+strength: 0.2                # t* = 200
+num_inference_steps: 5       # x strength = 1 denoising step
+guidance_scale: 1.0
+control_scale: 0.8
+canny_low: 100
+canny_high: 200

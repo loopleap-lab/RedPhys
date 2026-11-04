@@ -1,0 +1,2160 @@
+[
+ {
+  "id": "medical_0001",
+  "image": "dataset/medical/clean/medical_0001.png",
+  "question": "What is the main finding in this chest X-ray?\nA. Atelectasis\nB. Cardiomegaly\nC. No Finding\nD. Pleural Effusion",
+  "answer": "B",
+  "options": {
+   "A": "Atelectasis",
+   "B": "Cardiomegaly",
+   "C": "No Finding",
+   "D": "Pleural Effusion"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab164/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Cardiomegaly",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0002",
+  "image": "dataset/medical/clean/medical_0002.png",
+  "question": "What is the main finding in this chest X-ray?\nA. No Finding\nB. Cardiomegaly\nC. Pneumothorax\nD. Pneumonia",
+  "answer": "B",
+  "options": {
+   "A": "No Finding",
+   "B": "Cardiomegaly",
+   "C": "Pneumothorax",
+   "D": "Pneumonia"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab124/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Cardiomegaly",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0003",
+  "image": "dataset/medical/clean/medical_0003.png",
+  "question": "What is the main finding in this chest X-ray?\nA. Atelectasis\nB. Pneumonia\nC. Infiltration\nD. No Finding",
+  "answer": "A",
+  "options": {
+   "A": "Atelectasis",
+   "B": "Pneumonia",
+   "C": "Infiltration",
+   "D": "No Finding"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab192/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Atelectasis",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0004",
+  "image": "dataset/medical/clean/medical_0004.png",
+  "question": "What is the main finding in this chest X-ray?\nA. Cardiomegaly\nB. Atelectasis\nC. Pleural Effusion\nD. No Finding",
+  "answer": "B",
+  "options": {
+   "A": "Cardiomegaly",
+   "B": "Atelectasis",
+   "C": "Pleural Effusion",
+   "D": "No Finding"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab126/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Atelectasis",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0005",
+  "image": "dataset/medical/clean/medical_0005.png",
+  "question": "What is the main finding in this chest X-ray?\nA. No Finding\nB. Nodule\nC. Cardiomegaly\nD. Pleural Effusion",
+  "answer": "B",
+  "options": {
+   "A": "No Finding",
+   "B": "Nodule",
+   "C": "Cardiomegaly",
+   "D": "Pleural Effusion"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab166/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Nodule",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0006",
+  "image": "dataset/medical/clean/medical_0006.png",
+  "question": "What is the main finding in this chest X-ray?\nA. Mass\nB. Nodule\nC. No Finding\nD. Infiltration",
+  "answer": "B",
+  "options": {
+   "A": "Mass",
+   "B": "Nodule",
+   "C": "No Finding",
+   "D": "Infiltration"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab180/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Nodule",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0007",
+  "image": "dataset/medical/clean/medical_0007.png",
+  "question": "What is the main finding in this chest X-ray?\nA. No Finding\nB. Cardiomegaly\nC. Pneumothorax\nD. Pneumonia",
+  "answer": "D",
+  "options": {
+   "A": "No Finding",
+   "B": "Cardiomegaly",
+   "C": "Pneumothorax",
+   "D": "Pneumonia"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab358/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Pneumonia",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0008",
+  "image": "dataset/medical/clean/medical_0008.png",
+  "question": "What is the main finding in this chest X-ray?\nA. Cardiomegaly\nB. No Finding\nC. Atelectasis\nD. Pneumonia",
+  "answer": "D",
+  "options": {
+   "A": "Cardiomegaly",
+   "B": "No Finding",
+   "C": "Atelectasis",
+   "D": "Pneumonia"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab353/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Pneumonia",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0009",
+  "image": "dataset/medical/clean/medical_0009.png",
+  "question": "What is the main finding in this chest X-ray?\nA. Infiltration\nB. No Finding\nC. Pneumothorax\nD. Pneumonia",
+  "answer": "C",
+  "options": {
+   "A": "Infiltration",
+   "B": "No Finding",
+   "C": "Pneumothorax",
+   "D": "Pneumonia"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab163/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Pneumothorax",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0010",
+  "image": "dataset/medical/clean/medical_0010.png",
+  "question": "What is the main finding in this chest X-ray?\nA. Pneumothorax\nB. No Finding\nC. Mass\nD. Cardiomegaly",
+  "answer": "A",
+  "options": {
+   "A": "Pneumothorax",
+   "B": "No Finding",
+   "C": "Mass",
+   "D": "Cardiomegaly"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab193/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Pneumothorax",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0011",
+  "image": "dataset/medical/clean/medical_0011.png",
+  "question": "What is the main finding in this chest X-ray?\nA. No Finding\nB. Infiltration\nC. Cardiomegaly\nD. Mass",
+  "answer": "D",
+  "options": {
+   "A": "No Finding",
+   "B": "Infiltration",
+   "C": "Cardiomegaly",
+   "D": "Mass"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab346/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Mass",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0012",
+  "image": "dataset/medical/clean/medical_0012.png",
+  "question": "What is the main finding in this chest X-ray?\nA. No Finding\nB. Cardiomegaly\nC. Pneumothorax\nD. Mass",
+  "answer": "D",
+  "options": {
+   "A": "No Finding",
+   "B": "Cardiomegaly",
+   "C": "Pneumothorax",
+   "D": "Mass"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab324/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Mass",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0013",
+  "image": "dataset/medical/clean/medical_0013.png",
+  "question": "What is the main finding in this chest X-ray?\nA. No Finding\nB. Cardiomegaly\nC. Nodule\nD. Pleural Effusion",
+  "answer": "D",
+  "options": {
+   "A": "No Finding",
+   "B": "Cardiomegaly",
+   "C": "Nodule",
+   "D": "Pleural Effusion"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab199/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Pleural Effusion",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0014",
+  "image": "dataset/medical/clean/medical_0014.png",
+  "question": "What is the main finding in this chest X-ray?\nA. Cardiomegaly\nB. No Finding\nC. Mass\nD. Infiltration",
+  "answer": "D",
+  "options": {
+   "A": "Cardiomegaly",
+   "B": "No Finding",
+   "C": "Mass",
+   "D": "Infiltration"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab188/source.jpg",
+   "modality": "X-Ray",
+   "finding": "Infiltration",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0015",
+  "image": "dataset/medical/clean/medical_0015.png",
+  "question": "What is the main finding in this chest CT?\nA. Lung Cancer\nB. Pneumonia\nC. No Finding\nD. Pleural Effusion",
+  "answer": "A",
+  "options": {
+   "A": "Lung Cancer",
+   "B": "Pneumonia",
+   "C": "No Finding",
+   "D": "Pleural Effusion"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab113/source.jpg",
+   "modality": "CT",
+   "finding": "Lung Cancer",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0016",
+  "image": "dataset/medical/clean/medical_0016.png",
+  "question": "What is the main finding in this chest CT?\nA. No Finding\nB. Pleural Effusion\nC. Pneumonia\nD. Lung Cancer",
+  "answer": "D",
+  "options": {
+   "A": "No Finding",
+   "B": "Pleural Effusion",
+   "C": "Pneumonia",
+   "D": "Lung Cancer"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab106/source.jpg",
+   "modality": "CT",
+   "finding": "Lung Cancer",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0017",
+  "image": "dataset/medical/clean/medical_0017.png",
+  "question": "What is the main finding in this chest CT?\nA. Pleural Effusion\nB. No Finding\nC. Lung Cancer\nD. Pneumonia",
+  "answer": "C",
+  "options": {
+   "A": "Pleural Effusion",
+   "B": "No Finding",
+   "C": "Lung Cancer",
+   "D": "Pneumonia"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab115/source.jpg",
+   "modality": "CT",
+   "finding": "Lung Cancer",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0018",
+  "image": "dataset/medical/clean/medical_0018.png",
+  "question": "What is the main finding in this chest CT?\nA. Pleural Effusion\nB. Lung Cancer\nC. Pneumonia\nD. No Finding",
+  "answer": "D",
+  "options": {
+   "A": "Pleural Effusion",
+   "B": "Lung Cancer",
+   "C": "Pneumonia",
+   "D": "No Finding"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab95/source.jpg",
+   "modality": "CT",
+   "finding": "No Finding",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0019",
+  "image": "dataset/medical/clean/medical_0019.png",
+  "question": "What is the main finding in this chest CT?\nA. Lung Cancer\nB. Pleural Effusion\nC. No Finding\nD. Pneumonia",
+  "answer": "C",
+  "options": {
+   "A": "Lung Cancer",
+   "B": "Pleural Effusion",
+   "C": "No Finding",
+   "D": "Pneumonia"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab114/source.jpg",
+   "modality": "CT",
+   "finding": "No Finding",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0020",
+  "image": "dataset/medical/clean/medical_0020.png",
+  "question": "What is the main finding in this chest CT?\nA. No Finding\nB. Lung Cancer\nC. Pleural Effusion\nD. Pneumonia",
+  "answer": "A",
+  "options": {
+   "A": "No Finding",
+   "B": "Lung Cancer",
+   "C": "Pleural Effusion",
+   "D": "Pneumonia"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab92/source.jpg",
+   "modality": "CT",
+   "finding": "No Finding",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0021",
+  "image": "dataset/medical/clean/medical_0021.png",
+  "question": "What is the main finding in this chest CT?\nA. Pneumonia\nB. Lung Cancer\nC. Pleural Effusion\nD. No Finding",
+  "answer": "D",
+  "options": {
+   "A": "Pneumonia",
+   "B": "Lung Cancer",
+   "C": "Pleural Effusion",
+   "D": "No Finding"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab98/source.jpg",
+   "modality": "CT",
+   "finding": "No Finding",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0022",
+  "image": "dataset/medical/clean/medical_0022.png",
+  "question": "What is the main finding in this abdominal CT?\nA. Liver Cancer\nB. Kidney Cancer\nC. No Finding\nD. Colitis",
+  "answer": "A",
+  "options": {
+   "A": "Liver Cancer",
+   "B": "Kidney Cancer",
+   "C": "No Finding",
+   "D": "Colitis"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab268/source.jpg",
+   "modality": "CT",
+   "finding": "Liver Cancer",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0023",
+  "image": "dataset/medical/clean/medical_0023.png",
+  "question": "What is the main finding in this abdominal CT?\nA. No Finding\nB. Colitis\nC. Liver Cancer\nD. Kidney Cancer",
+  "answer": "C",
+  "options": {
+   "A": "No Finding",
+   "B": "Colitis",
+   "C": "Liver Cancer",
+   "D": "Kidney Cancer"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab211/source.jpg",
+   "modality": "CT",
+   "finding": "Liver Cancer",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0024",
+  "image": "dataset/medical/clean/medical_0024.png",
+  "question": "What is the main finding in this abdominal CT?\nA. Liver Cancer\nB. No Finding\nC. Kidney Cancer\nD. Colitis",
+  "answer": "A",
+  "options": {
+   "A": "Liver Cancer",
+   "B": "No Finding",
+   "C": "Kidney Cancer",
+   "D": "Colitis"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "SLAKE",
+   "img_name": "xmlab289/source.jpg",
+   "modality": "CT",
+   "finding": "Liver Cancer",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "medical_0025",
+  "image": "dataset/medical/clean/medical_0025.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. Meningioma\nB. Glioma\nC. Pituitary Tumor\nD. No Tumor",
+  "answer": "B",
+  "options": {
+   "A": "Meningioma",
+   "B": "Glioma",
+   "C": "Pituitary Tumor",
+   "D": "No Tumor"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test300.png",
+   "modality": "MRI",
+   "finding": "Glioma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0026",
+  "image": "dataset/medical/clean/medical_0026.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. No Tumor\nB. Pituitary Tumor\nC. Glioma\nD. Meningioma",
+  "answer": "C",
+  "options": {
+   "A": "No Tumor",
+   "B": "Pituitary Tumor",
+   "C": "Glioma",
+   "D": "Meningioma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test139.png",
+   "modality": "MRI",
+   "finding": "Glioma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0027",
+  "image": "dataset/medical/clean/medical_0027.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. No Tumor\nB. Glioma\nC. Meningioma\nD. Pituitary Tumor",
+  "answer": "B",
+  "options": {
+   "A": "No Tumor",
+   "B": "Glioma",
+   "C": "Meningioma",
+   "D": "Pituitary Tumor"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test171.png",
+   "modality": "MRI",
+   "finding": "Glioma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0028",
+  "image": "dataset/medical/clean/medical_0028.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. No Tumor\nB. Glioma\nC. Meningioma\nD. Pituitary Tumor",
+  "answer": "B",
+  "options": {
+   "A": "No Tumor",
+   "B": "Glioma",
+   "C": "Meningioma",
+   "D": "Pituitary Tumor"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test110.png",
+   "modality": "MRI",
+   "finding": "Glioma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0029",
+  "image": "dataset/medical/clean/medical_0029.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. No Tumor\nB. Meningioma\nC. Pituitary Tumor\nD. Glioma",
+  "answer": "D",
+  "options": {
+   "A": "No Tumor",
+   "B": "Meningioma",
+   "C": "Pituitary Tumor",
+   "D": "Glioma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test261.png",
+   "modality": "MRI",
+   "finding": "Glioma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0030",
+  "image": "dataset/medical/clean/medical_0030.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. Meningioma\nB. Pituitary Tumor\nC. Glioma\nD. No Tumor",
+  "answer": "C",
+  "options": {
+   "A": "Meningioma",
+   "B": "Pituitary Tumor",
+   "C": "Glioma",
+   "D": "No Tumor"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test215.png",
+   "modality": "MRI",
+   "finding": "Glioma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0031",
+  "image": "dataset/medical/clean/medical_0031.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. Glioma\nB. Pituitary Tumor\nC. Meningioma\nD. No Tumor",
+  "answer": "C",
+  "options": {
+   "A": "Glioma",
+   "B": "Pituitary Tumor",
+   "C": "Meningioma",
+   "D": "No Tumor"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test67.png",
+   "modality": "MRI",
+   "finding": "Meningioma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0032",
+  "image": "dataset/medical/clean/medical_0032.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. No Tumor\nB. Glioma\nC. Meningioma\nD. Pituitary Tumor",
+  "answer": "C",
+  "options": {
+   "A": "No Tumor",
+   "B": "Glioma",
+   "C": "Meningioma",
+   "D": "Pituitary Tumor"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test68.png",
+   "modality": "MRI",
+   "finding": "Meningioma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0033",
+  "image": "dataset/medical/clean/medical_0033.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. No Tumor\nB. Glioma\nC. Pituitary Tumor\nD. Meningioma",
+  "answer": "D",
+  "options": {
+   "A": "No Tumor",
+   "B": "Glioma",
+   "C": "Pituitary Tumor",
+   "D": "Meningioma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test18.png",
+   "modality": "MRI",
+   "finding": "Meningioma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0034",
+  "image": "dataset/medical/clean/medical_0034.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. No Tumor\nB. Pituitary Tumor\nC. Meningioma\nD. Glioma",
+  "answer": "C",
+  "options": {
+   "A": "No Tumor",
+   "B": "Pituitary Tumor",
+   "C": "Meningioma",
+   "D": "Glioma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test69.png",
+   "modality": "MRI",
+   "finding": "Meningioma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0035",
+  "image": "dataset/medical/clean/medical_0035.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. Pituitary Tumor\nB. Glioma\nC. No Tumor\nD. Meningioma",
+  "answer": "D",
+  "options": {
+   "A": "Pituitary Tumor",
+   "B": "Glioma",
+   "C": "No Tumor",
+   "D": "Meningioma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test15.png",
+   "modality": "MRI",
+   "finding": "Meningioma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0036",
+  "image": "dataset/medical/clean/medical_0036.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. No Tumor\nB. Glioma\nC. Pituitary Tumor\nD. Meningioma",
+  "answer": "D",
+  "options": {
+   "A": "No Tumor",
+   "B": "Glioma",
+   "C": "Pituitary Tumor",
+   "D": "Meningioma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test19.png",
+   "modality": "MRI",
+   "finding": "Meningioma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0037",
+  "image": "dataset/medical/clean/medical_0037.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. Pituitary Tumor\nB. No Tumor\nC. Glioma\nD. Meningioma",
+  "answer": "A",
+  "options": {
+   "A": "Pituitary Tumor",
+   "B": "No Tumor",
+   "C": "Glioma",
+   "D": "Meningioma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test207.png",
+   "modality": "MRI",
+   "finding": "Pituitary Tumor",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0038",
+  "image": "dataset/medical/clean/medical_0038.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. Meningioma\nB. No Tumor\nC. Pituitary Tumor\nD. Glioma",
+  "answer": "C",
+  "options": {
+   "A": "Meningioma",
+   "B": "No Tumor",
+   "C": "Pituitary Tumor",
+   "D": "Glioma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test133.png",
+   "modality": "MRI",
+   "finding": "Pituitary Tumor",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0039",
+  "image": "dataset/medical/clean/medical_0039.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. No Tumor\nB. Pituitary Tumor\nC. Meningioma\nD. Glioma",
+  "answer": "B",
+  "options": {
+   "A": "No Tumor",
+   "B": "Pituitary Tumor",
+   "C": "Meningioma",
+   "D": "Glioma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test271.png",
+   "modality": "MRI",
+   "finding": "Pituitary Tumor",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0040",
+  "image": "dataset/medical/clean/medical_0040.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. Meningioma\nB. Glioma\nC. No Tumor\nD. Pituitary Tumor",
+  "answer": "D",
+  "options": {
+   "A": "Meningioma",
+   "B": "Glioma",
+   "C": "No Tumor",
+   "D": "Pituitary Tumor"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test47.png",
+   "modality": "MRI",
+   "finding": "Pituitary Tumor",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0041",
+  "image": "dataset/medical/clean/medical_0041.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. Pituitary Tumor\nB. No Tumor\nC. Meningioma\nD. Glioma",
+  "answer": "A",
+  "options": {
+   "A": "Pituitary Tumor",
+   "B": "No Tumor",
+   "C": "Meningioma",
+   "D": "Glioma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test202.png",
+   "modality": "MRI",
+   "finding": "Pituitary Tumor",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0042",
+  "image": "dataset/medical/clean/medical_0042.png",
+  "question": "What is the diagnosis in this brain MRI?\nA. Meningioma\nB. No Tumor\nC. Glioma\nD. Pituitary Tumor",
+  "answer": "D",
+  "options": {
+   "A": "Meningioma",
+   "B": "No Tumor",
+   "C": "Glioma",
+   "D": "Pituitary Tumor"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "Brain Tumor MRI Dataset (Kaggle)",
+   "file": "test/test283.png",
+   "modality": "MRI",
+   "finding": "Pituitary Tumor",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0043",
+  "image": "dataset/medical/clean/medical_0043.png",
+  "question": "What is the main abnormality on this chest X-ray?\nA. Large pleural effusion\nB. Right lower lobe pneumonia\nC. Cardiomegaly with pulmonary edema\nD. Pneumothorax",
+  "answer": "C",
+  "options": {
+   "A": "Large pleural effusion",
+   "B": "Right lower lobe pneumonia",
+   "C": "Cardiomegaly with pulmonary edema",
+   "D": "Pneumothorax"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "9bdf3c5d121406871a46db316e053cce",
+   "modality": "X-Ray",
+   "question": "describe the pathology",
+   "finding": "Cardiomegaly with pulmonary edema",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0044",
+  "image": "dataset/medical/clean/medical_0044.png",
+  "question": "What is the main abnormality on this chest X-ray?\nA. Pleural effusion without pneumothorax\nB. Hydropneumothorax\nC. Lobar pneumonia\nD. Pulmonary edema",
+  "answer": "B",
+  "options": {
+   "A": "Pleural effusion without pneumothorax",
+   "B": "Hydropneumothorax",
+   "C": "Lobar pneumonia",
+   "D": "Pulmonary edema"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "d70d2929ac0b61d126d29241dbdcc79d",
+   "modality": "X-Ray",
+   "question": "what is the pathology?",
+   "finding": "Hydropneumothorax",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0045",
+  "image": "dataset/medical/clean/medical_0045.png",
+  "question": "What is the main abnormality on this chest X-ray?\nA. Pericardial effusion\nB. Normal heart size\nC. Cardiomegaly\nD. Pneumothorax",
+  "answer": "C",
+  "options": {
+   "A": "Pericardial effusion",
+   "B": "Normal heart size",
+   "C": "Cardiomegaly",
+   "D": "Pneumothorax"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "c314f1b9534fb5e693c3904097d458dd",
+   "modality": "X-Ray",
+   "question": "what is the pathology in this image?",
+   "finding": "Cardiomegaly",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0046",
+  "image": "dataset/medical/clean/medical_0046.png",
+  "question": "What is the main abnormality on this chest X-ray?\nA. Pleural effusion\nB. Pulmonary mass\nC. Lobar pneumonia\nD. Pneumothorax",
+  "answer": "A",
+  "options": {
+   "A": "Pleural effusion",
+   "B": "Pulmonary mass",
+   "C": "Lobar pneumonia",
+   "D": "Pneumothorax"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "c5c0f2a0a7fc4b53db04be9d78590dc1",
+   "modality": "X-Ray",
+   "question": "where is the pleural effusion located?",
+   "finding": "Pleural effusion",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0047",
+  "image": "dataset/medical/clean/medical_0047.png",
+  "question": "What is the main abnormality on this chest X-ray?\nA. Multiple pulmonary nodules\nB. Solitary pulmonary mass\nC. Diffuse airspace consolidation\nD. Bilateral pleural effusions",
+  "answer": "A",
+  "options": {
+   "A": "Multiple pulmonary nodules",
+   "B": "Solitary pulmonary mass",
+   "C": "Diffuse airspace consolidation",
+   "D": "Bilateral pleural effusions"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "df9dcff102cde96968e882e5b9a47e89",
+   "modality": "X-Ray",
+   "question": "how would you describe the pathology seen in the above image?",
+   "finding": "Multiple pulmonary nodules",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0048",
+  "image": "dataset/medical/clean/medical_0048.png",
+  "question": "What is the main abnormality in this chest X-ray?\nA. Right basilar pneumothorax\nB. Left apical pneumothorax\nC. Right apical pneumothorax\nD. Left basilar pneumothorax",
+  "answer": "C",
+  "options": {
+   "A": "Right basilar pneumothorax",
+   "B": "Left apical pneumothorax",
+   "C": "Right apical pneumothorax",
+   "D": "Left basilar pneumothorax"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "5e04bd01a57fc2f3310f3a36b3b1ff75",
+   "modality": "X-Ray",
+   "question": "is there evidence of a right apical pneumothorax on this chest x-ray?",
+   "finding": "Right apical pneumothorax",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0049",
+  "image": "dataset/medical/clean/medical_0049.png",
+  "question": "What is the main abnormality on this chest X-ray?\nA. Left apical pneumothorax\nB. Right apical pneumothorax\nC. Left upper lobe consolidation\nD. Left pleural effusion",
+  "answer": "A",
+  "options": {
+   "A": "Left apical pneumothorax",
+   "B": "Right apical pneumothorax",
+   "C": "Left upper lobe consolidation",
+   "D": "Left pleural effusion"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "79cf5ba1aecbdfae356e60f5a89ecf15",
+   "modality": "X-Ray",
+   "question": "what is the pathology?",
+   "finding": "Left apical pneumothorax",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0050",
+  "image": "dataset/medical/clean/medical_0050.png",
+  "question": "What is the main abnormality in this chest X-ray?\nA. Right lower lobe pneumonia\nB. Left-sided pleural effusion\nC. Right pneumothorax\nD. Right-sided pleural effusion",
+  "answer": "D",
+  "options": {
+   "A": "Right lower lobe pneumonia",
+   "B": "Left-sided pleural effusion",
+   "C": "Right pneumothorax",
+   "D": "Right-sided pleural effusion"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "bdeca858c5227661f7ccca540d544840",
+   "modality": "X-Ray",
+   "question": "what is the pathology?",
+   "finding": "Right-sided pleural effusion",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0051",
+  "image": "dataset/medical/clean/medical_0051.png",
+  "question": "What is the main abnormality on this chest X-ray?\nA. Bilateral pneumothoraces\nB. Left pleural effusion only\nC. Right pleural effusion only\nD. Bilateral pleural effusions",
+  "answer": "D",
+  "options": {
+   "A": "Bilateral pneumothoraces",
+   "B": "Left pleural effusion only",
+   "C": "Right pleural effusion only",
+   "D": "Bilateral pleural effusions"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "4a63406c69d82b863f0349151a4b8c21",
+   "modality": "X-Ray",
+   "question": "what is the pathology seen above?",
+   "finding": "Bilateral pleural effusions",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0052",
+  "image": "dataset/medical/clean/medical_0052.png",
+  "question": "What is the main cardiac abnormality on this chest X-ray?\nA. Aortic aneurysm\nB. Mediastinal widening\nC. Normal heart size\nD. Cardiomegaly",
+  "answer": "D",
+  "options": {
+   "A": "Aortic aneurysm",
+   "B": "Mediastinal widening",
+   "C": "Normal heart size",
+   "D": "Cardiomegaly"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "afa6bb98357d682d5b478c030c22dd48",
+   "modality": "X-Ray",
+   "question": "is the heart enlarged?",
+   "finding": "Cardiomegaly",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0053",
+  "image": "dataset/medical/clean/medical_0053.png",
+  "question": "What is the main abnormality on this chest X-ray?\nA. Isolated left pleural effusion\nB. Isolated left pneumothorax\nC. Hydropneumothorax\nD. Left lower-lobe pneumonia",
+  "answer": "C",
+  "options": {
+   "A": "Isolated left pleural effusion",
+   "B": "Isolated left pneumothorax",
+   "C": "Hydropneumothorax",
+   "D": "Left lower-lobe pneumonia"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "7621a263c8019994dfdd49fbe61a7c78",
+   "modality": "X-Ray",
+   "question": "what does this represent?",
+   "finding": "Hydropneumothorax",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0054",
+  "image": "dataset/medical/clean/medical_0054.png",
+  "question": "On this chest X-ray, which side has the pneumothorax?\nA. Left side\nB. Right side\nC. Neither side\nD. Both sides",
+  "answer": "B",
+  "options": {
+   "A": "Left side",
+   "B": "Right side",
+   "C": "Neither side",
+   "D": "Both sides"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "5316a4758aefa97ebc69bd6b766d4b07",
+   "modality": "X-Ray",
+   "question": "which side is the pneumothorax on?",
+   "finding": "Right side",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0055",
+  "image": "dataset/medical/clean/medical_0055.png",
+  "question": "What spinal abnormality is visible on this chest X-ray?\nA. Scoliosis\nB. Thoracic kyphosis\nC. Vertebral compression fracture\nD. Lumbar lordosis",
+  "answer": "A",
+  "options": {
+   "A": "Scoliosis",
+   "B": "Thoracic kyphosis",
+   "C": "Vertebral compression fracture",
+   "D": "Lumbar lordosis"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "f5b0e33576bfb7761f62900a2f429a6b",
+   "modality": "X-Ray",
+   "question": "how do we call these wide undulations along the vertebral column?",
+   "finding": "Scoliosis",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0056",
+  "image": "dataset/medical/clean/medical_0056.png",
+  "question": "On which side is subdiaphragmatic free air visible on this chest X-ray?\nA. Right\nB. Neither side\nC. Bilateral\nD. Left",
+  "answer": "A",
+  "options": {
+   "A": "Right",
+   "B": "Neither side",
+   "C": "Bilateral",
+   "D": "Left"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "3424709406d9c05cf3c8c242d890bbd3",
+   "modality": "X-Ray",
+   "question": "on which side is air under the diaphragm?",
+   "finding": "Right",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0057",
+  "image": "dataset/medical/clean/medical_0057.png",
+  "question": "What is causing the mediastinal widening on this chest X-ray?\nA. Mediastinal lipomatosis\nB. Mass\nC. Thoracic aortic aneurysm\nD. Thyroid goiter",
+  "answer": "B",
+  "options": {
+   "A": "Mediastinal lipomatosis",
+   "B": "Mass",
+   "C": "Thoracic aortic aneurysm",
+   "D": "Thyroid goiter"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "062c04f90e0affe3f0f39e568a54845e",
+   "modality": "X-Ray",
+   "question": "what is the widened mediastinum caused by?",
+   "finding": "Mass",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0058",
+  "image": "dataset/medical/clean/medical_0058.png",
+  "question": "Where is the mass located on this chest X-ray?\nA. Right hilar region\nB. Posterior mediastinum\nC. Middle mediastinum\nD. Anterior mediastinum",
+  "answer": "D",
+  "options": {
+   "A": "Right hilar region",
+   "B": "Posterior mediastinum",
+   "C": "Middle mediastinum",
+   "D": "Anterior mediastinum"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "89d80a176ad0d45c26abda77589b1026",
+   "modality": "X-Ray",
+   "question": "where is the location of the mass?",
+   "finding": "Anterior mediastinum",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0059",
+  "image": "dataset/medical/clean/medical_0059.png",
+  "question": "What is the main abnormality on this chest X-ray?\nA. Right paratracheal mass lesion\nB. Left hilar mass lesion\nC. Right hilar mass lesion\nD. Left paratracheal mass lesion",
+  "answer": "A",
+  "options": {
+   "A": "Right paratracheal mass lesion",
+   "B": "Left hilar mass lesion",
+   "C": "Right hilar mass lesion",
+   "D": "Left paratracheal mass lesion"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "1d44ae20d3561cd674ff28ddd802b86f",
+   "modality": "X-Ray",
+   "question": "what is the abnormality?",
+   "finding": "Right paratracheal mass lesion",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0060",
+  "image": "dataset/medical/clean/medical_0060.png",
+  "question": "What is the likely diagnosis associated with tram-track opacities on this chest X-ray?\nA. Emphysema\nB. Interstitial pulmonary fibrosis\nC. Bronchiectasis\nD. Pulmonary edema",
+  "answer": "C",
+  "options": {
+   "A": "Emphysema",
+   "B": "Interstitial pulmonary fibrosis",
+   "C": "Bronchiectasis",
+   "D": "Pulmonary edema"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "ba038d758a089b6b86a6a870fb0124db",
+   "modality": "X-Ray",
+   "question": "what does tram-track\"-ing indictate?",
+   "finding": "Bronchiectasis",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0061",
+  "image": "dataset/medical/clean/medical_0061.png",
+  "question": "What do the densities in both mid-lung fields represent on this chest X-ray?\nA. Pulmonary nodules\nB. Pleural effusions\nC. Airspace opacities\nD. Pleural plaques",
+  "answer": "D",
+  "options": {
+   "A": "Pulmonary nodules",
+   "B": "Pleural effusions",
+   "C": "Airspace opacities",
+   "D": "Pleural plaques"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "9c0c3cbd28dc01d41fd29862f4045daa",
+   "modality": "X-Ray",
+   "question": "what are the densities in both mid-lung fields?",
+   "finding": "Pleural plaques",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0062",
+  "image": "dataset/medical/clean/medical_0062.png",
+  "question": "Where is the cavitary lesion located on this chest X-ray?\nA. Right upper lobe\nB. Right lower lobe\nC. Left lower lobe\nD. Left upper lobe",
+  "answer": "A",
+  "options": {
+   "A": "Right upper lobe",
+   "B": "Right lower lobe",
+   "C": "Left lower lobe",
+   "D": "Left upper lobe"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "1aee4015720444ac23bb18b0e510a867",
+   "modality": "X-Ray",
+   "question": "what is the location of the cavitary lesion",
+   "finding": "Right upper lobe",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0063",
+  "image": "dataset/medical/clean/medical_0063.png",
+  "question": "Where is the pulmonary nodule located on this chest X-ray?\nA. Left upper lobe\nB. Right upper lobe\nC. Right middle lobe\nD. Left lower lobe",
+  "answer": "A",
+  "options": {
+   "A": "Left upper lobe",
+   "B": "Right upper lobe",
+   "C": "Right middle lobe",
+   "D": "Left lower lobe"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "dd5c073b9ae489f3c3621dc1f66eb336",
+   "modality": "X-Ray",
+   "question": "in which lobe is the nodule located?",
+   "finding": "Left upper lobe",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0064",
+  "image": "dataset/medical/clean/medical_0064.png",
+  "question": "What is the main abnormality beneath the right hemidiaphragm on this chest X-ray?\nA. Free intraperitoneal air\nB. Subphrenic fluid collection\nC. Normal gastric bubble\nD. Basilar pneumothorax",
+  "answer": "A",
+  "options": {
+   "A": "Free intraperitoneal air",
+   "B": "Subphrenic fluid collection",
+   "C": "Normal gastric bubble",
+   "D": "Basilar pneumothorax"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "6413c53a9e166373e62fdef36c10a068",
+   "modality": "X-Ray",
+   "question": "what is under the right hemidiaphragm?",
+   "finding": "Free intraperitoneal air",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0065",
+  "image": "dataset/medical/clean/medical_0065.png",
+  "question": "What is the main abnormality in this axial contrast-enhanced abdominal CT?\nA. Hepatic metastasis\nB. Hepatic hemangioma\nC. Hepatic abscess\nD. Simple hepatic cyst",
+  "answer": "C",
+  "options": {
+   "A": "Hepatic metastasis",
+   "B": "Hepatic hemangioma",
+   "C": "Hepatic abscess",
+   "D": "Simple hepatic cyst"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "7d9d9d21bef14e1de124506471dc26cd",
+   "modality": "CT",
+   "question": "what type of hepatic lesion has internal gas and enhancing rim?",
+   "finding": "Hepatic abscess",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0066",
+  "image": "dataset/medical/clean/medical_0066.png",
+  "question": "What is the main abnormality in this axial contrast-enhanced CT of the abdomen?\nA. Terminal ileitis\nB. Acute appendicitis\nC. Cecal diverticulitis\nD. Appendiceal mucocele",
+  "answer": "B",
+  "options": {
+   "A": "Terminal ileitis",
+   "B": "Acute appendicitis",
+   "C": "Cecal diverticulitis",
+   "D": "Appendiceal mucocele"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "d35ea95b7d01cfc5e2efe70bc85a284d",
+   "modality": "CT",
+   "question": "what signs of appendicitis are seen in this image?",
+   "finding": "Acute appendicitis",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0067",
+  "image": "dataset/medical/clean/medical_0067.png",
+  "question": "What is the main abnormality in this axial head CT?\nA. Bleeding in the right anterior cerebellum\nB. Bleeding in the left posteroinferior cerebellum\nC. Bleeding in the right posteroinferior cerebellum\nD. Infarction of the right posteroinferior cerebellum",
+  "answer": "C",
+  "options": {
+   "A": "Bleeding in the right anterior cerebellum",
+   "B": "Bleeding in the left posteroinferior cerebellum",
+   "C": "Bleeding in the right posteroinferior cerebellum",
+   "D": "Infarction of the right posteroinferior cerebellum"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "6a4dff7bac60a5a68934e1da4954064d",
+   "modality": "CT",
+   "question": "what abnormality is present?",
+   "finding": "Bleeding in the right posteroinferior cerebellum",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0068",
+  "image": "dataset/medical/clean/medical_0068.png",
+  "question": "Where is the mass located on this axial head CT?\nA. Cavernous sinus\nB. Pineal region\nC. Cerebellopontine angle\nD. Sella and suprasellar cistern",
+  "answer": "D",
+  "options": {
+   "A": "Cavernous sinus",
+   "B": "Pineal region",
+   "C": "Cerebellopontine angle",
+   "D": "Sella and suprasellar cistern"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "1e0ed01bca3d195eabe073f5d337f913",
+   "modality": "CT",
+   "question": "what is the location of the mass?",
+   "finding": "Sella and suprasellar cistern",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0069",
+  "image": "dataset/medical/clean/medical_0069.png",
+  "question": "What is the main abnormality on this axial abdominal CT?\nA. Appendicitis\nB. Diverticulitis\nC. Small-bowel diverticulitis\nD. Epiploic appendagitis",
+  "answer": "B",
+  "options": {
+   "A": "Appendicitis",
+   "B": "Diverticulitis",
+   "C": "Small-bowel diverticulitis",
+   "D": "Epiploic appendagitis"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "4c9701ca6d864142e5bfc552145b1703",
+   "modality": "CT",
+   "question": "what is the condition?",
+   "finding": "Diverticulitis",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0070",
+  "image": "dataset/medical/clean/medical_0070.png",
+  "question": "What are the bright intraluminal foci in the gallbladder on this abdominal CT?\nA. Gallbladder adenomyomatosis\nB. Gallbladder polyp\nC. Biliary sludge\nD. Gallstones",
+  "answer": "D",
+  "options": {
+   "A": "Gallbladder adenomyomatosis",
+   "B": "Gallbladder polyp",
+   "C": "Biliary sludge",
+   "D": "Gallstones"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "0ee741d09b5eb96692bfc64a2eb58707",
+   "modality": "CT",
+   "question": "what are the bright specks in the gallbladder",
+   "finding": "Gallstones",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0071",
+  "image": "dataset/medical/clean/medical_0071.png",
+  "question": "What is the left kidney mass in this axial abdominal CT?\nA. Renal cell carcinoma\nB. Renal abscess\nC. Exophytic cyst\nD. Angiomyolipoma",
+  "answer": "C",
+  "options": {
+   "A": "Renal cell carcinoma",
+   "B": "Renal abscess",
+   "C": "Exophytic cyst",
+   "D": "Angiomyolipoma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "924996befdefa2004d312e7e324c9e84",
+   "modality": "CT",
+   "question": "what is the left kidney mass?",
+   "finding": "Exophytic cyst",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0072",
+  "image": "dataset/medical/clean/medical_0072.png",
+  "question": "What is the main bowel abnormality on this axial contrast-enhanced CT of the abdomen and pelvis?\nA. Pneumoperitoneum\nB. Portal venous gas\nC. Small-bowel obstruction\nD. Pneumatosis intestinalis",
+  "answer": "D",
+  "options": {
+   "A": "Pneumoperitoneum",
+   "B": "Portal venous gas",
+   "C": "Small-bowel obstruction",
+   "D": "Pneumatosis intestinalis"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "50e8b949396ce19942f4e14dec33e467",
+   "modality": "CT",
+   "question": "is pneumo intestinalis present?",
+   "finding": "Pneumatosis intestinalis",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0073",
+  "image": "dataset/medical/clean/medical_0073.png",
+  "question": "What is the main abnormality suggested by the liver contour on this axial abdominal CT?\nA. Congestive hepatopathy\nB. Hepatic steatosis\nC. Acute hepatitis\nD. Cirrhosis",
+  "answer": "D",
+  "options": {
+   "A": "Congestive hepatopathy",
+   "B": "Hepatic steatosis",
+   "C": "Acute hepatitis",
+   "D": "Cirrhosis"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "47b1422e3b3ef7e4d67289a3e75a9fcc",
+   "modality": "CT",
+   "question": "what does nodular liver suggest?",
+   "finding": "Cirrhosis",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0074",
+  "image": "dataset/medical/clean/medical_0074.png",
+  "question": "What is the main abnormality in this noncontrast axial head CT?\nA. Small subdural hematoma with cerebral edema\nB. Intraparenchymal hemorrhage with cerebral edema\nC. Small epidural hematoma with cerebral edema\nD. Subarachnoid hemorrhage with cerebral edema",
+  "answer": "A",
+  "options": {
+   "A": "Small subdural hematoma with cerebral edema",
+   "B": "Intraparenchymal hemorrhage with cerebral edema",
+   "C": "Small epidural hematoma with cerebral edema",
+   "D": "Subarachnoid hemorrhage with cerebral edema"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "a72bcb98abdedb411c8c22f497b78830",
+   "modality": "CT",
+   "question": "pathology seen in this image?",
+   "finding": "Small subdural hematoma with cerebral edema",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0075",
+  "image": "dataset/medical/clean/medical_0075.png",
+  "question": "What is the most likely diagnosis on this abdominal CT?\nA. Epiploic appendagitis\nB. Diverticulitis\nC. Appendicitis\nD. Terminal ileitis",
+  "answer": "C",
+  "options": {
+   "A": "Epiploic appendagitis",
+   "B": "Diverticulitis",
+   "C": "Appendicitis",
+   "D": "Terminal ileitis"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "53f0eb4cf3b9a6ffc6dbe2a3067de2ce",
+   "modality": "CT",
+   "question": "this image is consistent with what condition?",
+   "finding": "Appendicitis",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0076",
+  "image": "dataset/medical/clean/medical_0076.png",
+  "question": "What type of hemorrhage is shown on this noncontrast head CT?\nA. Subarachnoid hemorrhage\nB. Epidural hemorrhage\nC. Intraparenchymal hemorrhage\nD. Subdural hemorrhage",
+  "answer": "A",
+  "options": {
+   "A": "Subarachnoid hemorrhage",
+   "B": "Epidural hemorrhage",
+   "C": "Intraparenchymal hemorrhage",
+   "D": "Subdural hemorrhage"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "e5e86df40839ab74407b4ac8499c3fa9",
+   "modality": "CT",
+   "question": "what type of hemorrhage is shown?",
+   "finding": "Subarachnoid hemorrhage",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0077",
+  "image": "dataset/medical/clean/medical_0077.png",
+  "question": "What is the main abnormality in this axial head CT?\nA. Subdural hematoma\nB. Intraparenchymal hemorrhage\nC. Subarachnoid hemorrhage\nD. Intraventricular hemorrhage",
+  "answer": "C",
+  "options": {
+   "A": "Subdural hematoma",
+   "B": "Intraparenchymal hemorrhage",
+   "C": "Subarachnoid hemorrhage",
+   "D": "Intraventricular hemorrhage"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "c58ec4ddcb0b1e2b5af591cd45da254b",
+   "modality": "CT",
+   "question": "what kind of brain bleed is this?",
+   "finding": "Subarachnoid hemorrhage",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0078",
+  "image": "dataset/medical/clean/medical_0078.png",
+  "question": "What is the main renal abnormality on this axial abdominal CT?\nA. Duplicated collecting system\nB. Pelvic kidney\nC. Horseshoe kidney\nD. Crossed fused renal ectopia",
+  "answer": "C",
+  "options": {
+   "A": "Duplicated collecting system",
+   "B": "Pelvic kidney",
+   "C": "Horseshoe kidney",
+   "D": "Crossed fused renal ectopia"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "568a61ee38654059cd5a68a8235d5f8d",
+   "modality": "CT",
+   "question": "what is the organ pictured superior to the aorta?",
+   "finding": "Horseshoe kidney",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0079",
+  "image": "dataset/medical/clean/medical_0079.png",
+  "question": "What is the most likely cancerous abnormality in this axial abdominal CT?\nA. Hepatocellular carcinoma\nB. Hepatic metastases\nC. Intrahepatic cholangiocarcinoma\nD. Hepatic adenoma",
+  "answer": "A",
+  "options": {
+   "A": "Hepatocellular carcinoma",
+   "B": "Hepatic metastases",
+   "C": "Intrahepatic cholangiocarcinoma",
+   "D": "Hepatic adenoma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "3739a32032266d4a47d8f6d8ababa3aa",
+   "modality": "CT",
+   "question": "this image is suspicious of what cancerous pathology?",
+   "finding": "Hepatocellular carcinoma",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0080",
+  "image": "dataset/medical/clean/medical_0080.png",
+  "question": "What is the main abnormality in the greater omentum on this abdominal CT?\nA. Mesenteric panniculitis\nB. Omental infarction\nC. Omental torsion\nD. Omental caking",
+  "answer": "D",
+  "options": {
+   "A": "Mesenteric panniculitis",
+   "B": "Omental infarction",
+   "C": "Omental torsion",
+   "D": "Omental caking"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "cf3cca21ec5bb4a1f8c20c5ece24aefc",
+   "modality": "CT",
+   "question": "what abnormality can be seen in the greater omentum?",
+   "finding": "Omental caking",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0081",
+  "image": "dataset/medical/clean/medical_0081.png",
+  "question": "What organ is the large enhancing mass arising from in this axial abdominal CT?\nA. Spleen\nB. Left adrenal gland\nC. Left kidney\nD. Right kidney",
+  "answer": "C",
+  "options": {
+   "A": "Spleen",
+   "B": "Left adrenal gland",
+   "C": "Left kidney",
+   "D": "Right kidney"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "35e9776b566797bbb3e0a6f247c7731f",
+   "modality": "CT",
+   "question": "there is a large enhancing mass growing from what organ in this ct scan?",
+   "finding": "Left kidney",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0082",
+  "image": "dataset/medical/clean/medical_0082.png",
+  "question": "What is the main abnormality in the right kidney on this axial abdominal CT?\nA. Renal calculus\nB. Cystic lesions\nC. Hydronephrosis\nD. Solid renal mass",
+  "answer": "B",
+  "options": {
+   "A": "Renal calculus",
+   "B": "Cystic lesions",
+   "C": "Hydronephrosis",
+   "D": "Solid renal mass"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "30c1be1ceecfb7bd8e3dafec14be2b3f",
+   "modality": "CT",
+   "question": "describe the lesions in the right kidney?",
+   "finding": "Cystic lesions",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0083",
+  "image": "dataset/medical/clean/medical_0083.png",
+  "question": "What is the main abnormality in the right upper quadrant on this axial abdominal CT?\nA. Gallstones\nB. Gallbladder wall thickening\nC. Hepatic mass\nD. Biliary ductal dilation",
+  "answer": "A",
+  "options": {
+   "A": "Gallstones",
+   "B": "Gallbladder wall thickening",
+   "C": "Hepatic mass",
+   "D": "Biliary ductal dilation"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "4863c2de1f84b031a25cd1aff3188b12",
+   "modality": "CT",
+   "question": "what abnormalities are in the right upper quadrant?",
+   "finding": "Gallstones",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0084",
+  "image": "dataset/medical/clean/medical_0084.png",
+  "question": "What is the main abnormality along the aortic wall in this axial abdominal CT?\nA. Aortic aneurysm\nB. Aortic mural thrombus\nC. Aortic dissection\nD. Calcified atherosclerosis",
+  "answer": "D",
+  "options": {
+   "A": "Aortic aneurysm",
+   "B": "Aortic mural thrombus",
+   "C": "Aortic dissection",
+   "D": "Calcified atherosclerosis"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "9729fffc484ad8ca3b5ea03ac2cd3d3a",
+   "modality": "CT",
+   "question": "what are the hyperdense lesions noted at the edges of the aorta?",
+   "finding": "Calcified atherosclerosis",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0085",
+  "image": "dataset/medical/clean/medical_0085.png",
+  "question": "What is the liver’s appearance on this axial abdominal CT?\nA. Normal size with a smooth contour\nB. Shrunken and nodular\nC. Enlarged with diffuse fatty infiltration\nD. Enlarged and smooth",
+  "answer": "B",
+  "options": {
+   "A": "Normal size with a smooth contour",
+   "B": "Shrunken and nodular",
+   "C": "Enlarged with diffuse fatty infiltration",
+   "D": "Enlarged and smooth"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "147ff18b42c4f33b494f8db5b8d233bc",
+   "modality": "CT",
+   "question": "how would you describe the liver?",
+   "finding": "Shrunken and nodular",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0086",
+  "image": "dataset/medical/clean/medical_0086.png",
+  "question": "Where is the intussusception located on this axial CT of the abdomen?\nA. Ileocolic junction\nB. Colon\nC. Small bowel\nD. Stomach",
+  "answer": "C",
+  "options": {
+   "A": "Ileocolic junction",
+   "B": "Colon",
+   "C": "Small bowel",
+   "D": "Stomach"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "194b3932f2caebfc7197b3f11cfaab9a",
+   "modality": "CT",
+   "question": "where is the intussesception located?",
+   "finding": "Small bowel",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0087",
+  "image": "dataset/medical/clean/medical_0087.png",
+  "question": "What is the main abnormality of the pancreas on this axial abdominal CT?\nA. Fatty infiltration\nB. Peripancreatic inflammatory stranding\nC. Pancreatic mass\nD. Pancreatic calcifications",
+  "answer": "A",
+  "options": {
+   "A": "Fatty infiltration",
+   "B": "Peripancreatic inflammatory stranding",
+   "C": "Pancreatic mass",
+   "D": "Pancreatic calcifications"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "fb7b40cb6f7c17df31e7b2552258f1ce",
+   "modality": "CT",
+   "question": "what is wrong with the pancreas?",
+   "finding": "Fatty infiltration",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0088",
+  "image": "dataset/medical/clean/medical_0088.png",
+  "question": "What is the main abnormality of the pancreas on this axial abdominal CT?\nA. Atrophic pancreas\nB. Pancreatic calcifications\nC. Pancreatic pseudocyst\nD. Enlarged pancreas",
+  "answer": "D",
+  "options": {
+   "A": "Atrophic pancreas",
+   "B": "Pancreatic calcifications",
+   "C": "Pancreatic pseudocyst",
+   "D": "Enlarged pancreas"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "a625c8e0f65e97bb71964dc87fe553ab",
+   "modality": "CT",
+   "question": "what is abnormal about the pancreas?",
+   "finding": "Enlarged pancreas",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0089",
+  "image": "dataset/medical/clean/medical_0089.png",
+  "question": "What is the most likely diagnosis for the focal lesion in this axial brain MRI?\nA. Metastasis\nB. Glioblastoma\nC. Abscess\nD. Primary CNS lymphoma",
+  "answer": "C",
+  "options": {
+   "A": "Metastasis",
+   "B": "Glioblastoma",
+   "C": "Abscess",
+   "D": "Primary CNS lymphoma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "74b1bed824a673547834e02f3dccff92",
+   "modality": "MRI",
+   "question": "would you suspect abcess or cancer for this finding?",
+   "finding": "Abscess",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0090",
+  "image": "dataset/medical/clean/medical_0090.png",
+  "question": "What is the main abnormality in this axial brain MRI?\nA. Hydrocephalus\nB. Dandy-Walker malformation\nC. Cerebral atrophy with ex-vacuo ventricular enlargement\nD. Schizencephaly",
+  "answer": "A",
+  "options": {
+   "A": "Hydrocephalus",
+   "B": "Dandy-Walker malformation",
+   "C": "Cerebral atrophy with ex-vacuo ventricular enlargement",
+   "D": "Schizencephaly"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "6fa53ce7ae06d9cd18210bd8cf948c35",
+   "modality": "MRI",
+   "question": "the condition in which the ventricles are enlarged as seen in this image?",
+   "finding": "Hydrocephalus",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0091",
+  "image": "dataset/medical/clean/medical_0091.png",
+  "question": "What disease is suggested by the main abnormality on this brain MRI?\nA. Multiple sclerosis\nB. Chronic small-vessel ischemic disease\nC. Neuromyelitis optica\nD. Primary central nervous system lymphoma",
+  "answer": "A",
+  "options": {
+   "A": "Multiple sclerosis",
+   "B": "Chronic small-vessel ischemic disease",
+   "C": "Neuromyelitis optica",
+   "D": "Primary central nervous system lymphoma"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "a4572c77f71514c3eedf592c007e435b",
+   "modality": "MRI",
+   "question": "the pathology seen in this image is typical of what disease?",
+   "finding": "Multiple sclerosis",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0092",
+  "image": "dataset/medical/clean/medical_0092.png",
+  "question": "Where is the mass located on this axial brain MRI?\nA. Foramen of Monro\nB. Cerebellopontine angle\nC. Pituitary gland\nD. Pineal gland",
+  "answer": "D",
+  "options": {
+   "A": "Foramen of Monro",
+   "B": "Cerebellopontine angle",
+   "C": "Pituitary gland",
+   "D": "Pineal gland"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "0b48161188a393d1ba29165513c0a3b1",
+   "modality": "MRI",
+   "question": "what is the location of the mass?",
+   "finding": "Pineal gland",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0093",
+  "image": "dataset/medical/clean/medical_0093.png",
+  "question": "What is the main abnormality on this axial brain MRI?\nA. Demyelinating plaques\nB. Intracranial hemorrhages\nC. Infarcts\nD. Metastatic lesions",
+  "answer": "C",
+  "options": {
+   "A": "Demyelinating plaques",
+   "B": "Intracranial hemorrhages",
+   "C": "Infarcts",
+   "D": "Metastatic lesions"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "25bf53c665e8659fccdd8e0360fa44b9",
+   "modality": "MRI",
+   "question": "what does the hyperlucency indicate?",
+   "finding": "Infarcts",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0094",
+  "image": "dataset/medical/clean/medical_0094.png",
+  "question": "What is the main abnormality on this axial brain MRI?\nA. White matter plaques\nB. Intracranial hemorrhage\nC. Brain tumor\nD. Acute cerebral infarction",
+  "answer": "A",
+  "options": {
+   "A": "White matter plaques",
+   "B": "Intracranial hemorrhage",
+   "C": "Brain tumor",
+   "D": "Acute cerebral infarction"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "4b8abfbe71bd8f70d014a0915c433660",
+   "modality": "MRI",
+   "question": "what is abnormal about the image?",
+   "finding": "White matter plaques",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0095",
+  "image": "dataset/medical/clean/medical_0095.png",
+  "question": "What is the most likely diagnosis on this axial brain MRI?\nA. PRES\nB. Acute ischemic infarction\nC. Glioblastoma\nD. Multiple sclerosis",
+  "answer": "A",
+  "options": {
+   "A": "PRES",
+   "B": "Acute ischemic infarction",
+   "C": "Glioblastoma",
+   "D": "Multiple sclerosis"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "b13faa7ba8f24b9fdca0597fd5b285e3",
+   "modality": "MRI",
+   "question": "what is the likely pathology?",
+   "finding": "PRES",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0096",
+  "image": "dataset/medical/clean/medical_0096.png",
+  "question": "In which ventricle is the mass located on this axial brain MRI?\nA. Cerebral aqueduct\nB. Lateral ventricle\nC. 3rd ventricle\nD. 4th ventricle",
+  "answer": "D",
+  "options": {
+   "A": "Cerebral aqueduct",
+   "B": "Lateral ventricle",
+   "C": "3rd ventricle",
+   "D": "4th ventricle"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "27987cd2a8e10091045188c9173639ff",
+   "modality": "MRI",
+   "question": "which ventricle is the mass located in?",
+   "finding": "4th ventricle",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0097",
+  "image": "dataset/medical/clean/medical_0097.png",
+  "question": "What is the main abnormality on this brain MRI?\nA. Cerebellar hemorrhage\nB. Infarct\nC. Demyelinating lesion\nD. Cerebellar tumor",
+  "answer": "B",
+  "options": {
+   "A": "Cerebellar hemorrhage",
+   "B": "Infarct",
+   "C": "Demyelinating lesion",
+   "D": "Cerebellar tumor"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "2d73c4ba3704a3b2fd4daca011911a9d",
+   "modality": "MRI",
+   "question": "what does the abnormality in this image represent?",
+   "finding": "Infarct",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0098",
+  "image": "dataset/medical/clean/medical_0098.png",
+  "question": "Where is the mass located on this axial brain MRI?\nA. Fourth ventricle\nB. Suprasellar cistern\nC. Pineal region\nD. Cerebellopontine angle",
+  "answer": "B",
+  "options": {
+   "A": "Fourth ventricle",
+   "B": "Suprasellar cistern",
+   "C": "Pineal region",
+   "D": "Cerebellopontine angle"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "08fbb0b11990986b761ef9d63c6861f7",
+   "modality": "MRI",
+   "question": "where is the mass?",
+   "finding": "Suprasellar cistern",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0099",
+  "image": "dataset/medical/clean/medical_0099.png",
+  "question": "Where is the mass located on this axial contrast-enhanced brain MRI?\nA. Pineal region\nB. Cerebellopontine angle\nC. Parasellar region\nD. Frontal lobe",
+  "answer": "B",
+  "options": {
+   "A": "Pineal region",
+   "B": "Cerebellopontine angle",
+   "C": "Parasellar region",
+   "D": "Frontal lobe"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "44c62030e4a09e4c3876e187fec67423",
+   "modality": "MRI",
+   "question": "in which brain area is the lesion located?",
+   "finding": "Cerebellopontine angle",
+   "license": "CC0 1.0"
+  }
+ },
+ {
+  "id": "medical_0100",
+  "image": "dataset/medical/clean/medical_0100.png",
+  "question": "What is the main ventricular abnormality in this axial brain MRI?\nA. Isolated lateral ventricular hydrocephalus\nB. Fourth ventricular hydrocephalus\nC. Ex vacuo enlargement of the ventricles\nD. Lateral and third ventricular hydrocephalus",
+  "answer": "D",
+  "options": {
+   "A": "Isolated lateral ventricular hydrocephalus",
+   "B": "Fourth ventricular hydrocephalus",
+   "C": "Ex vacuo enlargement of the ventricles",
+   "D": "Lateral and third ventricular hydrocephalus"
+  },
+  "domain": "medical",
+  "task": "Diagnosis",
+  "source": {
+   "dataset": "VQA-RAD",
+   "image_md5": "4a207e7867f7f811e819465077104fd3",
+   "modality": "MRI",
+   "question": "what ventricular abnormalities are seen?",
+   "finding": "Lateral and third ventricular hydrocephalus",
+   "license": "CC0 1.0"
+  }
+ }
+]

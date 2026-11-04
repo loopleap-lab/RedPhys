@@ -1,0 +1,14 @@
+epsilon: 16.0
+seed: 42
+precision: "bf16"           # or "fp32"
+max_iterations: 30
+inner_step_size: 250.0
+ksi: 3.2
+mu: 1.0
+ssa_N: 20
+ssa_sigma: 16.0
+ssa_rho: 0.5
+lambda_cls: 0.5
+lambda_local: 2.0
+lambda_fix: 0.2
+k_ratio: 0.2

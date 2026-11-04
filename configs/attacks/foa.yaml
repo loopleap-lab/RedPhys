@@ -1,0 +1,25 @@
+epsilon: 16.0
+seed: 42
+precision: "bf16"           # or "fp32"
+max_iterations: 300
+alpha: 1.0
+attack_method: "fgsm"
+backbone: ["B16", "B32", "Laion"]
+eta: 0.2                     # Eq. 10
+temperature: 1.0             # Eq. 13
+sinkhorn_lambda: 0.1         # Eq. 7-8
+cluster_number: 3            # unless adaptive
+use_adaptive_cluster: true
+adaptive_clusters: [3, 5]
+use_source_crop: true
+use_target_crop: true
+crop_scale: [0.5, 0.9]
+crop_ratio: [0.75, 1.3333333333333333]  # x image W/H
+momentum: 0.9                # MI-FGSM
+llm_description_model: "gpt-4o-mini"
+llm_scorer_model: "gpt-4o-mini"
+llm_similarity_threshold: 0.5
+input_res: 224
+resize_source: false          # true: as upstream, the source is resized + center-cropped to input_res and the output has that size
+llm_server_url: null  # OpenAI-compatible; null: OpenAI
+llm_api_key_env: "OPENAI_API_KEY"

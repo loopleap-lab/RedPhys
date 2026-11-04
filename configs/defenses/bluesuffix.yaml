@@ -1,0 +1,14 @@
+seed: 42
+precision: "bf16"           # or "fp32"
+enable_image_purifier: true
+enable_text_purifier: true
+enable_suffix_generator: true
+max_timesteps: "400"
+num_denoising_steps: "400"
+sampling_method: "ddpm"
+text_purifier_model: "gpt-4o"
+suffix_max_new_tokens: 10    # fixed suffix length
+suffix_top_p: 0.92
+suffix_temperature: 0.7
+llm_server_url: null  # OpenAI-compatible; null: OpenAI
+llm_api_key_env: "OPENAI_API_KEY"

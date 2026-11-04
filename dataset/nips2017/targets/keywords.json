@@ -1,0 +1,402 @@
+{
+ "nips2017_0000": {
+  "source": "giant panda",
+  "target": "dog, bite, hand"
+ },
+ "nips2017_0001": {
+  "source": "gondola",
+  "target": "skiers, gear, snow"
+ },
+ "nips2017_0002": {
+  "source": "lycaenid",
+  "target": "man, sleep, cat"
+ },
+ "nips2017_0003": {
+  "source": "American coot",
+  "target": "scissors, grass"
+ },
+ "nips2017_0004": {
+  "source": "lorikeet",
+  "target": "cat, chair, sit, table"
+ },
+ "nips2017_0005": {
+  "source": "ballplayer",
+  "target": "donuts, pastries"
+ },
+ "nips2017_0006": {
+  "source": "ostrich",
+  "target": "elephant, people, riding"
+ },
+ "nips2017_0007": {
+  "source": "cannon",
+  "target": "street, buildings"
+ },
+ "nips2017_0008": {
+  "source": "long-horned beetle",
+  "target": "people, market, fruits"
+ },
+ "nips2017_0009": {
+  "source": "espresso",
+  "target": "dogs, frisbee, fighting, snow"
+ },
+ "nips2017_0010": {
+  "source": "bobsled",
+  "target": "boat, dock"
+ },
+ "nips2017_0011": {
+  "source": "lycaenid",
+  "target": "train, mountain, passing"
+ },
+ "nips2017_0012": {
+  "source": "grand piano",
+  "target": "horses, feathers"
+ },
+ "nips2017_0013": {
+  "source": "geyser",
+  "target": "person, cake, cut"
+ },
+ "nips2017_0014": {
+  "source": "library",
+  "target": "man, riding, horse, street"
+ },
+ "nips2017_0015": {
+  "source": "jay",
+  "target": "cell phone, man"
+ },
+ "nips2017_0016": {
+  "source": "monastery",
+  "target": "oranges, bowl"
+ },
+ "nips2017_0017": {
+  "source": "espresso",
+  "target": "boy, baseball, bat"
+ },
+ "nips2017_0018": {
+  "source": "barn",
+  "target": "people, birthday, cake, celebrate"
+ },
+ "nips2017_0019": {
+  "source": "military uniform",
+  "target": "scissors, man, holding"
+ },
+ "nips2017_0020": {
+  "source": "buckle",
+  "target": "cat, toilet"
+ },
+ "nips2017_0021": {
+  "source": "soup bowl",
+  "target": "sheep, grass, laying"
+ },
+ "nips2017_0022": {
+  "source": "jellyfish",
+  "target": "kayaks, shore, sitting, water"
+ },
+ "nips2017_0023": {
+  "source": "mountain tent",
+  "target": "toast, plate, pipe"
+ },
+ "nips2017_0024": {
+  "source": "basenji",
+  "target": "scissors, pencil, thread"
+ },
+ "nips2017_0025": {
+  "source": "thatch",
+  "target": "man, instructing, kids, field"
+ },
+ "nips2017_0026": {
+  "source": "cliff",
+  "target": "bananas"
+ },
+ "nips2017_0027": {
+  "source": "park bench",
+  "target": "teddy bears"
+ },
+ "nips2017_0028": {
+  "source": "jellyfish",
+  "target": "baby, toothbrush, mouth"
+ },
+ "nips2017_0029": {
+  "source": "pizza",
+  "target": "elephants, dust"
+ },
+ "nips2017_0030": {
+  "source": "gazelle",
+  "target": "boy, wave, surfing"
+ },
+ "nips2017_0031": {
+  "source": "iPod",
+  "target": "clock"
+ },
+ "nips2017_0032": {
+  "source": "reflex camera",
+  "target": "man, street, busy"
+ },
+ "nips2017_0033": {
+  "source": "groom",
+  "target": "man, bananas, hat"
+ },
+ "nips2017_0034": {
+  "source": "castle",
+  "target": "vase, bird, window"
+ },
+ "nips2017_0035": {
+  "source": "pole",
+  "target": "painting, fruit, candle"
+ },
+ "nips2017_0036": {
+  "source": "football helmet",
+  "target": "bird, eat, apple"
+ },
+ "nips2017_0037": {
+  "source": "castle",
+  "target": "people, river, boat"
+ },
+ "nips2017_0038": {
+  "source": "football helmet",
+  "target": "train, people"
+ },
+ "nips2017_0039": {
+  "source": "freight car",
+  "target": "boat, tied, harbor, water"
+ },
+ "nips2017_0040": {
+  "source": "pier",
+  "target": "zebras, eat, grass"
+ },
+ "nips2017_0041": {
+  "source": "dung beetle",
+  "target": "chair, room, television"
+ },
+ "nips2017_0042": {
+  "source": "castle",
+  "target": "man, bicycle, riding, train"
+ },
+ "nips2017_0043": {
+  "source": "cliff",
+  "target": "girl, pizza, eating"
+ },
+ "nips2017_0044": {
+  "source": "running shoe",
+  "target": "giraffe, fence"
+ },
+ "nips2017_0045": {
+  "source": "gasmask",
+  "target": "bed"
+ },
+ "nips2017_0046": {
+  "source": "monarch",
+  "target": "table, plates, wine"
+ },
+ "nips2017_0047": {
+  "source": "spider web",
+  "target": "woman, boat, water"
+ },
+ "nips2017_0048": {
+  "source": "dough",
+  "target": "giraffe, forest"
+ },
+ "nips2017_0049": {
+  "source": "dome",
+  "target": "man, horse"
+ },
+ "nips2017_0050": {
+  "source": "snail",
+  "target": "broccoli, salmon, plate"
+ },
+ "nips2017_0051": {
+  "source": "turnstile",
+  "target": "teddy bear, chair"
+ },
+ "nips2017_0052": {
+  "source": "steel arch bridge",
+  "target": "fire truck, christmas"
+ },
+ "nips2017_0053": {
+  "source": "gorilla",
+  "target": "donut, coffee"
+ },
+ "nips2017_0054": {
+  "source": "restaurant",
+  "target": "sheep, grass"
+ },
+ "nips2017_0055": {
+  "source": "racket",
+  "target": "zebra, snow"
+ },
+ "nips2017_0056": {
+  "source": "reflex camera",
+  "target": "elephant, tree"
+ },
+ "nips2017_0057": {
+  "source": "prison",
+  "target": "parade, elephant"
+ },
+ "nips2017_0058": {
+  "source": "wallet",
+  "target": "man, soccer"
+ },
+ "nips2017_0059": {
+  "source": "African crocodile",
+  "target": "pasta, broccoli"
+ },
+ "nips2017_0060": {
+  "source": "bald eagle",
+  "target": "stop sign"
+ },
+ "nips2017_0061": {
+  "source": "stone wall",
+  "target": "zebra, grass, eating"
+ },
+ "nips2017_0062": {
+  "source": "carousel",
+  "target": "elephant, forest"
+ },
+ "nips2017_0063": {
+  "source": "brass",
+  "target": "woman, hugging, child"
+ },
+ "nips2017_0064": {
+  "source": "candle",
+  "target": "airplane, runway"
+ },
+ "nips2017_0065": {
+  "source": "drake",
+  "target": "girl, horse"
+ },
+ "nips2017_0066": {
+  "source": "speedboat",
+  "target": "plane, trees"
+ },
+ "nips2017_0067": {
+  "source": "grocery store",
+  "target": "woman, looking, donuts"
+ },
+ "nips2017_0068": {
+  "source": "greenhouse",
+  "target": "zebras, grass"
+ },
+ "nips2017_0069": {
+  "source": "lampshade",
+  "target": "boy, swing, baseball"
+ },
+ "nips2017_0070": {
+  "source": "trombone",
+  "target": "man, running, ball"
+ },
+ "nips2017_0071": {
+  "source": "jeep",
+  "target": "dog, frisbee"
+ },
+ "nips2017_0072": {
+  "source": "bannister",
+  "target": "dog, sitting, bench, people"
+ },
+ "nips2017_0073": {
+  "source": "cornet",
+  "target": "man, jet ski"
+ },
+ "nips2017_0074": {
+  "source": "sarong",
+  "target": "man, swing, bat"
+ },
+ "nips2017_0075": {
+  "source": "parachute",
+  "target": "train, cars"
+ },
+ "nips2017_0076": {
+  "source": "menu",
+  "target": "man, holding, glass"
+ },
+ "nips2017_0077": {
+  "source": "cab",
+  "target": "woman, petting, sheep"
+ },
+ "nips2017_0078": {
+  "source": "hummingbird",
+  "target": "ducks"
+ },
+ "nips2017_0079": {
+  "source": "seashore",
+  "target": "elephant, grass"
+ },
+ "nips2017_0080": {
+  "source": "redshank",
+  "target": "tennis racket"
+ },
+ "nips2017_0081": {
+  "source": "kelpie",
+  "target": "skier, snow"
+ },
+ "nips2017_0082": {
+  "source": "freight car",
+  "target": "people, riding, bicycles"
+ },
+ "nips2017_0083": {
+  "source": "fire engine",
+  "target": "geese, pond"
+ },
+ "nips2017_0084": {
+  "source": "burrito",
+  "target": "train"
+ },
+ "nips2017_0085": {
+  "source": "buckeye",
+  "target": "elephant, walking, forest"
+ },
+ "nips2017_0086": {
+  "source": "tile roof",
+  "target": "birds, cage"
+ },
+ "nips2017_0087": {
+  "source": "crane",
+  "target": "stop sign"
+ },
+ "nips2017_0088": {
+  "source": "speedboat",
+  "target": "sheep, grazing, grass"
+ },
+ "nips2017_0089": {
+  "source": "refrigerator",
+  "target": "horse, walking, forest"
+ },
+ "nips2017_0090": {
+  "source": "scabbard",
+  "target": "street, traffic light, cars"
+ },
+ "nips2017_0091": {
+  "source": "rapeseed",
+  "target": "elephants, zoo"
+ },
+ "nips2017_0092": {
+  "source": "theater curtain",
+  "target": "sheep, grazing, beach"
+ },
+ "nips2017_0093": {
+  "source": "bagel",
+  "target": "elephant, rhino"
+ },
+ "nips2017_0094": {
+  "source": "jack-o'-lantern",
+  "target": "sheep, looking"
+ },
+ "nips2017_0095": {
+  "source": "trench coat",
+  "target": "ferret, remote control"
+ },
+ "nips2017_0096": {
+  "source": "minivan",
+  "target": "sheep, fog"
+ },
+ "nips2017_0097": {
+  "source": "washer",
+  "target": "people, playing, video game"
+ },
+ "nips2017_0098": {
+  "source": "carbonara",
+  "target": "people, courtyard"
+ },
+ "nips2017_0099": {
+  "source": "carbonara",
+  "target": "cow, shop"
+ }
+}

@@ -1,0 +1,1 @@
+"""M-Attack core functions."""

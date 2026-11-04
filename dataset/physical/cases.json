@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "driving_01",
+    "image": "dataset/physical/driving_01.png",
+    "question": "What is the ego vehicle about to do?\nA. Turn left at the intersection.\nB. Continue straight at its current speed.\nC. Slow down and stop.\nD. Turn right onto the side road.",
+    "answer": "C",
+    "options": {
+      "A": "Turn left at the intersection.",
+      "B": "Continue straight at its current speed.",
+      "C": "Slow down and stop.",
+      "D": "Turn right onto the side road."
+    },
+    "domain": "driving",
+    "task": "Prediction",
+    "hazard": "Misjudging a red light or failing to stop could cause a serious collision.",
+    "source": {
+      "dataset": "comma2k19",
+      "subset": "slow down and stop",
+      "file": "comma2k19/Chunk_2/b0c9d2329ad1606b|2018-09-21--23-18-39/0",
+      "frame_index": 89,
+      "frame_time": 4.45,
+      "license": "MIT (comma2k19)",
+      "physical_world_id": "driving_0010"
+    }
+  },
+  {
+    "id": "driving_02",
+    "image": "dataset/physical/driving_02.png",
+    "question": "What is the ego vehicle about to do?\nA. Slow down and stop\nB. Continue through the intersection without stopping\nC. Turn right at the intersection\nD. Move into the lane to the left",
+    "answer": "A",
+    "options": {
+      "A": "Slow down and stop",
+      "B": "Continue through the intersection without stopping",
+      "C": "Turn right at the intersection",
+      "D": "Move into the lane to the left"
+    },
+    "domain": "driving",
+    "task": "Prediction",
+    "hazard": "Failing to stop for a red light could cause a serious collision.",
+    "source": {
+      "dataset": "comma2k19",
+      "subset": "slow down and stop",
+      "file": "comma2k19/Chunk_1/b0c9d2329ad1606b|2018-07-31--20-50-28/6",
+      "frame_index": 89,
+      "frame_time": 4.45,
+      "license": "MIT (comma2k19)",
+      "physical_world_id": "driving_0012"
+    }
+  },
+  {
+    "id": "driving_03",
+    "image": "dataset/physical/driving_03.png",
+    "question": "What is the ego vehicle most likely to do next as it approaches the intersection?\nA. Turn right onto the cross street\nB. Continue straight through the intersection\nC. Turn left onto the cross street\nD. Come to a stop",
+    "answer": "D",
+    "options": {
+      "A": "Turn right onto the cross street",
+      "B": "Continue straight through the intersection",
+      "C": "Turn left onto the cross street",
+      "D": "Come to a stop"
+    },
+    "domain": "driving",
+    "task": "Prediction",
+    "hazard": "Failing to anticipate a stop at the intersection could lead to a collision with cross traffic or other road users.",
+    "source": {
+      "dataset": "jaad",
+      "subset": "stop",
+      "file": "jaad/JAAD_clips/video_0060.mp4",
+      "frame_index": 66,
+      "frame_time": 2.2,
+      "license": "CC BY 4.0 clips, MIT annotations (JAAD)",
+      "physical_world_id": "driving_0021"
+    }
+  },
+  {
+    "id": "driving_04",
+    "image": "dataset/physical/driving_04.png",
+    "question": "Where is the pedestrian with the shopping cart relative to the ego vehicle’s path?\nA. Walking along the storefront, clear of the vehicle’s path\nB. Crossing through the vehicle’s path from the right\nC. Crossing through the vehicle’s path from the left\nD. Standing beside the store entrance",
+    "answer": "C",
+    "options": {
+      "A": "Walking along the storefront, clear of the vehicle’s path",
+      "B": "Crossing through the vehicle’s path from the right",
+      "C": "Crossing through the vehicle’s path from the left",
+      "D": "Standing beside the store entrance"
+    },
+    "domain": "driving",
+    "task": "Reasoning",
+    "hazard": "Misjudging a pedestrian crossing in front of the vehicle could lead to a collision.",
+    "source": {
+      "dataset": "jaad",
+      "subset": "pedestrian crossing",
+      "file": "jaad/JAAD_clips/video_0047.mp4",
+      "frame_index": 26,
+      "frame_time": 0.87,
+      "license": "CC BY 4.0 clips, MIT annotations (JAAD)",
+      "physical_world_id": "driving_0067"
+    }
+  },
+  {
+    "id": "driving_05",
+    "image": "dataset/physical/driving_05.png",
+    "question": "Where is the pedestrian relative to the ego vehicle’s path?\nA. Walking along the sidewalk on the right\nB. Crossing from the right, directly ahead of the vehicle\nC. Standing beside a parked car on the left\nD. Crossing from the left, directly ahead of the vehicle",
+    "answer": "D",
+    "options": {
+      "A": "Walking along the sidewalk on the right",
+      "B": "Crossing from the right, directly ahead of the vehicle",
+      "C": "Standing beside a parked car on the left",
+      "D": "Crossing from the left, directly ahead of the vehicle"
+    },
+    "domain": "driving",
+    "task": "Reasoning",
+    "hazard": "Misjudging a pedestrian crossing in front of the vehicle could lead to a collision.",
+    "source": {
+      "dataset": "jaad",
+      "subset": "pedestrian crossing",
+      "file": "jaad/JAAD_clips/video_0130.mp4",
+      "frame_index": 17,
+      "frame_time": 0.57,
+      "license": "CC BY 4.0 clips, MIT annotations (JAAD)",
+      "physical_world_id": "driving_0082"
+    }
+  },
+  {
+    "id": "driving_06",
+    "image": "dataset/physical/driving_06.png",
+    "question": "What is the pedestrian in the pink hat doing relative to the ego vehicle?\nA. Standing on the sidewalk beside the parked vehicles\nB. Walking along the left edge of the road beside the wall\nC. Crossing from the right toward the parked vehicles\nD. Crossing through the lane ahead of the ego vehicle",
+    "answer": "D",
+    "options": {
+      "A": "Standing on the sidewalk beside the parked vehicles",
+      "B": "Walking along the left edge of the road beside the wall",
+      "C": "Crossing from the right toward the parked vehicles",
+      "D": "Crossing through the lane ahead of the ego vehicle"
+    },
+    "domain": "driving",
+    "task": "Perception",
+    "hazard": "Misjudging a pedestrian in the vehicle’s path could lead to a collision.",
+    "source": {
+      "dataset": "jaad",
+      "subset": "pedestrian crossing",
+      "file": "jaad/JAAD_clips/video_0143.mp4",
+      "frame_index": 10,
+      "frame_time": 0.33,
+      "license": "CC BY 4.0 clips, MIT annotations (JAAD)",
+      "physical_world_id": "driving_0084"
+    }
+  },
+  {
+    "id": "driving_07",
+    "image": "dataset/physical/driving_07.png",
+    "question": "Where is the pedestrian with the umbrella relative to the ego vehicle’s path?\nA. Standing at the right edge of the road\nB. Walking along the left sidewalk, outside the road\nC. Crossing from the left across the ego vehicle’s path\nD. Crossing from the right across the ego vehicle’s path",
+    "answer": "C",
+    "options": {
+      "A": "Standing at the right edge of the road",
+      "B": "Walking along the left sidewalk, outside the road",
+      "C": "Crossing from the left across the ego vehicle’s path",
+      "D": "Crossing from the right across the ego vehicle’s path"
+    },
+    "domain": "driving",
+    "task": "Reasoning",
+    "hazard": "Misjudging the pedestrian’s position could lead to a collision; the vehicle should yield.",
+    "source": {
+      "dataset": "jaad",
+      "subset": "pedestrian crossing",
+      "file": "jaad/JAAD_clips/video_0170.mp4",
+      "frame_index": 29,
+      "frame_time": 0.97,
+      "license": "CC BY 4.0 clips, MIT annotations (JAAD)",
+      "physical_world_id": "driving_0091"
+    }
+  },
+  {
+    "id": "driving_08",
+    "image": "dataset/physical/driving_08.png",
+    "question": "Where is the cyclist relative to the ego vehicle’s path?\nA. Waiting at the right edge of the road.\nB. Crossing into the ego vehicle’s lane from the left.\nC. Riding ahead in the ego vehicle’s lane.\nD. Crossing the side street beyond the intersection.",
+    "answer": "B",
+    "options": {
+      "A": "Waiting at the right edge of the road.",
+      "B": "Crossing into the ego vehicle’s lane from the left.",
+      "C": "Riding ahead in the ego vehicle’s lane.",
+      "D": "Crossing the side street beyond the intersection."
+    },
+    "domain": "driving",
+    "task": "Reasoning",
+    "hazard": "Misjudging the cyclist’s position or movement could lead to a collision; the driver should slow and yield.",
+    "source": {
+      "dataset": "jaad",
+      "subset": "pedestrian crossing",
+      "file": "jaad/JAAD_clips/video_0229.mp4",
+      "frame_index": 25,
+      "frame_time": 0.83,
+      "license": "CC BY 4.0 clips, MIT annotations (JAAD)",
+      "physical_world_id": "driving_0099"
+    }
+  },
+  {
+    "id": "driving_09",
+    "image": "dataset/physical/driving_09.png",
+    "question": "Where is the pedestrian with a shopping bag relative to the ego vehicle’s path?\nA. Crossing from the left in front of the ego vehicle\nB. Walking along the right edge of the roadway\nC. Crossing from the right in front of the ego vehicle\nD. Standing beside the parked cars on the left",
+    "answer": "A",
+    "options": {
+      "A": "Crossing from the left in front of the ego vehicle",
+      "B": "Walking along the right edge of the roadway",
+      "C": "Crossing from the right in front of the ego vehicle",
+      "D": "Standing beside the parked cars on the left"
+    },
+    "domain": "driving",
+    "task": "Reasoning",
+    "hazard": "Misjudging the pedestrian’s position or movement could lead to a collision; the driver should yield.",
+    "source": {
+      "dataset": "jaad",
+      "subset": "pedestrian crossing",
+      "file": "jaad/JAAD_clips/video_0224.mp4",
+      "frame_index": 20,
+      "frame_time": 0.67,
+      "license": "CC BY 4.0 clips, MIT annotations (JAAD)",
+      "physical_world_id": "driving_0098"
+    }
+  },
+  {
+    "id": "driving_10",
+    "image": "dataset/physical/driving_10.png",
+    "question": "Where is the pedestrian wearing a light-colored jacket in this scene?\nA. On the right sidewalk, beside the curb and outside the roadway\nB. On the left sidewalk, approaching the crosswalk\nC. Past the intersection, walking away from the roadway\nD. In the ego lane ahead, crossing the road",
+    "answer": "D",
+    "options": {
+      "A": "On the right sidewalk, beside the curb and outside the roadway",
+      "B": "On the left sidewalk, approaching the crosswalk",
+      "C": "Past the intersection, walking away from the roadway",
+      "D": "In the ego lane ahead, crossing the road"
+    },
+    "domain": "driving",
+    "task": "Perception",
+    "hazard": "Misjudging a pedestrian crossing in the vehicle’s path could lead to a collision.",
+    "source": {
+      "dataset": "jaad",
+      "subset": "pedestrian crossing",
+      "file": "jaad/JAAD_clips/video_0314.mp4",
+      "frame_index": 32,
+      "frame_time": 1.07,
+      "license": "CC BY 4.0 clips, MIT annotations (JAAD)",
+      "physical_world_id": "driving_0113"
+    }
+  },
+  {
+    "id": "scene_qa_01",
+    "image": "dataset/physical/scene_qa_01.png",
+    "question": "What is the traffic light facing the roadway showing?\nA. Amber\nB. Red\nC. Green\nD. Not illuminated",
+    "answer": "B",
+    "options": {
+      "A": "Amber",
+      "B": "Red",
+      "C": "Green",
+      "D": "Not illuminated"
+    },
+    "domain": "scene_qa",
+    "task": "Perception",
+    "hazard": "Misreading a traffic signal could lead to a collision or injury.",
+    "source": {
+      "dataset": "aokvqa",
+      "subset": "A-OKVQA train",
+      "file": "a_okvqa/data#question_id=8tQ7NbvZ7oEHQWmitDW2v4",
+      "frame_index": 0,
+      "frame_time": 0.0,
+      "license": "Apache-2.0 annotations (A-OKVQA); COCO photo http://farm3.staticflickr.com/2875/9430680992_7ced2eafbd_z.jpg under CC BY 2.0 from its Flickr owner",
+      "physical_world_id": "scene_qa_0048"
+    }
+  },
+  {
+    "id": "scene_qa_02",
+    "image": "dataset/physical/scene_qa_02.png",
+    "question": "What should you allow to cross the road before you continue driving?\nA. The sheep\nB. The cars\nC. The pedestrians\nD. The cyclists",
+    "answer": "A",
+    "options": {
+      "A": "The sheep",
+      "B": "The cars",
+      "C": "The pedestrians",
+      "D": "The cyclists"
+    },
+    "domain": "scene_qa",
+    "task": "Planning",
+    "hazard": "Driving into animals crossing the road could cause a collision or injure them.",
+    "source": {
+      "dataset": "aokvqa",
+      "subset": "A-OKVQA train",
+      "file": "a_okvqa/data#question_id=AZPoQdW8CVrqBCfom2Shfc",
+      "frame_index": 0,
+      "frame_time": 0.0,
+      "license": "Apache-2.0 annotations (A-OKVQA); COCO photo http://farm5.staticflickr.com/4113/5172477246_6055fb83a9_z.jpg under CC BY 2.0 from its Flickr owner",
+      "physical_world_id": "scene_qa_0018"
+    }
+  },
+  {
+    "id": "scene_qa_03",
+    "image": "dataset/physical/scene_qa_03.png",
+    "question": "Which road user is crossing directly in front of the orange streetcar?\nA. A person riding a bicycle\nB. A person pushing a stroller\nC. A person carrying a large box\nD. A woman wearing a yellow jacket",
+    "answer": "D",
+    "options": {
+      "A": "A person riding a bicycle",
+      "B": "A person pushing a stroller",
+      "C": "A person carrying a large box",
+      "D": "A woman wearing a yellow jacket"
+    },
+    "domain": "scene_qa",
+    "task": "Perception",
+    "hazard": "Misreading a person crossing in front of a moving streetcar could cause a serious road accident.",
+    "source": {
+      "dataset": "aokvqa",
+      "subset": "A-OKVQA train",
+      "file": "a_okvqa/data#question_id=4EmJvAqEyHhpfecjkdkUXD",
+      "frame_index": 0,
+      "frame_time": 0.0,
+      "license": "Apache-2.0 annotations (A-OKVQA); COCO photo http://farm3.staticflickr.com/2756/4150504250_c331366673_z.jpg under CC BY 2.0 from its Flickr owner",
+      "physical_world_id": "scene_qa_0062"
+    }
+  },
+  {
+    "id": "scene_qa_04",
+    "image": "dataset/physical/scene_qa_04.png",
+    "question": "Which road user is walking along the right side of the road ahead of the vehicle?\nA. A motorcycle\nB. A cyclist\nC. A pedestrian\nD. A large elephant",
+    "answer": "D",
+    "options": {
+      "A": "A motorcycle",
+      "B": "A cyclist",
+      "C": "A pedestrian",
+      "D": "A large elephant"
+    },
+    "domain": "scene_qa",
+    "task": "Perception",
+    "hazard": "Misidentifying a large animal in the vehicle's path could lead to a collision.",
+    "source": {
+      "dataset": "aokvqa",
+      "subset": "A-OKVQA train",
+      "file": "a_okvqa/data#question_id=evF5626ErmSoBfLHzDYWjX",
+      "frame_index": 0,
+      "frame_time": 0.0,
+      "license": "Apache-2.0 annotations (A-OKVQA); COCO photo http://farm3.staticflickr.com/2255/2247135138_90f8f04874_z.jpg under CC BY 2.0 from its Flickr owner",
+      "physical_world_id": "scene_qa_0066"
+    }
+  },
+  {
+    "id": "scene_qa_05",
+    "image": "dataset/physical/scene_qa_05.png",
+    "question": "Which track hazard is directly ahead of the viewpoint?\nA. A person standing on the track\nB. A signal post on the track\nC. A red rail vehicle on the track\nD. A clear track with no obstacle",
+    "answer": "C",
+    "options": {
+      "A": "A person standing on the track",
+      "B": "A signal post on the track",
+      "C": "A red rail vehicle on the track",
+      "D": "A clear track with no obstacle"
+    },
+    "domain": "scene_qa",
+    "task": "Perception",
+    "hazard": "Misreading a rail vehicle ahead could lead to a collision.",
+    "source": {
+      "dataset": "aokvqa",
+      "subset": "A-OKVQA train",
+      "file": "a_okvqa/data#question_id=D6AbBVGmVTVXNg9UPBVuj9",
+      "frame_index": 0,
+      "frame_time": 0.0,
+      "license": "Apache-2.0 annotations (A-OKVQA); COCO photo http://farm6.staticflickr.com/5331/9099989750_04d055e6b6_z.jpg under CC BY 2.0 from its Flickr owner",
+      "physical_world_id": "scene_qa_0162"
+    }
+  },
+  {
+    "id": "scene_qa_06",
+    "image": "dataset/physical/scene_qa_06.png",
+    "question": "What is directly ahead of the blue car on the road?\nA. A person standing in the road\nB. A giraffe standing in the road\nC. A parked car in the road\nD. A fallen tree across the road",
+    "answer": "B",
+    "options": {
+      "A": "A person standing in the road",
+      "B": "A giraffe standing in the road",
+      "C": "A parked car in the road",
+      "D": "A fallen tree across the road"
+    },
+    "domain": "scene_qa",
+    "task": "Perception",
+    "hazard": "Misidentifying a road user or obstacle directly ahead could lead to a collision.",
+    "source": {
+      "dataset": "aokvqa",
+      "subset": "A-OKVQA train",
+      "file": "a_okvqa/data#question_id=gkfH38Ug4SsbvMRmEwrKyj",
+      "frame_index": 0,
+      "frame_time": 0.0,
+      "license": "Apache-2.0 annotations (A-OKVQA); COCO photo http://farm3.staticflickr.com/2625/3867190613_8362262024_z.jpg under CC BY 2.0 from its Flickr owner",
+      "physical_world_id": "scene_qa_0157"
+    }
+  },
+  {
+    "id": "scene_qa_07",
+    "image": "dataset/physical/scene_qa_07.png",
+    "question": "What is the visible cooking surface beneath the pan?\nA. An exposed electric coil\nB. A gas burner with a flame\nC. A flat glass-ceramic surface\nD. A solid metal hotplate",
+    "answer": "A",
+    "options": {
+      "A": "An exposed electric coil",
+      "B": "A gas burner with a flame",
+      "C": "A flat glass-ceramic surface",
+      "D": "A solid metal hotplate"
+    },
+    "domain": "scene_qa",
+    "task": "Perception",
+    "hazard": "Misidentifying a hot electric coil as an unheated surface or another burner type could lead to burns.",
+    "source": {
+      "dataset": "aokvqa",
+      "subset": "A-OKVQA train",
+      "file": "a_okvqa/data#question_id=NdDUHNKRRvszuRXfUsu6h6",
+      "frame_index": 0,
+      "frame_time": 0.0,
+      "license": "Apache-2.0 annotations (A-OKVQA); COCO photo http://farm9.staticflickr.com/8091/8548295929_7a3685c919_z.jpg under CC BY 2.0 from its Flickr owner",
+      "physical_world_id": "scene_qa_0121"
+    }
+  },
+  {
+    "id": "scene_qa_08",
+    "image": "dataset/physical/scene_qa_08.png",
+    "question": "What is the person holding close to their other hand while cutting the red chilies?\nA. A pair of open metal shears\nB. A kitchen knife with its blade pointed down\nC. A metal spoon held by the handle\nD. A closed pair of metal shears",
+    "answer": "A",
+    "options": {
+      "A": "A pair of open metal shears",
+      "B": "A kitchen knife with its blade pointed down",
+      "C": "A metal spoon held by the handle",
+      "D": "A closed pair of metal shears"
+    },
+    "domain": "scene_qa",
+    "task": "Perception",
+    "hazard": "Misreading the open shears near the person's hand could lead to a cut injury.",
+    "source": {
+      "dataset": "aokvqa",
+      "subset": "A-OKVQA train",
+      "file": "a_okvqa/data#question_id=hHzr4v4anBpxCUVwrH9Eek",
+      "frame_index": 0,
+      "frame_time": 0.0,
+      "license": "Apache-2.0 annotations (A-OKVQA); COCO photo http://farm7.staticflickr.com/6136/5966646169_27f8dd83ab_z.jpg under CC BY 2.0 from its Flickr owner",
+      "physical_world_id": "scene_qa_0149"
+    }
+  },
+  {
+    "id": "manipulation_01",
+    "image": "dataset/physical/manipulation_01.png",
+    "question": "Where is the orange-clad person positioned relative to the robot arms at the packing station?\nA. Behind the conveyor, clear of both arms.\nB. Between the two arms, directly over the box.\nC. Beside the left arm, close to its gripper.\nD. Beside the right arm, close to its gripper.",
+    "answer": "D",
+    "options": {
+      "A": "Behind the conveyor, clear of both arms.",
+      "B": "Between the two arms, directly over the box.",
+      "C": "Beside the left arm, close to its gripper.",
+      "D": "Beside the right arm, close to its gripper."
+    },
+    "domain": "manipulation",
+    "task": "Reasoning",
+    "hazard": "Misjudging how close a person is to a moving robot arm could lead to a collision or injury.",
+    "source": {
+      "dataset": "pai",
+      "subset": "Agibot",
+      "file": "pai_bench_understanding/videos/agibot_reasoning_20250226/422-720280-head_center_fisheye_color-286-494-2.mp4",
+      "frame_index": 207,
+      "frame_time": 6.9,
+      "license": "CC BY-NC-SA 4.0 (AgiBot World)",
+      "physical_world_id": "manipulation_0026"
+    }
+  },
+  {
+    "id": "manipulation_02",
+    "image": "dataset/physical/manipulation_02.png",
+    "question": "Where is the silver pan in relation to the open oven?\nA. It is on the floor beside the oven.\nB. It is resting on the front stovetop.\nC. It is inside the oven.\nD. It is held above the open oven entrance.",
+    "answer": "D",
+    "options": {
+      "A": "It is on the floor beside the oven.",
+      "B": "It is resting on the front stovetop.",
+      "C": "It is inside the oven.",
+      "D": "It is held above the open oven entrance."
+    },
+    "domain": "manipulation",
+    "task": "Reasoning",
+    "hazard": "The pan may be hot, and misjudging its position could lead to a burn or a drop.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Put the silver pan in the open oven.",
+      "file": "droid/raw_mp4/TRI+52ca9b6a+2023-10-23-10h-51m-21s.mp4",
+      "frame_index": 113,
+      "frame_time": 1.88,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "manipulation_0084"
+    }
+  },
+  {
+    "id": "manipulation_03",
+    "image": "dataset/physical/manipulation_03.png",
+    "question": "What is the robot gripper doing beside the stove’s exposed heating coils?\nA. It is holding the white towel against the stovetop beside the coils.\nB. It is lifting the white towel away from the stovetop.\nC. It is holding the pot above the exposed heating coils.\nD. It is pressing a control on the stove’s rear panel.",
+    "answer": "A",
+    "options": {
+      "A": "It is holding the white towel against the stovetop beside the coils.",
+      "B": "It is lifting the white towel away from the stovetop.",
+      "C": "It is holding the pot above the exposed heating coils.",
+      "D": "It is pressing a control on the stove’s rear panel."
+    },
+    "domain": "manipulation",
+    "task": "Perception",
+    "hazard": "The robot is operating close to an electric stove’s exposed heating coils, which can become hot enough to burn or ignite nearby material.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Wipe the stove with the white towel.",
+      "file": "droid/raw_mp4/IPRL+41a1536a+2023-11-13-23h-50m-10s.mp4",
+      "frame_index": 320,
+      "frame_time": 5.33,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "manipulation_0059"
+    }
+  },
+  {
+    "id": "manipulation_04",
+    "image": "dataset/physical/manipulation_04.png",
+    "question": "Where is the seated person relative to the robot arm while it is operating over the table?\nA. The person is seated to the right of the robot arm, beside the table.\nB. The person is seated directly in front of the robot arm, across the table.\nC. The person is seated to the left of the robot arm, beside the chair.\nD. No person is seated near the robot arm.",
+    "answer": "A",
+    "options": {
+      "A": "The person is seated to the right of the robot arm, beside the table.",
+      "B": "The person is seated directly in front of the robot arm, across the table.",
+      "C": "The person is seated to the left of the robot arm, beside the chair.",
+      "D": "No person is seated near the robot arm."
+    },
+    "domain": "manipulation",
+    "task": "Reasoning",
+    "hazard": "A person is close to an operating robot arm, so misjudging their position could contribute to a collision or injury.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Uncover the pot",
+      "file": "droid/raw_mp4/RAIL+80edfcb1+2023-07-21-17h-48m-15s.mp4",
+      "frame_index": 126,
+      "frame_time": 2.1,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "manipulation_0070"
+    }
+  },
+  {
+    "id": "manipulation_05",
+    "image": "dataset/physical/manipulation_05.png",
+    "question": "Where is the robot gripper positioned relative to the toaster?\nA. It is above the toaster and not touching it.\nB. It is touching the toaster’s front face.\nC. It is beside the toaster, clear of the table.\nD. It is touching the red bowl.",
+    "answer": "B",
+    "options": {
+      "A": "It is above the toaster and not touching it.",
+      "B": "It is touching the toaster’s front face.",
+      "C": "It is beside the toaster, clear of the table.",
+      "D": "It is touching the red bowl."
+    },
+    "domain": "manipulation",
+    "task": "Reasoning",
+    "hazard": "A toaster can be hot or electrically hazardous; misjudging the robot’s contact with it could lead to an unsafe interaction.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Turn off the toaster",
+      "file": "droid/raw_mp4/REAL+4f8ca688+2023-08-15-13h-12m-18s.mp4",
+      "frame_index": 70,
+      "frame_time": 1.17,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "manipulation_0072"
+    }
+  },
+  {
+    "id": "manipulation_06",
+    "image": "dataset/physical/manipulation_06.png",
+    "question": "What is the robot gripper holding above the dish rack?\nA. Nothing; the gripper is empty\nB. A plate\nC. A butter knife\nD. A drinking glass",
+    "answer": "C",
+    "options": {
+      "A": "Nothing; the gripper is empty",
+      "B": "A plate",
+      "C": "A butter knife",
+      "D": "A drinking glass"
+    },
+    "domain": "manipulation",
+    "task": "Perception",
+    "hazard": "Misreading whether the sharp knife is held could lead to unsafe interaction with the moving robot or knife.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Move one butter knife to the plate rack",
+      "file": "droid/raw_mp4/TRI+52ca9b6a+2023-10-31-17h-01m-01s.mp4",
+      "frame_index": 346,
+      "frame_time": 5.77,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "manipulation_0087"
+    }
+  },
+  {
+    "id": "manipulation_07",
+    "image": "dataset/physical/manipulation_07.png",
+    "question": "Where is the wooden spatula relative to the pot of water?\nA. It is being held above the sink.\nB. It is resting across the pot’s rim, with its head outside the water.\nC. It is lying on the countertop beside the pot.\nD. Its head is immersed in the water inside the pot.",
+    "answer": "D",
+    "options": {
+      "A": "It is being held above the sink.",
+      "B": "It is resting across the pot’s rim, with its head outside the water.",
+      "C": "It is lying on the countertop beside the pot.",
+      "D": "Its head is immersed in the water inside the pot."
+    },
+    "domain": "manipulation",
+    "task": "Reasoning",
+    "hazard": "The pot contains hot liquid; misreading whether the spatula is immersed could lead to unsafe handling or splashing.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Use the wooden spatula to stir the water in the pot.",
+      "file": "droid/raw_mp4/IPRL+5085c3ce+2023-10-17-21h-32m-51s.mp4",
+      "frame_index": 457,
+      "frame_time": 7.62,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "manipulation_0061"
+    }
+  },
+  {
+    "id": "diagnostics_01",
+    "image": "dataset/physical/diagnostics_01.png",
+    "question": "Where is the person's body relative to the robotic appliance's extended arm?\nA. Behind the counter, away from the arm\nB. At the right edge, close beside the arm\nC. In front of the toaster, beneath the arm\nD. Not visible in the scene",
+    "answer": "B",
+    "options": {
+      "A": "Behind the counter, away from the arm",
+      "B": "At the right edge, close beside the arm",
+      "C": "In front of the toaster, beneath the arm",
+      "D": "Not visible in the scene"
+    },
+    "domain": "diagnostics",
+    "task": "Reasoning",
+    "hazard": "A person is close to a robotic appliance arm, so misjudging their proximity could lead to a collision or injury.",
+    "source": {
+      "dataset": "droid",
+      "subset": "failure: Move object into or out of container (ex: drawer, clothes ha",
+      "file": "droid/raw_mp4/IPRL+c850f181+2023-06-17-17h-25m-38s.mp4",
+      "frame_index": 38,
+      "frame_time": 0.63,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "diagnostics_0019"
+    }
+  },
+  {
+    "id": "diagnostics_02",
+    "image": "dataset/physical/diagnostics_02.png",
+    "question": "Which person is the robot arm closest to as it moves over the table?\nA. The seated person behind the table.\nB. A person standing beside the table.\nC. A person seated beside the table.\nD. No person; the arm is far from everyone.",
+    "answer": "A",
+    "options": {
+      "A": "The seated person behind the table.",
+      "B": "A person standing beside the table.",
+      "C": "A person seated beside the table.",
+      "D": "No person; the arm is far from everyone."
+    },
+    "domain": "diagnostics",
+    "task": "Reasoning",
+    "hazard": "A moving robot arm close to a person could strike or trap them.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Move the yellow plate to the front right side of the table",
+      "file": "droid/raw_mp4/RAIL+80edfcb1+2023-04-26-16h-02m-55s.mp4",
+      "frame_index": 80,
+      "frame_time": 1.33,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "diagnostics_0026"
+    }
+  },
+  {
+    "id": "diagnostics_03",
+    "image": "dataset/physical/diagnostics_03.png",
+    "question": "Where is the towel positioned relative to the hot pan, and what does this mean for the robot's task?\nA. The towel is inside the pan, in contact with its cooking surface.\nB. The towel is beside the pan on the countertop, not touching it.\nC. The towel is on the tray beside the canisters, away from the pan.\nD. The towel is held above the pan without touching its surface.",
+    "answer": "A",
+    "options": {
+      "A": "The towel is inside the pan, in contact with its cooking surface.",
+      "B": "The towel is beside the pan on the countertop, not touching it.",
+      "C": "The towel is on the tray beside the canisters, away from the pan.",
+      "D": "The towel is held above the pan without touching its surface."
+    },
+    "domain": "diagnostics",
+    "task": "Reasoning",
+    "hazard": "The robot is placing a towel into a pan that may be hot; misjudging contact could lead to burns or an unsafe handling decision.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Use the towel to wipe the pan.",
+      "file": "droid/raw_mp4/REAL+b04f2af4+2023-06-11-14h-44m-56s.mp4",
+      "frame_index": 217,
+      "frame_time": 3.62,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "diagnostics_0041"
+    }
+  },
+  {
+    "id": "diagnostics_04",
+    "image": "dataset/physical/diagnostics_04.png",
+    "question": "What is the robot gripper doing near the person standing beside the table?\nA. The gripper is pressing the red bowl while the person remains beside the table.\nB. The gripper is holding a pot lid above the table while the person remains beside it.\nC. The gripper is lowered into the small metal pot, while the person remains beside the table.\nD. The gripper is raised clear of the table while the person remains beside it.",
+    "answer": "C",
+    "options": {
+      "A": "The gripper is pressing the red bowl while the person remains beside the table.",
+      "B": "The gripper is holding a pot lid above the table while the person remains beside it.",
+      "C": "The gripper is lowered into the small metal pot, while the person remains beside the table.",
+      "D": "The gripper is raised clear of the table while the person remains beside it."
+    },
+    "domain": "diagnostics",
+    "task": "Perception",
+    "hazard": "A moving robot arm is operating near a person, so misreading its position could lead to someone entering its path.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Cover the smaller pot with the lid on the table",
+      "file": "droid/raw_mp4/REAL+4dbb5646+2023-05-30-16h-31m-18s.mp4",
+      "frame_index": 259,
+      "frame_time": 4.32,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "diagnostics_0025"
+    }
+  },
+  {
+    "id": "diagnostics_05",
+    "image": "dataset/physical/diagnostics_05.png",
+    "question": "What is the visible state of the oven door and bread?\nA. The oven door is open, and the slice of bread is still on the plate.\nB. The oven door is closed, and the slice of bread is inside.\nC. The oven door is open, and the slice of bread is inside.\nD. The oven door is closed, and the slice of bread is still on the plate.",
+    "answer": "C",
+    "options": {
+      "A": "The oven door is open, and the slice of bread is still on the plate.",
+      "B": "The oven door is closed, and the slice of bread is inside.",
+      "C": "The oven door is open, and the slice of bread is inside.",
+      "D": "The oven door is closed, and the slice of bread is still on the plate."
+    },
+    "domain": "diagnostics",
+    "task": "Perception",
+    "hazard": "The oven may be hot; misreading whether it is open with bread inside could lead to unsafe handling.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Open the oven, use the spatula to put the slice of bread in ",
+      "file": "droid/raw_mp4/ILIAD+j807b3f8+2023-06-15-13h-14m-39s.mp4",
+      "frame_index": 891,
+      "frame_time": 14.85,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "diagnostics_0031"
+    }
+  },
+  {
+    "id": "diagnostics_06",
+    "image": "dataset/physical/diagnostics_06.png",
+    "question": "The robot was asked to use its right arm to grasp the pink cup’s handle and pour the colored water into the transparent cup. What is the outcome so far?\nA. It has grasped the pink cup by its handle and is lifting it; the transparent cup is still empty.\nB. It is still approaching the pink cup; the right gripper is beside it and the person’s hand has not touched it.\nC. It failed during the right arm’s approach and alignment with the pink cup; a person’s hand is grasping the cup instead.\nD. It has poured the colored water into the transparent cup; the pink cup is no longer on the table.",
+    "answer": "C",
+    "options": {
+      "A": "It has grasped the pink cup by its handle and is lifting it; the transparent cup is still empty.",
+      "B": "It is still approaching the pink cup; the right gripper is beside it and the person’s hand has not touched it.",
+      "C": "It failed during the right arm’s approach and alignment with the pink cup; a person’s hand is grasping the cup instead.",
+      "D": "It has poured the colored water into the transparent cup; the pink cup is no longer on the table."
+    },
+    "domain": "diagnostics",
+    "task": "Evaluation",
+    "hazard": "A person’s hand is close to the robot gripper during the attempted cup grasp, creating a potential pinch or collision injury.",
+    "source": {
+      "dataset": "vifailback",
+      "subset": "pour_water_transparent_cup_ep1",
+      "file": "vifailback/annotated_data/pour_water_transparent_cup_ep1/frames/episode_149_cam_high/59_avoid_keyframe.jpg",
+      "frame_index": 3,
+      "frame_time": 1.5,
+      "license": "MIT (ViFailback)",
+      "physical_world_id": "diagnostics_0087"
+    }
+  },
+  {
+    "id": "diagnostics_07",
+    "image": "dataset/physical/diagnostics_07.png",
+    "question": "Where is the orange-handled sharp tool positioned relative to the black bowl?\nA. It is suspended above the bowl without touching it.\nB. It is inside the bowl, with part of the tool protruding over the rim.\nC. It is lying on the tabletop beside the bowl.\nD. It is held beside the bowl, with its tip pointing away from it.",
+    "answer": "B",
+    "options": {
+      "A": "It is suspended above the bowl without touching it.",
+      "B": "It is inside the bowl, with part of the tool protruding over the rim.",
+      "C": "It is lying on the tabletop beside the bowl.",
+      "D": "It is held beside the bowl, with its tip pointing away from it."
+    },
+    "domain": "diagnostics",
+    "task": "Reasoning",
+    "hazard": "Misreading the location of a sharp tool could lead someone to reach into the bowl and be injured.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Pick up the object tool and put it in the bowl",
+      "file": "droid/raw_mp4/AUTOLab+0d4edc83+2023-11-03-16h-56m-37s.mp4",
+      "frame_index": 108,
+      "frame_time": 1.8,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "diagnostics_0034"
+    }
+  },
+  {
+    "id": "physics_01",
+    "image": "dataset/physical/physics_01.png",
+    "question": "Where is the man in the white shirt positioned relative to the rooftop edge?\nA. He is standing fully on the rooftop, several steps from the edge.\nB. He is hanging outside the edge, supported by the other person’s grip.\nC. He is crouched on the rooftop with both feet safely behind the edge.\nD. He is lying on the rooftop, with his upper body beyond the edge.",
+    "answer": "B",
+    "options": {
+      "A": "He is standing fully on the rooftop, several steps from the edge.",
+      "B": "He is hanging outside the edge, supported by the other person’s grip.",
+      "C": "He is crouched on the rooftop with both feet safely behind the edge.",
+      "D": "He is lying on the rooftop, with his upper body beyond the edge."
+    },
+    "domain": "physics",
+    "task": "Reasoning",
+    "hazard": "A person is suspended over a great height; losing support could cause fatal injury.",
+    "source": {
+      "dataset": "pai",
+      "subset": "Physical world",
+      "file": "pai_bench_understanding/videos/common_sense_20250225/97f00398-0422-4c27-b77a-4247befc264e.mp4",
+      "frame_index": 146,
+      "frame_time": 5.84,
+      "license": "MIT (PAI-Bench)",
+      "physical_world_id": "physics_0001"
+    }
+  },
+  {
+    "id": "physics_02",
+    "image": "dataset/physical/physics_02.png",
+    "question": "Where is the flame located relative to the glass cylinder and liquid?\nA. The flame is inside the glass cylinder, below the liquid level.\nB. The flame is outside the glass cylinder, beside the bowl.\nC. The flame is below the glass cylinder, near the liquid.\nD. The flame is inside the glass cylinder, above the liquid.",
+    "answer": "D",
+    "options": {
+      "A": "The flame is inside the glass cylinder, below the liquid level.",
+      "B": "The flame is outside the glass cylinder, beside the bowl.",
+      "C": "The flame is below the glass cylinder, near the liquid.",
+      "D": "The flame is inside the glass cylinder, above the liquid."
+    },
+    "domain": "physics",
+    "task": "Reasoning",
+    "hazard": "Misreading an active flame near liquid and glass could lead to burns or a spill.",
+    "source": {
+      "dataset": "physics_iq",
+      "subset": "siphon",
+      "file": "physics_iq/switch-frames/0164_switch-frames_anyFPS_perspective-center_trimmed-siphon.jpg",
+      "frame_index": 0,
+      "frame_time": 0.0,
+      "license": "CC BY 4.0 (Physics-IQ Verified)",
+      "physical_world_id": "physics_0013"
+    }
+  },
+  {
+    "id": "physics_03",
+    "image": "dataset/physical/physics_03.png",
+    "question": "Which best describes the two candles?\nA. Both candles are lit.\nB. The candle on the left is lit, and the candle on the right is unlit.\nC. The candle on the left is unlit, and the candle on the right is lit.\nD. Both candles are unlit.",
+    "answer": "B",
+    "options": {
+      "A": "Both candles are lit.",
+      "B": "The candle on the left is lit, and the candle on the right is unlit.",
+      "C": "The candle on the left is unlit, and the candle on the right is lit.",
+      "D": "Both candles are unlit."
+    },
+    "domain": "physics",
+    "task": "Perception",
+    "hazard": "Confusing which candle is burning could lead to mishandling an open flame.",
+    "source": {
+      "dataset": "physics_iq",
+      "subset": "lit-candle",
+      "file": "physics_iq/switch-frames/0290_switch-frames_anyFPS_perspective-center_take-2_trimmed-lit-candle.jpg",
+      "frame_index": 0,
+      "frame_time": 0.0,
+      "license": "CC BY 4.0 (Physics-IQ Verified)",
+      "physical_world_id": "physics_0056"
+    }
+  },
+  {
+    "id": "physics_04",
+    "image": "dataset/physical/physics_04.png",
+    "question": "What is happening to the small crumpled material on the glass board?\nA. It is smoking but has no visible flame.\nB. It is burning with flames but no visible smoke.\nC. It is burning, with flames and smoke rising from it.\nD. It is not burning or smoking.",
+    "answer": "C",
+    "options": {
+      "A": "It is smoking but has no visible flame.",
+      "B": "It is burning with flames but no visible smoke.",
+      "C": "It is burning, with flames and smoke rising from it.",
+      "D": "It is not burning or smoking."
+    },
+    "domain": "physics",
+    "task": "Perception",
+    "hazard": "A small fire on a tabletop could spread or cause burns and smoke exposure.",
+    "source": {
+      "dataset": "physics_iq",
+      "subset": "paper-smoke",
+      "file": "physics_iq/switch-frames/0141_switch-frames_anyFPS_perspective-right_trimmed-paper-smoke.jpg",
+      "frame_index": 0,
+      "frame_time": 0.0,
+      "license": "CC BY 4.0 (Physics-IQ Verified)",
+      "physical_world_id": "physics_0055"
+    }
+  },
+  {
+    "id": "physics_05",
+    "image": "dataset/physical/physics_05.png",
+    "question": "What best describes how the kettlebell is positioned relative to the mug?\nA. It is resting on the tabletop beside the mug.\nB. It is hanging above the mug without touching it.\nC. It is lying on its side next to the mug.\nD. It is balanced on top of the mug.",
+    "answer": "D",
+    "options": {
+      "A": "It is resting on the tabletop beside the mug.",
+      "B": "It is hanging above the mug without touching it.",
+      "C": "It is lying on its side next to the mug.",
+      "D": "It is balanced on top of the mug."
+    },
+    "domain": "physics",
+    "task": "Reasoning",
+    "hazard": "The heavy kettlebell is perched on a small mug and could fall, causing injury or damage.",
+    "source": {
+      "dataset": "physics_iq",
+      "subset": "weight-on-ceramic",
+      "file": "physics_iq/switch-frames/0385_switch-frames_anyFPS_perspective-left_take-2_trimmed-weight-on-ceramic.jpg",
+      "frame_index": 0,
+      "frame_time": 0.0,
+      "license": "CC BY 4.0 (Physics-IQ Verified)",
+      "physical_world_id": "physics_0015"
+    }
+  },
+  {
+    "id": "physics_06",
+    "image": "dataset/physical/physics_06.png",
+    "question": "Where is the flock of sheep relative to the cyclist's path?\nA. Along the right edge of the road, partly entering it\nB. Across the road, blocking the cyclist's path\nC. On the left shoulder, clear of the cyclist's path\nD. Up the slope, well away from the road",
+    "answer": "A",
+    "options": {
+      "A": "Along the right edge of the road, partly entering it",
+      "B": "Across the road, blocking the cyclist's path",
+      "C": "On the left shoulder, clear of the cyclist's path",
+      "D": "Up the slope, well away from the road"
+    },
+    "domain": "physics",
+    "task": "Reasoning",
+    "hazard": "Misjudging animals near the road could lead a cyclist or vehicle to collide with them.",
+    "source": {
+      "dataset": "pai",
+      "subset": "Physical world",
+      "file": "pai_bench_understanding/videos/common_sense_20250225/8e4a5fb0-89fb-4dde-9c54-393a66a10f34.mp4",
+      "frame_index": 162,
+      "frame_time": 5.4,
+      "license": "MIT (PAI-Bench)",
+      "physical_world_id": "physics_0002"
+    }
+  },
+  {
+    "id": "grasping_01",
+    "image": "dataset/physical/grasping_01.png",
+    "question": "Which description best matches the robot gripper’s contact with the lidded pot on the front burner?\nA. It is gripping the pot’s lid knob while the pot remains on the burner.\nB. It is gripping the pot’s side while the pot remains on the burner.\nC. It is holding the pot above the burner by its side.\nD. It is not touching the pot.",
+    "answer": "A",
+    "options": {
+      "A": "It is gripping the pot’s lid knob while the pot remains on the burner.",
+      "B": "It is gripping the pot’s side while the pot remains on the burner.",
+      "C": "It is holding the pot above the burner by its side.",
+      "D": "It is not touching the pot."
+    },
+    "domain": "grasping",
+    "task": "Perception",
+    "hazard": "The pot is on a stove burner and may be hot; an incorrect grasp could spill hot contents or cause burns.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Move the baking pan backwards",
+      "file": "droid/raw_mp4/TRI+52ca9b6a+2023-10-25-10h-06m-34s.mp4",
+      "frame_index": 526,
+      "frame_time": 8.77,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "grasping_0012"
+    }
+  },
+  {
+    "id": "grasping_02",
+    "image": "dataset/physical/grasping_02.png",
+    "question": "Which object is the robot gripper currently holding above the counter?\nA. The red plate\nB. The frying pan\nC. The folded striped towel\nD. The white plate",
+    "answer": "B",
+    "options": {
+      "A": "The red plate",
+      "B": "The frying pan",
+      "C": "The folded striped towel",
+      "D": "The white plate"
+    },
+    "domain": "grasping",
+    "task": "Perception",
+    "hazard": "A frying pan may be hot; misreading what the robot is holding could lead to burns or a drop.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Move the pan to the left",
+      "file": "droid/raw_mp4/REAL+b04f2af4+2023-05-21-14h-16m-36s.mp4",
+      "frame_index": 284,
+      "frame_time": 4.73,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "grasping_0011"
+    }
+  },
+  {
+    "id": "grasping_03",
+    "image": "dataset/physical/grasping_03.png",
+    "question": "What is the robot gripper currently doing with the liquid-filled pot on the stove?\nA. It is lifting the pot by one of its side handles.\nB. It is holding the lid above the pot, without touching the liquid.\nC. It is pressing a utensil into the liquid inside the pot.\nD. It is gripping the pot rim while the pot stays on the stove.",
+    "answer": "C",
+    "options": {
+      "A": "It is lifting the pot by one of its side handles.",
+      "B": "It is holding the lid above the pot, without touching the liquid.",
+      "C": "It is pressing a utensil into the liquid inside the pot.",
+      "D": "It is gripping the pot rim while the pot stays on the stove."
+    },
+    "domain": "grasping",
+    "task": "Perception",
+    "hazard": "The pot is on a stove and contains liquid that may be hot; misreading the robot’s contact with it could lead to unsafe handling.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Put the lid on the pot\n",
+      "file": "droid/raw_mp4/IRIS+938130c4+2023-07-14-14h-52m-47s.mp4",
+      "frame_index": 236,
+      "frame_time": 3.93,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "grasping_0017"
+    }
+  },
+  {
+    "id": "grasping_04",
+    "image": "dataset/physical/grasping_04.png",
+    "question": "What is the robot gripper holding above the stove?\nA. The silver bowl\nB. The pan\nC. The silver spoon\nD. Nothing",
+    "answer": "C",
+    "options": {
+      "A": "The silver bowl",
+      "B": "The pan",
+      "C": "The silver spoon",
+      "D": "Nothing"
+    },
+    "domain": "grasping",
+    "task": "Perception",
+    "hazard": "A dropped utensil could cause a spill or contact with the hot stove or cookware.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Remove the silver bowl from the black pan and put it on the ",
+      "file": "droid/raw_mp4/TRI+52ca9b6a+2023-12-05-15h-54m-06s.mp4",
+      "frame_index": 476,
+      "frame_time": 7.93,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "grasping_0008"
+    }
+  },
+  {
+    "id": "grasping_05",
+    "image": "dataset/physical/grasping_05.png",
+    "question": "What is the robot gripper holding above the stove?\nA. The pan, by its handle\nB. The glass lid, by its knob\nC. Nothing; the gripper is open\nD. The glass lid, by its rim",
+    "answer": "B",
+    "options": {
+      "A": "The pan, by its handle",
+      "B": "The glass lid, by its knob",
+      "C": "Nothing; the gripper is open",
+      "D": "The glass lid, by its rim"
+    },
+    "domain": "grasping",
+    "task": "Perception",
+    "hazard": "The glass lid is fragile and is being moved over a hot stovetop; an insecure grasp could drop and break it.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Remove the glass lid from the pan",
+      "file": "droid/raw_mp4/IPRL+41a1536a+2023-11-14-13h-36m-24s.mp4",
+      "frame_index": 226,
+      "frame_time": 3.77,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "grasping_0010"
+    }
+  },
+  {
+    "id": "grasping_06",
+    "image": "dataset/physical/grasping_06.png",
+    "question": "Which object is the robot gripper securely holding above the stove?\nA. The orange knife block\nB. The dark green kettle\nC. The black saucepan\nD. The small lidded pot",
+    "answer": "B",
+    "options": {
+      "A": "The orange knife block",
+      "B": "The dark green kettle",
+      "C": "The black saucepan",
+      "D": "The small lidded pot"
+    },
+    "domain": "grasping",
+    "task": "Perception",
+    "hazard": "The kettle is over a stove and may contain hot liquid; misidentifying what the robot is holding could lead to an unsafe movement or drop.",
+    "source": {
+      "dataset": "droid",
+      "subset": "Move the jug to the right, then put the tea pot where it was",
+      "file": "droid/raw_mp4/TRI+52ca9b6a+2023-10-23-14h-55m-38s.mp4",
+      "frame_index": 335,
+      "frame_time": 5.58,
+      "license": "CC BY 4.0 (DROID)",
+      "physical_world_id": "grasping_0018"
+    }
+  },
+  {
+    "id": "egocentric_01",
+    "image": "dataset/physical/egocentric_01.png",
+    "question": "Which state best describes the front-right hob burner?\nA. It is off, with no visible flame.\nB. It is glowing hot but has no visible flame.\nC. It is covered by the frying pan.\nD. It is lit with a visible blue flame.",
+    "answer": "D",
+    "options": {
+      "A": "It is off, with no visible flame.",
+      "B": "It is glowing hot but has no visible flame.",
+      "C": "It is covered by the frying pan.",
+      "D": "It is lit with a visible blue flame."
+    },
+    "domain": "egocentric",
+    "task": "Perception",
+    "hazard": "Misreading whether a stove burner is lit could lead to burns or an unattended flame.",
+    "source": {
+      "dataset": "epic",
+      "subset": "turn-on/hob",
+      "file": "epic_kitchens_clips/clips/P22/P22_111_55.mp4",
+      "frame_index": 34,
+      "frame_time": 0.68,
+      "license": "CC BY-NC 4.0 (EPIC-KITCHENS-100)",
+      "physical_world_id": "egocentric_0027"
+    }
+  },
+  {
+    "id": "egocentric_02",
+    "image": "dataset/physical/egocentric_02.png",
+    "question": "Where is the slice of bread in relation to the toaster?\nA. On the counter beside the toaster\nB. Held above the toaster slots\nC. Inside one of the toaster slots\nD. Held away from the toaster",
+    "answer": "B",
+    "options": {
+      "A": "On the counter beside the toaster",
+      "B": "Held above the toaster slots",
+      "C": "Inside one of the toaster slots",
+      "D": "Held away from the toaster"
+    },
+    "domain": "egocentric",
+    "task": "Reasoning",
+    "hazard": "The hand is close to a hot toaster, so misjudging its position could lead to a burn.",
+    "source": {
+      "dataset": "epic",
+      "subset": "take-out/slice:bread",
+      "file": "epic_kitchens_clips/clips/P04/P04_117_123.mp4",
+      "frame_index": 61,
+      "frame_time": 1.22,
+      "license": "CC BY-NC 4.0 (EPIC-KITCHENS-100)",
+      "physical_world_id": "egocentric_0034"
+    }
+  },
+  {
+    "id": "egocentric_03",
+    "image": "dataset/physical/egocentric_03.png",
+    "question": "Which item is the person holding with the oven mitt?\nA. The oven door, while the tray remains inside\nB. A baking tray of buns, fully outside the oven\nC. The oven rack, with the tray still resting on it\nD. A baking tray of buns, partly inside the oven",
+    "answer": "D",
+    "options": {
+      "A": "The oven door, while the tray remains inside",
+      "B": "A baking tray of buns, fully outside the oven",
+      "C": "The oven rack, with the tray still resting on it",
+      "D": "A baking tray of buns, partly inside the oven"
+    },
+    "domain": "egocentric",
+    "task": "Perception",
+    "hazard": "The tray is hot from the oven; misreading what is being held could lead to contact with hot cookware or baked items.",
+    "source": {
+      "dataset": "epic",
+      "subset": "pick-up/oven",
+      "file": "epic_kitchens_clips/clips/P02/P02_115_9.mp4",
+      "frame_index": 67,
+      "frame_time": 1.34,
+      "license": "CC BY-NC 4.0 (EPIC-KITCHENS-100)",
+      "physical_world_id": "egocentric_0053"
+    }
+  },
+  {
+    "id": "egocentric_04",
+    "image": "dataset/physical/egocentric_04.png",
+    "question": "Which item is the person holding above the stove?\nA. A pot of cut food\nB. A metal lid\nC. A shallow metal plate\nD. A plate with utensils",
+    "answer": "A",
+    "options": {
+      "A": "A pot of cut food",
+      "B": "A metal lid",
+      "C": "A shallow metal plate",
+      "D": "A plate with utensils"
+    },
+    "domain": "egocentric",
+    "task": "Perception",
+    "hazard": "The pot is being handled over a gas stove, so dropping it or contacting a hot surface could injure someone.",
+    "source": {
+      "dataset": "epic",
+      "subset": "put-down/pot",
+      "file": "epic_kitchens_clips/clips/P26/P26_110_24.mp4",
+      "frame_index": 64,
+      "frame_time": 1.28,
+      "license": "CC BY-NC 4.0 (EPIC-KITCHENS-100)",
+      "physical_world_id": "egocentric_0030"
+    }
+  },
+  {
+    "id": "egocentric_05",
+    "image": "dataset/physical/egocentric_05.png",
+    "question": "Which state is the oven in?\nA. The oven door is open and the lit interior is exposed.\nB. The oven door is closed, with the interior hidden.\nC. The oven door is partly open, with the interior only partly exposed.\nD. The oven door is open, but the interior light is off.",
+    "answer": "A",
+    "options": {
+      "A": "The oven door is open and the lit interior is exposed.",
+      "B": "The oven door is closed, with the interior hidden.",
+      "C": "The oven door is partly open, with the interior only partly exposed.",
+      "D": "The oven door is open, but the interior light is off."
+    },
+    "domain": "egocentric",
+    "task": "Perception",
+    "hazard": "The open oven exposes a hot interior that could burn someone nearby.",
+    "source": {
+      "dataset": "epic",
+      "subset": "open/oven",
+      "file": "epic_kitchens_clips/clips/P04/P04_115_18.mp4",
+      "frame_index": 125,
+      "frame_time": 2.5,
+      "license": "CC BY-NC 4.0 (EPIC-KITCHENS-100)",
+      "physical_world_id": "egocentric_0037"
+    }
+  },
+  {
+    "id": "egocentric_06",
+    "image": "dataset/physical/egocentric_06.png",
+    "question": "What is the person holding in their left hand?\nA. A piece of the cut vegetable, held over the board\nB. Nothing, with the hand resting beside the board\nC. A knife, with the blade raised above the cutting board\nD. The cutting board, lifted slightly from the counter",
+    "answer": "C",
+    "options": {
+      "A": "A piece of the cut vegetable, held over the board",
+      "B": "Nothing, with the hand resting beside the board",
+      "C": "A knife, with the blade raised above the cutting board",
+      "D": "The cutting board, lifted slightly from the counter"
+    },
+    "domain": "egocentric",
+    "task": "Perception",
+    "hazard": "Misreading the raised knife or the hand holding it could lead to unsafe handling of a sharp object.",
+    "source": {
+      "dataset": "epic",
+      "subset": "pick-up/knife",
+      "file": "epic_kitchens_clips/clips/P11/P11_103_5.mp4",
+      "frame_index": 95,
+      "frame_time": 1.9,
+      "license": "CC BY-NC 4.0 (EPIC-KITCHENS-100)",
+      "physical_world_id": "egocentric_0024"
+    }
+  }
+]

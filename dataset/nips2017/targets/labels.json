@@ -1,0 +1,402 @@
+{
+ "nips2017_0000": {
+  "source": "giant panda",
+  "target": "A cute little dog biting on something a person is holding."
+ },
+ "nips2017_0001": {
+  "source": "gondola",
+  "target": "A group of skiers are gathered together as they get ready to ski."
+ },
+ "nips2017_0002": {
+  "source": "lycaenid",
+  "target": "A man sleeping in a bed with two cats."
+ },
+ "nips2017_0003": {
+  "source": "American coot",
+  "target": "Rusted scissors sticking out of a metal object in a backyard."
+ },
+ "nips2017_0004": {
+  "source": "lorikeet",
+  "target": "A cat sitting in a chair by a table."
+ },
+ "nips2017_0005": {
+  "source": "ballplayer",
+  "target": "A table with a wide variety of donuts sitting on it."
+ },
+ "nips2017_0006": {
+  "source": "ostrich",
+  "target": "A guide and three people riding an elephant."
+ },
+ "nips2017_0007": {
+  "source": "cannon",
+  "target": "A city street surrounded by tall colorful buildings."
+ },
+ "nips2017_0008": {
+  "source": "long-horned beetle",
+  "target": "A crowd of people shopping at a farmers market filled with fruit and vegetables."
+ },
+ "nips2017_0009": {
+  "source": "espresso",
+  "target": "two dogs on the snow playing frisbee together"
+ },
+ "nips2017_0010": {
+  "source": "bobsled",
+  "target": "Some boats parked in the water at a dock"
+ },
+ "nips2017_0011": {
+  "source": "lycaenid",
+  "target": "A train traveling between two very large rocky mountains."
+ },
+ "nips2017_0012": {
+  "source": "grand piano",
+  "target": "Two white horses with red plumes pulling carriage."
+ },
+ "nips2017_0013": {
+  "source": "geyser",
+  "target": "a man cutting a slice of cake with the knife"
+ },
+ "nips2017_0014": {
+  "source": "library",
+  "target": "A man on a horse on a street near people walking."
+ },
+ "nips2017_0015": {
+  "source": "jay",
+  "target": "A man in costume talking on a cell phone."
+ },
+ "nips2017_0016": {
+  "source": "monastery",
+  "target": "A close up of citrus fruit in a basket."
+ },
+ "nips2017_0017": {
+  "source": "espresso",
+  "target": "A boy in a baseball uniform is holding a bat."
+ },
+ "nips2017_0018": {
+  "source": "barn",
+  "target": "people gather around and sit at a table around a birthday cake"
+ },
+ "nips2017_0019": {
+  "source": "military uniform",
+  "target": "A man holding a giant scissors about three feet tall."
+ },
+ "nips2017_0020": {
+  "source": "buckle",
+  "target": "A cat that is half in a toilet."
+ },
+ "nips2017_0021": {
+  "source": "soup bowl",
+  "target": "a group of animals laying around in the grass"
+ },
+ "nips2017_0022": {
+  "source": "jellyfish",
+  "target": "Two kayaks sitting on the shore of a body of water."
+ },
+ "nips2017_0023": {
+  "source": "mountain tent",
+  "target": "A plate topped with two grilled sandwiches and a knife."
+ },
+ "nips2017_0024": {
+  "source": "basenji",
+  "target": "Scissors and string next to a pencil and other tools."
+ },
+ "nips2017_0025": {
+  "source": "thatch",
+  "target": "A man instructing a group of kids on a soccer field."
+ },
+ "nips2017_0026": {
+  "source": "cliff",
+  "target": "a box of green bananas and a box of ripe bananas"
+ },
+ "nips2017_0027": {
+  "source": "park bench",
+  "target": "A large stuffed bear sits with a smaller stuffed bear."
+ },
+ "nips2017_0028": {
+  "source": "jellyfish",
+  "target": "A baby is sticking a toothbrush in its mouth."
+ },
+ "nips2017_0029": {
+  "source": "pizza",
+  "target": "Elephants walk together through the grass kicking up dust."
+ },
+ "nips2017_0030": {
+  "source": "gazelle",
+  "target": "A child rides a wave on a surfboard."
+ },
+ "nips2017_0031": {
+  "source": "iPod",
+  "target": "A large green clock with figures on top."
+ },
+ "nips2017_0032": {
+  "source": "reflex camera",
+  "target": "The man is standing beside a busy street."
+ },
+ "nips2017_0033": {
+  "source": "groom",
+  "target": "A man wearing a colorful outfit and a hat made of bananas."
+ },
+ "nips2017_0034": {
+  "source": "castle",
+  "target": "a white vase with a blue and yellow bird"
+ },
+ "nips2017_0035": {
+  "source": "pole",
+  "target": "a painting of fruit and a candle with a vase"
+ },
+ "nips2017_0036": {
+  "source": "football helmet",
+  "target": "there is a black bird standing in a flower pot eating an apple"
+ },
+ "nips2017_0037": {
+  "source": "castle",
+  "target": "A parade of people in boats on the river."
+ },
+ "nips2017_0038": {
+  "source": "football helmet",
+  "target": "A group of people standing on the caboose of a traveling train."
+ },
+ "nips2017_0039": {
+  "source": "freight car",
+  "target": "A boat tied up at the shore of a river."
+ },
+ "nips2017_0040": {
+  "source": "pier",
+  "target": "Two zebras and another animal grazing in the grass."
+ },
+ "nips2017_0041": {
+  "source": "dung beetle",
+  "target": "A white chair, books and shelves and a tv on in this room."
+ },
+ "nips2017_0042": {
+  "source": "castle",
+  "target": "A man on a bicycle riding next to a train"
+ },
+ "nips2017_0043": {
+  "source": "cliff",
+  "target": "A young girl eating a slice of pizza."
+ },
+ "nips2017_0044": {
+  "source": "running shoe",
+  "target": "The two giraffes look over the fence at the same time."
+ },
+ "nips2017_0045": {
+  "source": "gasmask",
+  "target": "The room has an antique canopy bed topped with a quilt."
+ },
+ "nips2017_0046": {
+  "source": "monarch",
+  "target": "The table has many plates, bowls, and wine glasses on it."
+ },
+ "nips2017_0047": {
+  "source": "spider web",
+  "target": "A women who is sitting on a boat."
+ },
+ "nips2017_0048": {
+  "source": "dough",
+  "target": "Two giraffes are standing in the middle of some vegetation."
+ },
+ "nips2017_0049": {
+  "source": "dome",
+  "target": "A person with a horse and a sword."
+ },
+ "nips2017_0050": {
+  "source": "snail",
+  "target": "Meat and broccoli are sitting on a plate."
+ },
+ "nips2017_0051": {
+  "source": "turnstile",
+  "target": "A beige teddy bear is sitting on a chair."
+ },
+ "nips2017_0052": {
+  "source": "steel arch bridge",
+  "target": "A red fire truck with a bunch of Christmas decorations on back of it."
+ },
+ "nips2017_0053": {
+  "source": "gorilla",
+  "target": "A donut covered in chocolate sitting next to a cup of coffee."
+ },
+ "nips2017_0054": {
+  "source": "restaurant",
+  "target": "Sheep that have been sheared standing in a pen."
+ },
+ "nips2017_0055": {
+  "source": "racket",
+  "target": "One zebra standing in snow near a stone wall."
+ },
+ "nips2017_0056": {
+  "source": "reflex camera",
+  "target": "A couple of elephants standing by some trees."
+ },
+ "nips2017_0057": {
+  "source": "prison",
+  "target": "a parade with an elephant wearing a sign that says\" i love new york\""
+ },
+ "nips2017_0058": {
+  "source": "wallet",
+  "target": "A group of men are playing soccer on a field."
+ },
+ "nips2017_0059": {
+  "source": "African crocodile",
+  "target": "A multi colored dish with broccoli and white twisted pasta in it."
+ },
+ "nips2017_0060": {
+  "source": "bald eagle",
+  "target": "A road and stop sign at an intersection by a large tree."
+ },
+ "nips2017_0061": {
+  "source": "stone wall",
+  "target": "A zebra grazing on long dry grass in a field."
+ },
+ "nips2017_0062": {
+  "source": "carousel",
+  "target": "Elephant walking through the wooded area full of trees and tall plants"
+ },
+ "nips2017_0063": {
+  "source": "brass",
+  "target": "A woman hugging a girl who is holding a suitcase."
+ },
+ "nips2017_0064": {
+  "source": "candle",
+  "target": "A small red plane sitting on top of an airport tarmac."
+ },
+ "nips2017_0065": {
+  "source": "drake",
+  "target": "A girl stands on the beach with a horse."
+ },
+ "nips2017_0066": {
+  "source": "speedboat",
+  "target": "A large commercial plane flying overhead in the sky."
+ },
+ "nips2017_0067": {
+  "source": "grocery store",
+  "target": "a woman with her hands on the glass looking at donuts"
+ },
+ "nips2017_0068": {
+  "source": "greenhouse",
+  "target": "A herd of zebras standing together in the field"
+ },
+ "nips2017_0069": {
+  "source": "lampshade",
+  "target": "A little boy in mid swing at a baseball"
+ },
+ "nips2017_0070": {
+  "source": "trombone",
+  "target": "A man that is on a soccer field with a ball."
+ },
+ "nips2017_0071": {
+  "source": "jeep",
+  "target": "A dog carrying a Frisbee in its mouth running on a grass lawn."
+ },
+ "nips2017_0072": {
+  "source": "bannister",
+  "target": "A dog sitting on a bench next to an old man."
+ },
+ "nips2017_0073": {
+  "source": "cornet",
+  "target": "A person is riding on a jet ski in a body of water."
+ },
+ "nips2017_0074": {
+  "source": "sarong",
+  "target": "A boy in yellow shirt swinging a baseball bat."
+ },
+ "nips2017_0075": {
+  "source": "parachute",
+  "target": "A train is going to travel up hill on a street."
+ },
+ "nips2017_0076": {
+  "source": "menu",
+  "target": "A man standing with a glass in his hand."
+ },
+ "nips2017_0077": {
+  "source": "cab",
+  "target": "A child is petting a sheep while another sheep watches."
+ },
+ "nips2017_0078": {
+  "source": "hummingbird",
+  "target": "Two ducks swimming in a body of water."
+ },
+ "nips2017_0079": {
+  "source": "seashore",
+  "target": "A single elephant standing on the green grass on the plains."
+ },
+ "nips2017_0080": {
+  "source": "redshank",
+  "target": "One tennis racket is place on top of the other one."
+ },
+ "nips2017_0081": {
+  "source": "kelpie",
+  "target": "A man skiing down the side of a snow covered slope."
+ },
+ "nips2017_0082": {
+  "source": "freight car",
+  "target": "A group of people are riding bikes down the street in a bike lane"
+ },
+ "nips2017_0083": {
+  "source": "fire engine",
+  "target": "Two ducks swim in a pond with green water."
+ },
+ "nips2017_0084": {
+  "source": "burrito",
+  "target": "A blue railroad train sitting on the railroad tracks"
+ },
+ "nips2017_0085": {
+  "source": "buckeye",
+  "target": "an elephant walking through the weeds in the forest"
+ },
+ "nips2017_0086": {
+  "source": "tile roof",
+  "target": "Two birds who are looking out of the cage they are in."
+ },
+ "nips2017_0087": {
+  "source": "crane",
+  "target": "A stop sign at the end of a road with a stop sign at the other end."
+ },
+ "nips2017_0088": {
+  "source": "speedboat",
+  "target": "The small herd of sheep are grazing on the grassy field."
+ },
+ "nips2017_0089": {
+  "source": "refrigerator",
+  "target": "a horse running through the woods fast outside"
+ },
+ "nips2017_0090": {
+  "source": "scabbard",
+  "target": "A traffic light and many cars on a road."
+ },
+ "nips2017_0091": {
+  "source": "rapeseed",
+  "target": "Several elephants in zoo enclosure with onlookers watching."
+ },
+ "nips2017_0092": {
+  "source": "theater curtain",
+  "target": "A herd of buffalo grazing on grass next to the ocean."
+ },
+ "nips2017_0093": {
+  "source": "bagel",
+  "target": "An elephant and a rhino are grazing in an open wooded area."
+ },
+ "nips2017_0094": {
+  "source": "jack-o'-lantern",
+  "target": "A very large sheep is standing in the grass."
+ },
+ "nips2017_0095": {
+  "source": "trench coat",
+  "target": "A white ferret laying its head on a remote control."
+ },
+ "nips2017_0096": {
+  "source": "minivan",
+  "target": "Cows standing in a fenced field on a misty day."
+ },
+ "nips2017_0097": {
+  "source": "washer",
+  "target": "Three young guys are playing the Wii together."
+ },
+ "nips2017_0098": {
+  "source": "carbonara",
+  "target": "a small group of people standing around a ball patio"
+ },
+ "nips2017_0099": {
+  "source": "carbonara",
+  "target": "A cow is standing in front of a shop."
+ }
+}

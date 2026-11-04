@@ -1,0 +1,2202 @@
+[
+ {
+  "id": "intuitive_physics_0001",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0001.png",
+  "question": "The lit match on the stick is touching the black balloon. What happens to the balloon?\nA. It pops\nB. It grows larger\nC. It stays as it is\nD. It rolls away, still inflated",
+  "answer": "A",
+  "options": {
+   "A": "It pops",
+   "B": "It grows larger",
+   "C": "It stays as it is",
+   "D": "It rolls away, still inflated"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "match-blows-balloon",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0002",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0002.png",
+  "question": "The two grabbers holding the green sheet pull it in opposite directions. What happens to the sheet?\nA. It slips out of the left grabber and stays whole\nB. It tears into two pieces that drop onto the table\nC. It crumples into a ball between the grabbers\nD. It stretches flat between the grabbers and stays whole",
+  "answer": "B",
+  "options": {
+   "A": "It slips out of the left grabber and stays whole",
+   "B": "It tears into two pieces that drop onto the table",
+   "C": "It crumples into a ball between the grabbers",
+   "D": "It stretches flat between the grabbers and stays whole"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "cut-paper",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0003",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0003.png",
+  "question": "Two balls of the Newton's cradle have just been released from the left. What happens on the right side?\nA. No ball moves on the right\nB. Three balls swing out on the right\nC. Two balls swing out on the right\nD. One ball swings out on the right",
+  "answer": "C",
+  "options": {
+   "A": "No ball moves on the right",
+   "B": "Three balls swing out on the right",
+   "C": "Two balls swing out on the right",
+   "D": "One ball swings out on the right"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "double-cradle",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0004",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0004.png",
+  "question": "The knife is pressed down through the middle of the orange. What happens to the orange?\nA. It stays in one piece, with the knife stuck in it\nB. It rolls away from the knife in one piece\nC. It is squashed flat under the knife\nD. It splits into two halves that fall apart on either side of the blade",
+  "answer": "D",
+  "options": {
+   "A": "It stays in one piece, with the knife stuck in it",
+   "B": "It rolls away from the knife in one piece",
+   "C": "It is squashed flat under the knife",
+   "D": "It splits into two halves that fall apart on either side of the blade"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "cut-orange",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0005",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0005.png",
+  "question": "Which dominoes are still standing?\nA. The four farther from the turntable; the three nearest it have fallen\nB. None of them\nC. All seven\nD. Only the three nearest the turntable",
+  "answer": "A",
+  "options": {
+   "A": "The four farther from the turntable; the three nearest it have fallen",
+   "B": "None of them",
+   "C": "All seven",
+   "D": "Only the three nearest the turntable"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "dominos-with-space",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0006",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0006.png",
+  "question": "The yellow rubber duck has just been released above the dark box. Where does it end up?\nA. On the floor behind the table\nB. Inside the box\nC. On the table in front of the box\nD. On top of the box lid",
+  "answer": "B",
+  "options": {
+   "A": "On the floor behind the table",
+   "B": "Inside the box",
+   "C": "On the table in front of the box",
+   "D": "On top of the box lid"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "duck-falls-in-box",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0007",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0007.png",
+  "question": "The brown ball is rolling across the table toward the yellow rubber duck. Where does the ball end up?\nA. Stopped in front of the duck without touching it\nB. Under the duck, having knocked it over\nC. Behind the duck near the far edge, after bouncing off it\nD. Rolled past the duck and off the right edge",
+  "answer": "C",
+  "options": {
+   "A": "Stopped in front of the duck without touching it",
+   "B": "Under the duck, having knocked it over",
+   "C": "Behind the duck near the far edge, after bouncing off it",
+   "D": "Rolled past the duck and off the right edge"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "ball-hits-duck",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0008",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0008.png",
+  "question": "The 30 lb kettlebell is lowered onto the ceramic mug. Why will the mug not break?\nA. The kettlebell is hollow and weightless\nB. The mug is made of rubber\nC. The table absorbs all the weight\nD. The thick-walled mug is strong enough to carry the weight pressing straight down",
+  "answer": "D",
+  "options": {
+   "A": "The kettlebell is hollow and weightless",
+   "B": "The mug is made of rubber",
+   "C": "The table absorbs all the weight",
+   "D": "The thick-walled mug is strong enough to carry the weight pressing straight down"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "weight-on-ceramic",
+   "take": 1,
+   "perspective": "right",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0009",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0009.png",
+  "question": "The lit match on the stick is touching the black balloon. Why will the balloon pop?\nA. The flame's heat weakens the stretched rubber\nB. The stick pushes it off the table\nC. The balloon is too cold\nD. The turntable spins it away",
+  "answer": "A",
+  "options": {
+   "A": "The flame's heat weakens the stretched rubber",
+   "B": "The stick pushes it off the table",
+   "C": "The balloon is too cold",
+   "D": "The turntable spins it away"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "match-blows-balloon",
+   "take": 1,
+   "perspective": "right",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0010",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0010.png",
+  "question": "Which candle is lit?\nA. Neither candle\nB. The left candle\nC. Both candles\nD. The right candle",
+  "answer": "B",
+  "options": {
+   "A": "Neither candle",
+   "B": "The left candle",
+   "C": "Both candles",
+   "D": "The right candle"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "lit-candle",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0011",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0011.png",
+  "question": "Red liquid is pouring onto the yellow duck standing in the empty tray. Where does the liquid end up?\nA. Inside the duck\nB. Only on top of the duck's head\nC. Spread in a pool across the tray around the duck\nD. Spilled over the tray onto the table",
+  "answer": "C",
+  "options": {
+   "A": "Inside the duck",
+   "B": "Only on top of the duck's head",
+   "C": "Spread in a pool across the tray around the duck",
+   "D": "Spilled over the tray onto the table"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "liquid-on-duck",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0012",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0012.png",
+  "question": "Where is the crumpled paper?\nA. Held by the orange grabber\nB. Floating above the bowl\nC. On the table beside the bowl\nD. Inside the clear bowl",
+  "answer": "D",
+  "options": {
+   "A": "Held by the orange grabber",
+   "B": "Floating above the bowl",
+   "C": "On the table beside the bowl",
+   "D": "Inside the clear bowl"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "paper-fall-water",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0013",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0013.png",
+  "question": "Where is the red liquid?\nA. Pooled across the tray around the duck, still pouring onto it\nB. Spilled on the table outside the tray\nC. Inside the orange container only\nD. Only on top of the duck",
+  "answer": "A",
+  "options": {
+   "A": "Pooled across the tray around the duck, still pouring onto it",
+   "B": "Spilled on the table outside the tray",
+   "C": "Inside the orange container only",
+   "D": "Only on top of the duck"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "liquid-on-duck",
+   "take": 1,
+   "perspective": "right",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0014",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0014.png",
+  "question": "Where is the brown ball relative to the yellow duck?\nA. Underneath the duck\nB. Behind the duck, near the far edge of the table\nC. Touching the front of the duck\nD. In front of the duck, near the camera",
+  "answer": "B",
+  "options": {
+   "A": "Underneath the duck",
+   "B": "Behind the duck, near the far edge of the table",
+   "C": "Touching the front of the duck",
+   "D": "In front of the duck, near the camera"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "ball-hits-duck",
+   "take": 1,
+   "perspective": "right",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0015",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0015.png",
+  "question": "What does the dark shape on the wall show?\nA. A hole in the wall\nB. The reflection of the turntable\nC. The shadow of the white figure in front of the lamp\nD. A painting hanging on the wall",
+  "answer": "C",
+  "options": {
+   "A": "A hole in the wall",
+   "B": "The reflection of the turntable",
+   "C": "The shadow of the white figure in front of the lamp",
+   "D": "A painting hanging on the wall"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "light-on-statue",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0016",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0016.png",
+  "question": "The large orange ball resting on top of the black crate is released. Where does it end up?\nA. On the floor behind the table\nB. Still balanced on top of the crate\nC. On the table beside the crate\nD. Inside the crate",
+  "answer": "D",
+  "options": {
+   "A": "On the floor behind the table",
+   "B": "Still balanced on top of the crate",
+   "C": "On the table beside the crate",
+   "D": "Inside the crate"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "ball-in-basket",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0017",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0017.png",
+  "question": "What state is the green sheet in?\nA. Torn into two pieces, one held by each grabber\nB. One whole sheet held by both grabbers\nC. Lying whole and flat on the table\nD. Crumpled into a ball on the table",
+  "answer": "A",
+  "options": {
+   "A": "Torn into two pieces, one held by each grabber",
+   "B": "One whole sheet held by both grabbers",
+   "C": "Lying whole and flat on the table",
+   "D": "Crumpled into a ball on the table"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "cut-paper",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0018",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0018.png",
+  "question": "The turntable turns, carrying the white block past the round magnet. Why will the block stay on the turntable?\nA. The block is glued to the turntable\nB. The plastic block is not attracted by the magnet\nC. The block is too heavy for the magnet to move\nD. The magnet is switched off",
+  "answer": "B",
+  "options": {
+   "A": "The block is glued to the turntable",
+   "B": "The plastic block is not attracted by the magnet",
+   "C": "The block is too heavy for the magnet to move",
+   "D": "The magnet is switched off"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "magnet-domino",
+   "take": 1,
+   "perspective": "left",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0019",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0019.png",
+  "question": "What is the dispenser pouring into the glass of orange drink?\nA. Orange drink\nB. Nothing; the tap is closed\nC. Clear water\nD. Red drink",
+  "answer": "C",
+  "options": {
+   "A": "Orange drink",
+   "B": "Nothing; the tap is closed",
+   "C": "Clear water",
+   "D": "Red drink"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "water-in-juice",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0020",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0020.png",
+  "question": "Where is the potato?\nA. Halfway down the water\nB. On the table beside the glass\nC. Floating at the top of the water\nD. At the bottom of the glass",
+  "answer": "D",
+  "options": {
+   "A": "Halfway down the water",
+   "B": "On the table beside the glass",
+   "C": "Floating at the top of the water",
+   "D": "At the bottom of the glass"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "potato-in-water",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0021",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0021.png",
+  "question": "The clear box hanging on the chain is lowered over the smiley ball. Where is the ball afterwards?\nA. Under the clear box, still visible through its sides\nB. Lifted up inside the box\nC. Hidden from view under an opaque cover\nD. Pushed out from under the box",
+  "answer": "A",
+  "options": {
+   "A": "Under the clear box, still visible through its sides",
+   "B": "Lifted up inside the box",
+   "C": "Hidden from view under an opaque cover",
+   "D": "Pushed out from under the box"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "magnet-transparent-peakaboo",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0022",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0022.png",
+  "question": "Air keeps being pumped through the tube into the black balloon. What happens to the balloon?\nA. It falls off the tube\nB. It grows larger\nC. It shrinks\nD. It stays the same size",
+  "answer": "B",
+  "options": {
+   "A": "It falls off the tube",
+   "B": "It grows larger",
+   "C": "It shrinks",
+   "D": "It stays the same size"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "blow-balloon",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0023",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0023.png",
+  "question": "The yellow ceramic mug has just been dropped toward the hard wooden floor. What happens when it lands?\nA. It bounces back up into the air\nB. It lands upright and intact\nC. It breaks, with pieces scattered on the floor\nD. It lands on the concrete block, intact",
+  "answer": "C",
+  "options": {
+   "A": "It bounces back up into the air",
+   "B": "It lands upright and intact",
+   "C": "It breaks, with pieces scattered on the floor",
+   "D": "It lands on the concrete block, intact"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "mug-breaks",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0024",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0024.png",
+  "question": "The stick on the turntable is about to push the group of three dominoes nearest it. What happens?\nA. None fall; the stick stops before touching them\nB. All seven dominoes fall\nC. Only the domino touched by the stick falls\nD. Those three fall, while the four beyond the gap stay standing",
+  "answer": "D",
+  "options": {
+   "A": "None fall; the stick stops before touching them",
+   "B": "All seven dominoes fall",
+   "C": "Only the domino touched by the stick falls",
+   "D": "Those three fall, while the four beyond the gap stay standing"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "dominos-with-space",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0025",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0025.png",
+  "question": "Where is the yellow marble?\nA. In the purple U-shaped cup at the bottom\nB. On the blue bar\nC. On the top purple bar\nD. On the yellow bar",
+  "answer": "A",
+  "options": {
+   "A": "In the purple U-shaped cup at the bottom",
+   "B": "On the blue bar",
+   "C": "On the top purple bar",
+   "D": "On the yellow bar"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "marble-run-y",
+   "take": 1,
+   "perspective": "right",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0026",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0026.png",
+  "question": "The yellow tennis ball is rolling toward the two kettlebells. Where does it stop?\nA. Off the front edge of the table\nB. Against the base of the nearer kettlebell\nC. Between the two kettlebells\nD. Against the base of the farther kettlebell",
+  "answer": "B",
+  "options": {
+   "A": "Off the front edge of the table",
+   "B": "Against the base of the nearer kettlebell",
+   "C": "Between the two kettlebells",
+   "D": "Against the base of the farther kettlebell"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "rolling-reflection",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0027",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0027.png",
+  "question": "The small yellow marble on the top purple bar starts rolling. Where does it come to rest?\nA. On the yellow bar\nB. On the green dotted bar\nC. In the purple U-shaped cup at the bottom\nD. On the blue bar",
+  "answer": "C",
+  "options": {
+   "A": "On the yellow bar",
+   "B": "On the green dotted bar",
+   "C": "In the purple U-shaped cup at the bottom",
+   "D": "On the blue bar"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "marble-run-y",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0028",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0028.png",
+  "question": "The potato has just been released into the tall glass of blue water. Where does it end up?\nA. Halfway down, suspended in the water\nB. Floating at the top of the water\nC. Stuck in the neck of the glass\nD. At the bottom of the glass",
+  "answer": "D",
+  "options": {
+   "A": "Halfway down, suspended in the water",
+   "B": "Floating at the top of the water",
+   "C": "Stuck in the neck of the glass",
+   "D": "At the bottom of the glass"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "potato-in-water",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0029",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0029.png",
+  "question": "The gray ball is rolling toward the brown and orange balls. What happens to the gray ball after it hits the brown ball?\nA. It stops next to the brown ball\nB. It knocks the brown ball off the table\nC. It bounces back to where it started\nD. It rolls past both balls off the table",
+  "answer": "A",
+  "options": {
+   "A": "It stops next to the brown ball",
+   "B": "It knocks the brown ball off the table",
+   "C": "It bounces back to where it started",
+   "D": "It rolls past both balls off the table"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "ball-train",
+   "take": 1,
+   "perspective": "left",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0030",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0030.png",
+  "question": "The 30 lb kettlebell is lowered onto the white paper cup lying on its side. What happens to the cup?\nA. It rolls away from under the kettlebell\nB. It is crushed flat under the kettlebell\nC. It holds the kettlebell up, keeping its shape\nD. It stands up on its end",
+  "answer": "B",
+  "options": {
+   "A": "It rolls away from under the kettlebell",
+   "B": "It is crushed flat under the kettlebell",
+   "C": "It holds the kettlebell up, keeping its shape",
+   "D": "It stands up on its end"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "weight-on-paper",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0031",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0031.png",
+  "question": "The gripper lets go of the blue block on the end of the yellow plank. Why will the stack fall?\nA. The blue block is magnetic\nB. The red block is too heavy\nC. The weight on the plank's end is outside the red block's support\nD. The table is tilted",
+  "answer": "C",
+  "options": {
+   "A": "The blue block is magnetic",
+   "B": "The red block is too heavy",
+   "C": "The weight on the plank's end is outside the red block's support",
+   "D": "The table is tilted"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "unstable-block-stack",
+   "take": 1,
+   "perspective": "left",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0032",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0032.png",
+  "question": "How many balls of the Newton's cradle are swung away from the others?\nA. Two, on the right\nB. One, on the left\nC. None\nD. One, on the right",
+  "answer": "D",
+  "options": {
+   "A": "Two, on the right",
+   "B": "One, on the left",
+   "C": "None",
+   "D": "One, on the right"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "single-cradle",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0033",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0033.png",
+  "question": "Where is the blue ball?\nA. Resting on top of the green sand\nB. On the bare table beside the sand\nC. Buried completely in the sand\nD. Held in the air by the gripper",
+  "answer": "A",
+  "options": {
+   "A": "Resting on top of the green sand",
+   "B": "On the bare table beside the sand",
+   "C": "Buried completely in the sand",
+   "D": "Held in the air by the gripper"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "ball-in-sand",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0034",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0034.png",
+  "question": "The gray ball is rolling toward the kettlebell and the duck behind it. Why will the duck not be hit?\nA. The ball is too light to move\nB. The heavy kettlebell stands between the ball and the duck and stops the ball\nC. The ball will roll off the table first\nD. The duck will move out of the way",
+  "answer": "B",
+  "options": {
+   "A": "The ball is too light to move",
+   "B": "The heavy kettlebell stands between the ball and the duck and stops the ball",
+   "C": "The ball will roll off the table first",
+   "D": "The duck will move out of the way"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "weight-protects-duck",
+   "take": 1,
+   "perspective": "right",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0035",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0035.png",
+  "question": "The turntable turns, carrying the wrench past the round magnet. Why will the wrench leave the turntable?\nA. The wrench is too light to stay on\nB. A gust of air pushes it off\nC. The magnet attracts the steel wrench\nD. The turntable spins it off by speed alone",
+  "answer": "C",
+  "options": {
+   "A": "The wrench is too light to stay on",
+   "B": "A gust of air pushes it off",
+   "C": "The magnet attracts the steel wrench",
+   "D": "The turntable spins it off by speed alone"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "magnet-wrench",
+   "take": 1,
+   "perspective": "left",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0036",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0036.png",
+  "question": "The crumpled paper ball has just been released into the tall glass of blue water. Where does it end up?\nA. Sunk to the bottom of the glass\nB. Stuck to the glass above the water\nC. On the table outside the glass\nD. Floating at the top of the water",
+  "answer": "D",
+  "options": {
+   "A": "Sunk to the bottom of the glass",
+   "B": "Stuck to the glass above the water",
+   "C": "On the table outside the glass",
+   "D": "Floating at the top of the water"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "paper-in-water",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0037",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0037.png",
+  "question": "The gripper lets go of the tall pink block standing on the blue bridge. What happens?\nA. It stays standing on the bridge\nB. It topples to the left off the bridge\nC. The whole bridge collapses\nD. It topples to the right off the bridge",
+  "answer": "A",
+  "options": {
+   "A": "It stays standing on the bridge",
+   "B": "It topples to the left off the bridge",
+   "C": "The whole bridge collapses",
+   "D": "It topples to the right off the bridge"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "stable-blocks",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0038",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0038.png",
+  "question": "The crumpled paper is released into the glass of blue water. Why will it end up at the top of the water?\nA. The glass is empty\nB. It is less dense than water, so it floats\nC. It sticks to the grabber\nD. It is denser than water",
+  "answer": "B",
+  "options": {
+   "A": "The glass is empty",
+   "B": "It is less dense than water, so it floats",
+   "C": "It sticks to the grabber",
+   "D": "It is denser than water"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "paper-in-water",
+   "take": 1,
+   "perspective": "right",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0039",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0039.png",
+  "question": "Where is the orange ball?\nA. Touching the brown ball on the table\nB. Between the gray and brown balls\nC. On the floor beside the table\nD. Near the sofa at the back of the table",
+  "answer": "C",
+  "options": {
+   "A": "Touching the brown ball on the table",
+   "B": "Between the gray and brown balls",
+   "C": "On the floor beside the table",
+   "D": "Near the sofa at the back of the table"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "ball-train",
+   "take": 1,
+   "perspective": "right",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0040",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0040.png",
+  "question": "The tap of the dispenser is open and red drink is flowing into the glass. How does the glass look a few seconds later?\nA. Overflowing onto the table\nB. Filled with clear water instead\nC. As empty as before\nD. Nearly full of red drink",
+  "answer": "D",
+  "options": {
+   "A": "Overflowing onto the table",
+   "B": "Filled with clear water instead",
+   "C": "As empty as before",
+   "D": "Nearly full of red drink"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "fill-glass-red-drink",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0041",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0041.png",
+  "question": "The stick is about to push the three dominoes nearest the turntable. Why will the four other dominoes stay standing?\nA. The gap before them is wider than a falling domino can reach\nB. They are glued to the table\nC. The stick will not touch any domino\nD. They are heavier than the stick can push",
+  "answer": "A",
+  "options": {
+   "A": "The gap before them is wider than a falling domino can reach",
+   "B": "They are glued to the table",
+   "C": "The stick will not touch any domino",
+   "D": "They are heavier than the stick can push"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "dominos-with-space",
+   "take": 1,
+   "perspective": "right",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0042",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0042.png",
+  "question": "Where is the pink block?\nA. Held in the gripper above the bridge\nB. Standing upright on top of the blue bridge\nC. Lying flat across the bridge\nD. Lying on the table beside the bridge",
+  "answer": "B",
+  "options": {
+   "A": "Held in the gripper above the bridge",
+   "B": "Standing upright on top of the blue bridge",
+   "C": "Lying flat across the bridge",
+   "D": "Lying on the table beside the bridge"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "stable-blocks",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0043",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0043.png",
+  "question": "The gray ball is rolling right toward the brown and orange balls, which are touching. What happens to the orange ball?\nA. It stays touching the brown ball\nB. It is pushed toward the sofa and stops by the wall\nC. It is knocked away to the right and rolls off the table\nD. It rolls back to the left past the gray ball",
+  "answer": "C",
+  "options": {
+   "A": "It stays touching the brown ball",
+   "B": "It is pushed toward the sofa and stops by the wall",
+   "C": "It is knocked away to the right and rolls off the table",
+   "D": "It rolls back to the left past the gray ball"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "ball-train",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0044",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0044.png",
+  "question": "The turntable turns, carrying the steel wrench toward the magnet at its edge. What happens to the wrench?\nA. It slides to the center of the turntable\nB. It stays on the turntable and rides past the magnet\nC. It falls off the far side of the turntable\nD. It is pulled off the turntable and sticks to the magnet",
+  "answer": "D",
+  "options": {
+   "A": "It slides to the center of the turntable",
+   "B": "It stays on the turntable and rides past the magnet",
+   "C": "It falls off the far side of the turntable",
+   "D": "It is pulled off the turntable and sticks to the magnet"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "magnet-wrench",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0045",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0045.png",
+  "question": "The tap of the dispenser above the half-full glass is closed. What happens to the level in the glass over the next few seconds?\nA. It stays the same\nB. It drops to empty\nC. It rises to the brim\nD. It overflows onto the table",
+  "answer": "A",
+  "options": {
+   "A": "It stays the same",
+   "B": "It drops to empty",
+   "C": "It rises to the brim",
+   "D": "It overflows onto the table"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "glass-stays-same",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0046",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0046.png",
+  "question": "A small yellow marble is released at the top left of this marble run. Where does it come to rest?\nA. On the green dotted bar\nB. In the purple U-shaped cup\nC. On the blue bar\nD. On the yellow bar at the bottom",
+  "answer": "B",
+  "options": {
+   "A": "On the green dotted bar",
+   "B": "In the purple U-shaped cup",
+   "C": "On the blue bar",
+   "D": "On the yellow bar at the bottom"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "marble-run-x",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0047",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0047.png",
+  "question": "The cream cloth is let fall over the teapot. Where is the teapot afterwards?\nA. Lifted up inside the cloth\nB. Knocked over on the table, uncovered\nC. Hidden under the cloth\nD. Fully visible beside the cloth",
+  "answer": "C",
+  "options": {
+   "A": "Lifted up inside the cloth",
+   "B": "Knocked over on the table, uncovered",
+   "C": "Hidden under the cloth",
+   "D": "Fully visible beside the cloth"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "silk-cover",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0048",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0048.png",
+  "question": "What is on the end of the black tube?\nA. A small deflated balloon\nB. Nothing\nC. A popped balloon\nD. A large inflated black balloon",
+  "answer": "D",
+  "options": {
+   "A": "A small deflated balloon",
+   "B": "Nothing",
+   "C": "A popped balloon",
+   "D": "A large inflated black balloon"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "blow-balloon",
+   "take": 1,
+   "perspective": "right",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0049",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0049.png",
+  "question": "Where is the wrench?\nA. Stuck to the magnet beside the turntable\nB. Under the turntable\nC. On the table in front of the turntable\nD. On top of the turntable",
+  "answer": "A",
+  "options": {
+   "A": "Stuck to the magnet beside the turntable",
+   "B": "Under the turntable",
+   "C": "On the table in front of the turntable",
+   "D": "On top of the turntable"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "magnet-wrench",
+   "take": 1,
+   "perspective": "right",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0050",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0050.png",
+  "question": "Where is the tennis ball in the foreground?\nA. Against the farther kettlebell\nB. Against the base of the nearer kettlebell\nC. On top of the nearer kettlebell\nD. Off the edge of the table",
+  "answer": "B",
+  "options": {
+   "A": "Against the farther kettlebell",
+   "B": "Against the base of the nearer kettlebell",
+   "C": "On top of the nearer kettlebell",
+   "D": "Off the edge of the table"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "rolling-reflection",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0051",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0051.png",
+  "question": "What is supporting the kettlebell?\nA. Nothing; it hangs in the air\nB. A crushed paper cup\nC. An upright, intact yellow mug\nD. A broken mug",
+  "answer": "C",
+  "options": {
+   "A": "Nothing; it hangs in the air",
+   "B": "A crushed paper cup",
+   "C": "An upright, intact yellow mug",
+   "D": "A broken mug"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "weight-on-ceramic",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0052",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0052.png",
+  "question": "How full is the glass under the tap?\nA. Empty\nB. About one quarter full, with the tap closed\nC. Overflowing onto the table\nD. Nearly full, with red drink still flowing in",
+  "answer": "D",
+  "options": {
+   "A": "Empty",
+   "B": "About one quarter full, with the tap closed",
+   "C": "Overflowing onto the table",
+   "D": "Nearly full, with red drink still flowing in"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "fill-glass-red-drink",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0053",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0053.png",
+  "question": "Where is the orange ball?\nA. On the table below the raised basket\nB. Inside the raised basket\nC. On top of the basket\nD. Hidden under the basket on the table",
+  "answer": "A",
+  "options": {
+   "A": "On the table below the raised basket",
+   "B": "Inside the raised basket",
+   "C": "On top of the basket",
+   "D": "Hidden under the basket on the table"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "solid-ball-peakaboo",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0054",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0054.png",
+  "question": "The white paper towel is lowered into the blue liquid on the plate. What happens to it?\nA. It stays dry, hanging above the liquid\nB. It soaks up the liquid and lies flat and wet on the plate\nC. It floats away off the plate\nD. It stays upright, standing in the liquid",
+  "answer": "B",
+  "options": {
+   "A": "It stays dry, hanging above the liquid",
+   "B": "It soaks up the liquid and lies flat and wet on the plate",
+   "C": "It floats away off the plate",
+   "D": "It stays upright, standing in the liquid"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "napkin-soak",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0055",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0055.png",
+  "question": "The turntable keeps turning the teapot. Which way does its red spout point after about half a turn?\nA. To the right\nB. Straight up\nC. To the left\nD. Toward the camera",
+  "answer": "C",
+  "options": {
+   "A": "To the right",
+   "B": "Straight up",
+   "C": "To the left",
+   "D": "Toward the camera"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "teapot-rotates",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0056",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0056.png",
+  "question": "What state is the orange in?\nA. Peeled, with the peel beside it\nB. Squashed flat under the knife\nC. Whole, with the knife resting on top\nD. Cut into two halves lying on either side of the knife",
+  "answer": "D",
+  "options": {
+   "A": "Peeled, with the peel beside it",
+   "B": "Squashed flat under the knife",
+   "C": "Whole, with the knife resting on top",
+   "D": "Cut into two halves lying on either side of the knife"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "cut-orange",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0057",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0057.png",
+  "question": "Two balls of the Newton's cradle have been released from the left. Why will exactly two balls swing out on the right?\nA. Momentum and energy are passed along the row, matching the two incoming balls\nB. The grabber pushes them\nC. The right balls are lighter\nD. Magnets in the frame pull them",
+  "answer": "A",
+  "options": {
+   "A": "Momentum and energy are passed along the row, matching the two incoming balls",
+   "B": "The grabber pushes them",
+   "C": "The right balls are lighter",
+   "D": "Magnets in the frame pull them"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "double-cradle",
+   "take": 1,
+   "perspective": "right",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0058",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0058.png",
+  "question": "The brown ball and the red block have just been dropped above the two white pillows. Where do they land?\nA. Both bounce off the pillows onto the floor\nB. The ball lands on the left pillow and the block on the right pillow\nC. The ball lands on the right pillow and the block on the left pillow\nD. Both land on the left pillow",
+  "answer": "B",
+  "options": {
+   "A": "Both bounce off the pillows onto the floor",
+   "B": "The ball lands on the left pillow and the block on the right pillow",
+   "C": "The ball lands on the right pillow and the block on the left pillow",
+   "D": "Both land on the left pillow"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "ball-and-block-fall",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0059",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0059.png",
+  "question": "What state are the three blocks in?\nA. All three are stacked as a tower\nB. The yellow plank lies across the red block with the blue block on its end\nC. The red block stands alone and the yellow and blue blocks lie apart on the table\nD. All three are held in the gripper",
+  "answer": "C",
+  "options": {
+   "A": "All three are stacked as a tower",
+   "B": "The yellow plank lies across the red block with the blue block on its end",
+   "C": "The red block stands alone and the yellow and blue blocks lie apart on the table",
+   "D": "All three are held in the gripper"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "unstable-block-stack",
+   "take": 1,
+   "perspective": "right",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0060",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0060.png",
+  "question": "The gripper lets go of the blue block balanced on the end of the yellow plank. What happens?\nA. Only the blue block falls; the plank stays on the red block\nB. The blocks are lifted away by the gripper\nC. The stack stays balanced\nD. The stack collapses and the blocks end up on the table",
+  "answer": "D",
+  "options": {
+   "A": "Only the blue block falls; the plank stays on the red block",
+   "B": "The blocks are lifted away by the gripper",
+   "C": "The stack stays balanced",
+   "D": "The stack collapses and the blocks end up on the table"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "unstable-block-stack",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0061",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0061.png",
+  "question": "Where is the yellow marble?\nA. In the purple U-shaped cup\nB. On the yellow bar at the bottom\nC. On the green dotted bar\nD. On the blue bar",
+  "answer": "A",
+  "options": {
+   "A": "In the purple U-shaped cup",
+   "B": "On the yellow bar at the bottom",
+   "C": "On the green dotted bar",
+   "D": "On the blue bar"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "marble-run-x",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0062",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0062.png",
+  "question": "The gripper lets go of the pink block on the blue bridge. Why will it stay standing?\nA. It is glued to the bridge\nB. Its weight is centered over the bridge, which rests on both legs\nC. The gripper keeps holding it\nD. The bridge is tilted toward it",
+  "answer": "B",
+  "options": {
+   "A": "It is glued to the bridge",
+   "B": "Its weight is centered over the bridge, which rests on both legs",
+   "C": "The gripper keeps holding it",
+   "D": "The bridge is tilted toward it"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "stable-blocks",
+   "take": 1,
+   "perspective": "right",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0063",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0063.png",
+  "question": "The blue ball has just been dropped above the mound of green kinetic sand. Where does it end up?\nA. Completely buried inside the sand\nB. Bounced off onto the bare table\nC. Resting on top of the sand mound, slightly sunk in\nD. Still in the air, held by the gripper",
+  "answer": "C",
+  "options": {
+   "A": "Completely buried inside the sand",
+   "B": "Bounced off onto the bare table",
+   "C": "Resting on top of the sand mound, slightly sunk in",
+   "D": "Still in the air, held by the gripper"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "ball-in-sand",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0064",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0064.png",
+  "question": "Red drink keeps pouring into the bottle in the tray. Why will the tray fill with drink?\nA. The tray is tilted\nB. The bottle has a hole in the bottom\nC. The drink evaporates into the tray\nD. The bottle is already full, so the extra drink overflows",
+  "answer": "D",
+  "options": {
+   "A": "The tray is tilted",
+   "B": "The bottle has a hole in the bottom",
+   "C": "The drink evaporates into the tray",
+   "D": "The bottle is already full, so the extra drink overflows"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "liquid-overfill",
+   "take": 1,
+   "perspective": "right",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0065",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0065.png",
+  "question": "Where is the smiley ball?\nA. Inside the clear box\nB. On top of the clear box\nC. On the table beside the box\nD. Hanging from the chain",
+  "answer": "A",
+  "options": {
+   "A": "Inside the clear box",
+   "B": "On top of the clear box",
+   "C": "On the table beside the box",
+   "D": "Hanging from the chain"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "magnet-transparent-peakaboo",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0066",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0066.png",
+  "question": "The jar has been placed over the burning candle standing in red water. Why will the water rise inside the jar?\nA. The candle wax pushes the water up\nB. The flame goes out and the cooling gas inside the jar lowers the pressure\nC. The jar is pressed down into the water\nD. The water is heated and boils up",
+  "answer": "B",
+  "options": {
+   "A": "The candle wax pushes the water up",
+   "B": "The flame goes out and the cooling gas inside the jar lowers the pressure",
+   "C": "The jar is pressed down into the water",
+   "D": "The water is heated and boils up"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "siphon",
+   "take": 1,
+   "perspective": "right",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0067",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0067.png",
+  "question": "The paintbrush on the turntable arm sweeps across the glass with red paint on its tip. What does it leave on the glass?\nA. A large round puddle of paint\nB. Nothing; the glass stays clean\nC. A curved streak of red paint\nD. A straight line along the glass edge",
+  "answer": "C",
+  "options": {
+   "A": "A large round puddle of paint",
+   "B": "Nothing; the glass stays clean",
+   "C": "A curved streak of red paint",
+   "D": "A straight line along the glass edge"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "paint-on-glass",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0068",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0068.png",
+  "question": "Where are the brown ball and the red block?\nA. Both are on the left pillow\nB. Both are on the floor in front of the pillows\nC. The ball is on the right pillow and the block on the left pillow\nD. The ball is on the left pillow and the block on the right pillow",
+  "answer": "D",
+  "options": {
+   "A": "Both are on the left pillow",
+   "B": "Both are on the floor in front of the pillows",
+   "C": "The ball is on the right pillow and the block on the left pillow",
+   "D": "The ball is on the left pillow and the block on the right pillow"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "ball-and-block-fall",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0069",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0069.png",
+  "question": "Where is the white block?\nA. On the turntable, away from the magnet\nB. Stuck to the magnet\nC. On the table between the magnet and the turntable\nD. On the floor",
+  "answer": "A",
+  "options": {
+   "A": "On the turntable, away from the magnet",
+   "B": "Stuck to the magnet",
+   "C": "On the table between the magnet and the turntable",
+   "D": "On the floor"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "magnet-domino",
+   "take": 1,
+   "perspective": "right",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0070",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0070.png",
+  "question": "The potato is released into the glass of blue water. Why will it end up at the bottom?\nA. The water is frozen\nB. It is denser than water, so it sinks\nC. The glass has no water\nD. It is less dense than water",
+  "answer": "B",
+  "options": {
+   "A": "The water is frozen",
+   "B": "It is denser than water, so it sinks",
+   "C": "The glass has no water",
+   "D": "It is less dense than water"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "potato-in-water",
+   "take": 1,
+   "perspective": "right",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0071",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0071.png",
+  "question": "Where is the kettlebell?\nA. On the floor\nB. Hanging high above the pillows\nC. Sunk deep into the left pillow\nD. Resting on the right pillow",
+  "answer": "C",
+  "options": {
+   "A": "On the floor",
+   "B": "Hanging high above the pillows",
+   "C": "Sunk deep into the left pillow",
+   "D": "Resting on the right pillow"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "weight-on-pillow",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0072",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0072.png",
+  "question": "Which way does the teapot's red spout point?\nA. To the right\nB. Away from the camera, hidden\nC. Toward the camera\nD. To the left",
+  "answer": "D",
+  "options": {
+   "A": "To the right",
+   "B": "Away from the camera, hidden",
+   "C": "Toward the camera",
+   "D": "To the left"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "teapot-rotates",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0073",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0073.png",
+  "question": "What state is the yellow mug in?\nA. Broken, with pieces scattered on the floor\nB. Still hanging from the clamp\nC. Intact on top of the concrete block\nD. Intact and upright on the floor",
+  "answer": "A",
+  "options": {
+   "A": "Broken, with pieces scattered on the floor",
+   "B": "Still hanging from the clamp",
+   "C": "Intact on top of the concrete block",
+   "D": "Intact and upright on the floor"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "mug-breaks",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0074",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0074.png",
+  "question": "Where is the orange ball?\nA. On top of the black crate\nB. Inside the black crate\nC. On the table beside the crate\nD. On the floor",
+  "answer": "B",
+  "options": {
+   "A": "On top of the black crate",
+   "B": "Inside the black crate",
+   "C": "On the table beside the crate",
+   "D": "On the floor"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "ball-in-basket",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0075",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0075.png",
+  "question": "The white domino is released into the mug of dark juice. What is visible afterwards?\nA. The domino stands upright, sticking out of the mug\nB. The domino floats flat on the surface\nC. No part of the domino is visible above the juice\nD. The domino lies on the table beside the mug",
+  "answer": "C",
+  "options": {
+   "A": "The domino stands upright, sticking out of the mug",
+   "B": "The domino floats flat on the surface",
+   "C": "No part of the domino is visible above the juice",
+   "D": "The domino lies on the table beside the mug"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "domino-in-juice",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0076",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0076.png",
+  "question": "Where is the orange ball?\nA. On the floor\nB. High up near the top of the cord\nC. Lying on the table\nD. Hanging on its cord just above the table",
+  "answer": "D",
+  "options": {
+   "A": "On the floor",
+   "B": "High up near the top of the cord",
+   "C": "Lying on the table",
+   "D": "Hanging on its cord just above the table"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "mirror-ball-fall",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0077",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0077.png",
+  "question": "The gray ball is rolling right toward the kettlebell, which stands in front of the yellow duck. What happens to the duck?\nA. It stays where it is; the kettlebell blocks the ball\nB. The kettlebell falls onto it\nC. It is pushed off the table\nD. It is knocked over by the ball",
+  "answer": "A",
+  "options": {
+   "A": "It stays where it is; the kettlebell blocks the ball",
+   "B": "The kettlebell falls onto it",
+   "C": "It is pushed off the table",
+   "D": "It is knocked over by the ball"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "weight-protects-duck",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0078",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0078.png",
+  "question": "The turntable turns, carrying the white plastic block past the magnet at its edge. What happens to the block?\nA. It falls off the far side of the turntable\nB. It stays on the turntable and rides past the magnet\nC. It jumps off and sticks to the magnet\nD. It stops and the turntable turns under it",
+  "answer": "B",
+  "options": {
+   "A": "It falls off the far side of the turntable",
+   "B": "It stays on the turntable and rides past the magnet",
+   "C": "It jumps off and sticks to the magnet",
+   "D": "It stops and the turntable turns under it"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "magnet-domino",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0079",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0079.png",
+  "question": "What is happening at the glass under the tap?\nA. The glass is empty and the tap is closed\nB. The glass has tipped over\nC. A thin stream of orange drink is flowing into it\nD. Clear water is overflowing from the glass",
+  "answer": "C",
+  "options": {
+   "A": "The glass is empty and the tap is closed",
+   "B": "The glass has tipped over",
+   "C": "A thin stream of orange drink is flowing into it",
+   "D": "Clear water is overflowing from the glass"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "juice-in-water",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0080",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0080.png",
+  "question": "How does the red water level inside the jar compare with the level outside it?\nA. It is the same inside and outside\nB. It is lower inside the jar\nC. There is no water inside the jar\nD. It is higher inside the jar",
+  "answer": "D",
+  "options": {
+   "A": "It is the same inside and outside",
+   "B": "It is lower inside the jar",
+   "C": "There is no water inside the jar",
+   "D": "It is higher inside the jar"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "siphon",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0081",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0081.png",
+  "question": "One ball of the Newton's cradle has just been released from the left. What happens on the right side?\nA. One ball swings out on the right\nB. No ball moves on the right\nC. All the balls swing together\nD. Two balls swing out on the right",
+  "answer": "A",
+  "options": {
+   "A": "One ball swings out on the right",
+   "B": "No ball moves on the right",
+   "C": "All the balls swing together",
+   "D": "Two balls swing out on the right"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "single-cradle",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0082",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0082.png",
+  "question": "Where is the blue block relative to the yellow mug?\nA. On its right, by the handle\nB. On its left, in front of the mug\nC. Behind the mug, hidden\nD. Inside the mug",
+  "answer": "B",
+  "options": {
+   "A": "On its right, by the handle",
+   "B": "On its left, in front of the mug",
+   "C": "Behind the mug, hidden",
+   "D": "Inside the mug"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "light-on-mug-block",
+   "take": 1,
+   "perspective": "right",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0083",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0083.png",
+  "question": "The stick on the turntable is about to push the dominoes on the right of the yellow duck. Which dominoes fall?\nA. None; the duck falls over instead\nB. All the dominoes on both sides of the duck\nC. Only those on the right; the duck stops the chain and the left ones stay up\nD. Only those on the left of the duck",
+  "answer": "C",
+  "options": {
+   "A": "None; the duck falls over instead",
+   "B": "All the dominoes on both sides of the duck",
+   "C": "Only those on the right; the duck stops the chain and the left ones stay up",
+   "D": "Only those on the left of the duck"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "duck-and-dominos",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0084",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0084.png",
+  "question": "The stick is about to push the dominoes on the turntable side of the duck. What will stop them from knocking down the others?\nA. Nothing; all the dominoes will fall\nB. The gap after the last domino\nC. The edge of the table\nD. The rubber duck between the two groups",
+  "answer": "D",
+  "options": {
+   "A": "Nothing; all the dominoes will fall",
+   "B": "The gap after the last domino",
+   "C": "The edge of the table",
+   "D": "The rubber duck between the two groups"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "duck-and-dominos",
+   "take": 1,
+   "perspective": "left",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0085",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0085.png",
+  "question": "The 30 lb kettlebell is lowered so its full weight rests on the yellow ceramic mug. What happens to the mug?\nA. It holds the weight and stays intact\nB. It tips over onto its side\nC. It shatters into pieces\nD. It is pushed out from under the kettlebell",
+  "answer": "A",
+  "options": {
+   "A": "It holds the weight and stays intact",
+   "B": "It tips over onto its side",
+   "C": "It shatters into pieces",
+   "D": "It is pushed out from under the kettlebell"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "weight-on-ceramic",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0086",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0086.png",
+  "question": "Red drink keeps pouring into the bottle, which is already full to the top. What happens?\nA. The bottle tips over\nB. The bottle overflows and red drink spreads across the tray\nC. The bottle stays full and nothing spills\nD. The drink level in the bottle drops",
+  "answer": "B",
+  "options": {
+   "A": "The bottle tips over",
+   "B": "The bottle overflows and red drink spreads across the tray",
+   "C": "The bottle stays full and nothing spills",
+   "D": "The drink level in the bottle drops"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "liquid-overfill",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0087",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0087.png",
+  "question": "Where is the crumpled paper?\nA. On the table\nB. Stuck to the glass above the water\nC. Floating at the top of the blue water\nD. At the bottom of the glass",
+  "answer": "C",
+  "options": {
+   "A": "On the table",
+   "B": "Stuck to the glass above the water",
+   "C": "Floating at the top of the blue water",
+   "D": "At the bottom of the glass"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "paper-in-water",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0088",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0088.png",
+  "question": "The crumpled paper ball has just been released above the clear bowl. Where does it end up?\nA. On the table in front of the bowl\nB. Still held by the orange grabber\nC. On the table behind the bowl\nD. Inside the bowl",
+  "answer": "D",
+  "options": {
+   "A": "On the table in front of the bowl",
+   "B": "Still held by the orange grabber",
+   "C": "On the table behind the bowl",
+   "D": "Inside the bowl"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "paper-fall-water",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0089",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0089.png",
+  "question": "What is under the kettlebell?\nA. A flattened paper cup\nB. Nothing\nC. An upright paper cup\nD. A yellow mug",
+  "answer": "A",
+  "options": {
+   "A": "A flattened paper cup",
+   "B": "Nothing",
+   "C": "An upright paper cup",
+   "D": "A yellow mug"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "weight-on-paper",
+   "take": 1,
+   "perspective": "right",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0090",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0090.png",
+  "question": "What state are the colored blocks in?\nA. Stacked on top of the turntable\nB. All lying toppled in a staggered row\nC. Half standing and half lying\nD. All standing upright in a row",
+  "answer": "B",
+  "options": {
+   "A": "Stacked on top of the turntable",
+   "B": "All lying toppled in a staggered row",
+   "C": "Half standing and half lying",
+   "D": "All standing upright in a row"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "block-domino",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0091",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0091.png",
+  "question": "What state is the paper towel in?\nA. Crumpled on the table beside the plate\nB. Dry, hanging above the plate\nC. Soaked and lying flat in the blue liquid on the plate\nD. Standing upright in the liquid",
+  "answer": "C",
+  "options": {
+   "A": "Crumpled on the table beside the plate",
+   "B": "Dry, hanging above the plate",
+   "C": "Soaked and lying flat in the blue liquid on the plate",
+   "D": "Standing upright in the liquid"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "napkin-soak",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0092",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0092.png",
+  "question": "The kettlebell hanging on the strap is lowered so its full weight rests on the left pillow. What happens to the pillow?\nA. It slides off the table\nB. It stays flat and firm, barely dented\nC. It bursts open\nD. It is pressed down deeply under the kettlebell",
+  "answer": "D",
+  "options": {
+   "A": "It slides off the table",
+   "B": "It stays flat and firm, barely dented",
+   "C": "It bursts open",
+   "D": "It is pressed down deeply under the kettlebell"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "weight-on-pillow",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0093",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0093.png",
+  "question": "What is happening at the tap of the dispenser?\nA. Nothing flows out; the tap is closed\nB. Red drink drips onto the table\nC. Clear water pours into the glass\nD. Red drink pours into the glass",
+  "answer": "A",
+  "options": {
+   "A": "Nothing flows out; the tap is closed",
+   "B": "Red drink drips onto the table",
+   "C": "Clear water pours into the glass",
+   "D": "Red drink pours into the glass"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "glass-stays-same",
+   "take": 1,
+   "perspective": "right",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0094",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0094.png",
+  "question": "What is on the glass panel?\nA. Nothing; the glass is clean\nB. A curved streak of red paint\nC. A round puddle of red paint\nD. A straight red line along the edge",
+  "answer": "B",
+  "options": {
+   "A": "Nothing; the glass is clean",
+   "B": "A curved streak of red paint",
+   "C": "A round puddle of red paint",
+   "D": "A straight red line along the edge"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "paint-on-glass",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0095",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0095.png",
+  "question": "What is happening to the crumpled paper on the glass?\nA. It is wet and dripping\nB. Nothing; it is just lying there\nC. It is burning, with a flame and rising smoke\nD. It is melting into a puddle",
+  "answer": "C",
+  "options": {
+   "A": "It is wet and dripping",
+   "B": "Nothing; it is just lying there",
+   "C": "It is burning, with a flame and rising smoke",
+   "D": "It is melting into a puddle"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "paper-smoke",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0096",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0096.png",
+  "question": "A glass jar has been placed upside down over the burning candle that stands in the red water. What happens next?\nA. The water inside the jar drops below the outside level\nB. The candle keeps burning and the water stays level\nC. The jar fills with smoke while the water stays level\nD. The flame goes out and the red water rises inside the jar",
+  "answer": "D",
+  "options": {
+   "A": "The water inside the jar drops below the outside level",
+   "B": "The candle keeps burning and the water stays level",
+   "C": "The jar fills with smoke while the water stays level",
+   "D": "The flame goes out and the red water rises inside the jar"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "siphon",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0097",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0097.png",
+  "question": "The stick on the black turntable is about to push the purple block at the end of the row. What happens to the row of blocks?\nA. All the blocks topple to the left, each falling onto the next\nB. Nothing falls; the stick slides past the blocks\nC. The blocks fall to the right, onto the turntable\nD. Only the purple block falls; the others stay upright",
+  "answer": "A",
+  "options": {
+   "A": "All the blocks topple to the left, each falling onto the next",
+   "B": "Nothing falls; the stick slides past the blocks",
+   "C": "The blocks fall to the right, onto the turntable",
+   "D": "Only the purple block falls; the others stay upright"
+  },
+  "domain": "intuitive_physics",
+  "task": "Prediction",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "block-domino",
+   "take": 1,
+   "perspective": "center",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0098",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0098.png",
+  "question": "What is happening with the red bottle in the tray?\nA. It is empty\nB. It is full and overflowing, and red drink covers the tray\nC. It is half full and nothing has spilled\nD. It has tipped over in the tray",
+  "answer": "B",
+  "options": {
+   "A": "It is empty",
+   "B": "It is full and overflowing, and red drink covers the tray",
+   "C": "It is half full and nothing has spilled",
+   "D": "It has tipped over in the tray"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "liquid-overfill",
+   "take": 1,
+   "perspective": "left",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0099",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0099.png",
+  "question": "The paper towel is lowered into the blue liquid. Why will it end up lying flat on the plate?\nA. The liquid dries it out\nB. It is folded by the gripper\nC. It soaks up the liquid and becomes heavy and limp\nD. It is pulled down by a magnet",
+  "answer": "C",
+  "options": {
+   "A": "The liquid dries it out",
+   "B": "It is folded by the gripper",
+   "C": "It soaks up the liquid and becomes heavy and limp",
+   "D": "It is pulled down by a magnet"
+  },
+  "domain": "intuitive_physics",
+  "task": "Reasoning",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "napkin-soak",
+   "take": 1,
+   "perspective": "right",
+   "frame": "switch (frame 90 of 240)",
+   "license": "CC BY 4.0"
+  }
+ },
+ {
+  "id": "intuitive_physics_0100",
+  "image": "dataset/intuitive_physics/clean/intuitive_physics_0100.png",
+  "question": "Which dominoes have fallen?\nA. None of them\nB. Those on the far side of the duck\nC. All of them\nD. Those between the duck and the turntable, now leaning on the duck",
+  "answer": "D",
+  "options": {
+   "A": "None of them",
+   "B": "Those on the far side of the duck",
+   "C": "All of them",
+   "D": "Those between the duck and the turntable, now leaning on the duck"
+  },
+  "domain": "intuitive_physics",
+  "task": "Perception",
+  "source": {
+   "dataset": "Physics-IQ Verified",
+   "scenario": "duck-and-dominos",
+   "take": 1,
+   "perspective": "right",
+   "frame": "last (frame 240)",
+   "license": "CC BY 4.0"
+  }
+ }
+]

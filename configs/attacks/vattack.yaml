@@ -1,0 +1,15 @@
+epsilon: 16.0
+seed: 42
+precision: "bf16"           # or "fp32"
+max_iterations: 200          # paper
+alpha: 0.75
+backbone: ["B16", "B32", "Laion"]
+input_res: 224
+resize_source: false          # true: as upstream, the source is resized + center-cropped to input_res and the output has that size
+crop_scale: [0.75, 1.0]
+crop_ratio: [0.75, 1.3333333333333333]  # x image W/H
+use_source_crop: true
+vattack: true
+enhance: true
+both: false
+target_text_flag: true

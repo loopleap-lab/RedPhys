@@ -1,0 +1,4 @@
+epsilon: 16.0
+seed: 42
+precision: "bf16"           # or "fp32"
+decoder_checkpoint: "coco_cos"  # L_Cos: general tasks
