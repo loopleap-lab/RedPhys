@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "redphys"
-description = "RedPhys: An Extensible Red-Teaming & Pressure-testing Platform for Physical-World Models and Agents"
+description = "RedPhys: An Extensible Red-Teaming & Pressure-Testing Platform for Physical-World Models and Agents"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
