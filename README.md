@@ -5,11 +5,18 @@
 <h3 align="center">RedPhys: An Extensible Red-Teaming &amp; Pressure-Testing Platform for Physical-World Models and Agents</h3>
 
 <p align="center">
+  <a href="https://github.com/loopleap-lab"><b>LoopLeap Lab</b></a> · University of Central Florida (UCF)<br>
+  Yifei Zhao · Qian Lou · Mengxin Zheng<br>
+  Project repository: <a href="https://github.com/loopleap-lab/RedPhys">loopleap-lab/RedPhys</a>
+</p>
+
+<p align="center">
   <b>Project</b>&nbsp; · &nbsp;
   <a href="https://loopleap-lab.github.io/RedPhys/">Website</a> ·
   <a href="https://arxiv.org/abs/2606.23892">Paper</a> ·
   <a href="https://huggingface.co/datasets/yifeiz29/RedPhys">Dataset</a> ·
-  <a href="#citation">Cite</a>
+  <a href="#citation">Cite</a> ·
+  <a href="docs/redphys.bib">BibTeX</a>
   <br>
   <b>Get started</b>&nbsp; · &nbsp;
   <a href="#installation">Installation</a> ·
@@ -26,9 +33,11 @@
 
 ## About
 
-**RedPhys** (NeurIPS 2026, Evaluations & Datasets Track) is an extensible red-teaming and pressure-testing platform for physical-world models (PhyModels) and agents (PhyAgents). Shared interfaces let researchers configure tasks, attacks, defenses, and victim systems; compare existing methods; and integrate emerging methods without rebuilding the evaluation pipeline. PhyModels perform grounded perception, reasoning, or decision tasks; PhyAgents combine these models with planning or tool use. These terms describe their physical-world role: the current benchmark evaluates image-and-language inputs and task-level outputs. Compatible PhyModels and PhyAgents served behind an OpenAI-compatible API can be evaluated. The platform integrates adversarial perturbations, patches, diffusion-based edits, prompt and typographic injection, input purification, and prompt sanitization. Its benchmark focuses on driving, manipulation, grasping, and egocentric assistance, and extends to medical imaging, intuitive physics, and the natural images widely used in adversarial robustness research.
+**RedPhys** (NeurIPS 2026, Evaluations & Datasets Track) is an extensible red-teaming and pressure-testing platform for physical-world models (PhyModels) and agents (PhyAgents). Shared interfaces let researchers configure tasks, attacks, defenses, and victim systems; compare existing methods; and integrate emerging methods without rebuilding the evaluation pipeline. Compatible PhyModels and PhyAgents served behind an OpenAI-compatible API can be evaluated. The platform integrates adversarial perturbations, patches, diffusion-based edits, prompt and typographic injection, input purification, and prompt sanitization. Its benchmark focuses on driving, manipulation, grasping, and egocentric assistance, and extends to medical imaging, intuitive physics, and the natural images widely used in adversarial robustness research.
 
-Pressure testing covers adversarial and non-adversarial input conditions. RedPhys supports non-adversarial robustness testing with input perturbations or obfuscations applied without an adversarial objective. The paper and benchmark primarily focus on the more demanding adversarial stress-testing setting, where attacks deliberately seek physically grounded functional errors. An agentic target-generation pipeline gives targeted attacks a shared, scenario-specific objective. The same workflow can collect perturbed inputs and model responses for robustness analysis and alignment research.
+**PhyModels and PhyAgents.** Physical-world models (PhyModels) perform grounded perception, reasoning, prediction, or decision-making about physical scenes. Physical-world agents (PhyAgents) use these models with planning or tool use to carry out grounded tasks. These names describe task roles across model architectures. The current paper focuses on vision-language PhyModels and tool-using PhyAgents built on vision-language backbones, evaluated with scene images, questions, and task-level responses.
+
+Pressure testing covers adversarial and non-adversarial input conditions. RedPhys supports non-adversarial robustness testing with input perturbations or obfuscations applied without an adversarial objective. The paper and benchmark primarily focus on the more demanding adversarial stress-testing setting, where attacks deliberately seek physically grounded functional errors. An agentic target-generation pipeline gives targeted attacks a shared, scenario-specific objective. The configurable components produce robustness reports and reusable datasets of test cases, task labels, and model responses for future alignment, as shown in the overview below.
 
 <p align="center">
   <img src="docs/images/overview-phymodels.svg" alt="RedPhys extensible platform: physical tasks, test methods, protection, PhyModels and PhyAgents, robustness reports, and datasets for future alignment" width="100%">
@@ -248,13 +257,17 @@ RedPhys is released under the [Apache License 2.0](LICENSE). Code adapted from o
 
 ## Citation
 
-If you find our repo useful, please cite our paper:
+If you use RedPhys, please cite the [paper on arXiv](https://arxiv.org/abs/2606.23892). [Download BibTeX](docs/redphys.bib) · [Project website](https://loopleap-lab.github.io/RedPhys/)
+
+The current manuscript and platform are named **RedPhys**. The public arXiv record currently uses the earlier **REALM** title; the entry below preserves that published metadata.
 
 ```bibtex
 @article{zhao2026realm,
-  title={REALM: A Unified Red-Teaming Benchmark for Physical-World VLMs},
+  title={{REALM}: A Unified Red-Teaming Benchmark for Physical-World {VLMs}},
   author={Zhao, Yifei and Lou, Qian and Zheng, Mengxin},
   journal={arXiv preprint arXiv:2606.23892},
-  year={2026}
+  year={2026},
+  doi={10.48550/arXiv.2606.23892},
+  url={https://arxiv.org/abs/2606.23892}
 }
 ```

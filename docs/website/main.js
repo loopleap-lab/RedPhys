@@ -27,7 +27,7 @@ const LIB = {
   ],
 };
 
-/* hero orbit: the VLM in the physical world, with the attacks circling it */
+/* hero orbit: the PhyModel in the physical world, with the attacks circling it */
 const DEVICES = [["robot", "robotic manipulators"], ["car", "autonomous driving"], ["eyeglass", "egocentric assistants"]];
 const CAT_ICON = { Perturbation: "wave-sine", Patch: "square-rotated", Generation: "wand", Editing: "brush", Injection: "typography" };
 const ATTACKS = LIB.attacks.map(([n, cat]) => [n, cat]), DEFENSES = LIB.defenses.map(([n]) => n);
@@ -65,7 +65,7 @@ function drawBeams() {
   });
   landed.forEach((b) => { b.p.remove(); b.h.remove(); b.done(); });  // after the filter, so follow-up beams are kept
 }
-function ripple(color) {  // a ring that spreads from the VLM where the beam lands
+function ripple(color) {  // a ring that spreads from the PhyModel where the beam lands
   const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
   c.setAttribute("class", "ripple"); c.setAttribute("cx", S / 2); c.setAttribute("cy", S / 2); c.setAttribute("r", S * 0.14);
   c.style.color = color; fx.append(c); c.addEventListener("animationend", () => c.remove());
@@ -89,7 +89,7 @@ async function exchange(dev) {  // one attack → defense → eval exchange, nar
   say(0, "atk", `<b>${name}</b> · ${CHANNEL[name] || "image"} channel`);
   await beam(a, "#f472b6", 1.8); on(a, "fire", false);
   ripple(blocked ? "#34d399" : "#f87171");
-  if (text) {  // the injected line is typed out beside the VLM
+  if (text) {  // the injected line is typed out beside the PhyModel
     inj.textContent = ""; inj.classList.add("show");
     for (const ch of INJECTION) { inj.textContent += ch; await until(reduced ? 0 : 38); }
   }
@@ -103,7 +103,7 @@ async function exchange(dev) {  // one attack → defense → eval exchange, nar
     await until(1800);
   }
   verdict(blocked); on(devs[dev], "err", !blocked);
-  say(2, "eval", blocked ? "the VLM still sees the real object" : "the VLM answers with the target");
+  say(2, "eval", blocked ? "the PhyModel still sees the real object" : "the PhyModel answers with the target");
   await until(2000);
   core.classList.remove("shielded", "hit"); inj.classList.remove("show");
 }
@@ -172,7 +172,7 @@ adv = redphys.attack("foa", "dataset/physical", "out/foa", targets=targets)
 #         advdiffvlm advedm anyattack figstep promptinject imagemix`,
   defend: `# purify the adversarial images in front of the victim (or: pad bluesuffix)
 clean = redphys.defend("freqpure", adv, "out/foa_freqpure")`,
-  evaluate: `# score attacked and defended inputs side by side against a victim VLM
+  evaluate: `# score attacked and defended inputs side by side against a victim PhyModel
 redphys.evaluate([adv, clean], targets=targets, server_url="https://openrouter.ai/api",
                  api_key=os.environ["OPENROUTER_API_KEY"], model="openai/gpt-4.1-mini",
                  judge=None, output="results/foa")
