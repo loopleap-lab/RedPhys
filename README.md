@@ -13,7 +13,8 @@
 <p align="center">
   <b>Project</b>&nbsp; · &nbsp;
   <a href="https://loopleap-lab.github.io/RedPhys/">Website</a> ·
-  <a href="https://arxiv.org/abs/2606.23892">Paper</a> ·
+  <a href="docs/paper/redphys-paper.pdf">Paper (current PDF)</a> ·
+  <a href="https://arxiv.org/abs/2606.23892">arXiv</a> ·
   <a href="https://huggingface.co/datasets/yifeiz29/RedPhys">Dataset</a> ·
   <a href="#citation">Cite</a> ·
   <a href="docs/redphys.bib">BibTeX</a>
